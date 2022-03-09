@@ -1,2 +1,2 @@
-highlight codeBlockBackground ctermbg=yellow
-call ColorCodeBlocks()
+"highlight codeBlockBackground ctermbg=yellow
+"call ColorCodeBlocks()
