@@ -14,168 +14,13 @@ set spell spelllang=en_us,ru_ru
 lua << EOF
   require('general_settings');
 EOF
+" Follow directory according to current buffer. Helps creating files relatively.
+set autochdir
+
 " Plugins.
 lua << EOF
-  -- require('plugins');
+  require('plugins');
 EOF
-
-" Plugins.
-call plug#begin('~/.vim/plugged')
-  " General.
-  Plug 'folke/which-key.nvim'
-  " - Yank without moving cursor.
-  Plug 'svban/YankAssassin.vim'
-  " * Integration.
-  " - With system.
-  Plug 'majkinetor/vim-omnipresence'
-  " - With browser.
-  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-  " * Open and write files with sudo.
-  Plug 'lambdalisue/suda.vim'
-
-  Plug 'tpope/vim-repeat'
-  Plug 'tomtom/tinykeymap_vim'
-
-  " * Starting page.
-  "Plug 'mhinz/vim-startify'
-  Plug 'glepnir/dashboard-nvim'
-
-  " * Sessions.
-  "Plug 'rmagatti/auto-session'
-
-  " * Session management.
-  "Plug 'rmagatti/session-lens'
-
-  " * Russian layout.
-  Plug 'powerman/vim-plugin-ruscmd'
-
-  " LSP.
-  Plug 'neovim/nvim-lspconfig'
-
-  " * Snippets.
-  Plug 'SirVer/ultisnips'
-  " - Collections of snippets.
-  Plug 'honza/vim-snippets'
-  Plug 'mattn/emmet-vim'
-
-  " * Autocomplete
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-  " for ultisnips users.
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-
-  " - Python formatter.
-  Plug 'tell-k/vim-autopep8'
-
-  "" For vsnip users.
-  "Plug 'hrsh7th/cmp-vsnip'
-  "Plug 'hrsh7th/vim-vsnip'
-
-  " For luasnip users.
-  " Plug 'L3MON4D3/LuaSnip'
-  " Plug 'saadparwaiz1/cmp_luasnip'
-
-  " For snippy users.
-  " Plug 'dcampos/nvim-snippy'
-  " Plug 'dcampos/cmp-snippy'
-
-  " Coding.
-  " * Brackets.
-  Plug 'windwp/nvim-autopairs'
-
-  " * Comments.
-  Plug 'preservim/nerdcommenter'
-
-  " * Surround.
-  Plug 'tpope/vim-surround'
-
-  " * Find.
-  Plug 'gennaro-tedesco/nvim-peekup'
-
-  " * Batching.
-  Plug 'terryma/vim-expand-region'
-  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-
-  " * Permutations.
-  Plug 'tpope/vim-abolish'
-
-  " * Formatting.
-  Plug 'junegunn/vim-easy-align'
-
-  " * Motion.
-  Plug 'tjdevries/train.nvim'
-  Plug 'ggandor/lightspeed.nvim'
-
-  " # Targets.
-  Plug 'wellle/targets.vim'
-  " Textobj-user extensions.
-  Plug 'kana/vim-textobj-user'
-  " - Columns.
-  Plug 'idbrii/textobj-word-column.vim'
-  " - Indented paragraph.
-  Plug 'pianohacker/vim-textobj-indented-paragraph'
-  " - Indents.
-  Plug 'kana/vim-textobj-indent'
-
-  " * Case delimited and _ delimited words.
-  Plug 'chaoren/vim-wordmotion'
-
-  " # Navigation.
-  " * Inside  file.
-  " * Across files.
-  Plug 'kevinhwang91/rnvimr'
-  Plug 'preservim/nerdtree'
-
-  " * Telescope deps.
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-
-  " - Jumping to file under cursor.
-  Plug 'aklt/rel.vim'
-
-  " Markdown.
-  " Plug 'plasticboy/vim-markdown'
-  Plug 'SidOfc/mkdx'
-  " * Preview.
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'  }
-  " Visuals.
-  " * Highlight range of an exmode command.
-  Plug 'winston0410/cmd-parser.nvim'
-  Plug 'winston0410/range-highlight.nvim'
-
-  " * Workspace.
-  Plug 'Pocco81/TrueZen.nvim'
-  Plug 'folke/twilight.nvim'
-  " * Status line.
-  Plug 'vim-airline/vim-airline'
-
-  " Coding.
-  " Should be loaded after all plugins that use trigger key ('tab').
-  Plug 'abecodes/tabout.nvim'
-
-  " * Theme.
-  Plug 'morhetz/gruvbox'
-  Plug 'sainnhe/gruvbox-material'
-  Plug 'vim-airline/vim-airline-themes'
-  " - Helpers for creating a theme.
-  Plug 'tjdevries/colorbuddy.nvim'
-
-  " * Highlight colors.
-  Plug 'norcalli/nvim-colorizer.lua'
-  " * Hide cursorline during moving, highlight words under cursor.
-  Plug 'yamatsum/nvim-cursorline'
-  " * Brackets.
-  Plug 'p00f/nvim-ts-rainbow'
-  " * Indents.
-  Plug 'lukas-reineke/indent-blankline.nvim'
-  " * Icons. (!) Should be loaded last (after nerd-tree, airline, etc...).
-  "   Nerd patched fonts required.
-  Plug 'ryanoasis/vim-devicons' 
-call plug#end()
 
 " General keybindings.
 let mapleader=' '
@@ -191,12 +36,12 @@ noremap <leader>gih K
 " - Search for tags.
 nnoremap <leader>st :%s;<\w*>\(<\\\w*>\)\?;;g<left><left>
 
-"source 'plug-config.vim'
-" Starting screen.
-" * Dashboard
-lua << EOF
-  require('config.dashboard')
-EOF
+" # Custom commands.
+" * File related.
+" - Move visually selected chunk of text into a new file.
+:command! -bang -range -nargs=1 -complete=file MoveWrite  <line1>,<line2>write<bang> <args> | <line1>,<line2>delete _
+" - Append visually selected chunk of text to a file.
+:command! -bang -range -nargs=1 -complete=file MoveAppend <line1>,<line2>write<bang> >> <args> | <line1>,<line2>delete _
 
 if exists('g:started_by_firenvim')
   " Disable status line.
@@ -204,11 +49,11 @@ if exists('g:started_by_firenvim')
 endif
 
 augroup Dashboard
-     autocmd! * <buffer>
-     autocmd User dashboardReady let &l:stl = 'Dashboard'
-     autocmd User dashboardReady nnoremap <buffer> <leader>qe :exit<cr>
-     "autocmd User dashboardReady nnoremap <buffer> <leader>u <cmd>PackerUpdate<CR>
-     autocmd User dashboardReady nnoremap <buffer> <leader>l <cmd>SessionLoad<CR>
+  autocmd! * <buffer>
+  autocmd User dashboardReady let &l:stl = 'Dashboard'
+  autocmd User dashboardReady nnoremap <buffer> <leader>qe :exit<cr>
+  "autocmd User dashboardReady nnoremap <buffer> <leader>u <cmd>PackerUpdate<CR>
+  autocmd User dashboardReady nnoremap <buffer> <leader>l <cmd>SessionLoad<CR>
 augroup END
 
 " Session.
@@ -265,10 +110,6 @@ lua << EOF
   vim.g.python3_host_prog = '/usr/bin/python'
 EOF
 
-lua << EOF
-  require('config.lsp')
-EOF
-
 " * General.
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 
@@ -293,10 +134,6 @@ nnoremap <silent> <leader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 
-" # Treesitter.
-lua <<EOF
-  require('config.treesitter')
-EOF
 " Coding
 " * Wordmotion.
 " relevant only with smart find (for example, from vim-lighspeed)
@@ -364,6 +201,10 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " - Source vimrc.
 nnoremap <leader>sv :source $MYVIMRC<cr>
+" - Source current file (indented for lua file).
+nnoremap <leader>sl :source %<cr>
+" - Recompile settings after changing Packer configuration.
+nnoremap <leader>sp :source $HOME/.config/nvim/lua/plugins.lua<cr>:PackerCompile<cr>
 
 "function! HorizontalScrollMode( call_char )
     "if &wrap
@@ -384,11 +225,6 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " * Vertical.
 nnoremap <c-y> 3<c-y>
 nnoremap <c-e> 3<c-e>
-
-" Brackets autopairs.
-lua << EOF
-  require('config.nvim_autopairs')
-EOF
 
 " * Windows.
 set splitright
@@ -502,12 +338,20 @@ augroup Folding
    "autocmd BufWinEnter * silent normal! zO
 augroup END
 
+augroup LspFix
+  autocmd!
+  autocmd BufWinEnter * :LspStart
+augroup END
+
 augroup Markdown
   " Clear all autocommands that were set before that.
   autocmd!
   "autocmd BufNewFile,BufReadPost *.markdown,*.mdown,*.mkd,*.mkdn,*.mdwn,*.md
    "autocmd Filetype markdown set filetype=markdown
-  let g:vim_markdown_fenced_languages = [
+  let g:markdown_fenced_languages = [
+    \'sh',
+    \'bash=sh',
+    \
     \'css',
     \'sass',
     \
@@ -551,6 +395,12 @@ augroup Markdown
 
   " - Concealing things like **bold**.
   autocmd FileType markdown setlocal conceallevel=2 
+  " - Disabling concealing on current line for all mods.
+  autocmd FileType markdown setlocal concealcursor= 
+
+  " # Markdown Preview.
+  " Echo preview page url in command line when open preview page.
+  let g:mkdp_echo_preview_url = 1
 augroup END
 
 augroup Python
@@ -606,17 +456,6 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-" * Highlight range of an exmode command.
-lua << EOF
-  require('config.range_highlight')
-EOF
-
-" * Workspace.
-lua << EOF
-  require('config.true_zen')
-  require('config.twilight')
-EOF
-
 " Navigation.
 " # Across files.
 " * Rnvimr.
@@ -645,17 +484,30 @@ function! SynStack()
 endfunc
 
 " Mappings.
-lua << EOF
-  -- # Tinykeymap transitive mappings.
-  require('config.tinykeymap')
-  -- # Which-key.
-  require('config.mappings')
-EOF
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
 
-" Should be after mappings to overwrite the trigger key ('tab').
-lua << EOF
-  require('config.tabout')
-EOF
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" # Markdown mkdx mappings.
+" First, make sure we don't create the default mapping when entering markdown files.
+" All plugs can be disabled like this (except insert mode ones, they need "imap" instead of "nmap").
+"nmap <Plug> <Plug>(mkdx-wrap-link-n})
+
+" Then create a function to remap manually.
+fun! s:MkdxRemap()
+    " Regular map family can be used since these are buffer local.
+    "nmap <buffer><silent> <leader>wl <Plug>(mkdx-wrap-link-n)
+    " Other overrides go here.
+endfun
+
+" Finally, add a "FileType" autocommand that calls "s:MkdxRemap()" upon entering markdown filetype.
+augroup Mkdx
+    au!
+    au FileType markdown,mkdx call s:MkdxRemap()
+augroup END
+
 
 " Abbreviations
 runtime abbreviations.vim
@@ -683,10 +535,6 @@ highlight Whitespace guifg=#cccccc
 lua << EOF
   -- - Helpers for creating a theme.
   require('config.theme')
-  -- # Highlight colors.
-  require('config.colorizer')
-  -- # Indents.
-  require('config.indent_blankline')
 EOF
 
 " * Rnvimr.
@@ -775,5 +623,13 @@ set colorcolumn=80,115,151,203,235
 
 runtime syntax/general/comments.vim
 
+" Filetypes.
+" - Config for Wsl.
 autocmd BufNewFile,BufReadPost .wslconfig set syntax=sh
+" - Config for Wyrd.
+autocmd BufNewFile,BufReadPost .wyrdrc set syntax=conf
+" - LaTex templates.
+autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
+" - LaTeX templates for notebook.
+autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
 

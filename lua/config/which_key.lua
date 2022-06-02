@@ -359,7 +359,9 @@ which_key.setup {
   window = {
     border = "shadow", -- [ none, single, double, shadow ].
     position = "bottom", -- [ bottom, top ].
-    margin = { 10, 60, 52, 60 }, -- extra window margin [ top, right, bottom, left ].
+    -- extra window margin [ top, right, bottom, left ].
+    --margin = { 10, 60, 52, 60 }, -- Top center (errors on low sizes).
+    margin = { 0, 1, 1, 1 }, -- extra window margin [ top, right, bottom, left ].
     padding = { 1, 1, 1, 1 }, -- extra window padding [ top, right, bottom, left ].
     winblend = 10 -- pseudo transparency.
   },
