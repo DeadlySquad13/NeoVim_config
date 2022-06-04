@@ -119,6 +119,10 @@ require('packer').startup({
         { "hrsh7th/cmp-omni", after = "nvim-cmp" },
         -- for ultisnips users.
         { "quangnguyen30192/cmp-nvim-ultisnips", after = { "nvim-cmp", 'ultisnips' } },
+
+        -- Not yet intergrated with ultisnips, have to separately define jumps
+        --   in mappings.
+        { 'danymat/neogen' },
       },
       config = [[ require('config.lsp.completion') ]],
     })
@@ -320,6 +324,15 @@ require('packer').startup({
   -- * Icons. (!) Should be loaded last (after nerd-tree, airline, etc...).
   --   Nerd patched fonts required.
   use({ 'ryanoasis/vim-devicons' });
+
+    -- - Documentation generation.
+    use({
+      'danymat/neogen',
+      config = [[ require('config.neogen') ]],
+      requires = 'nvim-treesitter/nvim-treesitter',
+      -- Uncomment next line if you want to follow only stable versions.
+      -- tag = "*",
+    });
 
     -- Python indent (follows the PEP8 style)
     --use({ 'Vimjas/vim-python-pep8-indent', ft = { 'python' } })

@@ -55,3 +55,7 @@ require'nvim-treesitter.configs'.setup {
     -- termcolors = {} -- table of colour name strings
   }
 }
+
+-- Needed for parser generator to work. TS will try compilers from left to
+--   right.
+require('nvim-treesitter.install').compilers = { 'gcc', 'clang' }
