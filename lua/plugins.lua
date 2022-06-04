@@ -90,19 +90,12 @@ require('packer').startup({
   use({ 'powerman/vim-plugin-ruscmd' });
 
   -- LSP.
-  -- - Config for completion engine, needs completion engine.
-    -- use({
-    --   'williamboman/nvim-lsp-installer',
-    -- },
-    -- {
-    --   'neovim/nvim-lspconfig',
-    --   --after = 'cmp-nvim-lsp',
-    --   config = [[ require('config.lsp') ]],
-    -- });
   use {
     'williamboman/nvim-lsp-installer',
     {
         'neovim/nvim-lspconfig',
+        -- Lsp relies on cmp-nvim-lsp during capabilities initialization.
+        after = 'cmp-nvim-lsp',
         config = [[ require('config.lsp') ]]
     }
   }
@@ -115,7 +108,7 @@ require('packer').startup({
   -- * Autocomplete
    use ({
       "hrsh7th/nvim-cmp",
-      event = "InsertEnter", -- for lazyload
+      -- event = "InsertEnter", -- for lazyload
       requires = {
         { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
         { "f3fora/cmp-spell", after = "nvim-cmp" },
@@ -123,6 +116,7 @@ require('packer').startup({
         { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
         { "hrsh7th/cmp-calc", after = "nvim-cmp" },
         { "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
+        { "hrsh7th/cmp-omni", after = "nvim-cmp" },
         -- for ultisnips users.
         { "quangnguyen30192/cmp-nvim-ultisnips", after = { "nvim-cmp", 'ultisnips' } },
 
