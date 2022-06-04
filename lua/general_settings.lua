@@ -179,7 +179,7 @@ local function load_options()
     undofile       = true;
     --synmaxcol      = 2500;
     --formatoptions  = "1jcroql";
-    textwidth      = 80;
+    textwidth      = 79;
     expandtab      = true;
     autoindent     = true;
     tabstop        = 2;

@@ -1,37 +1,51 @@
--- Setup nvim-cmp.
--- config = function()      
---     vim.g.UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'      
---     vim.g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
---     vim.g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
---     vim.g.UltiSnipsListSnippets = '<c-x><c-s>'
---     vim.g.UltiSnipsRemoveSelectModeMappings = 0
--- end
-
--- config()
-
 local snippets_engine = require('config.lsp.ultisnips_engine');
 local utils = require('config.lsp.utils');
 local t = utils.t;
 
+local neogen = require('neogen')
 local cmp = require('cmp')
 -- Optional.
 -- local cmp_nvim_ultisnips = require('cmp_nvim_ultisnips').setup {}
 -- local cmp_ultisnips_mappings = require('cmp_nvim_ultisnips.mappings')
 
+--cmp.setup {
+  --snippet = {
+    --expand = function(args)
+      --vim.fn["ultisnips#anonymous"](args.body)
+    --end,
+  --},
+
+  --mapping = {
+    --['<CR>'] = cmp.mapping.confirm({ select = true })
+  --},
+
+  --sources = {
+    --{ name = "nvim_lsp" },
+    --{ name = "buffer" },
+  --},
+--}
+
 cmp.setup {
   snippet = {
-    expand = function()
-      -- snippets_engine.expand()
-      vim.fn["UltiSnips#Anon"](args.body)
+    expand = function(args)
+      snippets_engine.expand()
+      -- vim.fn["UltiSnips#Anon"](args.body)
     end,
 
   },
+  -- Order matters!
   sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'ultisnips' },
+    { name = 'path' }, -- Path completion.
+    { name = 'nvim_lsp' }, -- Nvim-lsp.
+    { name = 'ultisnips' }, -- Ultisnips.
+    -- { name = 'nvim_lua' }, -- Nvim-lua functions
+    -- { name = 'omni' },
+    -- { name = 'buffer', keyword_length = 2 }, -- Buffer word completion.
+    -- { name = 'emoji', insert = true, } -- Emoji completion
     }, {
       { name = 'buffer' },
-    }),
+    }
+  ),
 
   mapping = {
     ["<Tab>"] = cmp.mapping({

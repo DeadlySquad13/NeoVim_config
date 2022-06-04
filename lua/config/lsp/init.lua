@@ -1,14 +1,18 @@
+local status_ok, _ = pcall(require, "lspconfig")
+if not status_ok then
+	return
+end
+
+require("config.lsp.lsp-installer")
+require("config.lsp.handlers")
 --local ENV = require('global');
 -- Setup lspconfig.
-require('nvim-lsp-installer').setup {}
-local lspconfig = require('lspconfig')
-lspconfig.sumneko_lua.setup {}
-lspconfig.pylsp.setup {}
+--require('nvim-lsp-installer').setup {}
+--local lspconfig = require('lspconfig')
+--local capabilities, on_attach = require('config.lsp.handlers')
+--lspconfig.sumneko_lua.setup {}
+--lspconfig.pylsp.setup {}
 --local configs = require('lspconfig.configs')
-
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- local servers = { 'pylsp', 'tsserver', 'vimls' }
 
@@ -20,10 +24,22 @@ lspconfig.pylsp.setup {}
 -- end
 
 -- * Python.
--- lspconfig.pylsp.setup {
---   cmd = {'/home/dubuntus/.local/bin/pylsp'},
---   capabilities = capabilities
--- }
+--lspconfig.pylsp.setup {
+  --on_attach = on_attach,
+  --settings = {
+    --pylsp = {
+      --plugins = {
+        --pylint = { enabled = true, executable = "pylint" },
+        --pyflakes = { enabled = false },
+        --pycodestyle = { enabled = false },
+        --jedi_completion = { fuzzy = true },
+        --pyls_isort = { enabled = true },
+        --pylsp_mypy = { enabled = true },
+      --}
+    --}
+  --},
+  --capabilities = capabilities
+--}
 
 ---- * Typescript.
 --lspconfig.tsserver.setup {
