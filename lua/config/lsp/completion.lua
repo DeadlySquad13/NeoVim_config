@@ -92,6 +92,10 @@ cmp.setup {
           return snippets_engine.jump()
         end
         
+        if neogen.jumpable() then
+          return neogen.jump_next()
+        end
+
         return fallback()
       end,
       {'i', 'c', 's'}
@@ -102,6 +106,11 @@ cmp.setup {
       function(fallback)
         if snippets_engine.can_jump_backwards() then
           return snippets_engine.jump_backward()
+        end
+
+        local backwards = true
+        if neogen.jumpable(backwards) then
+          return neogen.jump_prev()
         end
         
         return fallback()
