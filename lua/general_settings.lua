@@ -1,10 +1,6 @@
 local ENV = require('global');
 local set = vim.opt;
 
-local global = {
-  cache_dir = ENV.HOME .. '/.cache/nvim/'
-}
-
 local function bind_option(options)
   for k, v in pairs(options) do
     if v == true or v == false then
@@ -27,6 +23,13 @@ vim.g.vimsyn_embed = 'l';
 set.whichwrap:append('hl');
 
 local function load_options()
+	local buffer_local_settings = {
+    -- * Languages.
+    spell = true,
+    -- - Language dictionaries.
+    spelllang = { 'en_us', 'ru_ru' },
+	}
+
   local global_local = {
     -- * Search.
     -- - Making search case insensitive. Add \c to the command to make it sensitive.
@@ -42,9 +45,12 @@ local function load_options()
     -- - Folding. a: augroups, f - functions.
     --let g:vimsyn_folding='af'
 
-    -- Behave like smartcase when adding word to dictionary.
+
+
+    -- * Languages.
+    -- - Behave like smartcase when adding word to dictionary.
     spellcapcheck = '',
-    -- Think of camelCased words as separate words (camel and Cased will be parsed). 
+    -- - Think of camelCased words as separate words (camel and Cased will be parsed). 
     spelloptions = 'camel',
 
     -- Insert only one space after joining lines ending with '.', '?'...
@@ -96,15 +102,15 @@ local function load_options()
     virtualedit = 'block',
     termguicolors  = true,
 
-    -- Caching.
+    -- Supplementary data persistance.
     backup = false,
     writebackup = false,
     swapfile = false,
-    directory = global.cache_dir .. "swag/",
-    undodir = global.cache_dir .. "undo/",
-    backupdir = global.cache_dir .. "backup/",
-    viewdir = global.cache_dir .. "view/",
-    spellfile = global.cache_dir .. "spell/en.uft-8.add",
+    directory = ENV.NVIM_DATA .. '/swag/',
+    undodir = ENV.NVIM_DATA .. '/undo/',
+    backupdir = ENV.NVIM_DATA .. '/backup/',
+    viewdir = ENV.NVIM_DATA .. '/view/',
+    spellfile = ENV.NVIM_DATA .. '/spell/en.uft-8.add',
     history = 2000,
 
     --mouse          = "nv",
@@ -130,6 +136,7 @@ local function load_options()
     --timeoutlen     = 500,
     --ttimeoutlen    = 10,
     --updatetime     = 100,
+    lazyredraw = true,
     --redrawtime     = 1500,
     --ignorecase     = true,
     --smartcase      = true,
@@ -160,19 +167,23 @@ local function load_options()
     --showtabline    = 2,
     --winwidth       = 30,
     --winminwidth    = 10,
-    --pumheight      = 15,
     --helpheight     = 12,
     --previewheight  = 12,
     --showcmd        = false,
     --cmdheight      = 2,
     --cmdwinheight   = 5,
     --equalalways    = false,
-    --laststatus     = 2,
+    laststatus     = 0,
+    fillchars = 'fold: ',
     --display        = "lastline",
     --showbreak      = "↳  ",
     --listchars      = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←",
-    --pumblend       = 10,
+    pumheight      = 20,
+    pumblend       = 10, -- Transparency of the popup menu (for autocompletion).
     --winblend       = 10,
+
+   -- Program that will be used when asking for help by pressing K
+   keywordprg = ':help',
   }
 
   local bw_local  = {
@@ -198,6 +209,9 @@ local function load_options()
 
   --vim.g.python_host_prog = '/usr/bin/python'
   --vim.g.python3_host_prog = '/usr/local/bin/python3'
+  for name, value in pairs(buffer_local_settings) do
+    vim.opt[name] = value
+  end
   for name, value in pairs(global_local) do
     vim.o[name] = value
   end
@@ -205,4 +219,6 @@ local function load_options()
 end
 
 load_options()
+
+require('config.commands');
 

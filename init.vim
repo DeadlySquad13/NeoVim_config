@@ -7,19 +7,12 @@ filetype plugin on
 set synmaxcol=256
 syntax sync minlines=256
 
-" Languages of used dictionaries.
-set spell spelllang=en_us,ru_ru
-
-" General settings.
-lua << EOF
-  require('general_settings');
-EOF
 " Follow directory according to current buffer. Helps creating files relatively.
 set autochdir
 
-" Plugins.
+" Lua config.
 lua << EOF
-  require('plugins');
+  require('init');
 EOF
 
 " General keybindings.
@@ -32,9 +25,6 @@ let g:omnipresence_hotkey = 'f11'
 " Search for item under cursor in vim docs (:help).
 " - 'investigate help'
 noremap <leader>gih K
-
-" - Search for tags.
-nnoremap <leader>st :%s;<\w*>\(<\\\w*>\)\?;;g<left><left>
 
 " # Custom commands.
 " * File related.
@@ -56,35 +46,6 @@ augroup Dashboard
   autocmd User dashboardReady nnoremap <buffer> <leader>l <cmd>SessionLoad<CR>
 augroup END
 
-" Session.
-" * Save automatically.
-"function! MakeSession()
-  "let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  "if (filewritable(b:sessiondir) != 2)
-    "exe 'silent !mkdir -p ' b:sessiondir
-    "redraw!
-  "endif
-  "let b:filename = b:sessiondir . '/session.vim'
-  "exe "mksession! " . b:filename
-"endfunction
-
-"" * Load automatically.
-"function! LoadSession()
-  "let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  "let b:sessionfile = b:sessiondir . "/session.vim"
-  "if (filereadable(b:sessionfile))
-    "exe 'source ' b:sessionfile
-  "else
-    "echo "No session loaded."
-  "endif
-"endfunction
-
-"" Adding automatons for when entering or leaving Vim
-"if(argc() == 0)
-  "au VimEnter * nested :call LoadSession()
-"endif
-"au VimLeave * :call MakeSession()
-
 " LSP
 " * Autocomplete.
 set completeopt=menu,menuone,noselect
@@ -92,23 +53,6 @@ let g:autopep8_disable_show_diff=1
 
 " Use omni completion provided by lsp.
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
-" Ultisnips.
-"let g:UltiSnipsExpandTrigger = '<c-g>'
-let g:UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'             
-let g:UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'  
-let g:UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
-let g:UltiSnipsListSnippets = '<c-x><c-s>'                            
-let g:UltiSnipsRemoveSelectModeMappings = 0 
-" - Optimizing `provider#python3#Call()` by hardcoding python path (which
-"   python).
-lua << EOF
-  vim.g.loaded_python_provider = 1
-  vim.g.python_host_skip_check = 1
-  vim.g.python_host_prog = '/usr/bin/python'
-  vim.g.python3_host_skip_check = 1
-  vim.g.python3_host_prog = '/usr/bin/python'
-EOF
 
 " * General.
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -187,24 +131,9 @@ nnoremap <c-w>v :vnew<cr>
 " * Remaping line concatenation for use of j with modifier in non-vim apps.
 noremap <a-j> J
 
-" * Search and replace:
-" - Current word under cursor.
-nnoremap <leader>sw :%s;\<<c-r><c-w>\>;;g<left><left>
-"vnoremap <leader>sw <esc>:%s;\<<c-r><c-w>\>;;g<left><left>
-
 " NERDCommenter.
 nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-
-" * Shortcuts for settings.
-" - Open vimrc in vertical split
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-" - Source vimrc.
-nnoremap <leader>sv :source $MYVIMRC<cr>
-" - Source current file (indented for lua file).
-nnoremap <leader>sl :source %<cr>
-" - Recompile settings after changing Packer configuration.
-nnoremap <leader>sp :source $HOME/.config/nvim/lua/plugins.lua<cr>:PackerCompile<cr>
 
 "function! HorizontalScrollMode( call_char )
     "if &wrap
@@ -267,7 +196,7 @@ set splitright
 " * Folding.
 " - Characters shown on the right of the fold.
 " Middle dot 0119·
-set fillchars+=fold:\ 
+"set fillchars+=fold:\ 
 set foldtext=CustomFoldText()
 
 setlocal foldexpr=GetPotionFold(v:lnum)
@@ -478,6 +407,7 @@ nnoremap [b :call searchpair('\[','','\]','b')<cr>
 " * Show group highlights of the item under the cursor.
 function! SynStack()
   if !exists("*synstack")
+    echo xyi
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
@@ -517,24 +447,24 @@ runtime abbreviations.vim
 syntax enable
 set background=light
 
-colorscheme gruvbox-material
-highlight Pmenu ctermbg=240 gui=bold
+"colorscheme gruvbox-material
+"highlight Pmenu ctermbg=240 gui=bold
 " CursorLineNr doesn't work without it.
 set cursorline
-highlight LineNr ctermfg=248 guifg=#bbbbbb
-highlight CursorLineNr ctermfg=137
-highlight Statement ctermfg=186
+"highlight LineNr ctermfg=248 guifg=#bbbbbb
+"highlight CursorLineNr ctermfg=137
+"highlight Statement ctermfg=186
 " * Contrasting.
 " - 1. Declarations.
-highlight Identifier cterm=bold ctermfg=32
-highlight Comment gui=italicbold guifg=#5555aa
+"highlight Identifier cterm=bold ctermfg=32
+"highlight Comment gui=italicbold guifg=#5555aa
 " * Inconspicious.
-highlight Whitespace guifg=#cccccc
+"highlight Whitespace guifg=#cccccc
 "highlight SpecialKey guifg=#555555
 
 lua << EOF
   -- - Helpers for creating a theme.
-  require('config.theme')
+  -- require('config.theme')
 EOF
 
 " * Rnvimr.

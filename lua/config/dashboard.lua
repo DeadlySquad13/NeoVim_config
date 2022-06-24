@@ -1,3 +1,5 @@
+local choose_and_edit_target = require('config.commands.choose_and_edit_target');
+
 -- - Select which fuzzy search plugins to apply.
 vim.g.dashboard_default_executive='telescope'
 -- - Custom sections (commands).
@@ -45,10 +47,10 @@ local dashboard_items = {
   edit_config = {
     description = {
       icon = '',
-      action = 'Edit vim config                     ',
-      shortcut = leader..' e v'
+      action = 'Edit config                         ',
+      shortcut = leader..' e  '
     },
-    command = 'edit $MYVIMRC'
+    command = choose_and_edit_target,
   },
   find_history = {
     description = {

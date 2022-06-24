@@ -1,5 +1,17 @@
--- Attaches to every FileType mode
-require('colorizer').setup()
+-- First table for specific filetypes (see examples below), second - for all
+--   filetypes.
+require('colorizer').setup(nil, {
+  RGB      = true;         -- #RGB hex codes
+	RRGGBB   = true;         -- #RRGGBB hex codes
+	names    = true;         -- "Name" codes like Blue
+	RRGGBBAA = false;        -- #RRGGBBAA hex codes
+  rgb_fn   = false;        -- CSS rgb() and rgba() functions
+  hsl_fn   = true;        -- CSS hsl() and hsla() functions
+	css      = true;        -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+	css_fn   = true;        -- Enable all CSS *functions*: rgb_fn, hsl_fn
+	-- Available modes: foreground, background
+	mode     = 'background'; -- Set the display mode.
+})
 
 -- Attach to certain Filetypes, add special configuration for `html`
 -- Use `background` for everything else.

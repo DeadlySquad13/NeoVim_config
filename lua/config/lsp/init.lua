@@ -3,6 +3,31 @@ if not status_ok then
 	return
 end
 
+
+-- * General.
+--nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+
+-- * Investigation.
+-- - & is ? in Russian layout.
+--nnoremap <silent> <leader>gi& <cmd>lua vim.lsp.buf.hover()<CR>
+-- - Implementation.
+--nnoremap <silent> <leader>gii <cmd>lua vim.lsp.buf.implementation()<CR>
+
+-- - Declaration.
+--nnoremap <silent> <leader>giD <cmd>lua vim.lsp.buf.declaration()<CR>
+
+-- - Type definition.
+--nnoremap <silent> <leader>git <cmd>lua vim.lsp.buf.type_definition()<CR>
+
+-- - Definition.
+--nnoremap <silent> <leader>gid <cmd>lua vim.lsp.buf.definition()<CR>
+
+-- * Searching.
+--nnoremap <silent> <leader>gr <cmd>lua vim.lsp.buf.references()<CR>
+--nnoremap <silent> <leader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
+--nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
+
 require("config.lsp.lsp-installer")
 require("config.lsp.handlers")
 --local ENV = require('global');

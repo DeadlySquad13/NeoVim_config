@@ -32,6 +32,16 @@ require('packer').startup({
     use({ 'wbthomason/packer.nvim', opt = true })
 
     -- General.
+    -- * UI Utilities.
+    -- - Prettier wrappers for vim.ui.select. Can use telescope layouts.
+    use ({
+      'stevearc/dressing.nvim'
+    });
+    -- - Add nice looking ui for notifications.
+    use ({
+      'rcarriga/nvim-notify',
+    });
+
     use ({
       'folke/which-key.nvim',
       event = 'VimEnter',
@@ -70,8 +80,7 @@ require('packer').startup({
       config = [[ require('config.tinykeymap') ]]
     });
 
-  -- * Starting page.
-  --use({ 'mhinz/vim-startify' });
+    -- * Starting page.
     use({
       'glepnir/dashboard-nvim',
       cond = function()
@@ -80,49 +89,86 @@ require('packer').startup({
       config = [[ require('config.dashboard') ]],
     });
 
-  -- * Sessions.
-  --use({ 'rmagatti/auto-session' });
+    -- * Session management.
+    use({
+      'olimorris/persisted.nvim',
+      --module = "persisted", -- For lazy loading
+      config = [[ require('config.persisted') ]],
+    });
 
-  -- * Session management.
-  --use({ 'rmagatti/session-lens' });
+    -- * Window management.
+    -- - Keep window layout after closing the buffer.
+    use({
+      'famiu/bufdelete.nvim',
+    });
+    -- - Focus on window: keep it dynamically larger, remove numbers, cursor
+    --   and signcolumn on inactive windows.
+    -- To enable lazy load @see{github plugin page @link{https://github.com/beauwilliams/focus.nvim}}
+    use({
+      'beauwilliams/focus.nvim',
 
-  -- * Russian layout.
-  use({ 'powerman/vim-plugin-ruscmd' });
+      config = [[ require('config.focus') ]],
+    });
+    -- Jump to specified window.
+    use({
+      'https://gitlab.com/yorickpeterse/nvim-window.git',
 
-  -- LSP.
-  use {
-    'williamboman/nvim-lsp-installer',
-    {
+      config = [[ require('config.nvim-window') ]],
+    });
+    -- Move windows without changing layout.
+    use({
+      'sindrets/winshift.nvim',
+
+      config = [[ require('config.winshift') ]],
+    });
+
+
+    -- * Russian layout.
+    use({ 'powerman/vim-plugin-ruscmd' });
+
+    -- LSP.
+    use({
+      'williamboman/nvim-lsp-installer',
+      {
         'neovim/nvim-lspconfig',
         -- Lsp relies on cmp-nvim-lsp during capabilities initialization.
         after = 'cmp-nvim-lsp',
         config = [[ require('config.lsp') ]]
-    }
-  }
-  -- * Snippets.
-  use({ 'SirVer/ultisnips' });
-  -- - Collections of snippets.
-  use({ 'honza/vim-snippets' });
-  use({ 'mattn/emmet-vim' });
+      }
+    });
+    -- # Snippets.
+    use({
+      'SirVer/ultisnips',
+
+      config = [[ require('config.ultisnips') ]],
+    });
+    -- * Collections of snippets.
+    -- - General and specific for popular filetypes.
+    use({ 'honza/vim-snippets' });
+    -- - Emmet for html.
+    use({ 'mattn/emmet-vim' });
 
   -- * Autocomplete
-   use ({
-      "hrsh7th/nvim-cmp",
+    use ({
+      'hrsh7th/nvim-cmp',
       -- event = "InsertEnter", -- for lazyload
       requires = {
-        { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
-        { "f3fora/cmp-spell", after = "nvim-cmp" },
-        { "hrsh7th/cmp-path", after = "nvim-cmp" },
-        { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-        { "hrsh7th/cmp-calc", after = "nvim-cmp" },
-        { "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
-        { "hrsh7th/cmp-omni", after = "nvim-cmp" },
+        { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
+        { 'f3fora/cmp-spell', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-omni', after = 'nvim-cmp' },
         -- for ultisnips users.
-        { "quangnguyen30192/cmp-nvim-ultisnips", after = { "nvim-cmp", 'ultisnips' } },
+        { 'quangnguyen30192/cmp-nvim-ultisnips', after = { 'nvim-cmp', 'ultisnips' } },
 
         -- Not yet intergrated with ultisnips, have to separately define jumps
         --   in mappings.
         { 'danymat/neogen' },
+
+        -- Cool icons.
+        { 'onsails/lspkind.nvim' },
       },
       config = [[ require('config.lsp.completion') ]],
     })
@@ -137,7 +183,6 @@ require('packer').startup({
     'windwp/nvim-autopairs',
     config = [[ require ('config.nvim_autopairs') ]]
   });
-
   -- * Comments.
   use({ 'preservim/nerdcommenter', event = 'VimEnter' });
 
@@ -212,24 +257,42 @@ require('packer').startup({
 
     -- # Navigation.
     -- * Inside  file.
+    -- - Marks.
+    use({
+      'chentoast/marks.nvim',
+
+      config = [[ require('config.marks') ]],
+    });
     -- * Across files.
+    -- - Harpoon?
+    -- - Ranger filemanager.
     use({ 'kevinhwang91/rnvimr' });
+    -- - NERDTree.
     use({ 'preservim/nerdtree' });
 
     -- * Telescope deps.
     use({ 'nvim-lua/plenary.nvim' });
-    use {
+    use({
       'nvim-telescope/telescope.nvim',
-      requires = {{ 'nvim-lua/plenary.nvim' }}
-    }
+      requires = {{ 'nvim-lua/plenary.nvim' }},
+
+      config = [[ require('config.telescope') ]],
+    });
 
     -- - We recommend updating the parsers on update
     use({
       'nvim-treesitter/nvim-treesitter',
       event = 'BufEnter',
       run = ':TSUpdate',
-      config = [[ require('config.treesitter')]],
+      config = [[ require('config.treesitter') ]],
     });
+
+    use({
+      'nvim-treesitter/playground',
+
+      event = 'BufEnter',
+      requires = 'nvim-treesitter/nvim-treesitter',
+    })
 
   -- - Jumping to file under cursor.
   use({ 'aklt/rel.vim' });
@@ -256,11 +319,11 @@ require('packer').startup({
     -- })
   -- Visuals.
   -- Show match number and index for searching
-  use ({
-    'kevinhwang91/nvim-hlslens',
-    branch = 'main',
-    keys = {{'n', '*'}, {'n', '#'}, {'n', 'n'}, {'n', 'N'}}
-  })
+  --use ({
+    --'kevinhwang91/nvim-hlslens',
+    --branch = 'main',
+    --keys = {{'n', '*'}, {'n', '#'}, {'n', 'n'}, {'n', 'N'}}
+  --})
   -- * Highlight range of an exmode command.
   use({ 'winston0410/cmd-parser.nvim' });
   use({
@@ -268,7 +331,7 @@ require('packer').startup({
     config = [[ require('config.range_highlight') ]]
   });
 
-  -- * Workspace.
+  -- # Workspace.
   use({
     'Pocco81/TrueZen.nvim',
     config = [[ require ('config.true_zen') ]]
@@ -280,8 +343,37 @@ require('packer').startup({
     config = [[ require ('config.twilight') ]]
   });
 
-  -- * Status line.
-  use({ 'vim-airline/vim-airline' });
+    -- * Status line.
+    -- Move status line to the tmux.
+    use({
+      'vimpostor/vim-tpipeline',
+
+      config = [[ require('config.tpipeline') ]],
+    });
+
+    use({
+      'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+      event = 'VimEnter',
+      config = [[ require('config.lualine') ]]
+    });
+
+    -- * Buffer line.
+    use({
+      'akinsho/bufferline.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+      event = 'VimEnter',
+      config = [[ require('config.bufferline') ]],
+    })
+
+    -- * Winbar: statusline at the top of the window.
+    use({
+      'b0o/incline.nvim',
+
+      config = [[ require('config.incline') ]],
+    });
+
+
 
   -- Coding.
   -- Should be loaded after all plugins that use trigger key ('tab').
@@ -293,11 +385,21 @@ require('packer').startup({
   });
 
   -- * Theme.
-  use({ 'morhetz/gruvbox' });
+  -- - Helpers for creating a theme.
+    use({ 'rktjmp/lush.nvim' });
+  -- - Themes.
+  --use({ 'morhetz/gruvbox' });
   use({ 'sainnhe/gruvbox-material' });
   use({ 'vim-airline/vim-airline-themes' });
-  -- - Helpers for creating a theme.
-  use({ 'tjdevries/colorbuddy.nvim' });
+
+    use({
+      '~/nvim/CustomThemes/deadly-gruv.nvim',
+      config = [[ require('config.theme') ]],
+    });
+    --use({
+      --'DeadlySquad13/deadly-gruv.nvim',
+      --config = [[ require('config.theme') ]],
+    --});
 
   -- * Highlighting.
   -- - Colors.
@@ -333,6 +435,14 @@ require('packer').startup({
       -- Uncomment next line if you want to follow only stable versions.
       -- tag = "*",
     });
+    --use({
+			--"danymat/neogen",
+			---- "~/Developer/neogen/",
+			--config = function()
+				---- require("neogen").setup({ snippet_engine = "luasnip" })
+			--end,
+			--requires = "nvim-treesitter/nvim-treesitter",
+		--});
 
     -- Python indent (follows the PEP8 style)
     --use({ 'Vimjas/vim-python-pep8-indent', ft = { 'python' } })
@@ -395,13 +505,7 @@ require('packer').startup({
 
     --use {'kyazdani42/nvim-web-devicons', event = 'VimEnter'}
 
-    --use {
-      --'nvim-lualine/lualine.nvim',
-      --event = 'VimEnter',
-      --config = [[require('config.statusline')]]
-    --}
 
-    --use({ 'akinsho/bufferline.nvim', event = 'VimEnter', config = [[require('config.bufferline')]] })
 
     -- Highlight URLs inside vim
     --use({'itchyny/vim-highlighturl', event = 'VimEnter'})

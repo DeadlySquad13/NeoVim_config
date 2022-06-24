@@ -25,8 +25,8 @@ nvim_autopairs.setup {
   check_ts = false,
     -- map the <BS> key
   map_bs = true,
-    -- Map the <C-h> key to delete a pair
+    -- Map the i_ctrl-h key to delete a pair
   map_c_h = true,
-   -- map <c-w> to delete a pair if possible
-  map_c_w = false,
+   -- map i_ctrl-w to delete a pair if possible
+  map_c_w = true,
 }

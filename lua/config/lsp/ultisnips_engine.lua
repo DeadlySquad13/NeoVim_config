@@ -1,12 +1,3 @@
--- Somehow fixes fallback behaviour during tab
---   (otherwise ultisnips tries to expand even if it can't and throws error,
---   preventing *normal* fallback --- tab).
-vim.g.UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'
-vim.g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
-vim.g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
-vim.g.UltiSnipsListSnippets = '<c-x><c-s>'
-vim.g.UltiSnipsRemoveSelectModeMappings = 0
-
 local utils = require('config.lsp.utils')
 local t = utils.t;
 
@@ -35,12 +26,12 @@ local ultisnips_engine = {
     return vim.fn["UltiSnips#CanExpandSnippet"]() == 1
   end,
 
-  expand = function()
+  expand = function(args)
     -- Maybe replace with #Anon?
-    return vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>"))
-    -- return vim.fn.feedkeys(t("<C-R>=UltiSnips#Anon()<CR>"))
+    --return vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>"))
+    return vim.fn["UltiSnips#Anon"](args.body);
+    --return vim.fn.feedkeys(t("<C-R>=UltiSnips#Anon()<CR>"));
   end,
 }
 
 return ultisnips_engine;
-

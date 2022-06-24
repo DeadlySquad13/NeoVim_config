@@ -1,0 +1,11 @@
+# https://vi.stackexchange.com/questions/11240/ultisnips-optional-line not
+# working but close...
+snippet use "Use in packer (plugin)" Ab
+use({
+  '${1:${VISUAL}}',
+});
+endsnippet
+
+snippet config "Config field in packer `use`" Ab
+config = [[ require('config.$1') ]],
+endsnippet

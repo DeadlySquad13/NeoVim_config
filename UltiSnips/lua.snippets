@@ -1,0 +1,14 @@
+# Clear lua? snippets that are not used.
+priority -49
+clearsnippets use
+
+priority 0
+snippet preq "Protected require" Ab
+local prequire = require('utils').prequire;
+
+local $1_is_available, $1 = prequire('${1:}');
+
+if not $1_is_available then
+	return ${VISUAL};
+end
+endsnippet
