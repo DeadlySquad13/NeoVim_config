@@ -14,10 +14,12 @@ focus.setup({
   --   filetypes or buftypes Query filetypes using :lua print(vim.bo.ft) or
   --   buftypes using :lua print(vim.bo.buftype).
   excluded_filetypes = {
+    '', -- Hover popups such as Treesitter syntax investigation popup, lsp popups...
     'TelescopePrompt',
     'toggleterm',
   },
   excluded_buftypes = {
+    'nofile',
     'help',
     'prompt',
     'popup',
@@ -68,7 +70,7 @@ focus.setup({
   -- Default: false.
   --cursorcolumn = true,
 
-  -- Displays a color column in the focussed window only.
+  -- Displays a color column in the focused window only.
   -- See `:h colorcolumn` for more options.
   -- Default: enable = false, width = 80.
   colorcolumn = { enable = true, width = 80 },
@@ -76,7 +78,7 @@ focus.setup({
   -- Displays line numbers in the focused window only.
   -- Not displayed in unfocused windows.
   -- Default: true.
-  number = true,
+  --number = true,
   -- Displays relative line numbers in the focused window only.
   -- Not displayed in unfocused windows.
   -- Default: true.

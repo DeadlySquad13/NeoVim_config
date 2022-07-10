@@ -9,13 +9,13 @@ end
 local settings_dir = 'config.neogen.settings';
 
 local python = require(settings_dir .. '.python');
-local lua = require(settings_dir .. '.lua');
+--local lua = require(settings_dir .. '.lua');
 
 neogen.setup({
   enabled = true,
   input_after_comment = true, -- (default: true) automatic jump (with insert mode) on inserted annotation
   languages = {
     python = python,
-    lua = lua,
+    --lua = lua,
   },
 });

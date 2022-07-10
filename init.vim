@@ -54,30 +54,6 @@ let g:autopep8_disable_show_diff=1
 " Use omni completion provided by lsp.
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-" * General.
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-
-" * Investigation.
-" - & is ? in Russian layout.
-nnoremap <silent> <leader>gi& <cmd>lua vim.lsp.buf.hover()<CR>
-" - Implementation.
-nnoremap <silent> <leader>gii <cmd>lua vim.lsp.buf.implementation()<CR>
-
-" - Declaration.
-nnoremap <silent> <leader>giD <cmd>lua vim.lsp.buf.declaration()<CR>
-
-" - Type definition.
-nnoremap <silent> <leader>git <cmd>lua vim.lsp.buf.type_definition()<CR>
-
-" - Definition.
-nnoremap <silent> <leader>gid <cmd>lua vim.lsp.buf.definition()<CR>
-
-" * Searching.
-nnoremap <silent> <leader>gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> <leader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-
-
 " Coding
 " * Wordmotion.
 " relevant only with smart find (for example, from vim-lighspeed)
@@ -132,8 +108,8 @@ nnoremap <c-w>v :vnew<cr>
 noremap <a-j> J
 
 " NERDCommenter.
-nmap <C-_> <Plug>NERDCommenterToggle
-vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
+" nmap <C-_> <Plug>NERDCommenterToggle
+" vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 
 "function! HorizontalScrollMode( call_char )
     "if &wrap
@@ -154,43 +130,6 @@ vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
 " * Vertical.
 nnoremap <c-y> 3<c-y>
 nnoremap <c-e> 3<c-e>
-
-" * Windows.
-set splitright
-
-"if has('autocmd')
-	"" change colorscheme depending on current buffer
-	"" if desired, you may set a user-default colorscheme before this point,
-	"" otherwise we'll use the Vim default.
-	"" Variables used:
-		"" g:colors_name : current colorscheme at any moment
-		"" b:colors_name (if any): colorscheme to be used for the current buffer
-		"" s:colors_name : default colorscheme, to be used where b:colors_name hasn't been set
-	"if has('user_commands')
-		"" User commands defined:
-			"" ColorScheme <name>
-				"" set the colorscheme for the current buffer
-			"" ColorDefault <name>
-				"" change the default colorscheme
-		"command -nargs=1 -bar ColorScheme
-			"\ colorscheme <args>
-			"\ | let b:colors_name = g:colors_name
-		"command -nargs=1 -bar ColorDefault
-			"\ let s:colors_name = <q-args>
-			"\ | if !exists('b:colors_name')
-				"\ | colors <args>
-			"\ | endif
-	"endif
-	"if !exists('g:colors_name')
-		"let g:colors_name = 'default'
-	"endif
-	"let s:colors_name = g:colors_name
-	"au BufEnter *
-		"\ let s:new_colors = (exists('b:colors_name')?(b:colors_name):(s:colors_name))
-		"\ | if s:new_colors != g:colors_name
-			"\ | exe 'colors' s:new_colors
-		"\ | endif
-"endif
 
 " Personal settings.
 " * Folding.
@@ -270,6 +209,7 @@ augroup END
 augroup LspFix
   autocmd!
   autocmd BufWinEnter * :LspStart
+  autocmd BufWinEnter * :Copilot enable
 augroup END
 
 augroup Markdown
@@ -306,7 +246,7 @@ augroup Markdown
   " - Autofit table of contents.
   let g:vim_markdown_toc_autofit = 1
 
-  " - Enalbe follow the anchors (links) inside file.
+  " - Enable follow the anchors (links) inside file.
   let g:vim_markdown_follow_anchor = 1
 
   " * mkdx settings.
@@ -379,12 +319,6 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" Visuals.
-"Use 24-bit (true-color) mode in Vim/Neovim.
-if (has("termguicolors"))
-  set termguicolors
-endif
-
 " Navigation.
 " # Across files.
 " * Rnvimr.
@@ -403,15 +337,6 @@ vnoremap <leader>de :!python3 -c 'import sys; from urllib import parse; print(pa
 "  (jumping nicely, but only inside []).
 nnoremap ]b :call searchpair('\[','','\]')<cr>
 nnoremap [b :call searchpair('\[','','\]','b')<cr>
-
-" * Show group highlights of the item under the cursor.
-function! SynStack()
-  if !exists("*synstack")
-    echo xyi
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
 
 " Mappings.
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -444,13 +369,13 @@ runtime abbreviations.vim
 
 " # Theme.
 " * Settings.
-syntax enable
+" syntax enable
 set background=light
 
 "colorscheme gruvbox-material
 "highlight Pmenu ctermbg=240 gui=bold
 " CursorLineNr doesn't work without it.
-set cursorline
+" set cursorline
 "highlight LineNr ctermfg=248 guifg=#bbbbbb
 "highlight CursorLineNr ctermfg=137
 "highlight Statement ctermfg=186
@@ -461,11 +386,6 @@ set cursorline
 " * Inconspicious.
 "highlight Whitespace guifg=#cccccc
 "highlight SpecialKey guifg=#555555
-
-lua << EOF
-  -- - Helpers for creating a theme.
-  -- require('config.theme')
-EOF
 
 " * Rnvimr.
 " - Change the border's color
@@ -481,10 +401,6 @@ let g:rnvimr_shadow_winblend = 60
 " - Place on the right.
 let g:NERDTreeWinPos = "right"
 
-
-" Color columns indicating width.
-"   1 + 2 splits (should be textwidth), 2 splits, 2 + 1 splits, full width - right sidebar, full width.
-set colorcolumn=80,115,151,203,235
 
 " # Markdown.
 " Use signs to highlight code blocks.
@@ -551,7 +467,7 @@ set colorcolumn=80,115,151,203,235
 "au BufEnter *.md call MarkdownBlocks()
 "au BufWritePost *.md call MarkdownBlocks()
 
-runtime syntax/general/comments.vim
+" runtime syntax/general/comments.vim
 
 " Filetypes.
 " - Config for Wsl.

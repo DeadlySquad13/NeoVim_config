@@ -6,8 +6,8 @@ if not winshift_is_available then
   return;
 end
 
-local api = vim.api;
-local utils = require("winshift.utils")
+--local api = vim.api;
+--local utils = require("winshift.utils")
 ---@class WindowPickerFilterRules
 ---@field cur_win boolean
 ---@field floats boolean
@@ -26,100 +26,100 @@ local utils = require("winshift.utils")
 ---@return integer|nil -- If a valid window was picked, return its id. If an
 ---       invalid window was picked / user canceled, return nil. If there are
 ---       no selectable windows, return -1.function M.pick_window(opt)
-local function pick_window(opt)
-  opt = opt or {}
-  local tabpage = api.nvim_get_current_tabpage()
-  local win_ids = api.nvim_tabpage_list_wins(tabpage)
-  local curwin = api.nvim_get_current_win()
-  local filter_rules = opt.filter_rules or {}
+--local function pick_window(opt)
+  --opt = opt or {}
+  --local tabpage = api.nvim_get_current_tabpage()
+  --local win_ids = api.nvim_tabpage_list_wins(tabpage)
+  --local curwin = api.nvim_get_current_win()
+  --local filter_rules = opt.filter_rules or {}
 
-  local selectable = vim.tbl_filter(function (id)
-    if filter_rules.cur_win and curwin == id then
-      return false
-    elseif filter_rules.floats and api.nvim_win_get_config(id).relative ~= "" then
-      return false
-    end
+  --local selectable = vim.tbl_filter(function (id)
+    --if filter_rules.cur_win and curwin == id then
+      --return false
+    --elseif filter_rules.floats and api.nvim_win_get_config(id).relative ~= "" then
+      --return false
+    --end
 
-    local bufid = api.nvim_win_get_buf(id)
-    local bufname = api.nvim_buf_get_name(bufid)
+    --local bufid = api.nvim_win_get_buf(id)
+    --local bufname = api.nvim_buf_get_name(bufid)
 
-    for _, option in ipairs({ "filetype", "buftype" }) do
-      if vim.tbl_contains(filter_rules[option] or {}, vim.bo[bufid][option]) then
-        return false
-      end
-    end
+    --for _, option in ipairs({ "filetype", "buftype" }) do
+      --if vim.tbl_contains(filter_rules[option] or {}, vim.bo[bufid][option]) then
+        --return false
+      --end
+    --end
 
-    for _, pattern in ipairs(filter_rules.bufname or {}) do
-      local regex = vim.regex(pattern)
-      if regex:match_str(bufname) ~= nil then
-        return false
-      end
-    end
+    --for _, pattern in ipairs(filter_rules.bufname or {}) do
+      --local regex = vim.regex(pattern)
+      --if regex:match_str(bufname) ~= nil then
+        --return false
+      --end
+    --end
 
-    return true
-  end, win_ids)
+    --return true
+  --end, win_ids)
 
-  if opt.filter_func then
-    selectable = opt.filter_func(selectable)
-  end
+  --if opt.filter_func then
+    --selectable = opt.filter_func(selectable)
+  --end
 
-  -- If there are no selectable windows: return. If there's only 1, return it without picking.
-  if #selectable == 0 then return -1 end
-  if #selectable == 1 then return selectable[1] end
+  ---- If there are no selectable windows: return. If there's only 1, return it without picking.
+  --if #selectable == 0 then return -1 end
+  --if #selectable == 1 then return selectable[1] end
 
-  local chars = (opt.picker_chars or "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"):upper()
-  local i = 1
-  local win_opts = {}
-  local win_map = {}
-  local laststatus = vim.o.laststatus
-  vim.o.laststatus = 2
+  --local chars = (opt.picker_chars or "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"):upper()
+  --local i = 1
+  --local win_opts = {}
+  --local win_map = {}
+  --local laststatus = vim.o.laststatus
+  --vim.o.laststatus = 2
 
-  -- Setup UI
-  -- use to make float https://gitlab.com/yorickpeterse/nvim-window/-/blob/main/lua/nvim-window.lua
-  for _, id in ipairs(selectable) do
-    local char = chars:sub(i, i)
-    local ok_status, statusline = pcall(api.nvim_win_get_option, id, "statusline")
-    local ok_hl, winhl = pcall(api.nvim_win_get_option, id, "winhl")
+  ---- Setup UI
+  ---- use to make float https://gitlab.com/yorickpeterse/nvim-window/-/blob/main/lua/nvim-window.lua
+  --for _, id in ipairs(selectable) do
+    --local char = chars:sub(i, i)
+    --local ok_status, statusline = pcall(api.nvim_win_get_option, id, "statusline")
+    --local ok_hl, winhl = pcall(api.nvim_win_get_option, id, "winhl")
 
-    win_opts[id] = {
-      statusline = ok_status and statusline or "",
-      winhl = ok_hl and winhl or ""
-    }
-    win_map[char] = id
+    --win_opts[id] = {
+      --statusline = ok_status and statusline or "",
+      --winhl = ok_hl and winhl or ""
+    --}
+    --win_map[char] = id
 
-    utils.set_local(
-      id,
-      {
-        statusline = "%=" .. char .. "%=",
-        winhl = {
-          "StatusLine:WinShiftWindowPicker,StatusLineNC:WinShiftWindowPicker",
-          opt = { method = "append" },
-        },
-      }
-    )
+    --utils.set_local(
+      --id,
+      --{
+        --statusline = "%=" .. char .. "%=",
+        --winhl = {
+          --"StatusLine:WinShiftWindowPicker,StatusLineNC:WinShiftWindowPicker",
+          --opt = { method = "append" },
+        --},
+      --}
+    --)
 
-    i = i + 1
-    if i > #chars then break end
-  end
+    --i = i + 1
+    --if i > #chars then break end
+  --end
 
-  vim.cmd("redraw")
-  local ok, resp = pcall(utils.input_char, "Pick window: ", { prompt_hl = "ModeMsg" })
-  if not ok then
-    utils.clear_prompt()
-  end
-  resp = (resp or ""):upper()
+  --vim.cmd("redraw")
+  --local ok, resp = pcall(utils.input_char, "Pick window: ", { prompt_hl = "ModeMsg" })
+  --if not ok then
+    --utils.clear_prompt()
+  --end
+  --resp = (resp or ""):upper()
 
-  -- Restore window options
-  for _, id in ipairs(selectable) do
-    for option, value in pairs(win_opts[id]) do
-      api.nvim_win_set_option(id, option, value)
-    end
-  end
+  ---- Restore window options
+  --for _, id in ipairs(selectable) do
+    --for option, value in pairs(win_opts[id]) do
+      --api.nvim_win_set_option(id, option, value)
+    --end
+  --end
 
-  vim.o.laststatus = laststatus
+  --vim.o.laststatus = laststatus
 
-  return win_map[resp]
-end
+  --return win_map[resp]
+--end
 
 winshift.setup({
   highlight_moving_win = true,  -- Highlight the window being moved
@@ -140,7 +140,7 @@ winshift.setup({
   -- @return integer? winid # Either the selected window ID, or `nil` to
   --    Indicate that the user cancelled / gave an invalid selection.
   window_picker = function()
-    return pick_window({
+    return require('winshift.lib').pick_window({
       -- A string of chars used as identifiers by the window picker.
       picker_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
       filter_rules = {

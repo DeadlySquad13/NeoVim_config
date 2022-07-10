@@ -35,7 +35,7 @@ incline.setup {
   hide = {
     cursorline = false,
     focused_win = false,
-    only_win = true
+    only_win = false
   },
   highlight = {
     groups = {

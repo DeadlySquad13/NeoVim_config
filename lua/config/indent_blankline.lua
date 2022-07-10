@@ -1,8 +1,22 @@
-vim.opt.termguicolors = true
--- Enabling special characters.
-vim.opt.list = true
-vim.opt.listchars:append("space:⋅")
-vim.opt.listchars:append("eol:↴")
+local prequire = require('utils').prequire
+
+local indent_blankline_is_available, indent_blankline = prequire('indent_blankline')
+
+if not indent_blankline_is_available then
+  return 
+end
+
+local PLUGIN_NAME = 'indent-blankline.nvim'
+
+if not vim.go.termguicolors then
+  notify('Please, set `termguicolors` for better experience.', vim.log.levels.INFO, { title = PLUGIN_NAME })
+end
+
+if not vim.go.list then
+  notify([[Please, enable `list` option!
+Also `space` and `eol` characters should be set in `listchars`!]], vim.log.levels.WARN, { title = PLUGIN_NAME })
+end
+
 -- Declaring colors.
 vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
@@ -13,7 +27,7 @@ vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
 
 -- Use treesitter to calculate indentation when possible.
 
-require("indent_blankline").setup {
+indent_blankline.setup {
   -- Char to be used to display an indent.
   char = "|",
   -- Exclude certain buffer types.

@@ -40,18 +40,15 @@ lualine.setup {
     --lualine_c = {'filename'},
     lualine_c = {{
       get_current_working_directory,
-
-      separator = { right = ''},
     }},
     --lualine_c = {},
-    lualine_x = {{
+    lualine_x = {
       'encoding',
       'fileformat',
       'filetype',
-
-      separator = { left = ''},
-    }},
+    },
     lualine_y = {'progress'},
+
     lualine_z = {{
       'location',
 

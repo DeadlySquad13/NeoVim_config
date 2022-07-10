@@ -6,7 +6,6 @@ local NUMBER_OF_PARTS_TO_SHOW = 3;
 -- @param number_of_parts_to_show
 -- @return formatted buffername (or directory name).
 local function format_buf_name(buf_name, number_of_parts_to_show)
-  print(buf_name)
   if buf_name == '' then
     return '[No Name]'
   end

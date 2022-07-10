@@ -12,7 +12,7 @@ marks.setup({
   default_mappings = true,
   -- Which builtin marks to show.
   -- Default {}.
-  builtin_marks = { ".", "<", ">", "^" },
+  builtin_marks = { --[[ ".",  ]] "<", ">", "^" },
   -- Whether movements cycle back to the beginning/end of buffer.
   -- Default true.
   cyclic = true,

@@ -1,5 +1,5 @@
 local prequire = require('utils').prequire;
-status_ok, notify = prequire('notify');
+local status_ok, notify = prequire('notify');
 
 if not status_ok then
   return;
