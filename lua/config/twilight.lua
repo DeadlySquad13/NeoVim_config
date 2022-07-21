@@ -1,8 +1,8 @@
-require("twilight").setup {
+return {
   dimming = {
-    alpha = 0.25, -- amount of dimming
+    alpha = 0.80, -- amount of dimming
     -- we try to get the foreground from the highlight groups or fallback color
-    color = { "Normal", "#ffffff" },
+    color = { "Normal", "#efe0B9" },
     inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
   },
   context = 10, -- amount of lines we will try to show around the current line

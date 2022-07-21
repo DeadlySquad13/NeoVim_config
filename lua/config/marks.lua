@@ -1,12 +1,4 @@
-local prequire = require('utils').prequire;
-
-local marks_is_available, marks = prequire('marks');
-
-if not marks_is_available then
-  return ;
-end
-
-marks.setup({
+return {
   -- Whether to map keybinds or not.
   -- Default true.
   default_mappings = true,
@@ -45,4 +37,4 @@ marks.setup({
     virt_text = "hello world"
   },
   mappings = {}
-})
+}

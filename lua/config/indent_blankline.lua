@@ -32,7 +32,7 @@ indent_blankline.setup {
   char = "|",
   -- Exclude certain buffer types.
   buftype_exclude = { 'terminal' },
-  filetype_exclude = { 'dashboard' },
+  filetype_exclude = { 'dashboard', 'neo-tree', 'neo-tree-popup', 'help'  },
 
   show_end_of_line = true,
   space_char_blankline = " ",

@@ -9,7 +9,7 @@ local env = require('global')
 ---@return data without changes.
 _G.P = function(data)
   vim.pretty_print(data)
-  return data;
+  return data
 end
 
 --- Notify user with nvim.notify. If it is not available, fallback to
@@ -19,11 +19,11 @@ end
 ---@param opts additional options for nvim.notify visualization (see `:h
 --notify.Options`).
 _G.notify = function(message, level, opts)
-  local nvim_notify_is_available, nvim_notify = pcall(require, 'notify');
+  local nvim_notify_is_available, nvim_notify = pcall(require, 'notify')
 
-  local notify = vim.notify;
+  local notify = vim.notify
   if nvim_notify_is_available then
-    notify = nvim_notify;
+    notify = nvim_notify
   end
 
   notify(message, level, opts)
@@ -34,18 +34,21 @@ local function prequire(plugin_name)
     notify(
       'Error in loading plugin ' .. plugin_name .. '!',
       vim.log.levels.ERROR
-    );
+    )
   end
 
-  local status_ok, plugin = xpcall(require, plugin_loading_error_handler, plugin_name);
+  local status_ok, plugin = xpcall(
+    require,
+    plugin_loading_error_handler,
+    plugin_name
+  )
 
   if not status_ok then
-    return status_ok;
+    return status_ok
   end
 
-  return status_ok, plugin;
+  return status_ok, plugin
 end
-
 
 -- Shortcut for printing variables in a meaningless way: showing contents of a
 --   table via vim.inspect. Used log as console.log in js works pretty the same
@@ -53,7 +56,6 @@ end
 local function log(data)
   vim.pretty_print(data)
 end
-
 
 --- Creates new function with default parameters.
 ---@ref https://gist.github.com/stuartpb/975399
@@ -69,15 +71,15 @@ end
 ---@param arg_def table with parameters with their default values.
 ---@param f function to which are default parameters are applied.
 ---@return new function with default parameters.
-local function fancyparams(arg_def,f)
+local function fancyparams(arg_def, f)
   return function(args)
     local params = {}
-    for i=1, #arg_def do
+    for i = 1, #arg_def do
       local paramname = arg_def[i][1] --the name of the first parameter to the function
       local default_value = arg_def[i][2]
       params[i] = args[i] or args[paramname] or default_value
     end
-    return f(unpack(params,1,#arg_def))
+    return f(unpack(params, 1, #arg_def))
   end
 end
 
@@ -89,25 +91,32 @@ end
 -- from stdpath('config')):
 -- `lua/config/incline.lua`.
 local function convert_to_runtimepath(path)
-  local path_with_truncated_runtimepath = string.gsub(path, vim.fn.stdpath('config'), '');
+  local path_with_truncated_runtimepath = string.gsub(
+    path,
+    vim.fn.stdpath('config'),
+    ''
+  )
 
   -- Removing first slash.
-  return path_with_truncated_runtimepath:sub(2);
+  return path_with_truncated_runtimepath:sub(2)
 end
 
 local function edit_file(path)
-  return vim.cmd('e '..path);
+  return vim.cmd('e ' .. path)
 end
 
 local function apply_global_variables(global_variables)
   for name, value in pairs(global_variables) do
-    vim.g[name] = value;
+    vim.g[name] = value
   end
 end
 
+local function exists(plugin_name)
+  return packer_plugins and packer_plugins[plugin_name]
+end
+
 local function is_loaded(plugin_name)
-  return packer_plugins and packer_plugins[plugin_name] and
-    packer_plugins[plugin_name].loaded;
+  return exists(plugin_name) and packer_plugins[plugin_name].loaded
 end
 
 --- Convert list to the table that you can use for fast find.
@@ -139,17 +148,26 @@ local function compose(...)
   end
 end
 
+--- Pop element from table by key.
+---@param table (table)
+---@param key (string)
+---@return (any) element
+local function tbl_remove_key(table, key)
+  local element = table[key]
+  table[key] = nil
+  return element
+end
+
 local M = {
+  -- # Core
   prequire = prequire,
+
+  -- # Printing and loggin.
   log = log,
 
+  -- # Vim api.
   create_augroup = vim.api.nvim_create_augroup,
   create_autocmd = vim.api.nvim_create_autocmd,
-
-  fp = fancyparams,
-
-  convert_to_runtimepath = convert_to_runtimepath,
-  edit_file = edit_file,
 
   apply = {
     variables = {
@@ -157,18 +175,28 @@ local M = {
     },
   },
 
+  exists = exists,
   is_loaded = is_loaded,
 
+  -- # File system.
+  convert_to_runtimepath = convert_to_runtimepath,
+  edit_file = edit_file,
+
+  -- # Functional programming.
   compose = compose,
+  fp = fancyparams,
 
+  -- # Collections.
   IndexedSet = IndexedSet,
-};
 
+  -- * Collection utils.
+  tbl_remove_key = tbl_remove_key,
+}
 
 --- Convert list to the table that you can use for fast find.
 ---@param list (table) list of items { 'a', 'b', 'c' }.
 ---@return (table) table #table of items { 'a' = true, 'b' = true, 'c' = true }.
-M.Set = function (list)
+M.Set = function(list)
   local set = {}
   for _, item in ipairs(list) do
     set[item] = true

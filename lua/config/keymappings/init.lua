@@ -1,6 +1,9 @@
 --local prequire = require('utils').prequire;
 local tinykeymap_transitive_catalizator = '.'
 
+local forward_slash = '<c-_>'
+local backslash = [[\]]
+
 -- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
 -- Uppercase all comments and add dot at the end:
 --   '<,'>s;^\(-- \w\)\(.*\);\U\1\e\2.;
@@ -17,7 +20,7 @@ local buffer_mappings = {
 }
 
 local comment_mappings = {
-  d = { ':Neogen<cr>', 'Create Documentation comment' },
+  D = { ':Neogen<cr>', 'Create Documentation comment' },
 
   ['>'] = {
     '<CMD>set operatorfunc=v:lua.___comment_semantically<CR>g@',
@@ -144,7 +147,13 @@ local toggle_mappings = {
     end,
     'Incline (winbar)',
   },
+
+  m = { ':FocusMaxOrEqual<cr>', 'Between Maximize and Equal' },
+
+  q = { ':QuickScopeToggle<cr>', 'QuickScope' },
 }
+
+local telescope_builtin = require('telescope.builtin')
 
 -- # Navigation. Helps find things, used as lookup table (navigation panel).
 local navigation_mappings = {
@@ -152,7 +161,7 @@ local navigation_mappings = {
   -- * Telescope.
   f = {
     function()
-      builtin.find_files()
+      telescope_builtin.find_files()
     end,
     'Find in current directory',
   },
@@ -164,28 +173,30 @@ local navigation_mappings = {
   },
   g = {
     function()
-      builtin.live_grep()
+      telescope_builtin.live_grep()
     end,
     'Live grep',
   },
   b = {
     function()
-      builtin.buffers()
+      telescope_builtin.buffers()
     end,
     'Buffers',
   },
   h = {
     function()
-      builtin.help_tags()
+      telescope_builtin.help_tags()
     end,
     'Help tags',
   },
   t = {
     function()
-      builtin.treesitter()
+      telescope_builtin.treesitter()
     end,
     'Treesitter',
   },
+
+  [backslash] = { ':Neotree<cr>', 'Filetree'},
 }
 
 -- # Major. Like major mode in spacemacs: filetype mappings.
@@ -234,7 +245,9 @@ local window_mappings = {
   -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
   -- such jump.
   o = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
-  ['c-o'] = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
+  ['<c-o>'] = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
+
+  m = { ':FocusMaximise<cr>', 'Maximise window' },
 
   [tinykeymap_transitive_catalizator] = { 'Window Mode' },
 }
@@ -246,7 +259,9 @@ local mappings = {
     name = 'Leader',
     -- a = a_mappings,
     b = buffer_mappings,
-    c = comment_mappings, -- <leader><c-/> can be used instead if there's a candidate for `c`.
+    c = vim.tbl_extend('error', comment_mappings, {
+      d = {':lcd %:h<cr>', 'Change cwd to current file directory'},
+    }),
     -- d = d_mappings,
     e = e_mappings,
     f = file_mappings,
@@ -272,6 +287,16 @@ local mappings = {
     z = z_mappings,
 
     [','] = settings_mappings,
+  },
+
+  -- Alternate mappings (functions simillar to `g`).
+  [';'] = {
+    name = 'Alternate',
+    s = {
+      '<Plug>Lightspeed_gs',
+      'Down/right (successors in the window tree)',
+    },
+    S = { '<Plug>Lightspeed_gS', 'Up/left (predecessors in the window tree)' },
   },
 
   -- a = a_mappings,
@@ -302,7 +327,20 @@ local mappings = {
   -- z = z_mappings,
 
   ['<c-w>'] = window_mappings,
+  -- Swap mark jumps.
+  -- ["'"] = { '`' },
+  -- ['`'] = { "'" },
+  -- ["''"] = { '``' },
+  -- ["``"] = { "''" },
 }
+
+-- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
+-- Unfortunately, bindings above don't work.
+-- Swap mark jumps.
+vim.cmd("nnoremap ' `")
+vim.cmd("nnoremap ` '")
+vim.cmd("nnoremap '' ``")
+vim.cmd("nnoremap `` ''")
 
 local x_mappings = {
   name = 'Main',
@@ -351,6 +389,16 @@ local x_mappings = {
     },
   },
 
+  -- Alternate mappings (functions simillar to `g`).
+  [';'] = {
+    name = 'Alternate',
+    s = {
+      '<Plug>Lightspeed_gs',
+      'Down/right (successors in the window tree)',
+    },
+    S = { '<Plug>Lightspeed_gS', 'Up/left (predecessors in the window tree)' },
+  },
+
   -- a = a_mappings,
   -- b = b_mappings,
   -- c = c_mappings,
@@ -388,10 +436,10 @@ local x_mappings = {
 local i_mappings = {
   name = 'Main',
 
-  -- Unfortunately, have default <c-t> mapped in 
+  -- Unfortunately, have default <c-t> mapped in
   ['<c-m>'] = { '<c-t>', 'Indent once' },
 
-  ['<c-_>'] = {
+  [forward_slash] = {
     -- '<esc>:lua require("Comment.api").toggle_current_linewise()<CR>`ti',
     '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
     'Comment current line',

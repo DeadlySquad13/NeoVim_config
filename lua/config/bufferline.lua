@@ -1,15 +1,8 @@
-local prequire = require('utils').prequire;
-local status_ok, bufferline = prequire('bufferline');
-
-if not status_ok then
-  return;
-end
-
 -- Optional dependencies.
 local icons_available, _ = require('nvim-web-devicons');
 
 -- For styling see `:h bufferline-styling`.
-bufferline.setup {
+return {
   options = {
     mode = "buffers", -- set to "tabs" to only show tabpages instead
     --numbers = "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
@@ -85,19 +78,3 @@ bufferline.setup {
   },
   -- For highlight groups see `:h bufferline-highlights`.
 }
-
-local bufferline_mappings = {}
-
---if bufferline_is_available then
-  ---- @see{the lua api at @link{https://github.com/akinsho/bufferline.nvim/blob/main/lua/bufferline.lua}}
-  --bufferline_mappings = {
-    --name = 'Buffer',
-
-    --p = { function() bufferline.pick_buffer() end, 'Pick' },
-    ----t = { '<cmd>BufferLinePick<cr>', 'Test'},
-  --}
---end
-
---return {
-  --bufferline_mappings
---}

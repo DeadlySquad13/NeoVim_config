@@ -1,4 +1,4 @@
-local tpipeline_settings = {
+return {
   tpipeline_autoembed = 0,
   tpipeline_fillcentre = 1,
   --tpipeline_preservebg = 1,
@@ -6,18 +6,9 @@ local tpipeline_settings = {
   -- Unfortunately, it overwrite laststatus=3 and it's crisp borders so setting
   --   them manually:
   tpipeline_clearstl = 1,
+
+  vim_settings = {
+    -- Settings crisp window borders.
+    fillchars = vim.o.fillchars .. ',' .. 'stlnc:-,stl:-',
+  }
 }
-
--- Settings crisp borders.
-local tpipeline_related_settings = {
-  fillchars = vim.o.fillchars .. ',' .. 'stlnc:-,stl:-',
-}
-
-for name, value in pairs(tpipeline_settings) do
-  vim.g[name] = value;
-end
-
-for name, value in pairs(tpipeline_related_settings) do
-  vim.o[name] = value;
-end
-

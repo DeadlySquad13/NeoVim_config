@@ -1,4 +1,3 @@
---local utils = require('utils')
 local ENV = require('global')
 local fn = vim.fn
 vim.g.package_home = fn.stdpath('data') .. '/site/pack/packer/'
@@ -26,59 +25,10 @@ end
 
 -- Load packer.nvim
 vim.cmd('packadd packer.nvim')
+
 local util = require('packer.util')
 
-local packer = require('packer')
-
-local layer_utils = {}
-layer_utils.use_plugin = function(plugin_settings, plugin_config)
-  local configuration = vim.tbl_extend(
-    'error',
-    plugin_settings,
-    { config = plugin_config }
-  )
-  packer.use(configuration)
-end
-
---- Allows to use custom functions inside (removed custom override).
----@param specification 
----@return 
-local function startup(specification)
-  local plugins_callback = specification[1]
-  local plugins_config = specification.config
-
-  packer.init(plugins_config)
-  packer.reset()
-
-  --setfenv(
-  -- plugins_callback,
-  -- vim.tbl_extend(
-  --   'force',
-  --   getfenv(),
-  --   {
-  --     use = packer.use,
-  --     use_plugin = modules.use_plugin,
-  --     use_rocks = packer.use_rocks,
-  --   }
-  -- )
-  --)
-  local status, err = pcall(
-    plugins_callback,
-    packer.use,
-    layer_utils.use_plugin,
-    packer.use_rocks
-  )
-  if not status then
-    log.error('Failure running setup function: ' .. vim.inspect(err))
-    error(err)
-  end
-
-  if plugins_config.snapshot ~= nil then
-    packer.rollback(plugins_config.snapshot)
-  end
-
-  return packer
-end
+local startup = require('utils.core').startup
 
 startup({
   function(use, use_plugin, _)
@@ -131,13 +81,12 @@ startup({
     -- * Integration.
     -- - With system.
     use({ 'majkinetor/vim-omnipresence' })
-    -- - With terminal.
 
-    local Toggleterm = require('ds_omega.layers.integrations.toggleterm')
-    use_plugin(
-      Toggleterm.plugins['toggleterm.nvim'],
-      Toggleterm.configs['toggleterm.nvim']
-    )
+    -- local Toggleterm = require('ds_omega.layers.Integrations.toggleterm')
+    -- use_plugin(
+    --   Toggleterm.plugins['toggleterm.nvim'],
+    --   Toggleterm.configs['toggleterm.nvim']
+    -- )
 
     -- use(
     --   vim.tbl_extend(
@@ -360,7 +309,6 @@ startup({
 
     -- * Motion.
     use({ 'tjdevries/train.nvim' })
-    use({ 'ggandor/lightspeed.nvim' })
 
     -- # Targets.
     use({
@@ -402,29 +350,6 @@ startup({
       'chaoren/vim-wordmotion',
       event = 'VimEnter',
       after = 'vim-textobj-user',
-    })
-
-    -- # Navigation.
-    -- * Inside  file.
-    -- - Marks.
-    use({
-      'chentoast/marks.nvim',
-
-      config = [[ require('config.marks') ]],
-    })
-    -- * Across files.
-    -- - Harpoon?
-    -- - Ranger filemanager.
-    use({ 'kevinhwang91/rnvimr' })
-    -- - NERDTree.
-    use({ 'preservim/nerdtree' })
-
-    -- * Telescope deps.
-    use({
-      'nvim-telescope/telescope.nvim',
-      requires = { { 'nvim-lua/plenary.nvim' } },
-
-      config = [[ require('config.telescope') ]],
     })
 
     -- ! Doesn't support lazy loading! Normal vim groups are not mapped to TS
@@ -504,57 +429,6 @@ startup({
       config = [[ require('config.range_highlight') ]],
     })
 
-    -- # Workspace.
-    use({
-      'Pocco81/TrueZen.nvim',
-      config = [[ require ('config.true_zen') ]],
-    })
-    use({
-      'folke/twilight.nvim',
-      -- Uses treesitter to automatically expand the visible text.
-      after = 'nvim-treesitter',
-      config = [[ require ('config.twilight') ]],
-    })
-
-    local Workspace = require('ds_omega.layers.Workspace')
-    use_plugin(
-      Workspace.plugins['JABS.nvim'],
-      Workspace.configs['JABS.nvim']
-    )
-
-    -- * Status line.
-    -- Move status line to the tmux.
-    use({
-      'vimpostor/vim-tpipeline',
-      -- Broke after this commit.
-      lock = true,
-      branch = 'af7fe78523c7c860d00b79383908322fcb5e6133',
-
-      config = [[ require('config.tpipeline') ]],
-    })
-
-    use({
-      'nvim-lualine/lualine.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-      event = 'VimEnter',
-      config = [[ require('config.lualine') ]],
-    })
-
-    -- * Buffer line.
-    use({
-      'akinsho/bufferline.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-      event = 'VimEnter',
-      config = [[ require('config.bufferline') ]],
-    })
-
-    -- * Winbar: statusline at the top of the window.
-    use({
-      'b0o/incline.nvim',
-
-      config = [[ require('config.incline') ]],
-    })
-
     -- Coding.
     -- Should be loaded after all plugins that use trigger key ('tab').
     use({
@@ -578,7 +452,7 @@ startup({
     use({ 'vim-airline/vim-airline-themes' })
 
     use({
-      '~/nvim/CustomThemes/deadly-gruv.nvim',
+      '~/nvim/CustomThemes/deadly-gruv.nvim'
     })
     --use({
     --'DeadlySquad13/deadly-gruv.nvim',
@@ -592,7 +466,7 @@ startup({
       config = [[ require('config.colorizer') ]],
     })
     -- - Hide cursorline during moving, highlight words under cursor.
-    use({ 'yamatsum/nvim-cursorline' })
+    -- use({ 'yamatsum/nvim-cursorline' })
     -- - Brackets.
     use({
       '~/Projects/nvim-ts-rainbow'
@@ -780,6 +654,7 @@ startup({
       open_fn = require('packer.util').float,
     },
   },
+  layers = require('layers_specification')
 })
 
 local status, _ = pcall(require, 'packer_compiled')

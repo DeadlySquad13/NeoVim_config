@@ -1,13 +1,4 @@
-local prequire = require('utils').prequire;
-
-local incline_is_available, incline = prequire('incline');
-
-if not incline_is_available then
-  return ;
-end
-
 local format_buf_name = require('config.utils').format_buf_name;
-
 
 --render_props: {
   --buf: number,
@@ -27,7 +18,7 @@ local function render(render_props)
   }
 end
 
-incline.setup {
+return {
   debounce_threshold = {
     falling = 50,
     rising = 10

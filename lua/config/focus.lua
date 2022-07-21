@@ -6,10 +6,12 @@ if not focus_is_available then
   return;
 end
 
+local is_focus_bugged = true
+
 focus.setup({
   -- The focused window will no longer automatically resize. Other focus
   --   features are still available.
-  autoresize = true,
+  autoresize = not is_focus_bugged,
   -- Prevents focus automatically resizing windows based on configured excluded
   --   filetypes or buftypes Query filetypes using :lua print(vim.bo.ft) or
   --   buftypes using :lua print(vim.bo.buftype).
@@ -53,17 +55,23 @@ focus.setup({
   -- Prevents focus automatically resizing windows based on configured file
   -- trees. Query filetypes using `:lua print(vim.bo.ft)`.
   -- Default: { 'nvimtree', 'nerdtree', 'chadtree', 'fern' }.
-  --compatible_filetrees = { 'filetree' },
+  compatible_filetrees = {
+    'neo-tree',
+    'nvimtree',
+    'nerdtree',
+    'chadtree',
+    'fern',
+  },
 
   -- Displays a cursorline in the focused window only.
   -- Not displayed in unfocused windows.
-  cursorline = false,
+  cursorline = not is_focus_bugged,
 
   -- Displays a sign column in the focused window only
   -- Gets the vim variable setcolumn when focus.setup() is run
   -- See :h signcolumn for more options e.g :set signcolum=yes
   -- Default: true, signcolumn=auto
-  signcolumn = true,
+  signcolumn = not is_focus_bugged,
 
   -- Displays a cursor column in the focused window only.
   -- See :h cursorcolumn for more options.
@@ -73,7 +81,7 @@ focus.setup({
   -- Displays a color column in the focused window only.
   -- See `:h colorcolumn` for more options.
   -- Default: enable = false, width = 80.
-  colorcolumn = { enable = true, width = 80 },
+  colorcolumn = { enable = not is_focus_bugged, width = 80 },
 
   -- Displays line numbers in the focused window only.
   -- Not displayed in unfocused windows.
@@ -89,7 +97,7 @@ focus.setup({
   -- Combination of :h relativenumber, but also displays the line number of the
   --   current line only.
   -- Default: false.
-  hybridnumber = true,
+  hybridnumber = not is_focus_bugged,
 
   -- Preserve absolute numbers in the unfocused windows.
   -- Works in combination with relativenumber or hybridnumber.
