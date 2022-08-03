@@ -1,5 +1,5 @@
 return {
-  use_default_mappings = false,
+  use_default_mappings = true,
   -- If a user has a sources list it will replace this one.
   -- Only sources listed here will be loaded.
   -- You can also add an external source by adding it's name to this list.
@@ -202,8 +202,8 @@ return {
   nesting_rules = {},
   window = { -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup for
     -- possible options. These can also be functions that return these options.
-    position = 'left', -- left, right, float, current
-    width = 40, -- applies to left and right positions
+    position = 'right', -- left, right, float, current
+    width = 36, -- applies to left and right positions
     popup = { -- settings that apply to float position only
       size = {
         height = '80%',

@@ -64,6 +64,12 @@ startup({
       event = 'BufWinEnter',
       config = [[ require('config.which_key') ]],
     })
+    -- - Better UI for lsp handlers.
+    use({
+      'glepnir/lspsaga.nvim',
+      branch = 'main',
+      config = [[ require('config.lsp.lspsaga') ]],
+    })
     -- - Better UI for Lsp rename.
     use({
       'filipdutescu/renamer.nvim',
@@ -364,7 +370,7 @@ startup({
     use({
       'nvim-treesitter/playground',
 
-      cmd = {'TSHighlightCapturesUnderCursor', 'TSPlaygroundToggle'},
+      cmd = { 'TSHighlightCapturesUnderCursor', 'TSPlaygroundToggle' },
       requires = 'nvim-treesitter/nvim-treesitter',
     })
 
@@ -452,7 +458,8 @@ startup({
     use({ 'vim-airline/vim-airline-themes' })
 
     use({
-      '~/nvim/CustomThemes/deadly-gruv.nvim'
+      --'~/nvim/CustomThemes/deadly-gruv.nvim',
+      'DeadlySquad13/deadly-gruv.nvim',
     })
     --use({
     --'DeadlySquad13/deadly-gruv.nvim',
@@ -469,8 +476,8 @@ startup({
     -- use({ 'yamatsum/nvim-cursorline' })
     -- - Brackets.
     use({
-      '~/Projects/nvim-ts-rainbow'
-      -- 'DeadlySquad13/nvim-ts-rainbow',
+      --'~/Projects/nvim-ts-rainbow'
+      'DeadlySquad13/nvim-ts-rainbow',
     })
 
     -- - Indents.

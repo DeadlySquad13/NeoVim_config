@@ -1,3 +1,12 @@
+" Enable Adaptive cursor in iTerm2.
+" let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+" let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+" let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+" let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" Sets cursor styles
+" Block in normal, line in insert, underline in replace
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25-Cursor,r-cr-o:hor20
+
 set nocompatible
 " Settings that I don't know how to translate to lua.
 " - Enable settings for specific filetypes.
@@ -276,6 +285,21 @@ augroup Python
   autocmd FileType python setlocal tabstop=4
   autocmd FileType python setlocal softtabstop=4
   autocmd FileType python setlocal shiftwidth=4
+  " - Run.
+  autocmd FileType python nnoremap <buffer> <localleader><cr> :!python %<cr>
+augroup END
+
+augroup Javascript
+  " Clear all autocommands that were set before that.
+  autocmd!
+  " - Sets.
+  autocmd FileType typescriptreact setlocal tabstop=4
+  autocmd FileType typescriptreact setlocal softtabstop=4
+  autocmd FileType typescriptreact setlocal shiftwidth=4
+
+  autocmd FileType typescript setlocal tabstop=4
+  autocmd FileType typescript setlocal softtabstop=4
+  autocmd FileType typescript setlocal shiftwidth=4
   " - Run.
   autocmd FileType python nnoremap <buffer> <localleader><cr> :!python %<cr>
 augroup END

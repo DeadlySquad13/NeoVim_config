@@ -1,7 +1,6 @@
 local luasnip = require('luasnip')
-local default_filetype_load_function = require(
-  'luasnip.extras.filetype_functions'
-).from_filetype_load
+local default_filetype_load_function =
+require('luasnip.extras.filetype_functions').from_filetype_load
 
 -- map filename (:t) to custom filetypes.
 local file_extends = {
@@ -80,6 +79,10 @@ luasnip.config.set_config({
 -- snippets is _.snippets, so we need to tell luasnip that the filetype "_"
 -- contains global snippets:
 luasnip.filetype_extend('all', { '_' })
+
+luasnip.filetype_extend('typescriptreact', { 'javascriptreact', 'typescript', 'javascript' })
+luasnip.filetype_extend('javascriptreact', { 'javascript' })
+luasnip.filetype_extend('typescript', { 'javascript' })
 
 -- For honza/vim-snippets.
 require('luasnip.loaders.from_snipmate').lazy_load()

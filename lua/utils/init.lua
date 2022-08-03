@@ -14,9 +14,9 @@ end
 
 --- Notify user with nvim.notify. If it is not available, fallback to
 --vim.notify.
----@param message to display.
----@param level of notification (see `:h vim.log.levels`).
----@param opts additional options for nvim.notify visualization (see `:h
+---@param message (string) Message to display.
+---@param level #Level of notification (see `:h vim.log.levels`).
+---@param opts (table) Additional options for nvim.notify visualization (see `:h
 --notify.Options`).
 _G.notify = function(message, level, opts)
   local nvim_notify_is_available, nvim_notify = pcall(require, 'notify')

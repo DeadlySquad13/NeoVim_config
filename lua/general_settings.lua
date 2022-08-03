@@ -19,6 +19,15 @@ vim.g.vimsyn_embed = 'l'
 --   Go the end of the previous line / start of the next line easier.
 set.whichwrap:append('hl')
 
+-- Better to use 0 with tpipeline.
+local function get_laststatus()
+  if require('utils').is_loaded('vim-tpipeline') then
+    return 0
+  end
+
+  return 3
+end
+
 local buffer_local_settings = {
   -- * Languages.
   spell = true,
@@ -54,10 +63,11 @@ local global_local = {
   -- Gutter.
   relativenumber = true,
 
-  -- Number of lines visible before edge of viewport.
-  scrolloff = 5,
-  sidescrolloff = 3,
-  scrolljump = 8,
+    -- Number of lines visible before edge of viewport.
+    scrolloff = 5,
+    sidescrolloff = 3,
+    -- Scroll number of lines when hitting border.
+    scrolljump = 8,
 
   --filetype plugin indent on
 
@@ -148,7 +158,7 @@ local global_local = {
   --cmdheight      = 2,
   --cmdwinheight   = 5,
   --equalalways    = false,
-  laststatus = 0, -- Better to use 0 with tpipeline.
+  laststatus = get_laststatus(),
   fillchars = 'fold: ',
   --display        = "lastline",
   showbreak = '↳  ', -- ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
@@ -204,7 +214,7 @@ local bw_local = {
   linebreak = true,
   number = true,
   --colorcolumn    = "80";
-  foldenable = true,
+  foldenable = false,
   signcolumn = 'yes',
   conceallevel = 2,
   concealcursor = 'niv',

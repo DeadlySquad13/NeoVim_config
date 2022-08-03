@@ -1,7 +1,16 @@
 local setup_lsp_keymappings = function(bufnr)
   local apply_keymappings = require('config.which_key.utils').apply_keymappings
   local lsp_buf = vim.lsp.buf
+  local prequire = require('utils').prequire
+
   local lsp_diagnostic = vim.diagnostic
+
+  local lspsaga_diagnostic_is_available, lspsaga_diagnostic =
+  prequire('lspsaga.diagnostic')
+
+  if lspsaga_diagnostic_is_available then
+    lsp_diagnostic = lspsaga_diagnostic
+  end
 
   --local rename = (function()
   --local renamer_is_available, renamer = pcall(require, "renamer");
@@ -71,7 +80,6 @@ local setup_lsp_keymappings = function(bufnr)
     },
     ['<space>rs'] = { lsp_buf.rename, 'Rename Symbol' },
     ['<space>ca'] = { lsp_buf.code_action, 'Code Action' }, -- Change from `c`.
-    ['gr'] = { lsp_buf.references, 'References' },
     ['<space>q'] = {
       function()
         vim.diagnostic.setqflist({ open = true })
@@ -81,8 +89,29 @@ local setup_lsp_keymappings = function(bufnr)
 
     ['<space>ff'] = { lsp_buf.format, 'Format' },
 
-    ['[d'] = { lsp_diagnostic.goto_prev, 'Goto previous diagnostic' },
-    [']d'] = { lsp_diagnostic.goto_next, 'Goto next diagnostic' },
+    ['[d'] = { lsp_diagnostic.goto_prev, 'Go to previous diagnostic' },
+    [']d'] = { lsp_diagnostic.goto_next, 'Go to next diagnostic' },
+
+    ['[e'] = {
+      function()
+        lsp_diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+      end,
+      'Go to previous error',
+    },
+    [']e'] = {
+      function()
+        lsp_diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+      end,
+      'Go to next error',
+    },
+
+    ['<space>i'] = {
+      d = {
+        lsp_diagnostic.show_line_diagnostics,
+      ' Investigate line diagnostics',
+      },
+      r = { lsp_buf.references, 'List References' },
+    },
   }
 
   mappings.x = {

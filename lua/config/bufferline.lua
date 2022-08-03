@@ -24,9 +24,10 @@ return {
     --- some limitations that will *NOT* be fixed.
     name_formatter = function(buf)  -- buf contains a "name", "path" and "bufnr"
       -- remove extension from markdown files for example
-      if buf.name:match('%.md') then
-        return vim.fn.fnamemodify(buf.name, ':t:r')
-      end
+      -- if buf.name == 'index'
+      -- if buf.name:match('%.md') then
+      --   return vim.fn.fnamemodify(buf.name, ':t:r')
+      -- end
     end,
     max_name_length = 18,
     max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
@@ -68,7 +69,7 @@ return {
     -- [focused and unfocused]. eg: { '|', '|' }
     separator_style = 'slant',
 
-    enforce_regular_tabs = true,
+    enforce_regular_tabs = false,
 
     always_show_bufferline = false, -- Hides when there's only 1 file (helps with disabling it on dahboard).
     --sort_by = 'insert_after_current' |'insert_at_end' | 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)

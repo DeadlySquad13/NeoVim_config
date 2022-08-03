@@ -19,12 +19,14 @@ focus.setup({
     '', -- Hover popups such as Treesitter syntax investigation popup, lsp popups...
     'TelescopePrompt',
     'toggleterm',
+    'qf', -- Quickfix list.
   },
   excluded_buftypes = {
     'nofile',
     'help',
     'prompt',
     'popup',
+    'quickfix' -- Quickfix list.
   },
   -- Enable resizing for excluded filetypes using forced_filetypes.
   --forced_filetypes = { 'dan_repl' },

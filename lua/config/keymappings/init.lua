@@ -165,12 +165,14 @@ local navigation_mappings = {
     end,
     'Find in current directory',
   },
-  s = {
-    function()
-      require('session-lens').search_session()
-    end,
-    'Session search',
+  F = {
+    ':RnvimrToggle<cr>',
+    'Files via Rnvimr'
   },
+  -- s = {
+  --   require('session-lens').search_session()
+  --   'Session search',
+  -- },
   g = {
     function()
       telescope_builtin.live_grep()

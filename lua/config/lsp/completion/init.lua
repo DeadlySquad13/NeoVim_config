@@ -25,15 +25,15 @@ cmp.setup({
   -- Order matters!
   sources = cmp.config.sources({
     { name = 'path' }, -- Path completion.
-    { name = 'nvim_lsp' }, -- Nvim-lsp.
+    { name = 'luasnip' }, -- LuaSnip Snippets.
     --{ name = 'ultisnips' }, -- Ultisnips.
-    { name = 'luasnip' },
+    { name = 'nvim_lsp' }, -- Nvim-lsp.
     -- Setting spell (and spelllang) is mandatory to use spellsuggest.
     -- { name = 'spell' }, -- Spellsuggest.
     { name = 'nvim_lua' }, -- Nvim-lua functions.
 
     -- * Ai assitance.
-    { name = 'copilot' },
+    -- { name = 'copilot' },
 
     { name = 'buffer', keyword_length = 2 }, -- Buffer word completion.
     -- { name = 'omni' },
