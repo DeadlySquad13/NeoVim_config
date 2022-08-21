@@ -1,5 +1,5 @@
-local setup_lsp_keymappings = require('config.lsp.handlers.setup_lsp_keymappings')
-local setup_symbol_highlight_under_cursor = require('config.lsp.handlers.setup_symbol_highlight_under_cursor')
+local setup_lsp_keymappings = require('ds_omega.layers.Lsp.handlers.setup_lsp_keymappings')
+local setup_symbol_highlight_under_cursor = require('ds_omega.layers.Lsp.handlers.setup_symbol_highlight_under_cursor')
 
 local on_attach = function(client, bufnr)
   setup_lsp_keymappings(bufnr)

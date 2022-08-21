@@ -1,11 +1,5 @@
 local prequire = require('utils').prequire
 
-local comment_is_available, comment = prequire('Comment')
-
-if not comment_is_available then
-  return
-end
-
 ---@param ctx CommentCtx
 
 ---@ref [Recommended configuration](https://github.com/numToStr/Comment.nvim#-hooks).
@@ -77,7 +71,7 @@ local function post_hook(ctx)
   -- end
 end
 
-comment.setup({
+return {
   ---Add a space b/w comment and the line
   ---@type boolean|fun():boolean
   padding = true,
@@ -145,6 +139,4 @@ comment.setup({
   ---Post-hook, called after commenting is done
   ---@type fun(ctx: CommentCtx)
   post_hook = post_hook,
-})
-
-require('config.comment.custom_comments')
+}

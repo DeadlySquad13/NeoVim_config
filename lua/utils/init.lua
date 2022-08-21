@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 -- General purpose utils (mostly used for writing pretty code). --
 ------------------------------------------------------------------
-local env = require('global')
+local env = require('constants.env')
 
 --- Prints prettily the data and returns it without any changes. Used for
 -- testing.
@@ -29,25 +29,25 @@ _G.notify = function(message, level, opts)
   notify(message, level, opts)
 end
 
-local function prequire(plugin_name)
-  local plugin_loading_error_handler = function(error)
+local function prequire(module_name)
+  local module_loading_error_handler = function(error)
     notify(
-      'Error in loading plugin ' .. plugin_name .. '!',
+      'Error in loading module ' .. module_name .. '!',
       vim.log.levels.ERROR
     )
   end
 
-  local status_ok, plugin = xpcall(
+  local status_ok, module = xpcall(
     require,
-    plugin_loading_error_handler,
-    plugin_name
+    module_loading_error_handler,
+    module_name
   )
 
   if not status_ok then
     return status_ok
   end
 
-  return status_ok, plugin
+  return status_ok, module
 end
 
 -- Shortcut for printing variables in a meaningless way: showing contents of a
@@ -158,6 +158,22 @@ local function tbl_remove_key(table, key)
   return element
 end
 
+--- Extend list.
+--Doesn't modify the initial list and accepts variable number of parameters.
+---@param initial_list (any[]) List to extend.
+---@vararg (any[]) Lists to extend with.
+---@return (any[]) extended_list Extended list.
+local function list_deep_extend(initial_list, ...)
+  local args = { ... }
+  local result = vim.deepcopy(initial_list)
+
+  for _, values in ipairs(args) do
+    vim.list_extend(result, values)
+  end
+
+  return result
+end
+
 local M = {
   -- # Core
   prequire = prequire,
@@ -191,17 +207,35 @@ local M = {
 
   -- * Collection utils.
   tbl_remove_key = tbl_remove_key,
+  list_deep_extend = list_deep_extend,
 }
 
 --- Convert list to the table that you can use for fast find.
 ---@param list (table) list of items { 'a', 'b', 'c' }.
 ---@return (table) table #table of items { 'a' = true, 'b' = true, 'c' = true }.
+---@ref see [luadoc arithmetic metamethods](https://www.lua.org/pil/13.1.html)
+--for further set implementation.
 M.Set = function(list)
   local set = {}
   for _, item in ipairs(list) do
     set[item] = true
   end
   return set
+end
+
+M.SetIntersection = function(a, b)
+  local res = {}
+  if not a then
+    return nil
+  end
+  if not b then
+    return a
+  end
+
+  for k in pairs(a) do
+    res[k] = b[k]
+  end
+  return res
 end
 
 return M

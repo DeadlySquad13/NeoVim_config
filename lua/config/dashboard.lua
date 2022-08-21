@@ -184,10 +184,17 @@ db.footer_pad = 4
 
 -- print(prepare_output_table())
 
-db.custom_footer = {
-  'I did your vim operator exercises and my hand ended up stuck inside my ass.',
-  'What should I do?',
-  '',
-  '                                         - Vim more.'
-}
+-- db.custom_footer = {
+--   'I did your vim operator exercises and my hand ended up stuck inside my ass.',
+--   'What should I do?',
+--   '',
+--   '                                         - Vim more.'
+-- }
 
+db.custom_footer = {
+  'Мой вим - мой лучший друг. Он — моя жизнь. Я должен научиться владеть им',
+  'так же, как я владею своей жизнью. Без меня мой вим бесполезен. Без моего',
+  'вима бесполезен я. Я должен кодить из моего вима метко. Я должен',
+  'кодить точнее, чем вскодер, который пытается обосрать меня. Я должен перекодить',
+  'его прежде, чем он переубедит меня перейти на вскод. Да будет так…',
+}

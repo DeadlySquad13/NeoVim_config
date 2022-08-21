@@ -1,12 +1,28 @@
 local fp = require('utils').fp
--- local prequire = require('utils').prequire
+local prequire = require('utils').prequire
+
+local function prequire_plugin(plugin_name)
+  local plugin_is_available, plugin = prequire(plugin_name)
+
+  if not plugin_is_available then
+    notify(
+      'Plugin `' .. plugin_name .. '` does not exist!',
+      vim.log.levels.ERROR,
+      {
+        title = 'Core',
+      }
+    )
+  end
+
+  return plugin_is_available, plugin
+end
 
 local function simple_plugin_setup(plugin_name, config_relative_path)
-  local plugin = require(plugin_name)
+  local plugin_is_available, plugin = prequire_plugin(plugin_name)
+  if not plugin_is_available then
+    return
+  end
 
-  -- if not plugin_is_available then
-  --   return
-  -- end
   local config_path = 'config.' .. config_relative_path
   local config_is_available, config = pcall(require, config_path)
   if not config_is_available then
@@ -21,6 +37,8 @@ local function simple_plugin_setup(plugin_name, config_relative_path)
   end
 
   plugin.setup(config)
+
+  return plugin_is_available, plugin
 end
 
 
@@ -71,6 +89,7 @@ local function load_coloscheme(colorscheme_name, backup_colorscheme_name, fallba
 end
 
 return {
+  prequire_plugin = prequire_plugin,
   simple_plugin_setup = simple_plugin_setup,
   load_coloscheme = load_coloscheme,
 }

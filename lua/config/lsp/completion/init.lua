@@ -7,6 +7,8 @@ local window_visuals = require('config.lsp.completion.window_visuals')
 local formatting = require('config.lsp.completion.formatting')
 local keymappings = require('config.lsp.completion.keymappings')
 
+local MIN_KEYWORD_LENGTH = 2
+
 cmp.setup({
   window = window_visuals,
 
@@ -24,18 +26,18 @@ cmp.setup({
 
   -- Order matters!
   sources = cmp.config.sources({
-    { name = 'path' }, -- Path completion.
-    { name = 'luasnip' }, -- LuaSnip Snippets.
+    { name = 'path', keyword_length = 4 }, -- Path completion.
+    { name = 'luasnip', keyword_length = MIN_KEYWORD_LENGTH }, -- LuaSnip Snippets.
     --{ name = 'ultisnips' }, -- Ultisnips.
-    { name = 'nvim_lsp' }, -- Nvim-lsp.
+    { name = 'nvim_lsp', keyword_length = MIN_KEYWORD_LENGTH  }, -- Nvim-lsp.
     -- Setting spell (and spelllang) is mandatory to use spellsuggest.
     -- { name = 'spell' }, -- Spellsuggest.
-    { name = 'nvim_lua' }, -- Nvim-lua functions.
+    { name = 'nvim_lua', keyword_length = MIN_KEYWORD_LENGTH  }, -- Nvim-lua functions.
 
     -- * Ai assitance.
     -- { name = 'copilot' },
 
-    { name = 'buffer', keyword_length = 2 }, -- Buffer word completion.
+    { name = 'buffer', keyword_length = MIN_KEYWORD_LENGTH }, -- Buffer word completion.
     -- { name = 'omni' },
     { name = 'emoji', insert = true }, -- Emoji completion.
   }, {

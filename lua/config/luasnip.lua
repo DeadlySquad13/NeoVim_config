@@ -28,17 +28,7 @@ local function extended_regex_filetype_load_function(bufnr)
   --] or {}; -- if we haven't found anything, return {}.
 end
 
--- Doesn't modify the initial_list and accepts variable number of parameters.
-local function list_deep_extend(initial_list, ...)
-  local args = { ... }
-  local result = vim.deepcopy(initial_list)
-
-  for _, values in ipairs(args) do
-    vim.list_extend(result, values)
-  end
-
-  return result
-end
+local list_deep_extend = require('utils').list_deep_extend
 
 local function resolve_filetypes(bufnr)
   --local str = "Lab3.py"

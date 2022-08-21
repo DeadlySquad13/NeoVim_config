@@ -1,16 +1,32 @@
-local prequire = require('utils').prequire;
-
-local nvim_window_is_available, nvim_window = prequire('nvim-window');
-
-if not nvim_window_is_available then
-  return;
-end
-
-nvim_window.setup({
+return {
   -- The characters available for hinting windows.
   chars = {
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
   },
 
   -- A group to use for overwriting the Normal highlight group in the floating
@@ -22,6 +38,5 @@ nvim_window.setup({
   hint_hl = 'Bold',
 
   -- The border style to use for the floating window.
-  border = 'single'
-});
-
+  border = 'single',
+}

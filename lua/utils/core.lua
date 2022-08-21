@@ -1,12 +1,23 @@
 local packer = require('packer')
+local SetIntersection = require('utils').SetIntersection
 
 local layer_utils = {}
-layer_utils.use_plugin = function(plugin_settings, plugin_config)
+--- 
+---@param plugin_settings (table)
+---@param plugin_config (table | nil)
+---@param layer_ft (table | nil)
+---@param module_ft (table | nil)
+layer_utils.use_plugin = function(plugin_settings, plugin_config, layer_ft, module_ft)
   local configuration = vim.tbl_extend(
     'error',
     plugin_settings,
     { config = plugin_config }
   )
+
+  -- Can only narrow each other:
+  --   predefined plugin configuration ft >= layer ft >= module ft.
+  configuration.ft = SetIntersection(SetIntersection(configuration.ft, layer_ft), module_ft)
+
   packer.use(configuration)
 end
 
@@ -36,13 +47,22 @@ local function startup(specification)
     packer.use_rocks
   )
 
-  for layer_name, layer_plugins in pairs(layers) do
+  for layer_name, layers_specification in pairs(layers) do
     local Layer = require('ds_omega.layers.' .. layer_name)
 
-    for _, plugin_name in ipairs(layer_plugins) do
+    -- ipairs will iterate only over numeric indices (plugins).
+    for _, plugin in ipairs(layers_specification) do
+      local plugin_name
+      if type(plugin) == 'table' then
+        plugin_name = plugin[1]
+      else
+        plugin_name = plugin
+      end
+
       layer_utils.use_plugin(
         Layer.plugins[plugin_name],
-        Layer.configs[plugin_name]
+        Layer.configs and Layer.configs[plugin_name] or nil,
+        layers_specification.ft
       )
     end
   end

@@ -25,12 +25,12 @@ end
 
 local get_query_files = vim.treesitter.query.get_query_files
 
-local ENV = require('global')
+local ENV = require('constants.env')
 
 ---@see `:h get_query_files` for params.
 local function read_local_query_files(lang, query_name)
   return read_query_files({
-    ENV.NVIM_QUERIES .. '/'..lang .. '/'..query_name..'.scm',
+    ENV.NVIM_QUERIES .. '/' .. lang .. '/' .. query_name .. '.scm',
   })
 end
 

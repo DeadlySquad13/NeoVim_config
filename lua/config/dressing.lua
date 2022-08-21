@@ -1,12 +1,4 @@
-local prequire = require('utils').prequire;
-
-local dressing_is_available, dressing = prequire('dressing');
-
-if not dressing_is_available then
-  return;
-end
-
-dressing.setup({
+return {
   input = {
     -- Set to false to disable the vim.ui.input implementation
     enabled = true,
@@ -48,6 +40,7 @@ dressing.setup({
     -- see :help dressing_get_config
     get_config = nil,
   },
+
   select = {
     -- Set to false to disable the vim.ui.select implementation
     enabled = true,
@@ -136,5 +129,4 @@ dressing.setup({
     -- see :help dressing_get_config
     get_config = nil,
   },
-});
-
+}

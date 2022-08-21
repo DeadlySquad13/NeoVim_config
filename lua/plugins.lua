@@ -1,4 +1,4 @@
-local ENV = require('global')
+local ENV = require('constants.env')
 local fn = vim.fn
 vim.g.package_home = fn.stdpath('data') .. '/site/pack/packer/'
 local packer_install_dir = vim.g.package_home .. '/opt/packer.nvim'
@@ -31,7 +31,7 @@ local util = require('packer.util')
 local startup = require('utils.core').startup
 
 startup({
-  function(use, use_plugin, _)
+  function(use, use_plugin, use_rocks)
     -- - It is recommened to put impatient.nvim before any other plugins.
     use({ 'lewis6991/impatient.nvim' })
     -- - Packer itself can be managed.
@@ -39,45 +39,7 @@ startup({
 
     -- General.
     use({ 'nvim-lua/plenary.nvim' })
-    -- * UI Utilities.
-    -- - Prettier wrappers for vim.ui.select. Can use telescope layouts.
-    use({
-      'stevearc/dressing.nvim',
-
-      config = [[ require('config.dressing') ]],
-    })
-    -- - Add nice looking ui for notifications.
-    use({
-      'rcarriga/nvim-notify',
-
-      config = [[ require('config.nvim-notify') ]],
-    })
-    -- - Progress handler.
-    use({
-      'j-hui/fidget.nvim',
-
-      config = [[ require('config.fidget') ]],
-    })
-
-    use({
-      'folke/which-key.nvim',
-      event = 'BufWinEnter',
-      config = [[ require('config.which_key') ]],
-    })
-    -- - Better UI for lsp handlers.
-    use({
-      'glepnir/lspsaga.nvim',
-      branch = 'main',
-      config = [[ require('config.lsp.lspsaga') ]],
-    })
-    -- - Better UI for Lsp rename.
-    use({
-      'filipdutescu/renamer.nvim',
-      branch = 'master',
-      requires = { { 'nvim-lua/plenary.nvim' } },
-
-      config = [[ require('config.renamer') ]],
-    })
+    -- use_rocks({ 'functional' })
 
     -- - Xonsh syntax file.
     use({ 'abhishekmukherg/xonsh-vim' })
@@ -86,21 +48,8 @@ startup({
 
     -- * Integration.
     -- - With system.
-    use({ 'majkinetor/vim-omnipresence' })
+    -- use({ 'majkinetor/vim-omnipresence' })
 
-    -- local Toggleterm = require('ds_omega.layers.Integrations.toggleterm')
-    -- use_plugin(
-    --   Toggleterm.plugins['toggleterm.nvim'],
-    --   Toggleterm.configs['toggleterm.nvim']
-    -- )
-
-    -- use(
-    --   vim.tbl_extend(
-    --     'error',
-    --     Toggleterm.plugins['toggleterm.nvim'],
-    --     { config = Toggleterm.configs['toggleterm.nvim'] }
-    --   )
-    -- )
     -- - With browser.
     use({
       'glacambre/firenvim',
@@ -124,7 +73,6 @@ startup({
     -- * Starting page.
     use({
       'glepnir/dashboard-nvim',
-      lock = true, -- Author made breaking changes during refactor.
       cond = function()
         return not vim.g.started_by_firenvim
       end,
@@ -139,64 +87,18 @@ startup({
       config = [[ require('config.persisted') ]],
     })
 
-    -- * Window management.
-    -- - Keep window layout after closing the buffer.
-    use({
-      'famiu/bufdelete.nvim',
-    })
-    -- - Focus on window: keep it dynamically larger, remove numbers, cursor
-    --   and signcolumn on inactive windows.
-    -- To enable lazy load @see{github plugin page @link{https://github.com/beauwilliams/focus.nvim}}
-    use({
-      'beauwilliams/focus.nvim',
-
-      config = [[ require('config.focus') ]],
-    })
-    -- Jump to specified window.
-    use({
-      'https://gitlab.com/yorickpeterse/nvim-window.git',
-
-      config = [[ require('config.nvim-window') ]],
-    })
-    -- Move windows without changing layout.
-    use({
-      'sindrets/winshift.nvim',
-
-      config = [[ require('config.winshift') ]],
-    })
-
     -- * Russian layout.
-    use({ 'powerman/vim-plugin-ruscmd' })
+    -- use({ 'powerman/vim-plugin-ruscmd' })
+    use ({
+      '~/Projects/im-select.nvim',
+      disabled = true,
 
-    -- Lsp.
-    use({
-      'williamboman/nvim-lsp-installer',
-      {
-        'neovim/nvim-lspconfig',
-        -- Lsp relies on cmp-nvim-lsp during capabilities initialization.
-        after = { 'cmp-nvim-lsp', 'which-key.nvim' },
-        config = [[ require('config.lsp') ]],
-      },
+      config = [[ require('config.im_select') ]],
     })
-    -- # Ai assitance.
     use({
-      'github/copilot.vim',
-    })
+      'lyokha/vim-xkbswitch',
 
-    -- * Lsp Utilities.
-    use({
-      'jose-elias-alvarez/nvim-lsp-ts-utils',
-      -- See config in `lsp.server_configurations`.
-
-      requires = 'neovim/nvim-lspconfig',
-    })
-
-    -- # Formatting.
-    use({
-      'jose-elias-alvarez/null-ls.nvim',
-      requires = { 'nvim-lua/plenary.nvim' },
-
-      config = [[ require('config.lsp.null-ls') ]],
+      config = [[ require('config.xkbswitch') ]],
     })
 
     -- # Snippets.
@@ -267,95 +169,24 @@ startup({
     -- - Python formatter.
     use({ 'tell-k/vim-autopep8', ft = { 'python' } })
 
-    -- Coding.
-    -- * Brackets.
-    use({
-      'windwp/nvim-autopairs',
-      config = [[ require('config.nvim_autopairs') ]],
-    })
-    -- * Comments.
-    --use({ 'preservim/nerdcommenter', event = 'VimEnter' })
-    use({
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      event = 'VimEnter',
-
-      -- Configuration is in treesitter.
-      require = 'nvim-treesitter/nvim-treesitter',
-    })
-
-    use({
-      'numToStr/Comment.nvim',
-      event = 'VimEnter',
-      require = 'JoosepAlviste/nvim-ts-context-commentstring',
-
-      config = [[ require('config.comment') ]],
-    })
-
-    -- * Surround.
-    use({ 'tpope/vim-surround' })
-
-    -- * Find.
-    use({ 'gennaro-tedesco/nvim-peekup' })
+    -- Editing.
+    -- * See current registers.
+    -- use({ 'gennaro-tedesco/nvim-peekup' })
 
     -- * Batching.
-    use({ 'terryma/vim-expand-region' })
-    use({
-      'mg979/vim-visual-multi',
-      branch = 'master',
-    })
-
-    -- * Permutations.
-    use({ 'tpope/vim-abolish' })
-
-    -- * Formatting.
-    -- - Align by symbol or regex pattern.
-    use({ 'junegunn/vim-easy-align' })
-    -- - Change object from inline to multi-line and vice versa.
-    use({ 'AndrewRadev/splitjoin.vim' })
-
-    -- * Motion.
-    use({ 'tjdevries/train.nvim' })
+    -- use({ 'terryma/vim-expand-region' })
 
     -- # Targets.
+    -- use({
+    --   'wellle/targets.vim',
+    --   event = 'VimEnter',
+    -- })
     use({
-      'wellle/targets.vim',
-      event = 'VimEnter',
-    })
-    -- Textobj-user extensions.
-    use({
-      'kana/vim-textobj-user',
-      event = 'VimEnter',
-    })
-    -- - Columns.
-    use({
-      'coderifous/textobj-word-column.vim',
-      event = 'VimEnter',
-      after = 'vim-textobj-user',
-    })
-    -- - Indented paragraph.
-    use({
-      'pianohacker/vim-textobj-indented-paragraph',
-      event = 'VimEnter',
-      after = 'vim-textobj-user',
-    })
-    -- - Indents.
-    use({
-      'kana/vim-textobj-indent',
-      event = 'VimEnter',
-      after = 'vim-textobj-user',
-    })
-    -- - Hydrogen (jupyter notebook cells).
-    use({
-      'GCBallesteros/vim-textobj-hydrogen',
-      event = 'VimEnter',
-      after = 'vim-textobj-user',
-    })
-
-    -- * Case delimited and _ delimited words.
-    use({
-      'chaoren/vim-wordmotion',
-      event = 'VimEnter',
-      after = 'vim-textobj-user',
+      'echasnovski/mini.nvim',
+      config = function()
+        require('config.mini.ai')
+      end,
+      -- branch = 'stable'
     })
 
     -- ! Doesn't support lazy loading! Normal vim groups are not mapped to TS
@@ -373,9 +204,6 @@ startup({
       cmd = { 'TSHighlightCapturesUnderCursor', 'TSPlaygroundToggle' },
       requires = 'nvim-treesitter/nvim-treesitter',
     })
-
-    -- - Jumping to file under cursor.
-    use({ 'aklt/rel.vim' })
 
     -- * Quickfix list.
     use({
@@ -435,20 +263,6 @@ startup({
       config = [[ require('config.range_highlight') ]],
     })
 
-    -- Coding.
-    -- Should be loaded after all plugins that use trigger key ('tab').
-    use({
-      'abecodes/tabout.nvim',
-      config = [[ require('config.tabout') ]],
-      -- Should be after mappings to overwrite the trigger key ('tab').
-      after = {
-        'which-key.nvim',
-        'tinykeymap_vim',
-
-        'nvim-treesitter', -- Needs utils from treesitter.
-      },
-    })
-
     -- * Theme.
     -- - Helpers for creating a theme.
     use({ 'rktjmp/lush.nvim' })
@@ -457,14 +271,13 @@ startup({
     use({ 'sainnhe/gruvbox-material' })
     use({ 'vim-airline/vim-airline-themes' })
 
+    -- use({
+    --   '~/nvim/CustomThemes/deadly-gruv.nvim',
+    -- })
     use({
-      --'~/nvim/CustomThemes/deadly-gruv.nvim',
-      'DeadlySquad13/deadly-gruv.nvim',
-    })
-    --use({
-    --'DeadlySquad13/deadly-gruv.nvim',
-    --config = [[ require('config.theme') ]],
-    --});
+    'DeadlySquad13/deadly-gruv.nvim',
+    config = [[ require('config.theme') ]],
+    });
 
     -- * Highlighting.
     -- - Colors.
@@ -476,18 +289,18 @@ startup({
     -- use({ 'yamatsum/nvim-cursorline' })
     -- - Brackets.
     use({
-      --'~/Projects/nvim-ts-rainbow'
+      -- '~/Projects/nvim-ts-rainbow',
       'DeadlySquad13/nvim-ts-rainbow',
     })
 
     -- - Indents.
-    use({
-      'lukas-reineke/indent-blankline.nvim',
-      event = 'VimEnter',
-      -- Uses treesitter to calculate indentation when possible.
-      after = 'nvim-treesitter',
-      config = [[ require('config.indent_blankline') ]],
-    })
+    -- use({
+    --   'lukas-reineke/indent-blankline.nvim',
+    --   event = 'VimEnter',
+    --   -- Uses treesitter to calculate indentation when possible.
+    --   after = 'nvim-treesitter',
+    --   config = [[ require('config.indent_blankline') ]],
+    -- })
     -- * Icons. (!) Should be loaded last (after nerd-tree, airline, etc...).
     --   Nerd patched fonts required.
     use({ 'ryanoasis/vim-devicons' })
@@ -661,7 +474,7 @@ startup({
       open_fn = require('packer.util').float,
     },
   },
-  layers = require('layers_specification')
+  layers = require('layers_specification'),
 })
 
 local status, _ = pcall(require, 'packer_compiled')

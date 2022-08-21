@@ -6,10 +6,6 @@ if not null_ls_is_available then
   return
 end
 
-local formatting = null_ls.builtins.formatting
-local diagnostics = null_ls.builtins.diagnostics
---local completion = null_ls.builtins.completion;
-
 ---
 ---@param program_name (string)
 local function check_if_executable(program_name)
@@ -29,17 +25,6 @@ local function check_if_executable(program_name)
   return is_executable
 end
 
--- Unfortunately, null-ls uses log, not notify, for pretty notify we have to do
---   it manually.
---   @see [generators source
---   file](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/generators.lua)
-local sources = {
-  formatting.stylua,
-  ---@see [misspell](https://github.com/client9/misspell).
-  -- diagnostics.misspell,
-  formatting.prettierd,
-}
-
 local function pop_unavailable_sources(sources)
   local available_sources = {}
 
@@ -51,6 +36,8 @@ local function pop_unavailable_sources(sources)
 
   return available_sources
 end
+
+local sources = require('config.lsp.null_ls')
 
 --@see [config options](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/CONFIG.md).
 null_ls.setup({

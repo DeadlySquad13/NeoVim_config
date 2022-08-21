@@ -16,7 +16,6 @@ Workspace.plugins = {
   },
 
   ['bufferline'] = {
-
     'akinsho/bufferline.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     event = 'VimEnter',
@@ -42,6 +41,9 @@ Workspace.plugins = {
     after = 'nvim-treesitter',
   },
 
+  ['neoscroll'] = {
+    'karb94/neoscroll.nvim'
+  }
 }
 
 Workspace.configs = {
@@ -65,8 +67,16 @@ Workspace.configs = {
     require('ds_omega.layers.Workspace.jabs')
   end,
 
+  ['incline'] = function ()
+    require('ds_omega.layers.Workspace.incline')
+  end,
+
   ['true_zen'] = function()
     require('ds_omega.layers.Workspace.true_zen')
+  end,
+
+  ['neoscroll'] = function()
+    require('ds_omega.layers.Workspace.neoscroll')
   end,
 }
 

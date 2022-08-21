@@ -36,6 +36,10 @@ Navigation.plugins = {
       'MunifTanjim/nui.nvim',
     },
   },
+
+  ['rel'] = {
+    'aklt/rel.vim',
+  }
 }
 
 Navigation.configs = {
@@ -61,6 +65,10 @@ Navigation.configs = {
 
   ['neo_tree'] = function()
     require('ds_omega.layers.Navigation.neo_tree')
+  end,
+
+  ['rel'] = function()
+    require('ds_omega.layers.Navigation.rel')
   end,
 }
 

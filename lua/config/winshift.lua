@@ -1,11 +1,3 @@
-local prequire = require('utils').prequire;
-
-local winshift_is_available, winshift = prequire('winshift');
-
-if not winshift_is_available then
-  return;
-end
-
 --local api = vim.api;
 --local utils = require("winshift.utils")
 ---@class WindowPickerFilterRules
@@ -121,7 +113,7 @@ end
   --return win_map[resp]
 --end
 
-winshift.setup({
+return {
   highlight_moving_win = true,  -- Highlight the window being moved
   focused_hl_group = "Visual",  -- The highlight group used for the moving window
   moving_win_options = {
@@ -165,4 +157,5 @@ winshift.setup({
       filter_func = nil,
     })
   end,
-});
+}
+

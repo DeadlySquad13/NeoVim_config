@@ -7,7 +7,7 @@ if not lspsaga_is_available then
 end
 
 local config_path = 'config.lspsaga'
-local config_is_available, config = prequire(require, config_path)
+local config_is_available, config = prequire(config_path)
 if not config_is_available then
   config = {}
   notify(

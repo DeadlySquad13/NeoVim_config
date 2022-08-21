@@ -1,4 +1,4 @@
-local env = require('global')
+local env = require('constants.env')
 local convert_to_runtimepath = require('utils').convert_to_runtimepath
 local edit_file = require('utils').edit_file
 
@@ -29,6 +29,10 @@ local function open_plugins()
   edit_file(env.NVIM_PLUGINS)
 end
 
+local function open_layers_specification()
+  edit_file(env.NVIM_LAYERS_SPECIFICATION)
+end
+
 local function open_vimrc()
   edit_file('$MYVIMRC')
 end
@@ -52,6 +56,7 @@ end
 local edit_actions = {
   keymappings = traverse_keymappings,
   plugins = open_plugins,
+  layers_specification = open_layers_specification,
   vimrc = open_vimrc,
   config = open_config,
   general_settings = open_general_settings,

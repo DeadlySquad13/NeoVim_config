@@ -1,4 +1,4 @@
-local ENV = require('global')
+local ENV = require('constants.env')
 local set = vim.opt
 
 ---@see [Managing vim options section in "Getting started using Lua in
@@ -165,7 +165,7 @@ local global_local = {
   -- (tab: simple dash + Electric Arrow (U+2301))
   list = true, -- Show special characters.
   listchars = {
-    eol = '↴',
+    eol = '┐',-- ^Vu2510 --[[ '↴' -- Look too big with Iosevka ]]
     nbsp = '⦸',
     space = '⋅',
     tab = '-⌁',
@@ -214,7 +214,7 @@ local bw_local = {
   linebreak = true,
   number = true,
   --colorcolumn    = "80";
-  foldenable = false,
+  foldenable = true,
   signcolumn = 'yes',
   conceallevel = 2,
   concealcursor = 'niv',

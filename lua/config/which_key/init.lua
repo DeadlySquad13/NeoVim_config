@@ -1,12 +1,5 @@
-local which_key = require('which-key')
-
-local apply_keymappings = require('config.which_key.utils').apply_keymappings
-
-package.loaded['config.keymappings'] = nil
-local mappings = require('config.keymappings')
-
 -- Setup.
-which_key.setup({
+return {
   plugins = {
     marks = true, -- shows a list of your marks on ' and `.
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode.
@@ -73,8 +66,4 @@ which_key.setup({
     i = { 'j', 'k' },
     v = { 'j', 'k' },
   },
-})
-
-apply_keymappings(mappings.n, 'n')
-apply_keymappings(mappings.x, 'x')
-apply_keymappings(mappings.i, 'i')
+}

@@ -488,6 +488,15 @@ let g:NERDTreeWinPos = "right"
 "au BufEnter *.md call MarkdownBlocks()
 "au BufWritePost *.md call MarkdownBlocks()
 
+cmap <F7> <C-\>eAppendSome()<CR>
+func AppendSome()
+   let cmd = getcmdline()
+   <c-\>e
+   " place the cursor on the )
+   " call setcmdpos(strlen(cmd))
+   " return cmd
+endfunc
+
 " runtime syntax/general/comments.vim
 
 " Filetypes.
