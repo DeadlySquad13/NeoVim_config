@@ -208,6 +208,8 @@ local M = {
   -- * Collection utils.
   tbl_remove_key = tbl_remove_key,
   list_deep_extend = list_deep_extend,
+
+  os = require('utils.os'),
 }
 
 --- Convert list to the table that you can use for fast find.
