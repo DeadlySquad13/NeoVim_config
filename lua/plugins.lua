@@ -89,12 +89,12 @@ startup({
 
     -- * Russian layout.
     -- use({ 'powerman/vim-plugin-ruscmd' })
-    use ({
-      '~/Projects/im-select.nvim',
-      disabled = true,
+    --use ({
+    --  '~/Projects/im-select.nvim',
+    --  disabled = true,
 
-      config = [[ require('config.im_select') ]],
-    })
+    --  config = [[ require('config.im_select') ]],
+    --})
     use({
       'lyokha/vim-xkbswitch',
 
