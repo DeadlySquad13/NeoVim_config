@@ -20,7 +20,8 @@ local incremental_selection = require_treesitter_configuration(
 )
 local rainbow = require_treesitter_configuration('rainbow')
 
-require('config.queries')
+package.path = require('constants.env').NVIM_AFTER .. '/?.lua;' .. package.path
+require('queries.init')
 
 tree_sitter.setup({
   ensure_installed = parsers,

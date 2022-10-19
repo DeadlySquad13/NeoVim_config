@@ -36,6 +36,8 @@ local buffer_local_settings = {
 }
 
 local global_local = {
+  -- Enable default vim syntax highlighting, treesitter will disable it for
+  --   supported filetypes.
   syntax = 'on',
   -- * Search.
   -- - Making search case insensitive. Add \c to the command to make it sensitive.
@@ -55,6 +57,9 @@ local global_local = {
   -- - Behave like smartcase when adding word to dictionary.
   spellcapcheck = '',
   -- - Think of camelCased words as separate words (camel and Cased will be parsed).
+  -- - `noplainbuffer` is automatically added to
+  --   check only @spell marked treesitter nodes (e.g. don't check variables,
+  --   only comments).
   spelloptions = 'camel',
 
   -- Insert only one space after joining lines ending with '.', '?'...
@@ -64,10 +69,10 @@ local global_local = {
   relativenumber = true,
 
     -- Number of lines visible before edge of viewport.
-    scrolloff = 5,
-    sidescrolloff = 3,
-    -- Scroll number of lines when hitting border.
-    scrolljump = 8,
+  scrolloff = 5,
+  sidescrolloff = 3,
+  -- Scroll number of lines when hitting border.
+  scrolljump = 8,
 
   --filetype plugin indent on
 
