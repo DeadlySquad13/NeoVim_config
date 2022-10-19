@@ -300,8 +300,22 @@ augroup Javascript
   autocmd FileType typescript setlocal tabstop=4
   autocmd FileType typescript setlocal softtabstop=4
   autocmd FileType typescript setlocal shiftwidth=4
-  " - Run.
-  autocmd FileType python nnoremap <buffer> <localleader><cr> :!python %<cr>
+augroup END
+
+" * PostCss settings.
+augroup PostCss
+  autocmd!
+  autocmd BufNewFile,BufReadPost *.pcss set syntax=scss
+  autocmd BufNewFile,BufReadPost *.pcss set shiftwidth=4
+augroup END
+
+" Latex settings.
+augroup Latex
+  autocmd!
+  " - Templates.
+  autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
+  " - Templates for notebook.
+  autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
 augroup END
 
 augroup Graphviz
@@ -504,8 +518,3 @@ endfunc
 autocmd BufNewFile,BufReadPost .wslconfig set syntax=sh
 " - Config for Wyrd.
 autocmd BufNewFile,BufReadPost .wyrdrc set syntax=conf
-" - LaTex templates.
-autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
-" - LaTeX templates for notebook.
-autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
-

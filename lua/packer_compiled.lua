@@ -374,7 +374,7 @@ _G.packer_plugins = {
     url = "https://github.com/kevinhwang91/nvim-bqf"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-spell", "cmp-path", "cmp-buffer", "cmp-calc", "cmp-cmdline", "cmp-copilot", "cmp-omni", "cmp-nvim-lsp" },
+    after = { "cmp-buffer", "cmp-cmdline", "cmp-copilot", "cmp-omni", "cmp-path", "cmp-spell", "cmp-nvim-lsp", "cmp-calc" },
     config = { " require('config.lsp.completion') " },
     loaded = true,
     only_config = true,
@@ -630,7 +630,7 @@ _G.packer_plugins = {
     url = "https://github.com/pianohacker/vim-textobj-indented-paragraph"
   },
   ["vim-textobj-user"] = {
-    after = { "textobj-word-column.vim", "vim-textobj-hydrogen", "vim-textobj-indent", "vim-textobj-indented-paragraph", "vim-wordmotion" },
+    after = { "vim-wordmotion", "textobj-word-column.vim", "vim-textobj-indent", "vim-textobj-hydrogen", "vim-textobj-indented-paragraph" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -660,7 +660,7 @@ _G.packer_plugins = {
     url = "https://github.com/lyokha/vim-xkbswitch"
   },
   ["which-key.nvim"] = {
-    after = { "tabout.nvim", "nvim-lspconfig" },
+    after = { "nvim-lspconfig", "tabout.nvim" },
     config = { "\27LJ\2\n<\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0!ds_omega.layers.Ui.which_key\frequire\0" },
     loaded = false,
     needs_bufread = false,
@@ -682,10 +682,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Setup for: emmet-vim
-time([[Setup for emmet-vim]], true)
- require('config.emmet-vim_setup') 
-time([[Setup for emmet-vim]], false)
 -- Setup for: lightspeed.nvim
 time([[Setup for lightspeed.nvim]], true)
 try_loadstring("\27LJ\2\n7\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\28autocommands.lightspeed\frequire\0", "setup", "lightspeed.nvim")
@@ -693,106 +689,34 @@ time([[Setup for lightspeed.nvim]], false)
 time([[packadd for lightspeed.nvim]], true)
 vim.cmd [[packadd lightspeed.nvim]]
 time([[packadd for lightspeed.nvim]], false)
--- Config for: lspsaga.nvim
-time([[Config for lspsaga.nvim]], true)
-try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 ds_omega.layers.Lsp.lspsaga\frequire\0", "config", "lspsaga.nvim")
-time([[Config for lspsaga.nvim]], false)
--- Config for: nvim-surround
-time([[Config for nvim-surround]], true)
-try_loadstring("\27LJ\2\n@\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0%ds_omega.layers.Editing.surround\frequire\0", "config", "nvim-surround")
-time([[Config for nvim-surround]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
- require('config.treesitter') 
-time([[Config for nvim-treesitter]], false)
--- Config for: vim-abolish
-time([[Config for vim-abolish]], true)
-try_loadstring("\27LJ\2\n?\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0$ds_omega.layers.Editing.abolish\frequire\0", "config", "vim-abolish")
-time([[Config for vim-abolish]], false)
--- Config for: LuaSnip
-time([[Config for LuaSnip]], true)
- require('config.luasnip') 
-time([[Config for LuaSnip]], false)
--- Config for: marks.nvim
-time([[Config for marks.nvim]], true)
-try_loadstring("\27LJ\2\n@\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0%ds_omega.layers.Navigation.marks\frequire\0", "config", "marks.nvim")
-time([[Config for marks.nvim]], false)
--- Config for: vim-xkbswitch
-time([[Config for vim-xkbswitch]], true)
- require('config.xkbswitch') 
-time([[Config for vim-xkbswitch]], false)
--- Config for: mini.nvim
-time([[Config for mini.nvim]], true)
-try_loadstring("\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19config.mini.ai\frequire\0", "config", "mini.nvim")
-time([[Config for mini.nvim]], false)
--- Config for: deadly-gruv.nvim
-time([[Config for deadly-gruv.nvim]], true)
- require('config.theme') 
-time([[Config for deadly-gruv.nvim]], false)
--- Config for: auto-session
-time([[Config for auto-session]], true)
-try_loadstring("\27LJ\2\nN\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0003ds_omega.layers.ProjectManagement.auto_session\frequire\0", "config", "auto-session")
-time([[Config for auto-session]], false)
--- Config for: nvim-window.git
-time([[Config for nvim-window.git]], true)
-try_loadstring("\27LJ\2\nG\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0,ds_omega.layers.WindowManagement.window\frequire\0", "config", "nvim-window.git")
-time([[Config for nvim-window.git]], false)
--- Config for: winshift.nvim
-time([[Config for winshift.nvim]], true)
-try_loadstring("\27LJ\2\nI\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0.ds_omega.layers.WindowManagement.winshift\frequire\0", "config", "winshift.nvim")
-time([[Config for winshift.nvim]], false)
--- Config for: vim-easy-align
-time([[Config for vim-easy-align]], true)
-try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Editing.easy_align\frequire\0", "config", "vim-easy-align")
-time([[Config for vim-easy-align]], false)
--- Config for: neo-tree.nvim
-time([[Config for neo-tree.nvim]], true)
-try_loadstring("\27LJ\2\nC\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0(ds_omega.layers.Navigation.neo_tree\frequire\0", "config", "neo-tree.nvim")
-time([[Config for neo-tree.nvim]], false)
--- Config for: persisted.nvim
-time([[Config for persisted.nvim]], true)
- require('config.persisted') 
-time([[Config for persisted.nvim]], false)
--- Config for: neogen
-time([[Config for neogen]], true)
- require('config.neogen') 
-time([[Config for neogen]], false)
--- Config for: neoscroll.nvim
-time([[Config for neoscroll.nvim]], true)
-try_loadstring("\27LJ\2\nC\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0(ds_omega.layers.Workspace.neoscroll\frequire\0", "config", "neoscroll.nvim")
-time([[Config for neoscroll.nvim]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
- require('config.lsp.completion') 
-time([[Config for nvim-cmp]], false)
--- Config for: rnvimr
-time([[Config for rnvimr]], true)
-try_loadstring("\27LJ\2\nA\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0&ds_omega.layers.Navigation.rnvimr\frequire\0", "config", "rnvimr")
-time([[Config for rnvimr]], false)
--- Config for: focus.nvim
-time([[Config for focus.nvim]], true)
-try_loadstring("\27LJ\2\nF\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0+ds_omega.layers.WindowManagement.focus\frequire\0", "config", "focus.nvim")
-time([[Config for focus.nvim]], false)
--- Config for: null-ls.nvim
-time([[Config for null-ls.nvim]], true)
-try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Assistance.null_ls\frequire\0", "config", "null-ls.nvim")
-time([[Config for null-ls.nvim]], false)
+-- Setup for: emmet-vim
+time([[Setup for emmet-vim]], true)
+ require('config.emmet-vim_setup') 
+time([[Setup for emmet-vim]], false)
+-- Config for: firenvim
+time([[Config for firenvim]], true)
+ require('config.firenvim') 
+time([[Config for firenvim]], false)
+-- Config for: TrueZen.nvim
+time([[Config for TrueZen.nvim]], true)
+try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Workspace.true_zen\frequire\0", "config", "TrueZen.nvim")
+time([[Config for TrueZen.nvim]], false)
 -- Config for: nvim-autopairs
 time([[Config for nvim-autopairs]], true)
 try_loadstring("\27LJ\2\nA\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0&ds_omega.layers.Editing.autopairs\frequire\0", "config", "nvim-autopairs")
 time([[Config for nvim-autopairs]], false)
+-- Config for: vim-visual-multi
+time([[Config for vim-visual-multi]], true)
+try_loadstring("\27LJ\2\nE\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0*ds_omega.layers.Editing.multi_cursors\frequire\0", "config", "vim-visual-multi")
+time([[Config for vim-visual-multi]], false)
 -- Config for: splitjoin.vim
 time([[Config for splitjoin.vim]], true)
 try_loadstring("\27LJ\2\nA\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0&ds_omega.layers.Editing.splitjoin\frequire\0", "config", "splitjoin.vim")
 time([[Config for splitjoin.vim]], false)
--- Config for: nvim-notify
-time([[Config for nvim-notify]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\30ds_omega.layers.Ui.notify\frequire\0", "config", "nvim-notify")
-time([[Config for nvim-notify]], false)
--- Config for: dressing.nvim
-time([[Config for dressing.nvim]], true)
-try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 ds_omega.layers.Ui.dressing\frequire\0", "config", "dressing.nvim")
-time([[Config for dressing.nvim]], false)
+-- Config for: vim-xkbswitch
+time([[Config for vim-xkbswitch]], true)
+ require('config.xkbswitch') 
+time([[Config for vim-xkbswitch]], false)
 -- Config for: nvim-colorizer.lua
 time([[Config for nvim-colorizer.lua]], true)
  require('config.colorizer') 
@@ -801,69 +725,145 @@ time([[Config for nvim-colorizer.lua]], false)
 time([[Config for incline.nvim]], true)
 try_loadstring("\27LJ\2\nA\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0&ds_omega.layers.Workspace.incline\frequire\0", "config", "incline.nvim")
 time([[Config for incline.nvim]], false)
--- Config for: bufdelete.nvim
-time([[Config for bufdelete.nvim]], true)
-try_loadstring("\27LJ\2\nJ\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0/ds_omega.layers.WindowManagement.bufdelete\frequire\0", "config", "bufdelete.nvim")
-time([[Config for bufdelete.nvim]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 try_loadstring("\27LJ\2\nD\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0)ds_omega.layers.Navigation.telescope\frequire\0", "config", "telescope.nvim")
 time([[Config for telescope.nvim]], false)
--- Config for: rel.vim
-time([[Config for rel.vim]], true)
-try_loadstring("\27LJ\2\n>\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0#ds_omega.layers.Navigation.rel\frequire\0", "config", "rel.vim")
-time([[Config for rel.vim]], false)
--- Config for: fidget.nvim
-time([[Config for fidget.nvim]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\30ds_omega.layers.Ui.fidget\frequire\0", "config", "fidget.nvim")
-time([[Config for fidget.nvim]], false)
--- Config for: firenvim
-time([[Config for firenvim]], true)
- require('config.firenvim') 
-time([[Config for firenvim]], false)
--- Config for: vim-visual-multi
-time([[Config for vim-visual-multi]], true)
-try_loadstring("\27LJ\2\nE\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0*ds_omega.layers.Editing.multi_cursors\frequire\0", "config", "vim-visual-multi")
-time([[Config for vim-visual-multi]], false)
+-- Config for: winshift.nvim
+time([[Config for winshift.nvim]], true)
+try_loadstring("\27LJ\2\nI\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0.ds_omega.layers.WindowManagement.winshift\frequire\0", "config", "winshift.nvim")
+time([[Config for winshift.nvim]], false)
 -- Config for: lightspeed.nvim
 time([[Config for lightspeed.nvim]], true)
 try_loadstring("\27LJ\2\nE\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0*ds_omega.layers.Navigation.lightspeed\frequire\0", "config", "lightspeed.nvim")
 time([[Config for lightspeed.nvim]], false)
--- Config for: tinykeymap_vim
-time([[Config for tinykeymap_vim]], true)
- require('config.tinykeymap') 
-time([[Config for tinykeymap_vim]], false)
--- Config for: TrueZen.nvim
-time([[Config for TrueZen.nvim]], true)
-try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Workspace.true_zen\frequire\0", "config", "TrueZen.nvim")
-time([[Config for TrueZen.nvim]], false)
--- Config for: range-highlight.nvim
-time([[Config for range-highlight.nvim]], true)
- require('config.range_highlight') 
-time([[Config for range-highlight.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+ require('config.treesitter') 
+time([[Config for nvim-treesitter]], false)
+-- Config for: nvim-notify
+time([[Config for nvim-notify]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\30ds_omega.layers.Ui.notify\frequire\0", "config", "nvim-notify")
+time([[Config for nvim-notify]], false)
+-- Config for: rnvimr
+time([[Config for rnvimr]], true)
+try_loadstring("\27LJ\2\nA\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0&ds_omega.layers.Navigation.rnvimr\frequire\0", "config", "rnvimr")
+time([[Config for rnvimr]], false)
+-- Config for: lspsaga.nvim
+time([[Config for lspsaga.nvim]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 ds_omega.layers.Lsp.lspsaga\frequire\0", "config", "lspsaga.nvim")
+time([[Config for lspsaga.nvim]], false)
+-- Config for: nvim-surround
+time([[Config for nvim-surround]], true)
+try_loadstring("\27LJ\2\n@\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0%ds_omega.layers.Editing.surround\frequire\0", "config", "nvim-surround")
+time([[Config for nvim-surround]], false)
+-- Config for: vim-abolish
+time([[Config for vim-abolish]], true)
+try_loadstring("\27LJ\2\n?\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0$ds_omega.layers.Editing.abolish\frequire\0", "config", "vim-abolish")
+time([[Config for vim-abolish]], false)
+-- Config for: marks.nvim
+time([[Config for marks.nvim]], true)
+try_loadstring("\27LJ\2\n@\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0%ds_omega.layers.Navigation.marks\frequire\0", "config", "marks.nvim")
+time([[Config for marks.nvim]], false)
+-- Config for: focus.nvim
+time([[Config for focus.nvim]], true)
+try_loadstring("\27LJ\2\nF\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0+ds_omega.layers.WindowManagement.focus\frequire\0", "config", "focus.nvim")
+time([[Config for focus.nvim]], false)
+-- Config for: neoscroll.nvim
+time([[Config for neoscroll.nvim]], true)
+try_loadstring("\27LJ\2\nC\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0(ds_omega.layers.Workspace.neoscroll\frequire\0", "config", "neoscroll.nvim")
+time([[Config for neoscroll.nvim]], false)
+-- Config for: mini.nvim
+time([[Config for mini.nvim]], true)
+try_loadstring("\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19config.mini.ai\frequire\0", "config", "mini.nvim")
+time([[Config for mini.nvim]], false)
 -- Config for: toggleterm.nvim
 time([[Config for toggleterm.nvim]], true)
 try_loadstring("\27LJ\2\nG\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0,ds_omega.layers.Integrations.toggleterm\frequire\0", "config", "toggleterm.nvim")
 time([[Config for toggleterm.nvim]], false)
+-- Config for: auto-session
+time([[Config for auto-session]], true)
+try_loadstring("\27LJ\2\nN\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0003ds_omega.layers.ProjectManagement.auto_session\frequire\0", "config", "auto-session")
+time([[Config for auto-session]], false)
+-- Config for: dressing.nvim
+time([[Config for dressing.nvim]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 ds_omega.layers.Ui.dressing\frequire\0", "config", "dressing.nvim")
+time([[Config for dressing.nvim]], false)
+-- Config for: deadly-gruv.nvim
+time([[Config for deadly-gruv.nvim]], true)
+ require('config.theme') 
+time([[Config for deadly-gruv.nvim]], false)
+-- Config for: vim-easy-align
+time([[Config for vim-easy-align]], true)
+try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Editing.easy_align\frequire\0", "config", "vim-easy-align")
+time([[Config for vim-easy-align]], false)
+-- Config for: rel.vim
+time([[Config for rel.vim]], true)
+try_loadstring("\27LJ\2\n>\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0#ds_omega.layers.Navigation.rel\frequire\0", "config", "rel.vim")
+time([[Config for rel.vim]], false)
+-- Config for: neo-tree.nvim
+time([[Config for neo-tree.nvim]], true)
+try_loadstring("\27LJ\2\nC\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0(ds_omega.layers.Navigation.neo_tree\frequire\0", "config", "neo-tree.nvim")
+time([[Config for neo-tree.nvim]], false)
+-- Config for: tinykeymap_vim
+time([[Config for tinykeymap_vim]], true)
+ require('config.tinykeymap') 
+time([[Config for tinykeymap_vim]], false)
+-- Config for: persisted.nvim
+time([[Config for persisted.nvim]], true)
+ require('config.persisted') 
+time([[Config for persisted.nvim]], false)
+-- Config for: null-ls.nvim
+time([[Config for null-ls.nvim]], true)
+try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Assistance.null_ls\frequire\0", "config", "null-ls.nvim")
+time([[Config for null-ls.nvim]], false)
+-- Config for: neogen
+time([[Config for neogen]], true)
+ require('config.neogen') 
+time([[Config for neogen]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+ require('config.lsp.completion') 
+time([[Config for nvim-cmp]], false)
+-- Config for: nvim-window.git
+time([[Config for nvim-window.git]], true)
+try_loadstring("\27LJ\2\nG\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0,ds_omega.layers.WindowManagement.window\frequire\0", "config", "nvim-window.git")
+time([[Config for nvim-window.git]], false)
+-- Config for: fidget.nvim
+time([[Config for fidget.nvim]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\30ds_omega.layers.Ui.fidget\frequire\0", "config", "fidget.nvim")
+time([[Config for fidget.nvim]], false)
+-- Config for: LuaSnip
+time([[Config for LuaSnip]], true)
+ require('config.luasnip') 
+time([[Config for LuaSnip]], false)
+-- Config for: bufdelete.nvim
+time([[Config for bufdelete.nvim]], true)
+try_loadstring("\27LJ\2\nJ\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0/ds_omega.layers.WindowManagement.bufdelete\frequire\0", "config", "bufdelete.nvim")
+time([[Config for bufdelete.nvim]], false)
+-- Config for: range-highlight.nvim
+time([[Config for range-highlight.nvim]], true)
+ require('config.range_highlight') 
+time([[Config for range-highlight.nvim]], false)
 -- Conditional loads
 time([[Conditional loading of dashboard-nvim]], true)
   require("packer.load")({"dashboard-nvim"}, {}, _G.packer_plugins)
 time([[Conditional loading of dashboard-nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
-vim.cmd [[ packadd cmp-spell ]]
-vim.cmd [[ packadd cmp-calc ]]
-vim.cmd [[ packadd cmp-path ]]
-vim.cmd [[ packadd cmp-nvim-lsp ]]
-vim.cmd [[ packadd cmp-copilot ]]
-vim.cmd [[ packadd cmp-omni ]]
-vim.cmd [[ packadd cmp-buffer ]]
-vim.cmd [[ packadd cmp-cmdline ]]
 vim.cmd [[ packadd twilight.nvim ]]
 
 -- Config for: twilight.nvim
 try_loadstring("\27LJ\2\nB\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0'ds_omega.layers.Workspace.twilight\frequire\0", "config", "twilight.nvim")
 
+vim.cmd [[ packadd cmp-omni ]]
+vim.cmd [[ packadd cmp-path ]]
+vim.cmd [[ packadd cmp-calc ]]
+vim.cmd [[ packadd cmp-buffer ]]
+vim.cmd [[ packadd cmp-nvim-lsp ]]
+vim.cmd [[ packadd cmp-spell ]]
+vim.cmd [[ packadd cmp-cmdline ]]
+vim.cmd [[ packadd cmp-copilot ]]
 time([[Sequenced loading]], false)
 
 -- Command lazy-loads
@@ -877,17 +877,17 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType html ++once lua require("packer.load")({'emmet-vim'}, { ft = "html" }, _G.packer_plugins)]]
 vim.cmd [[au FileType python ++once lua require("packer.load")({'vim-autopep8'}, { ft = "python" }, _G.packer_plugins)]]
-vim.cmd [[au FileType typescriptreact ++once lua require("packer.load")({'emmet-vim'}, { ft = "typescriptreact" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'mkdx'}, { ft = "markdown" }, _G.packer_plugins)]]
-vim.cmd [[au FileType javascriptreact ++once lua require("packer.load")({'emmet-vim'}, { ft = "javascriptreact" }, _G.packer_plugins)]]
 vim.cmd [[au FileType css ++once lua require("packer.load")({'emmet-vim'}, { ft = "css" }, _G.packer_plugins)]]
+vim.cmd [[au FileType html ++once lua require("packer.load")({'emmet-vim'}, { ft = "html" }, _G.packer_plugins)]]
+vim.cmd [[au FileType typescriptreact ++once lua require("packer.load")({'emmet-vim'}, { ft = "typescriptreact" }, _G.packer_plugins)]]
+vim.cmd [[au FileType javascriptreact ++once lua require("packer.load")({'emmet-vim'}, { ft = "javascriptreact" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'mkdx'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'bufferline.nvim', 'nvim-ts-context-commentstring', 'vim-textobj-user', 'vim-wordmotion', 'textobj-word-column.vim', 'vim-textobj-indent', 'vim-repeat', 'Comment.nvim', 'vim-textobj-hydrogen', 'vim-textobj-indented-paragraph'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 vim.cmd [[au BufWinEnter * ++once lua require("packer.load")({'which-key.nvim'}, { event = "BufWinEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-ts-context-commentstring', 'vim-repeat', 'textobj-word-column.vim', 'Comment.nvim', 'vim-textobj-hydrogen', 'vim-textobj-indent', 'vim-textobj-indented-paragraph', 'bufferline.nvim', 'vim-textobj-user', 'vim-wordmotion'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 

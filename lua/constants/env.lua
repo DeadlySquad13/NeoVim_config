@@ -17,7 +17,8 @@ local nvim_lua_config = nvim_lua .. '/config'
 local nvim_keymappings = nvim_lua_config .. '/keymappings'
 
 local nvim_layers = nvim_lua .. '/' .. namespace .. '/layers'
-local nvim_queries = nvim_lua_config .. '/queries'
+local nvim_after = nvim_config .. '/after'
+local nvim_queries = nvim_after .. '/queries'
 
 return {
   HOME = home,
@@ -38,5 +39,6 @@ return {
   NVIM_KEYMAPPINGS = nvim_keymappings,
 
   NVIM_LAYERS = nvim_layers,
+  NVIM_AFTER = nvim_after,
   NVIM_QUERIES = nvim_queries,
 }
