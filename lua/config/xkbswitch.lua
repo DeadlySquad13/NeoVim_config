@@ -1,2 +1,4 @@
 vim.g.XkbSwitchEnabled = 1
--- vim.g.XkbSwitchLib = '/mnt/c/Users/Александр/xkbswitch/libxkbswitch32.dll'
+if require('utils').os.is('Windows_NT') then
+  vim.g.XkbSwitchLib = [[С:\ProgramData\XkbSwitch\bin\libxkbswitch64.dll]]
+end
