@@ -142,8 +142,25 @@ return {
     return fallback()
   end, { 'i', 'c' }),
 
-  ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-  ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+  ['<C-b>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+        cmp.mapping.scroll_docs(-4)
+
+        return
+    end
+
+    return fallback()
+  end, { 'i','c' }),
+
+  ['<C-f>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.mapping.scroll_docs(4)
+
+      return
+    end
+
+    return fallback()
+  end, { 'i','c' }),
 
   ['<C-x><C-o>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
 

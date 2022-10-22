@@ -1,3 +1,7 @@
+if exists('g:fvim_loaded')
+  source ~\AppData\Local\nvim\ginit.vim
+endif
+
 " Enable Adaptive cursor in iTerm2.
 " let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 " let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -518,3 +522,10 @@ endfunc
 autocmd BufNewFile,BufReadPost .wslconfig set syntax=sh
 " - Config for Wyrd.
 autocmd BufNewFile,BufReadPost .wyrdrc set syntax=conf
+" - LaTex templates.
+autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
+" - LaTeX templates for notebook.
+autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
+" - Python config files.
+autocmd BufNewFile,BufReadPost setup.cfg set filetype=dosini
+
