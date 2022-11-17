@@ -53,6 +53,10 @@ local function traverse_autocommands()
   open_lua_module(env.NVIM_AUTOCOMMANDS)
 end
 
+local function open_goneovim_settings()
+  edit_file(env.GONEOVIM_SETTINGS)
+end
+
 local edit_actions = {
   keymappings = traverse_keymappings,
   plugins = open_plugins,
@@ -61,7 +65,8 @@ local edit_actions = {
   config = open_config,
   general_settings = open_general_settings,
   layers = traverse_layers,
-  autocommands = traverse_autocommands
+  autocommands = traverse_autocommands,
+  goneovim = open_goneovim_settings,
 }
 
 local edit_targets = {}
