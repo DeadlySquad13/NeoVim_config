@@ -26,9 +26,6 @@ lua << EOF
 EOF
 
 " General keybindings.
-let mapleader=' '
-let maplocalleader='\'
-
 " Integration with system.
 let g:omnipresence_hotkey = 'f11'
 

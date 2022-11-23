@@ -24,7 +24,11 @@ db.shortcut_icon = {
 }
 
 -- Don't understand how to get it from vim.
-local leader = 'Space';
+local leader = vim.g.mapleader;
+if leader == ' ' then
+  leader = 'Space'
+end
+
 local localleader = '\\';
 
 local desc_WIDTH = 36;
@@ -49,7 +53,7 @@ local dashboard_items = {
   edit_config = {
     icon = '',
     desc = format_description('Edit config'),
-    shortcut = leader..' e  ',
+    shortcut = leader..' e e',
     action = choose_and_edit_target,
   },
   --new_file = {

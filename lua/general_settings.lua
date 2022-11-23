@@ -226,7 +226,13 @@ local bw_local = {
   cursorline = IS_ENVIRONMENT_FAST,
 }
 
-local set_settings = require('utils.setters').set_settings
+local utils_setters = require('utils.setters')
+local set_settings, set_global_variables = utils_setters.set_settings, utils_setters.set_global_variables
+
+set_global_variables({
+  mapleader = ' ',
+  maplocalleader = '\\',
+})
 
 set_settings(
   vim.tbl_extend(
