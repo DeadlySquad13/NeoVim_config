@@ -26,7 +26,7 @@ lua << EOF
 EOF
 
 " General keybindings.
-" Integration with system.
+" * Integration with system.
 let g:omnipresence_hotkey = 'f11'
 
 " Search for item under cursor in vim docs (:help).
@@ -511,6 +511,13 @@ func AppendSome()
    " call setcmdpos(strlen(cmd))
    " return cmd
 endfunc
+
+" Indent whitespace.
+highlight WhiteSpaceBol guifg=#C4B699
+" Another whitespace symbols.
+highlight WhiteSpaceMol guifg=#EFE0B9
+match WhiteSpaceMol / /
+2match WhiteSpaceBol /^ \+/
 
 " runtime syntax/general/comments.vim
 
