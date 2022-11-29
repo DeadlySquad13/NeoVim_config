@@ -4,8 +4,8 @@ local edit_file = require('utils').edit_file
 
 --- Open lua module: if only one file exists, jump to it immediately, otherwise
 -- open directory.
----@param path (absolute).
----@return
+---@param path (string) Absolute.
+---@return unknown
 local function open_lua_module(path)
   local path_relative_to_runtimepath = convert_to_runtimepath(path)
   local files = vim.api.nvim_get_runtime_file(
