@@ -170,6 +170,13 @@ startup({
     use({ 'tell-k/vim-autopep8', ft = { 'python' } })
 
     -- Editing.
+    use({
+      'luk400/vim-jukit',
+
+      config = function()
+        require('config.jukit')
+      end,
+    })
     -- * See current registers.
     -- use({ 'gennaro-tedesco/nvim-peekup' })
 
