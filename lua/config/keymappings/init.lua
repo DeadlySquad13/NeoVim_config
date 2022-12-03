@@ -201,6 +201,8 @@ local navigation_mappings = {
   [backslash] = { ':Neotree<cr>', 'Filetree'},
 }
 
+local paste_mappings = { '"+p', 'Paste from clipboard register' }
+
 -- # Major. Like major mode in spacemacs: filetype mappings.
 local major_mappings = {
   name = 'Major',
@@ -219,7 +221,8 @@ local major_mappings = {
 --  "end
 --  "EOF
 --
-local yank_mappings = { '<Plug>YADefault', 'Native Yank' }
+local yank_mappings = { '"+y', 'Yank into clipboard register' }
+-- local yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
 
 local z_mappings = {
   h = {
@@ -276,7 +279,7 @@ local mappings = {
     m = major_mappings,
     n = navigation_mappings,
     -- o = o_mappings,
-    -- p = p_mappings,
+    p = paste_mappings,
     -- q = q_mappings,
     r = rename_mappings,
     s = session_mappings,
@@ -364,7 +367,7 @@ local x_mappings = {
     -- m = major_mappings,
     -- n = navigation_mappings,
     -- o = o_mappings,
-    -- p = p_mappings,
+    p = paste_mappings,
     -- q = q_mappings,
     -- r = r_mappings,
     -- s = s_mappings,

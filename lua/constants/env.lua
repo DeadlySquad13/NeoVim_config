@@ -1,6 +1,7 @@
 -- PATH environment variables defined specifically for vim.
 --   Directory variables should end without trailing slash.
 local home = vim.fn.getenv('HOME')
+local user_config = home .. '/.config'
 
 local namespace = 'ds_omega'
 
@@ -20,8 +21,11 @@ local nvim_layers = nvim_lua .. '/' .. namespace .. '/layers'
 local nvim_after = nvim_config .. '/after'
 local nvim_queries = nvim_after .. '/queries'
 
+local goneovim_settings = user_config .. '/goneovim/settings.toml'
+
 return {
   HOME = home,
+  USER_CONFIG = user_config,
 
   NAMESPACE = namespace,
 
@@ -41,4 +45,6 @@ return {
   NVIM_LAYERS = nvim_layers,
   NVIM_AFTER = nvim_after,
   NVIM_QUERIES = nvim_queries,
+
+  GONEOVIM_SETTINGS = goneovim_settings,
 }
