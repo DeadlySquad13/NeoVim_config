@@ -28,6 +28,10 @@ tree_sitter.setup({
   ignore_install = {}, -- List of parsers to ignore installing
   indent = {
     enable = true,
+    disable = {
+      'yaml',
+      'python',
+    },
   },
   incremental_selection = incremental_selection,
 
