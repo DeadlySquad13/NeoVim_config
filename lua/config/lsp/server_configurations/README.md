@@ -5,7 +5,8 @@
 
 # Server configuration
 Configurations in this module are meant to be **merged** with default server
-configuration. Make configurations in like you always do with `lsp`:
+configuration. Make configurations in corresponding files like you always do
+with `lsp`:
 ```lua
 return {
   -- These functions be applied on top of default on_attach one by one.
