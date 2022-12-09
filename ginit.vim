@@ -1,9 +1,9 @@
 if exists('g:fvim_loaded')
     " good old 'set guifont' compatibility with HiDPI hints...
     if g:fvim_os == 'windows' || g:fvim_render_scale > 1.0
-      set guifont=Cascadia\ Code:h13
+      set guifont=Iosevka:h13
     else
-      set guifont=Cascadia\ Code:h26
+      set guifont=Iosevka:h26
     endif
     " Font tweaks
     FVimFontAntialias v:false
