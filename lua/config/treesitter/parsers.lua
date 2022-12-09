@@ -4,7 +4,7 @@ return {
   'python',
   'rst', -- ReStructuredText (docstrings for python).
   'lua',
-  'yaml,
+  'yaml',
 
   -- Writing.
   'markdown',

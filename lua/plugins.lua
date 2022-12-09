@@ -204,6 +204,10 @@ startup({
       cmd = { 'TSHighlightCapturesUnderCursor', 'TSPlaygroundToggle' },
       requires = 'nvim-treesitter/nvim-treesitter',
     })
+    use({
+      'stsewd/sphinx.nvim',
+      run = ':UpdateRemotePlugins',
+    })
 
     -- * Quickfix list.
     use({
