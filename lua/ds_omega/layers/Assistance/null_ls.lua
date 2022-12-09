@@ -18,7 +18,7 @@ local function check_if_executable(program_name)
       .. program_name
       .. '" is not executable! Make sure it\'s installed and in your $PATH.',
       vim.log.levels.ERROR,
-      { title = 'Null-ls' }
+      { title = 'Null-ls', timeout = 1000 }
     )
   end
 

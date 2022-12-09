@@ -171,6 +171,13 @@ startup({
     use({ 'tell-k/vim-autopep8', ft = { 'python' } })
 
     -- Editing.
+    use({
+      'monaqa/dial.nvim',
+
+      config = function()
+        require('config.dial')
+      end,
+    })
     -- * See current registers.
     -- use({ 'gennaro-tedesco/nvim-peekup' })
 

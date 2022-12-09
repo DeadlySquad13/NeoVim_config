@@ -4,6 +4,9 @@ local choose_and_edit_target = require('config.commands.choose_and_edit_target')
 
 local db = require('dashboard')
 
+local ENV = require('constants.env')
+db.session_directory = vim.fn.expand(ENV.NVIM_DATA .. '/sessions/') -- Directory where session files are saved.
+
 -- Possible extensions for dashboard:
 -- - more find file utils,
 -- - bookmarks, history, recents,
