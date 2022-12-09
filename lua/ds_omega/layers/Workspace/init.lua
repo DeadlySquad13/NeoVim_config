@@ -7,18 +7,30 @@ Workspace.plugins = {
     -- Broke after this commit.
     lock = true,
     branch = 'af7fe78523c7c860d00b79383908322fcb5e6133',
+
+    cond = function()
+      return not vim.g.started_by_firenvim
+    end,
   },
 
   ['lualine'] = {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     event = 'VimEnter',
+
+    cond = function()
+      return not vim.g.started_by_firenvim
+    end,
   },
 
   ['bufferline'] = {
     'akinsho/bufferline.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     event = 'VimEnter',
+
+    cond = function()
+      return not vim.g.started_by_firenvim
+    end,
   },
 
   ['jabs'] = {
@@ -28,6 +40,10 @@ Workspace.plugins = {
 
   ['incline'] = {
     'b0o/incline.nvim',
+
+    cond = function()
+      return not vim.g.started_by_firenvim
+    end,
   },
 
   ['true_zen'] = {

@@ -1,7 +1,7 @@
 local ENV = require('constants.env')
 local fn = vim.fn
-vim.g.package_home = fn.stdpath('data') .. '/site/pack/packer/'
-local packer_install_dir = vim.g.package_home .. '/opt/packer.nvim'
+vim.g.package_home = fn.stdpath('data') .. '/site/pack/packer'
+local packer_install_path = vim.g.package_home .. '/opt/packer.nvim'
 
 local plug_url_format = ''
 if vim.g.is_linux then
@@ -12,15 +12,16 @@ end
 
 local packer_repo = string.format(plug_url_format, 'wbthomason/packer.nvim')
 local install_cmd = string.format(
-  '10split |term git clone --depth=1 %s %s',
+  'git clone --depth=1 %s %s',
   packer_repo,
-  packer_install_dir
+  packer_install_path
 )
 
 -- Auto-install packer in case it hasn't been installed.
-if fn.glob(packer_install_dir) == '' then
+if fn.glob(packer_install_path) == '' then
   vim.api.nvim_echo({ { 'Installing packer.nvim', 'Type' } }, true, {})
   vim.cmd(install_cmd)
+  packer_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
 end
 
 -- Load packer.nvim
@@ -34,6 +35,12 @@ startup({
   function(use, use_plugin, use_rocks)
     -- - It is recommened to put impatient.nvim before any other plugins.
     use({ 'lewis6991/impatient.nvim' })
+    -- Make a pull request to it to allow depth.
+    --use({
+    --  'mrjones2014/load-all.nvim',
+
+    --  requires = 'nvim-lua/plenary.nvim',
+    --})
     -- - Packer itself can be managed.
     use({ 'wbthomason/packer.nvim', opt = true })
 
@@ -44,7 +51,7 @@ startup({
     -- - Xonsh syntax file.
     use({ 'abhishekmukherg/xonsh-vim' })
     -- - Yank without moving cursor.
-    use({ 'svban/YankAssassin.vim' })
+    use({ 'svban/YankAssassin.vim', event = 'VimEnter' })
 
     -- * Integration.
     -- - With system.
@@ -88,13 +95,7 @@ startup({
     })
 
     -- * Russian layout.
-    -- use({ 'powerman/vim-plugin-ruscmd' })
-    --use ({
-    --  '~/Projects/im-select.nvim',
-    --  disabled = true,
-
-    --  config = [[ require('config.im_select') ]],
-    --})
+    --use({ 'powerman/vim-plugin-ruscmd' })
     use({
       'lyokha/vim-xkbswitch',
 
@@ -279,8 +280,8 @@ startup({
     --   '~/nvim/CustomThemes/deadly-gruv.nvim',
     -- })
     use({
-    'DeadlySquad13/deadly-gruv.nvim',
-    config = [[ require('config.theme') ]],
+      'DeadlySquad13/deadly-gruv.nvim',
+      config = [[ require('config.theme') ]],
     });
 
     -- * Highlighting.
@@ -322,6 +323,17 @@ startup({
       requires = 'nvim-treesitter/nvim-treesitter',
       -- Uncomment next line if you want to follow only stable versions.
       -- tag = "*",
+    })
+
+    -- # Runners
+    -- - Sniprun. Works only on Unix systems.
+    -- use({
+    --   'michaelb/sniprun',
+    --   run = 'bash ./install.sh',
+    -- })
+
+    use({
+      'Olical/conjure',
     })
 
     -- Python indent (follows the PEP8 style)
@@ -485,3 +497,5 @@ local status, _ = pcall(require, 'packer_compiled')
 if not status then
   notify('Error requiring packer_compiled.lua: run PackerSync to fix!')
 end
+
+

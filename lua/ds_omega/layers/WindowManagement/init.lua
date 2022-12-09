@@ -11,9 +11,9 @@ WindowManagement.plugins = {
     'beauwilliams/focus.nvim',
   },
 
-  ['window'] = {
-    'https://gitlab.com/yorickpeterse/nvim-window.git',
-  },
+  --['window'] = {
+  --  'https://gitlab.com/yorickpeterse/nvim-window.git',
+  --},
 
   ['winshift'] = {
     'sindrets/winshift.nvim',

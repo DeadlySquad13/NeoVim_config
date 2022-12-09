@@ -57,6 +57,7 @@ local lsp_server_name_to_filetypes = {
   pyright = { 'python' },
   sumneko_lua = { 'lua' },
   tsserver = { 'typescript', 'typescriptreact' },
+  texlab = { 'tex' },
 }
 
 local enabled_filetypes = get_module_enabled_filetypes()
@@ -113,6 +114,12 @@ local function setup_lsp_servers()
         server_configuration,
         custom_server_configuration.on_attach
       )
+
+      if server_name == 'eslint' then 
+        local eslint_config = require("lspconfig.server_configurations.eslint")
+        server_configuration.opts ={}
+        server_configuration.opts.cmd = { "yarn", "exec", unpack(eslint_config.default_config.cmd) }
+      end
 
       lspconfig[server_name].setup(server_configuration)
     end

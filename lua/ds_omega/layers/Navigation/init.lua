@@ -37,6 +37,10 @@ Navigation.plugins = {
     },
   },
 
+  ['dirbuf'] = {
+    'elihunter173/dirbuf.nvim',
+  },
+
   ['rel'] = {
     'aklt/rel.vim',
   }
@@ -65,6 +69,10 @@ Navigation.configs = {
 
   ['neo_tree'] = function()
     require('ds_omega.layers.Navigation.neo_tree')
+  end,
+
+  ['dirbuf'] = function()
+    require('ds_omega.layers.Navigation.dirbuf')
   end,
 
   ['rel'] = function()
