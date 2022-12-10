@@ -7,7 +7,7 @@ local window_visuals = require('config.lsp.completion.window_visuals')
 local formatting = require('config.lsp.completion.formatting')
 local keymappings = require('config.lsp.completion.keymappings')
 
-local MIN_KEYWORD_LENGTH = 2
+local MIN_KEYWORD_LENGTH = 4
 
 cmp.setup({
   window = window_visuals,
@@ -26,7 +26,7 @@ cmp.setup({
 
   -- Order matters!
   sources = cmp.config.sources({
-    { name = 'path', keyword_length = 4 }, -- Path completion.
+    { name = 'path', keyword_length = MIN_KEYWORD_LENGTH + 1 }, -- Path completion.
     { name = 'luasnip', keyword_length = MIN_KEYWORD_LENGTH }, -- LuaSnip Snippets.
     --{ name = 'ultisnips' }, -- Ultisnips.
     { name = 'nvim_lsp', keyword_length = MIN_KEYWORD_LENGTH  }, -- Nvim-lsp.
@@ -104,7 +104,6 @@ local autocomplete_on_every_stroke = {
 cmp.setup.cmdline('/', {
   autocomplete = autocomplete_on_every_stroke,
   sources = {
-    -- { name = 'buffer' }
     { name = 'buffer', option = { keyword_pattern = [=[[^[:blank:]].*]=] } },
   },
 })
@@ -116,7 +115,7 @@ cmp.setup.cmdline(':', {
     autocomplete = autocomplete_on_every_stroke,
   },
   sources = cmp.config.sources({
-    { name = 'path' },
+    { name = 'path', keyword_length = 2 },
   }, {
     -- Don't show autocomplete on things like `:w`.
     { name = 'cmdline', keyword_length = 2 },

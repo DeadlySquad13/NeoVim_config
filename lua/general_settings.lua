@@ -13,7 +13,7 @@ set.shellcmdflag:append('i')
 
 -- Support for embedded scripts (for example, lua in init.vim)
 -- - Syntax highlighting.
-vim.g.vimsyn_embed = 'l'
+-- vim.g.vimsyn_embed = 'l'
 
 -- Motions that are allowed to cross line boundaries.
 --   Go the end of the previous line / start of the next line easier.
@@ -68,7 +68,7 @@ local global_local = {
   -- Gutter.
   relativenumber = true,
 
-    -- Number of lines visible before edge of viewport.
+  -- Number of lines visible before edge of viewport.
   scrolloff = 5,
   sidescrolloff = 3,
   -- Scroll number of lines when hitting border.
@@ -170,7 +170,7 @@ local global_local = {
   -- (tab: simple dash + Electric Arrow (U+2301))
   list = true, -- Show special characters.
   listchars = {
-    eol = '┐',-- ^Vu2510 --[[ '↴' -- Look too big with Iosevka ]]
+    eol = '┐', -- ^Vu2510 --[[ '↴' -- Look too big with Iosevka ]]
     nbsp = '⦸',
     space = '⋅',
     tab = '-⌁',
@@ -184,10 +184,23 @@ local global_local = {
 
   -- Program that will be used when asking for help by pressing K.
   keywordprg = ':help',
-
-  -- Program that will be used when issuing `:!`.
-  shell = '/bin/bash', -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
 }
+
+
+-- Program that will be used when issuing `:!`.
+-- global_local.shell = '/bin/bash', -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
+if require('utils.os').is("Windows_NT") then
+  if vim.fn.executable('pwsh.exe') == 1 then
+    global_local.shell = 'pwsh.exe' -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
+    global_local.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
+    global_local.shellxquote = ''
+    global_local.shellquote = ''
+    -- global_local.shellpipe = '| Out-File -Encoding UTF8 %s'
+    -- global_local.shellredir = '| Out-File -Encoding UTF8 %s'
+  end
+end
+
+
 
 local indentation = {
   -- # Indentation.

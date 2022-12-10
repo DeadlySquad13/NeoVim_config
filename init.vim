@@ -1,4 +1,4 @@
-if exists('g:fvim_loaded')
+if exists('g:fvim_loaded') || exists('g:neovide_loaded')
   source ~\AppData\Local\nvim\ginit.vim
 endif
 

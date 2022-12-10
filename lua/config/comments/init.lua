@@ -127,9 +127,6 @@ return {
     ---Extra mapping
     ---Includes `gco`, `gcO`, `gcA`
     extra = true,
-    ---Extended mapping
-    ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
-    extended = true, -- Haven't found use for that, they seem to me just as an alternative mappings.
   },
 
   ---Pre-hook, called before commenting the line

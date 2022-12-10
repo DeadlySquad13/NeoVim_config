@@ -19,7 +19,7 @@ return {
     'true_zen', -- Clear screen space from the ui clutter.
     'twilight', -- Dim everything except current block.
 
-    'neoscroll' -- Smooth scroll.
+    -- 'neoscroll' -- Smooth scroll.
   },
 
   ['WindowManagement'] = {
@@ -27,7 +27,7 @@ return {
     -- Focus on window: keep it dynamically larger, remove numbers, cursor
     --   and signcolumn on inactive windows.
     'focus',
-    'window', -- Jump to specified window.
+    --'window', -- Jump to specified window.
     'winshift', -- Move windows without changing layout.
   },
 
@@ -42,6 +42,7 @@ return {
     -- - Harpoon?
     'rnvimr', -- Ranger filemanager.
     'neo_tree', -- Browse file tree.
+    'dirbuf', -- Browse editable file tree like dired.
 
     'rel', -- Jumping to file under cursor.
 
@@ -73,6 +74,7 @@ return {
     'lsp',
     'lspsaga', -- Better UI for lsp handlers.
     'typescript',
+    --'tex',
     -- # Ai language assitance.
     -- It was laggy :(
     -- 'copilot',
@@ -90,16 +92,20 @@ return {
     'null_ls',
   },
 
-  ['ProjectManagement'] = {
-    'auto_session'
-  },
+  -- ['ProjectManagement'] = {
+  --   'auto_session'
+  -- },
 
   ['Ui'] = {
     'dressing', -- Prettier wrappers for vim.ui.select. Can use telescope layouts.
     'notify', -- Add nice looking ui for notifications.
-    'fidget', -- Progress handler.
+  --   'fidget', -- Progress handler.
     'which_key', -- Mappings visualization.
-  }
+  },
+
+  -- ['Writing'] = {
+  --   'vimtex',
+  -- }
 }
 
 -- In the future you will need pass at least one language to

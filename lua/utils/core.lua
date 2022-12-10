@@ -24,6 +24,7 @@ end
 --- Allows to use custom functions inside (removed custom override).
 ---@param specification
 ---@return
+---@ref https://github.com/wbthomason/packer.nvim/blob/master/lua/packer.lua#L992
 local function startup(specification)
   local plugins_callback = specification[1]
   local plugins_config = specification.config
@@ -32,14 +33,14 @@ local function startup(specification)
   packer.init(plugins_config)
   packer.reset()
 
-  setfenv(
-    plugins_callback,
-    vim.tbl_extend('force', getfenv(), {
-      use = packer.use,
-      use_plugin = layer_utils.use_plugin,
-      use_rocks = packer.use_rocks,
-    })
-  )
+  -- setfenv(
+  --   plugins_callback,
+  --   vim.tbl_extend('force', getfenv(), {
+  --     use = packer.use,
+  --     use_plugin = layer_utils.use_plugin,
+  --     use_rocks = packer.use_rocks,
+  --   })
+  -- )
   local status, err = pcall(
     plugins_callback,
     packer.use,

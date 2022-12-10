@@ -4,7 +4,6 @@ local TextObjects = {}
 TextObjects.plugins = {
   ['textobjects'] = {
     'kana/vim-textobj-user',
-    event = 'VimEnter',
   },
 
   ['word_column'] = {

@@ -12,7 +12,7 @@ Editing.plugins = {
 
     requires = {
       'JoosepAlviste/nvim-ts-context-commentstring',
-      event = 'VimEnter',
+      --event = 'VimEnter',
 
       requires = 'nvim-treesitter/nvim-treesitter',
     },

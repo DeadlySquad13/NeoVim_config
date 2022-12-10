@@ -7,17 +7,6 @@ local backslash = [[\]]
 -- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
 -- Uppercase all comments and add dot at the end:
 --   '<,'>s;^\(-- \w\)\(.*\);\U\1\e\2.;
--- # Buffer.
-local buffer_mappings = {
-  name = 'Buffer',
-
-  -- Deletes buffer without closing vim if it was in the only window.
-  d = { ':Bdelete<cr>', 'Delete' },
-
-  -- @see{the lua api at @link{https://github.com/akinsho/bufferline.nvim/blob/main/lua/bufferline.lua}}
-  --p = { function() bufferline.pick_buffer() end, 'Pick' },
-  p = { '<cmd>BufferLinePick<cr>', 'Pick' },
-}
 
 local comment_mappings = {
   D = { ':Neogen<cr>', 'Create Documentation comment' },
@@ -47,6 +36,8 @@ local e_mappings = {
   e = { ':ChooseAndEditConfigs<cr>', 'Choose and Edit configs' },
   -- Open vimrc in vertical split.
   v = { '<cmd>vsplit $MYVIMRC<cr>', 'Vimrc' },
+
+  h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head'},
 
   -- * Snippets.
   -- Relevant snippet engine command will be called to edit snippets
@@ -154,6 +145,7 @@ local toggle_mappings = {
 }
 
 local telescope_builtin = require('telescope.builtin')
+local telescope_extensions = require('telescope').extensions
 
 -- # Navigation. Helps find things, used as lookup table (navigation panel).
 local navigation_mappings = {
@@ -201,6 +193,18 @@ local navigation_mappings = {
   [backslash] = { ':Neotree<cr>', 'Filetree'},
 }
 
+-- Open something.
+local open_mappings = {
+  name = 'Open',
+  -- * Telescope.
+  s = {
+    telescope_extensions.persisted.persisted,
+    'Session',
+  },
+}
+
+local paste_mappings = { '"+p', 'Paste from clipboard register' }
+
 -- # Major. Like major mode in spacemacs: filetype mappings.
 local major_mappings = {
   name = 'Major',
@@ -219,7 +223,8 @@ local major_mappings = {
 --  "end
 --  "EOF
 --
-local yank_mappings = { '<Plug>YADefault', 'Native Yank' }
+local yank_mappings = { '"+y', 'Yank into clipboard register' }
+-- local yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
 
 local z_mappings = {
   h = {
@@ -241,6 +246,7 @@ local settings_mappings = {
 }
 
 local window_mappings = {
+  name = 'Window',
   -- List of windows like in tmux?
   --w = {  },
 
@@ -260,7 +266,7 @@ local mappings = {
   ['<leader>'] = {
     name = 'Leader',
     -- a = a_mappings,
-    b = buffer_mappings,
+    b = require('config.keymappings.buffer'),
     c = vim.tbl_extend('error', comment_mappings, {
       d = {':lcd %:h<cr>', 'Change cwd to current file directory'},
     }),
@@ -275,8 +281,8 @@ local mappings = {
     -- l = l_mappings,
     m = major_mappings,
     n = navigation_mappings,
-    -- o = o_mappings,
-    -- p = p_mappings,
+    o = open_mappings,
+    p = paste_mappings,
     -- q = q_mappings,
     r = rename_mappings,
     s = session_mappings,
@@ -364,7 +370,7 @@ local x_mappings = {
     -- m = major_mappings,
     -- n = navigation_mappings,
     -- o = o_mappings,
-    -- p = p_mappings,
+    p = paste_mappings,
     -- q = q_mappings,
     -- r = r_mappings,
     -- s = s_mappings,
