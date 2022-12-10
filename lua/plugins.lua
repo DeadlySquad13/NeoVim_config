@@ -172,6 +172,14 @@ startup({
 
     -- Editing.
     use({
+      'luk400/vim-jukit',
+
+      config = function()
+        require('config.jukit')
+      end,
+    })
+
+    use({
       'monaqa/dial.nvim',
 
       config = function()
