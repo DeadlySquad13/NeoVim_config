@@ -12,4 +12,5 @@ local mappings = require('config.keymappings')
 apply_keymappings(mappings.n, 'n')
 apply_keymappings(mappings.x, 'x')
 apply_keymappings(mappings.i, 'i')
+apply_keymappings(mappings.c, 'c')
 

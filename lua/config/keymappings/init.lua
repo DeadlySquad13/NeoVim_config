@@ -453,9 +453,16 @@ local i_mappings = {
     'Comment current line',
   },
 }
+local c_mappings ={
+  name = 'Main',
+
+  ['<C-j>'] = { '<C-n>', 'Next command in history' },
+  ['<C-k>'] = { '<C-p>', 'Previous command in history' },
+}
 
 return {
   n = mappings,
   x = x_mappings,
   i = i_mappings,
+  c = c_mappings,
 }
