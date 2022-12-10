@@ -16,6 +16,7 @@ local nvim_layers_specification = nvim_lua .. '/layers_specification.lua'
 local nvim_autocommands = nvim_lua .. '/autocommands'
 local nvim_lua_config = nvim_lua .. '/config'
 local nvim_keymappings = nvim_lua_config .. '/keymappings'
+local nvim_commands = nvim_lua_config .. '/commands'
 
 local nvim_layers = nvim_lua .. '/' .. namespace .. '/layers'
 local nvim_after = nvim_config .. '/after'
@@ -41,6 +42,7 @@ return {
   NVIM_AUTOCOMMANDS = nvim_autocommands,
   NVIM_LUA_CONFIG = nvim_lua_config,
   NVIM_KEYMAPPINGS = nvim_keymappings,
+  NVIM_COMMANDS = nvim_commands,
 
   NVIM_LAYERS = nvim_layers,
   NVIM_AFTER = nvim_after,

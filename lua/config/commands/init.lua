@@ -70,7 +70,7 @@ end
 local fileExtension = '.lua'
 
 local function is_lua_file(filename)
-  return filename:sub(-#fileExtension) == fileExtension
+  return filename:sub(- #fileExtension) == fileExtension
 end
 
 local function load_all(path, depth)
@@ -83,11 +83,30 @@ local function load_all(path, depth)
 end
 
 create_user_command(
+  'ProfileStart',
+  function(params)
+    vim.cmd.profile({ args = { 'start', params.args } })
+    vim.cmd.profile({ args = { 'func', '*' } })
+    vim.cmd.profile({ args = { 'file', '*' } })
+  end,
+  { nargs = 1 }
+)
+
+create_user_command(
+  'ProfilePause',
+  function(params)
+    vim.cmd.profile({ args = { 'pause' } })
+    vim.cmd.profile({ args = { 'dump' } })
+  end,
+  { nargs = 0 }
+)
+
+create_user_command(
   'Reload',
   function()
     -- Flush all loaded modules.
     -- Reload only modules starting with the first param string.
-    --- 
+    ---
     ---@param module_name (string)
     local function reload_modules(module_name)
       require("plenary.reload").reload_module(module_name, true)
@@ -104,4 +123,3 @@ create_user_command(
   end,
   { nargs = 0 }
 )
-
