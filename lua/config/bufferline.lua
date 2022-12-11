@@ -1,5 +1,5 @@
 -- Optional dependencies.
-local icons_available, _ = require('nvim-web-devicons');
+-- local icons_available, _ = require('nvim-web-devicons');
 
 -- For styling see `:h bufferline-styling`.
 return {
@@ -62,7 +62,7 @@ return {
     end,
     --offsets = {{filetype = "NvimTree", text = "File Explorer" | function , text_align = "left" | "center" | "right"}},
     color_icons = true, -- whether or not to add the filetype icon highlights
-    show_buffer_icons = icons_available, -- whether or not enable filetype icons for buffers
+    show_buffer_icons = false, -- whether or not enable filetype icons for buffers
     show_buffer_close_icons = false,
     show_buffer_default_icon = true, -- whether or not an unrecognised filetype should show a default icon
     show_close_icon = false,

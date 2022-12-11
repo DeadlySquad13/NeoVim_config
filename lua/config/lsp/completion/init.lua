@@ -14,11 +14,11 @@ cmp.setup({
 
   formatting = formatting,
 
-  experimental = {
-    ghost_text = {
-      hl_group = 'NonText',
-    },
-  },
+  -- experimental = {
+  --   ghost_text = {
+  --     hl_group = 'NonText',
+  --   },
+  -- },
 
   snippet = {
     expand = snippets_engine.expand,
@@ -27,12 +27,12 @@ cmp.setup({
   -- Order matters!
   sources = cmp.config.sources({
     { name = 'path', keyword_length = MIN_KEYWORD_LENGTH + 1 }, -- Path completion.
+    { name = 'nvim_lsp', keyword_length = MIN_KEYWORD_LENGTH }, -- Nvim-lsp.
+    { name = 'nvim_lua', keyword_length = MIN_KEYWORD_LENGTH }, -- Nvim-lua functions.
     { name = 'luasnip', keyword_length = MIN_KEYWORD_LENGTH }, -- LuaSnip Snippets.
     --{ name = 'ultisnips' }, -- Ultisnips.
-    { name = 'nvim_lsp', keyword_length = MIN_KEYWORD_LENGTH  }, -- Nvim-lsp.
     -- Setting spell (and spelllang) is mandatory to use spellsuggest.
     -- { name = 'spell' }, -- Spellsuggest.
-    { name = 'nvim_lua', keyword_length = MIN_KEYWORD_LENGTH  }, -- Nvim-lua functions.
 
     -- * Ai assitance.
     -- { name = 'copilot' },
@@ -79,6 +79,12 @@ cmp.setup({
   },
 
   mapping = keymappings,
+
+  performance = {
+    debounce = 300,
+    throttle = 60,
+    fetching_timeout = 200,
+  }
 })
 
 -- * Enabling support for autopairs.
@@ -108,7 +114,6 @@ cmp.setup.cmdline('/', {
   },
 })
 
-
 -- Use cmdline & path source for ':'.
 cmp.setup.cmdline(':', {
   completion = {
@@ -120,4 +125,11 @@ cmp.setup.cmdline(':', {
     -- Don't show autocomplete on things like `:w`.
     { name = 'cmdline', keyword_length = 2 },
   }),
+
+  performance = {
+    debounce = 300,
+    throttle = 60,
+    fetching_timeout = 200,
+  }
 })
+

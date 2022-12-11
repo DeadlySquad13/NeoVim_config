@@ -1,8 +1,8 @@
 local function setup_symbol_highlight_under_cursor(client)
-  notify('Symbol highlight: '..tostring(client.server_capabilities.document_highlight))
-  if not client.server_capabilities.document_highlight then
+  if not P(client.server_capabilities).documentHighlightProvider then
     return
   end
+
   -- The command below will highlight the current variable and its usages in the buffer.
   -- TODO: rewrite to nvim_create_autocmd and nvim_set_hi.
   vim.cmd([[

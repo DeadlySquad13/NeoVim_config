@@ -26,9 +26,18 @@ Lsp.plugins = {
     requires = 'neovim/nvim-lspconfig',
   },
 
+  -- Lua server enhancement.
+  ['neodev'] = {
+    'folke/neodev.nvim',
+  },
+
   ['lspsaga'] = {
     'glepnir/lspsaga.nvim',
     branch = 'main',
+  },
+
+  ['illuminate'] = {
+    'RRethy/vim-illuminate',
   },
 }
 
@@ -40,6 +49,10 @@ Lsp.configs = {
 
   ['lspsaga'] = function()
     require('ds_omega.layers.Lsp.lspsaga')
+  end,
+
+  ['illuminate'] = function()
+    require('ds_omega.layers.Lsp.illuminate')
   end,
 }
 

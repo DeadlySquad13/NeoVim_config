@@ -3,7 +3,9 @@ local setup_symbol_highlight_under_cursor = require('ds_omega.layers.Lsp.handler
 
 local on_attach = function(client, bufnr)
   setup_lsp_keymappings(bufnr)
-  setup_symbol_highlight_under_cursor(client)
+  if not require('utils').exists('vim-illuminate') then
+    setup_symbol_highlight_under_cursor(client)
+  end
 
   --Enable completion triggered by <c-x><c-o>
   --vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')

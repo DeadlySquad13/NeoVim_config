@@ -1,7 +1,7 @@
 local lsp_handlers = require('ds_omega.layers.Lsp.handlers')
 
 return {
-	settings = {
+  settings = {
     Lua = {
       runtime = {
         version = 'LuaJIT',
@@ -16,7 +16,7 @@ return {
         preloadFileSize = 10000,
       },
     },
-	},
+  },
 
   on_attach = {
     lsp_handlers.disable_formatting

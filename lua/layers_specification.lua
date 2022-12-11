@@ -72,8 +72,11 @@ return {
 
   ['Lsp'] = {
     'lsp',
+    'typescript', -- Typesript lsp utils.
+    'neodev', -- Lua better lsp settings.
+
     'lspsaga', -- Better UI for lsp handlers.
-    'typescript',
+    'illuminate', -- Highlight symbol under cursor.
     --'tex',
     -- # Ai language assitance.
     -- It was laggy :(

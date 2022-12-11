@@ -3,8 +3,8 @@
 ------------------------------------------------------------------
 local env = require('constants.env')
 
---- Prints prettily the data and returns it without any changes. Used for
--- testing.
+--  Prints prettily the data and returns it without any changes. Used for
+--testing.
 ---@param data any data.
 ---@return data without changes.
 _G.P = function(data)
@@ -29,6 +29,9 @@ _G.notify = function(message, level, opts)
   notify(message, level, opts)
 end
 
+--- Protected require of the module.
+---@param module_name 
+---@return (boolean),module)
 local function prequire(module_name)
   local module_loading_error_handler = function(error)
     notify(
@@ -49,6 +52,7 @@ local function prequire(module_name)
 
   return status_ok, module
 end
+_G.prequire = prequire
 
 -- Shortcut for printing variables in a meaningless way: showing contents of a
 --   table via vim.inspect. Used log as console.log in js works pretty the same
