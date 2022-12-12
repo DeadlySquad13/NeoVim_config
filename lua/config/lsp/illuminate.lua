@@ -1,7 +1,3 @@
-vim.cmd.hi({ args = 'link IlluminateWordText Visual', bang = true })
-vim.cmd.hi({ args = 'link IlluminateWordWrite Visual', bang = true })
-vim.cmd.hi({ args = 'link IlluminateWordRead Visual', bang = true })
-
 return {
   -- providers: provider used to get references in the buffer, ordered by priority
   providers = {
@@ -48,4 +44,3 @@ return {
   -- min_count_to_highlight: minimum number of matches required to perform highlighting
   min_count_to_highlight = 1,
 }
-
