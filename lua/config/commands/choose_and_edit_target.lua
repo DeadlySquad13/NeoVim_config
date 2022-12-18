@@ -2,11 +2,14 @@ local env = require('constants.env')
 local convert_to_runtimepath = require('utils').convert_to_runtimepath
 local edit_file = require('utils').edit_file
 
+-- TODO: Make default_text as regex.
+
 --- Open lua module: if only one file exists, jump to it immediately, otherwise
 -- open directory.
 ---@param path (string) Absolute.
+---@param opts (table | nil) Telescope find files picker options.
 ---@return unknown
-local function open_lua_module(path)
+local function open_lua_module(path, opts)
   local path_relative_to_runtimepath = convert_to_runtimepath(path)
   local files = vim.api.nvim_get_runtime_file(
     path_relative_to_runtimepath .. '/*.lua',
@@ -18,11 +21,11 @@ local function open_lua_module(path)
     return edit_file(files[1])
   end
 
-  return require('telescope.builtin').find_files({ cwd = path })
+  return require('telescope.builtin').find_files(vim.tbl_extend('force', { cwd = path }, opts or {}))
 end
 
 local function traverse_keymappings()
-  return open_lua_module(env.NVIM_KEYMAPPINGS)
+  return open_lua_module(env.NVIM_LUA, { default_text = 'keymappings' })
 end
 
 local function open_plugins()
@@ -62,7 +65,30 @@ local function traverse_after()
 end
 
 local function traverse_commands()
-  open_lua_module(env.NVIM_COMMANDS)
+  open_lua_module(env.NVIM_LUA, { default_text = 'commands' })
+end
+
+local gui_settings_paths = {
+  goneovim = env.GONEOVIM_SETTINGS,
+  fvim = env.GONEOVIM_SETTINGS,
+}
+
+local gui_settings_targets = {}
+
+for gui_settings_target, _ in pairs(gui_settings_paths) do
+  table.insert(gui_settings_targets, gui_settings_target)
+end
+
+local choose_and_edit_gui_settings = function()
+  vim.ui.select(gui_settings_targets, {
+    prompt = 'Choose gui settings to edit',
+    telescope = require('telescope.themes').get_dropdown(),
+  }, function(selected)
+    if not selected then
+      return
+    end
+    edit_file(gui_settings_paths[selected])
+  end)
 end
 
 local edit_actions = {
@@ -74,7 +100,7 @@ local edit_actions = {
   general_settings = open_general_settings,
   layers = traverse_layers,
   autocommands = traverse_autocommands,
-  goneovim = open_goneovim_settings,
+  gui = choose_and_edit_gui_settings,
   after = traverse_after,
   commands = traverse_commands,
 }

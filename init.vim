@@ -336,12 +336,12 @@ augroup Vim
     \Plug '<cr>'<cr>>>
 augroup END
 
-" * Formatting.
-augroup Comments
-  autocmd!
-  " * Disable auto comment insert on O.
-  autocmd BufNewFile,BufRead * setlocal formatoptions-=o
-augroup END
+" " * Formatting.
+" augroup Comments
+"   autocmd!
+"   " * Disable auto comment insert on O.
+"   autocmd BufNewFile,BufRead * setlocal formatoptions-=o
+" augroup END
 
 " * Highlight on yank.
 augroup HighlightYankedText
