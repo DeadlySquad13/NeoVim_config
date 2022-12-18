@@ -16,12 +16,11 @@ local install_cmd = string.format(
   packer_repo,
   packer_install_path
 )
-
 -- Auto-install packer in case it hasn't been installed.
 if fn.glob(packer_install_path) == '' then
   vim.api.nvim_echo({ { 'Installing packer.nvim', 'Type' } }, true, {})
   vim.cmd(install_cmd)
-  packer_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
+  acker_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
 end
 
 -- Load packer.nvim
@@ -283,11 +282,10 @@ startup({
     use({ 'sainnhe/gruvbox-material' })
     use({ 'vim-airline/vim-airline-themes' })
 
-    -- use({
-    --   '~/nvim/CustomThemes/deadly-gruv.nvim',
-    -- })
     use({
-      'DeadlySquad13/deadly-gruv.nvim',
+      -- 'DeadlySquad13/deadly-gruv.nvim',
+    --   '~/nvim/CustomThemes/deadly-gruv.nvim',
+      [[C:\Users\ds13\.bookmarks\Projects\--personal\NeoVim__DeadyGruv_theme]],
       config = [[ require('config.theme') ]],
     });
 

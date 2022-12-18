@@ -7,7 +7,7 @@ local SEVERITY = {
   WARN = 2,
   INFO = 3,
   HINT = 4,
-  ALL = 5
+  ALL = 10,
 }
 
 create_user_command(
