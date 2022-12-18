@@ -209,7 +209,7 @@ local M = {
   -- # Collections.
   IndexedSet = IndexedSet,
 
-  -- * Collection utils.
+  -- * Collection utils. @see also `:h vim.tbl_*`.
   tbl_remove_key = tbl_remove_key,
   list_deep_extend = list_deep_extend,
 

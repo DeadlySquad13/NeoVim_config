@@ -1,3 +1,5 @@
+local M = {}
+
 -- How to specify it programatically (start and end of the range)?
 local special_symbols = {
   -- Mathematical Alphanumeric Symbols (Range: 1D400—1D7FF).
@@ -100,10 +102,13 @@ local prequire = require('utils').prequire
 
 local which_key_is_available, which_key = prequire('which-key')
 
+---@union Mode
+M.MODES = { 'n', 'v', 'i', 's', 'o', 'c', 't' }
+
 ---@param keymappings
----@param mode ('n'|'v'|'i'|'s'|'o'|'c'|'t')
+---@param mode (Mode)
 ---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
-local function apply_keymappings(keymappings, mode, custom_options)
+M.apply_keymappings = function(keymappings, mode, custom_options)
   if not which_key_is_available then
     return
   end
@@ -128,7 +133,4 @@ local function apply_keymappings(keymappings, mode, custom_options)
   return which_key.register(format_mappings_names(keymappings, 'M'), options)
 end
 
-return {
-  apply_keymappings = apply_keymappings,
-}
-
+return M

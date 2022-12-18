@@ -26,7 +26,7 @@ Lsp.plugins = {
     requires = 'neovim/nvim-lspconfig',
   },
 
-  -- Lua server enhancement.
+  -- Lua server enhancement. Config sourced on lua's server setup.
   ['neodev'] = {
     'folke/neodev.nvim',
   },

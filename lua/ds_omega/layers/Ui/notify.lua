@@ -8,3 +8,8 @@ end
 -- Other plugins can use the notification windows by setting it as your default
 --   notify function.
 vim.notify = notify;
+
+if require('utils').exists('telescope.nvim') then
+  local telescope_is_available, telescope = prequire("telescope")
+  telescope.load_extension("notify")
+end
