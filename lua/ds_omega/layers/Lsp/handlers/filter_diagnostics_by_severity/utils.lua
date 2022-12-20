@@ -1,8 +1,3 @@
----@see [Tutorial about diagnostic filtering](https://blob42.xyz/blog/neovim-diagnostic-filtering/)
-local unused
-
--- local bufnr = 139--[[ vim.api.nvim_get_current_buf() ]]
-
 local function filter_diagnostics_by_severity(diagnostics, severity)
   local filtered_diagnostics = {}
 
