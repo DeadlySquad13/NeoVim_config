@@ -66,6 +66,13 @@ startup({
     })
     -- - With Jupyter.
     use({ 'untitled-ai/jupyter_ascending.vim' })
+    use({
+      'luk400/vim-jukit',
+
+      config = function()
+        require('config.jukit')
+      end,
+    })
 
     -- - Open and write files with sudo.
     use({ 'lambdalisue/suda.vim' })
@@ -284,7 +291,7 @@ startup({
 
     use({
       -- 'DeadlySquad13/deadly-gruv.nvim',
-    --   '~/nvim/CustomThemes/deadly-gruv.nvim',
+      --   '~/nvim/CustomThemes/deadly-gruv.nvim',
       [[C:\Users\ds13\.bookmarks\Projects\--personal\NeoVim__DeadyGruv_theme]],
       config = [[ require('config.theme') ]],
     });
@@ -502,5 +509,3 @@ local status, _ = pcall(require, 'packer_compiled')
 if not status then
   notify('Error requiring packer_compiled.lua: run PackerSync to fix!')
 end
-
-
