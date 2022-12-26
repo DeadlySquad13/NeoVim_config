@@ -216,7 +216,7 @@ local indentation = {
 
 local bw_local = {
   --synmaxcol      = 2500;
-  formatoptions  = "2jc1roql";
+  formatoptions  = "2jc1rql";
   textwidth = 79,
   autoindent = true,
 
