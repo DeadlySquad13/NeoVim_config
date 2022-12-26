@@ -95,9 +95,12 @@ return {
     'null_ls',
   },
 
-  -- ['ProjectManagement'] = {
+  --   Everything that helps you manage the project (sessions, documentation,
+  -- notes)
+  ['ProjectManagement'] = {
+      'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
   --   'auto_session'
-  -- },
+  },
 
   ['Ui'] = {
     'dressing', -- Prettier wrappers for vim.ui.select. Can use telescope layouts.
@@ -131,3 +134,4 @@ return {
 --        },
 --     },
 --   }
+
