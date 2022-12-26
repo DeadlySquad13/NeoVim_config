@@ -361,25 +361,6 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" # Markdown mkdx mappings.
-" First, make sure we don't create the default mapping when entering markdown files.
-" All plugs can be disabled like this (except insert mode ones, they need "imap" instead of "nmap").
-"nmap <Plug> <Plug>(mkdx-wrap-link-n})
-
-" Then create a function to remap manually.
-fun! s:MkdxRemap()
-    " Regular map family can be used since these are buffer local.
-    "nmap <buffer><silent> <leader>wl <Plug>(mkdx-wrap-link-n)
-    " Other overrides go here.
-endfun
-
-" Finally, add a "FileType" autocommand that calls "s:MkdxRemap()" upon entering markdown filetype.
-augroup Mkdx
-    au!
-    au FileType markdown,mkdx call s:MkdxRemap()
-augroup END
-
-
 " Abbreviations
 runtime abbreviations.vim
 
