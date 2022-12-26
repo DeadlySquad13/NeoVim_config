@@ -36,6 +36,8 @@ local buffer_local_settings = {
 }
 
 local global_local = {
+  -- Specifying that we have light theme.
+  background = 'light',
   -- Enable default vim syntax highlighting, treesitter will disable it for
   --   supported filetypes.
   syntax = 'on',

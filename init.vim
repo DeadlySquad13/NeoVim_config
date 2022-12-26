@@ -114,26 +114,6 @@ nnoremap <c-w>v :vnew<cr>
 " * Remaping line concatenation for use of j with modifier in non-vim apps.
 noremap <a-j> J
 
-" NERDCommenter.
-" nmap <C-_> <Plug>NERDCommenterToggle
-" vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-
-"function! HorizontalScrollMode( call_char )
-    "if &wrap
-        "return
-    "endif
-
-    "echohl Title
-    "let typed_char = a:call_char
-    "while index( [ 'h', 'l', 'H', 'L' ], typed_char ) != -1
-        "execute 'normal! z'.typed_char
-        "redraws
-        "echon '-- Horizontal scrolling mode (h/l/H/L)'
-        "let typed_char = nr2char(getchar())
-    "endwhile
-    "echohl None | echo '' | redraws
-"endfunction
-
 " * Vertical.
 nnoremap <c-y> 3<c-y>
 nnoremap <c-e> 3<c-e>
@@ -402,26 +382,6 @@ augroup END
 
 " Abbreviations
 runtime abbreviations.vim
-
-" # Theme.
-" * Settings.
-" syntax enable
-set background=light
-
-"colorscheme gruvbox-material
-"highlight Pmenu ctermbg=240 gui=bold
-" CursorLineNr doesn't work without it.
-" set cursorline
-"highlight LineNr ctermfg=248 guifg=#bbbbbb
-"highlight CursorLineNr ctermfg=137
-"highlight Statement ctermfg=186
-" * Contrasting.
-" - 1. Declarations.
-"highlight Identifier cterm=bold ctermfg=32
-"highlight Comment gui=italicbold guifg=#5555aa
-" * Inconspicious.
-"highlight Whitespace guifg=#cccccc
-"highlight SpecialKey guifg=#555555
 
 " * Rnvimr.
 " - Change the border's color
