@@ -270,19 +270,6 @@ augroup Python
   autocmd FileType python nnoremap <buffer> <localleader><cr> :!python %<cr>
 augroup END
 
-augroup Javascript
-  " Clear all autocommands that were set before that.
-  autocmd!
-  " - Sets.
-  autocmd FileType typescriptreact setlocal tabstop=4
-  autocmd FileType typescriptreact setlocal softtabstop=4
-  autocmd FileType typescriptreact setlocal shiftwidth=4
-
-  autocmd FileType typescript setlocal tabstop=4
-  autocmd FileType typescript setlocal softtabstop=4
-  autocmd FileType typescript setlocal shiftwidth=4
-augroup END
-
 " * PostCss settings.
 augroup PostCss
   autocmd!
@@ -315,13 +302,6 @@ augroup Vim
   autocmd BufNewFile,BufRead init.vim nmap <localleader>p "*pJJxhXysiW-
     \Plug '<cr>'<cr>>>
 augroup END
-
-" " * Formatting.
-" augroup Comments
-"   autocmd!
-"   " * Disable auto comment insert on O.
-"   autocmd BufNewFile,BufRead * setlocal formatoptions-=o
-" augroup END
 
 " * Highlight on yank.
 augroup HighlightYankedText
