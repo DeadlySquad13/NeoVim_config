@@ -1,8 +1,11 @@
 local setup_lsp_keymappings = require('ds_omega.layers.Lsp.handlers.setup_lsp_keymappings')
 local setup_symbol_highlight_under_cursor = require('ds_omega.layers.Lsp.handlers.setup_symbol_highlight_under_cursor')
+local setup_filter_diagnostics_by_severity = require('ds_omega.layers.Lsp.handlers.filter_diagnostics_by_severity')
 
 local on_attach = function(client, bufnr)
-  setup_lsp_keymappings(bufnr)
+  local filter_diagnostics_by_severity_keymappings = setup_filter_diagnostics_by_severity()
+  setup_lsp_keymappings(bufnr, { filter_diagnostics_by_severity_keymappings })
+
   if not require('utils').exists('vim-illuminate') then
     setup_symbol_highlight_under_cursor(client)
   end

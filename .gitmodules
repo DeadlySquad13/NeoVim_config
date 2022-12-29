@@ -1,0 +1,3 @@
+[submodule "after/ftplugin/lua"]
+	path = after/ftplugin/lua
+	url = https://gist.github.com/iagoleal/92bd781dae1926525cd5e049eb32d64b

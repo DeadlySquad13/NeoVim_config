@@ -1,5 +1,11 @@
-local setup_lsp_keymappings = function(bufnr)
-  local apply_keymappings = require('config.which_key.utils').apply_keymappings
+  local which_key_utils = require('config.which_key.utils')
+
+--- Apply all lsp related keymappings.
+---@param bufnr (integer)
+---@param additional_keymappings (table | nil) # Keymappings provided by
+--additional lsp handlers.
+local setup_lsp_keymappings = function(bufnr, additional_keymappings)
+  additional_keymappings = additional_keymappings or {}
   local lsp_buf = vim.lsp.buf
   local prequire = require('utils').prequire
 
@@ -21,7 +27,7 @@ local setup_lsp_keymappings = function(bufnr)
   --return renamer.rename;
   --end)()
 
-  local mappings = {}
+  local keymappings = {}
 
   -- * General.
   --nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -60,7 +66,7 @@ local setup_lsp_keymappings = function(bufnr)
   --vim.keymap.set("n", "<space>q", function() vim.diagnostic.setqflist({open = true}) end, opts)
   --vim.keymap.set("n", "<space>ca", lsp_buf.code_action, opts)
 
-  mappings.n = {
+  keymappings.n = {
     name = 'LSP',
 
     ['gd'] = { lsp_buf.definition, 'Jump to definition' },
@@ -105,26 +111,81 @@ local setup_lsp_keymappings = function(bufnr)
       'Go to next error',
     },
 
+    ['[w'] = {
+      function()
+        lsp_diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
+      end,
+      'Go to previous warning',
+    },
+    [']w'] = {
+      function()
+        lsp_diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN })
+      end,
+      'Go to next warning',
+    },
+
+    ['[i'] = {
+      function()
+        lsp_diagnostic.goto_prev({ severity = vim.diagnostic.severity.INFO })
+      end,
+      'Go to previous info diagnostic',
+    },
+    [']i'] = {
+      function()
+        lsp_diagnostic.goto_next({ severity = vim.diagnostic.severity.INFO })
+      end,
+      'Go to next info diagnostic',
+    },
+
+    ['[h'] = {
+      function()
+        lsp_diagnostic.goto_prev({ severity = vim.diagnostic.severity.HINT })
+      end,
+      'Go to previous hint',
+    },
+    [']h'] = {
+      function()
+        lsp_diagnostic.goto_next({ severity = vim.diagnostic.severity.HINT })
+      end,
+      'Go to next hint',
+    },
+
     ['<space>i'] = {
       d = {
         lsp_diagnostic.show_line_diagnostics,
-      ' Investigate line diagnostics',
+        ' Investigate line diagnostics',
       },
       r = { lsp_buf.references, 'List References' },
     },
   }
 
-  mappings.x = {
+  keymappings.x = {
     ['<space>ff'] = { lsp_buf.format, 'Format' },
   }
 
-  -- Mappings.
   local options = {
     buffer = bufnr,
   }
 
-  apply_keymappings(mappings.n, 'n', options)
-  apply_keymappings(mappings.x, 'x', options)
+  local merged_keymappings = keymappings
+  -- TODO: get all modes from `apply_keymappings`.
+  for _, mode in ipairs(which_key_utils.MODES) do
+    local additional_keymappings_for_mode = vim.tbl_map(
+      function(k) return k[mode] end,
+      additional_keymappings
+    )
+
+    if not vim.tbl_isempty(additional_keymappings_for_mode) then
+      merged_keymappings[mode] = vim.tbl_extend('error',
+        keymappings[mode] or {},
+        unpack(additional_keymappings_for_mode)
+      )
+    end
+
+    if merged_keymappings[mode] then
+      which_key_utils.apply_keymappings(merged_keymappings[mode], mode, options)
+    end
+  end
 end
 
 return setup_lsp_keymappings

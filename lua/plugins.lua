@@ -16,12 +16,11 @@ local install_cmd = string.format(
   packer_repo,
   packer_install_path
 )
-
 -- Auto-install packer in case it hasn't been installed.
 if fn.glob(packer_install_path) == '' then
   vim.api.nvim_echo({ { 'Installing packer.nvim', 'Type' } }, true, {})
   vim.cmd(install_cmd)
-  packer_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
+  acker_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
 end
 
 -- Load packer.nvim
@@ -67,6 +66,13 @@ startup({
     })
     -- - With Jupyter.
     use({ 'untitled-ai/jupyter_ascending.vim' })
+    use({
+      'luk400/vim-jukit',
+
+      config = function()
+        require('config.jukit')
+      end,
+    })
 
     -- - Open and write files with sudo.
     use({ 'lambdalisue/suda.vim' })
@@ -283,11 +289,10 @@ startup({
     use({ 'sainnhe/gruvbox-material' })
     use({ 'vim-airline/vim-airline-themes' })
 
-    -- use({
-    --   '~/nvim/CustomThemes/deadly-gruv.nvim',
-    -- })
     use({
-      'DeadlySquad13/deadly-gruv.nvim',
+      -- 'DeadlySquad13/deadly-gruv.nvim',
+      --   '~/nvim/CustomThemes/deadly-gruv.nvim',
+      [[C:\Users\ds13\.bookmarks\Projects\--personal\NeoVim__DeadyGruv_theme]],
       config = [[ require('config.theme') ]],
     });
 
@@ -504,5 +509,3 @@ local status, _ = pcall(require, 'packer_compiled')
 if not status then
   notify('Error requiring packer_compiled.lua: run PackerSync to fix!')
 end
-
-

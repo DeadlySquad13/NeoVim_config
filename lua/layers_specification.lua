@@ -95,8 +95,11 @@ return {
     'null_ls',
   },
 
+  --   Everything that helps you manage the project (sessions, documentation,
+  -- notes)
   ['ProjectManagement'] = {
-    'auto_session'
+      'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
+      'auto_session',
   },
 
   ['Ui'] = {
@@ -131,3 +134,4 @@ return {
 --        },
 --     },
 --   }
+

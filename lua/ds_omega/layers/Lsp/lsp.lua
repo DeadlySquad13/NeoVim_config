@@ -121,7 +121,7 @@ local function setup_lsp_servers()
         server_configuration.opts.cmd = { "yarn", "exec", unpack(eslint_config.default_config.cmd) }
       end
       if server_name == 'sumneko_lua' then
-        require('ds_omega.layers.Lsp.lspsaga')
+        require('ds_omega.layers.Lsp.neodev')
       end
 
       lspconfig[server_name].setup(server_configuration)

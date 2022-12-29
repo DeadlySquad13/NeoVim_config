@@ -17,7 +17,18 @@ local function set_settings(settings)
   end
 end
 
+--- Set local vim settings.
+--You can use variables in lua fashion (instead of
+--'shift:20,min:20' -> { shift = 20, min = 20 }).
+---@param settings (table)
+local function set_local_settings(settings)
+  for name, value in pairs(settings) do
+    vim.opt_local[name] = value
+  end
+end
+
 return {
   set_global_variables = set_global_variables,
   set_settings = set_settings,
+  set_local_settings = set_local_settings,
 }

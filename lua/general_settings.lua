@@ -201,7 +201,6 @@ if require('utils.os').is("Windows_NT") then
 end
 
 
-
 local indentation = {
   -- # Indentation.
   --autoindent
@@ -217,7 +216,7 @@ local indentation = {
 
 local bw_local = {
   --synmaxcol      = 2500;
-  --formatoptions  = "1jcroql";
+  formatoptions  = "2jc1rql";
   textwidth = 79,
   autoindent = true,
 

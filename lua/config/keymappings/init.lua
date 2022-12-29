@@ -205,6 +205,12 @@ local open_mappings = {
 
 local paste_mappings = { '"+p', 'Paste from clipboard register' }
 
+local paste_with_indent = { 'p==^', 'Paste with indent' }
+local paste_before_with_indent = { 'P==^', 'Paste before with indent' }
+
+local paste_without_indent = { 'p^', 'Paste without indent' }
+local paste_before_without_indent = { 'P^', 'Paste before without indent' }
+
 -- # Major. Like major mode in spacemacs: filetype mappings.
 local major_mappings = {
   name = 'Major',
@@ -239,7 +245,8 @@ local settings_mappings = {
   c = { '<cmd>highlight<cr>', 'Show highlight groups colors' },
   --['*'] = { function() vim.fn['SynStack']() end, 'Show highlight groups under the cursor' }
   ['*'] = {
-    ':TSHighlightCapturesUnderCursor<cr>',
+    -- ':TSHighlightCapturesUnderCursor<cr>',
+    '<cmd>Inspect<cr>',
     'Show highlight groups under the cursor',
   },
   ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
@@ -297,6 +304,11 @@ local mappings = {
     [','] = settings_mappings,
   },
 
+  ['<localleader>'] = {
+    p = paste_without_indent,
+    P = paste_before_without_indent,
+  },
+
   -- Alternate mappings (functions simillar to `g`).
   [';'] = {
     name = 'Alternate',
@@ -322,7 +334,8 @@ local mappings = {
   -- m = m_mappings,
   -- n = n_mappings,
   -- o = o_mappings,
-  -- p = p_mappings,
+  p = paste_with_indent,
+  P = paste_before_with_indent,
   -- q = q_mappings,
   -- r = r_mappings,
   -- s = s_mappings,
@@ -422,7 +435,8 @@ local x_mappings = {
   -- m = m_mappings,
   -- n = n_mappings,
   -- o = o_mappings,
-  -- p = p_mappings,
+  p = paste_with_indent,
+  P = paste_before_with_indent,
   -- q = q_mappings,
   -- r = r_mappings,
   -- s = s_mappings,
