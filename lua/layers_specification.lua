@@ -95,9 +95,9 @@ return {
     'null_ls',
   },
 
-  -- ['ProjectManagement'] = {
-  --   'auto_session'
-  -- },
+  ['ProjectManagement'] = {
+    'auto_session'
+  },
 
   ['Ui'] = {
     'dressing', -- Prettier wrappers for vim.ui.select. Can use telescope layouts.

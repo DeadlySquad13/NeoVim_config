@@ -49,7 +49,7 @@ local function get_module_enabled_filetypes()
 end
 
 local lsp_server_name_to_filetypes = {
-  cssls = { 'css' },
+  cssls = { 'css', 'scss', 'less' },
   eslint = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
   html = { 'html' },
   jsonls = { 'json' },
