@@ -56,7 +56,7 @@ return {
     tmux = false,
     gitsigns = false,
     nvim_bufferline = false,
-    twilight = true,
+    twilight = false, -- I prefer to enable it manually.
     vim_airline = false,
     vim_powerline = false,
     vim_signify = false,
