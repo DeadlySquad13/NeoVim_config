@@ -98,25 +98,14 @@ local default_keymap_options = {
   nowait = false, -- use `nowait` when creating keymaps
 }
 
-local prequire = require('utils').prequire
-
-local which_key_is_available, which_key = prequire('which-key')
-
----@union Mode
-M.MODES = { 'n', 'v', 'i', 's', 'o', 'c', 't' }
-
----@param keymappings
----@param mode (Mode)
----@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
-M.apply_keymappings = function(keymappings, mode, custom_options)
-  if not which_key_is_available then
-    return
-  end
-
-  custom_options = custom_options or {}
+---  Merge passed options with default options ensuring that there's no mode in
+-- passed table.
+---@params options (DefaultKeymapOptions?) Options to pass into mappings.
+local function options_with_defaults(options)
+  options = options or {}
 
   ---@diagnostic disable-next-line: undefined-field
-  if custom_options.mode then
+  if options.mode then
     return notify(
       'Mode options passed in `custom_options` table is overriden by `mode` argument!',
       { title = 'Keymapping' }
@@ -126,11 +115,71 @@ M.apply_keymappings = function(keymappings, mode, custom_options)
   local options = vim.tbl_extend(
     'force',
     default_keymap_options,
-    custom_options
+    options
   )
+
+  return options
+end
+
+local prequire = require('utils').prequire
+
+---@union Mode
+M.MODES = { 'n', 'v', 'i', 's', 'o', 'c', 't' }
+
+---@param keymappings
+---@param mode (Mode)
+---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
+M.apply_keymappings = function(keymappings, mode, custom_options)
+  local which_key_is_available, which_key = prequire('which-key')
+
+  if not which_key_is_available then
+    return
+  end
+
+  local options = options_with_defaults(custom_options)
   options.mode = mode
 
   return which_key.register(format_mappings_names(keymappings, 'M'), options)
+end
+
+local keymappings_group = require('utils').create_augroup('Keymappings', { clear = true })
+
+---@param keymappings
+---@param mode (Mode)
+---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
+M.apply_keymappings_once_ready = function(keymappings, mode, custom_options)
+  require('utils').create_autocmd(
+      { 'BufWinEnter' },
+      {
+        group = keymappings_group,
+        desc = 'Apply keymappings once which_key is loaded.',
+
+        callback = function()
+          M.apply_keymappings(keymappings, mode, custom_options)
+        end,
+
+        once = true,
+      }
+  );
+end
+
+---  Apply bufferlocal keymappings with sensible defaults:
+-- add buffer = 0 to options and assign <localleader> prefix to keymappings.
+---@param keymappings
+---@param mode (Mode)
+---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
+M.apply_bufferlocal_keymappings = function(keymappings, mode, custom_options)
+  local options = vim.tbl_extend('error', -- If you don't want buffer = 0 then you should use another function.
+    { buffer = 0 },
+    custom_options or {}
+  )
+
+  local options = vim.tbl_extend('force',
+    options,
+    { prefix = '<localleader>' }
+  )
+
+  M.apply_keymappings_once_ready(keymappings, mode, options)
 end
 
 return M
