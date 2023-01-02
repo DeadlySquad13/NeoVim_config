@@ -36,6 +36,8 @@ local buffer_local_settings = {
 }
 
 local global_local = {
+  -- Specifying that we have light theme.
+  background = 'light',
   -- Enable default vim syntax highlighting, treesitter will disable it for
   --   supported filetypes.
   syntax = 'on',
@@ -205,11 +207,10 @@ local indentation = {
   -- # Indentation.
   --autoindent
   --smartindent   -- Do smart autoindenting when starting a new line
-  shiftwidth = 2, -- Set number of spaces per auto indentation
   expandtab = true, -- When using <Tab>, put spaces instead of a <tab> character
 
-  -- - Good to have for consistency.
-  tabstop = 2, -- Number of spaces that a <Tab> in the file counts for.
+  tabstop = 4, -- Number of spaces that a <Tab> in the file counts for.
+  shiftwidth = 4, -- Set number of spaces per auto indentation
   softtabstop = -1, --  Number of spaces that a <Tab> in the file counts for while editing. Use number of shiftwidth.
   smarttab = true, -- At <Tab> at beginning line inserts spaces set in shiftwidth.
 }

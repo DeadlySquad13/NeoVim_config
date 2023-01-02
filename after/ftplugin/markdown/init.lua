@@ -1,0 +1,2 @@
+-- # Markdown mkdx mappings.
+--nmap <Plug> <Plug>(mkdx-wrap-link-n})

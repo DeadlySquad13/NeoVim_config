@@ -114,26 +114,6 @@ nnoremap <c-w>v :vnew<cr>
 " * Remaping line concatenation for use of j with modifier in non-vim apps.
 noremap <a-j> J
 
-" NERDCommenter.
-" nmap <C-_> <Plug>NERDCommenterToggle
-" vmap <C-_> <Plug>NERDCommenterToggle<CR>gv
-
-"function! HorizontalScrollMode( call_char )
-    "if &wrap
-        "return
-    "endif
-
-    "echohl Title
-    "let typed_char = a:call_char
-    "while index( [ 'h', 'l', 'H', 'L' ], typed_char ) != -1
-        "execute 'normal! z'.typed_char
-        "redraws
-        "echon '-- Horizontal scrolling mode (h/l/H/L)'
-        "let typed_char = nr2char(getchar())
-    "endwhile
-    "echohl None | echo '' | redraws
-"endfunction
-
 " * Vertical.
 nnoremap <c-y> 3<c-y>
 nnoremap <c-e> 3<c-e>
@@ -279,30 +259,6 @@ augroup Markdown
   let g:mkdp_echo_preview_url = 1
 augroup END
 
-augroup Python
-  " Clear all autocommands that were set before that.
-  autocmd!
-  " - Sets.
-  autocmd FileType python setlocal tabstop=4
-  autocmd FileType python setlocal softtabstop=4
-  autocmd FileType python setlocal shiftwidth=4
-  " - Run.
-  autocmd FileType python nnoremap <buffer> <localleader><cr> :!python %<cr>
-augroup END
-
-augroup Javascript
-  " Clear all autocommands that were set before that.
-  autocmd!
-  " - Sets.
-  autocmd FileType typescriptreact setlocal tabstop=4
-  autocmd FileType typescriptreact setlocal softtabstop=4
-  autocmd FileType typescriptreact setlocal shiftwidth=4
-
-  autocmd FileType typescript setlocal tabstop=4
-  autocmd FileType typescript setlocal softtabstop=4
-  autocmd FileType typescript setlocal shiftwidth=4
-augroup END
-
 " * PostCss settings.
 augroup PostCss
   autocmd!
@@ -335,13 +291,6 @@ augroup Vim
   autocmd BufNewFile,BufRead init.vim nmap <localleader>p "*pJJxhXysiW-
     \Plug '<cr>'<cr>>>
 augroup END
-
-" " * Formatting.
-" augroup Comments
-"   autocmd!
-"   " * Disable auto comment insert on O.
-"   autocmd BufNewFile,BufRead * setlocal formatoptions-=o
-" augroup END
 
 " * Highlight on yank.
 augroup HighlightYankedText
@@ -381,47 +330,8 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" # Markdown mkdx mappings.
-" First, make sure we don't create the default mapping when entering markdown files.
-" All plugs can be disabled like this (except insert mode ones, they need "imap" instead of "nmap").
-"nmap <Plug> <Plug>(mkdx-wrap-link-n})
-
-" Then create a function to remap manually.
-fun! s:MkdxRemap()
-    " Regular map family can be used since these are buffer local.
-    "nmap <buffer><silent> <leader>wl <Plug>(mkdx-wrap-link-n)
-    " Other overrides go here.
-endfun
-
-" Finally, add a "FileType" autocommand that calls "s:MkdxRemap()" upon entering markdown filetype.
-augroup Mkdx
-    au!
-    au FileType markdown,mkdx call s:MkdxRemap()
-augroup END
-
-
 " Abbreviations
 runtime abbreviations.vim
-
-" # Theme.
-" * Settings.
-" syntax enable
-set background=light
-
-"colorscheme gruvbox-material
-"highlight Pmenu ctermbg=240 gui=bold
-" CursorLineNr doesn't work without it.
-" set cursorline
-"highlight LineNr ctermfg=248 guifg=#bbbbbb
-"highlight CursorLineNr ctermfg=137
-"highlight Statement ctermfg=186
-" * Contrasting.
-" - 1. Declarations.
-"highlight Identifier cterm=bold ctermfg=32
-"highlight Comment gui=italicbold guifg=#5555aa
-" * Inconspicious.
-"highlight Whitespace guifg=#cccccc
-"highlight SpecialKey guifg=#555555
 
 " * Rnvimr.
 " - Change the border's color

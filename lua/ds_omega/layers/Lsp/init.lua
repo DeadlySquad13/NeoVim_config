@@ -7,7 +7,7 @@ Lsp.plugins = {
     {
       'neovim/nvim-lspconfig',
       -- Lsp relies on cmp-nvim-lsp during capabilities initialization.
-      after = { 'cmp-nvim-lsp', 'which-key.nvim' },
+      after = { 'cmp-nvim-lsp' },
       -- TODO: How to better handle it?
       config = function()
         require('ds_omega.layers.Lsp.lsp')
