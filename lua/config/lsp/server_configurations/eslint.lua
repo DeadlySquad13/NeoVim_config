@@ -11,7 +11,7 @@ local function setup_eslint_server_keymappings(_, bufnr)
     buffer = bufnr,
   }
 
-  apply_keymappings(mappings.n, 'n', options)
+  apply_keymappings('n', mappings.n, options)
 end
 
 return {

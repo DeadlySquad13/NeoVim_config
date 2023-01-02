@@ -126,10 +126,10 @@ local prequire = require('utils').prequire
 ---@union Mode
 M.MODES = { 'n', 'v', 'i', 's', 'o', 'c', 't' }
 
----@param keymappings
 ---@param mode (Mode)
+---@param keymappings
 ---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
-M.apply_keymappings = function(keymappings, mode, custom_options)
+M.apply_keymappings = function(mode, keymappings, custom_options)
   local which_key_is_available, which_key = prequire('which-key')
 
   if not which_key_is_available then
@@ -144,10 +144,10 @@ end
 
 local keymappings_group = require('utils').create_augroup('Keymappings', { clear = true })
 
----@param keymappings
 ---@param mode (Mode)
+---@param keymappings
 ---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
-M.apply_keymappings_once_ready = function(keymappings, mode, custom_options)
+M.apply_keymappings_once_ready = function(mode, keymappings, custom_options)
   require('utils').create_autocmd(
       { 'BufWinEnter' },
       {
@@ -155,7 +155,7 @@ M.apply_keymappings_once_ready = function(keymappings, mode, custom_options)
         desc = 'Apply keymappings once which_key is loaded.',
 
         callback = function()
-          M.apply_keymappings(keymappings, mode, custom_options)
+          M.apply_keymappings(mode, keymappings, custom_options)
         end,
 
         once = true,
@@ -165,10 +165,10 @@ end
 
 ---  Apply bufferlocal keymappings with sensible defaults:
 -- add buffer = 0 to options and assign <localleader> prefix to keymappings.
----@param keymappings
 ---@param mode (Mode)
+---@param keymappings
 ---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
-M.apply_bufferlocal_keymappings = function(keymappings, mode, custom_options)
+M.apply_bufferlocal_keymappings = function(mode, keymappings, custom_options)
   local options = vim.tbl_extend('error', -- If you don't want buffer = 0 then you should use another function.
     { buffer = 0 },
     custom_options or {}
@@ -179,7 +179,7 @@ M.apply_bufferlocal_keymappings = function(keymappings, mode, custom_options)
     { prefix = '<localleader>' }
   )
 
-  M.apply_keymappings_once_ready(keymappings, mode, options)
+  M.apply_keymappings_once_ready(mode, keymappings, options)
 end
 
 return M

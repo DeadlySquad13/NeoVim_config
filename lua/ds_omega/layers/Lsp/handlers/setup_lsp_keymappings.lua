@@ -183,7 +183,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
     end
 
     if merged_keymappings[mode] then
-      which_key_utils.apply_keymappings(merged_keymappings[mode], mode, options)
+      which_key_utils.apply_keymappings(mode, merged_keymappings[mode], options)
     end
   end
 end

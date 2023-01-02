@@ -9,8 +9,7 @@ local apply_keymappings = require('config.which_key.utils').apply_keymappings
 
 local mappings = require('config.keymappings')
 
-apply_keymappings(mappings.n, 'n')
-apply_keymappings(mappings.x, 'x')
-apply_keymappings(mappings.i, 'i')
-apply_keymappings(mappings.c, 'c')
+for _, mode in ipairs({ 'n', 'x', 'i', 'c' }) do
+    apply_keymappings(mode, mappings[mode])
+end
 
