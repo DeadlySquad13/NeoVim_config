@@ -259,17 +259,6 @@ augroup Markdown
   let g:mkdp_echo_preview_url = 1
 augroup END
 
-augroup Python
-  " Clear all autocommands that were set before that.
-  autocmd!
-  " - Sets.
-  autocmd FileType python setlocal tabstop=4
-  autocmd FileType python setlocal softtabstop=4
-  autocmd FileType python setlocal shiftwidth=4
-  " - Run.
-  autocmd FileType python nnoremap <buffer> <localleader><cr> :!python %<cr>
-augroup END
-
 " * PostCss settings.
 augroup PostCss
   autocmd!
