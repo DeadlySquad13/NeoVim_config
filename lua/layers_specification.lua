@@ -107,6 +107,7 @@ return {
     'notify', -- Add nice looking ui for notifications.
   --   'fidget', -- Progress handler.
     'which_key', -- Mappings visualization.
+    'ufo' -- Folding.
   },
 
   -- ['Writing'] = {

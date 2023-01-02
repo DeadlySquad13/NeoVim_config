@@ -1,8 +1,11 @@
-local function setup_capabilities()
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  return capabilities
-end
+---  nvim-ufo: Tell the server the capability of foldingRange,
+-- Neovim hasn't added foldingRange to default capabilities, users must add it manually.
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
 
-return setup_capabilities
+return capabilities
