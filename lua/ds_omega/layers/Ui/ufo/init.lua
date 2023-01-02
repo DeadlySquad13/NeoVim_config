@@ -13,9 +13,25 @@ vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decr
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
--- Using ufo provider need remap `zR` and `zM`.
-vim.keymap.set('n', 'zR', ufo.openAllFolds)
-vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+
+-- It seems to be overriden by setup_lsp_keymappings. Use amend keymappings plugin for that?
+-- local function peekOrHover()
+--   local winid = ufo.peekFoldedLinesUnderCursor()
+--   if not winid then
+--     vim.lsp.buf.hover()
+--   end
+-- end
+
+local apply_keymappings_once_ready = require('config.which_key.utils').apply_keymappings_once_ready
+apply_keymappings_once_ready('n', {
+  -- Using ufo provider need remap `zR` and `zM`.
+  z = {
+    R = { ufo.openAllFolds, 'Close all folds' },
+    M = { ufo.closeAllFolds, 'Open all folds' },
+  },
+
+  ['<A-k>'] = { ufo.peekFoldedLinesUnderCursor, 'Peek lines' },
+})
 
 local get_customized_selector = require('ds_omega.layers.Ui.ufo.get_customized_selector')
 local fold_virt_text_handler = require('ds_omega.layers.Ui.ufo.fold_virt_text_handler')
@@ -29,14 +45,4 @@ ufo.setup({
 -- buffer scope handler
 -- will override global handler if it is existed
 local bufnr = vim.api.nvim_get_current_buf()
-ufo.setFoldVirtTextHandler(bufnr, get_customized_selector)
-
--- local function peekOrHover()
---     local winid = require('ufo').peekFoldedLinesUnderCursor()
---     if not winid then
---         -- coc.nvim
---         vim.fn.CocActionAsync('definitionHover')
---         -- nvimlsp
---         vim.lsp.buf.hover()
---     end
--- end
+ufo.setFoldVirtTextHandler(bufnr, fold_virt_text_handler)

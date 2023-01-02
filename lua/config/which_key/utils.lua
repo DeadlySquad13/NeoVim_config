@@ -155,7 +155,9 @@ M.apply_keymappings_once_ready = function(mode, keymappings, custom_options)
         desc = 'Apply keymappings once which_key is loaded.',
 
         callback = function()
-          M.apply_keymappings(mode, keymappings, custom_options)
+          vim.schedule(function()
+            M.apply_keymappings(mode, keymappings, custom_options)
+          end)
         end,
 
         once = true,
