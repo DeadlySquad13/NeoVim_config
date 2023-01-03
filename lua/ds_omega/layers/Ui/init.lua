@@ -18,7 +18,8 @@ Ui.plugins = {
   },
 
   ['conceal'] = {
-    'Jxstxs/conceal.nvim',
+    --'Jxstxs/conceal.nvim',
+    'DeadlySquad13/conceal.nvim',
 
     requires = 'nvim-treesitter/nvim-treesitter',
   },
