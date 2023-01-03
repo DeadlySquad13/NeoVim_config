@@ -259,13 +259,6 @@ augroup Markdown
   let g:mkdp_echo_preview_url = 1
 augroup END
 
-" * PostCss settings.
-augroup PostCss
-  autocmd!
-  autocmd BufNewFile,BufReadPost *.pcss set syntax=scss
-  autocmd BufNewFile,BufReadPost *.pcss set shiftwidth=4
-augroup END
-
 " Latex settings.
 augroup Latex
   autocmd!

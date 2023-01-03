@@ -16,6 +16,8 @@ local FILETYPE_SETS = {
   ['*.tex.j2'] = { syntax = 'tex' }, -- Templates for notebook.
 
   ['setup.cfg'] = { filetype = 'dosini' }, -- Python module config.
+
+  ['*.pcss'] = { filetype = 'scss' }, -- PostCss files.
 }
 
 for pattern, settings in pairs(FILETYPE_SETS) do
