@@ -259,15 +259,6 @@ augroup Markdown
   let g:mkdp_echo_preview_url = 1
 augroup END
 
-" Latex settings.
-augroup Latex
-  autocmd!
-  " - Templates.
-  autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
-  " - Templates for notebook.
-  autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
-augroup END
-
 " Navigation.
 " # Across files.
 " * Rel.
