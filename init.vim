@@ -193,12 +193,6 @@ augroup Folding
    "autocmd BufWinEnter * silent normal! zO
 augroup END
 
-" augroup LspFix
-"   autocmd!
-"   autocmd BufWinEnter * :LspStart
-"   autocmd BufWinEnter * :Copilot enable
-" augroup END
-
 augroup Markdown
   " Clear all autocommands that were set before that.
   autocmd!
