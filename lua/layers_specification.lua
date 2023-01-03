@@ -99,7 +99,7 @@ return {
   -- notes)
   ['ProjectManagement'] = {
       'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
-  --   'auto_session'
+      'auto_session',
   },
 
   ['Ui'] = {
@@ -107,6 +107,7 @@ return {
     'notify', -- Add nice looking ui for notifications.
   --   'fidget', -- Progress handler.
     'which_key', -- Mappings visualization.
+    'conceal', -- Conceal chosen language constructors with treesitter's aid.
   },
 
   -- ['Writing'] = {

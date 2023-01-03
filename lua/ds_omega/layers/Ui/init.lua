@@ -17,6 +17,12 @@ Ui.plugins = {
     event = 'BufWinEnter',
   },
 
+  ['conceal'] = {
+    --'Jxstxs/conceal.nvim',
+    'DeadlySquad13/conceal.nvim',
+
+    requires = 'nvim-treesitter/nvim-treesitter',
+  },
     -- - Better UI for Lsp rename.
     -- use({
     --   'filipdutescu/renamer.nvim',
@@ -42,7 +48,11 @@ Ui.configs = {
 
   ['which_key'] = function()
     require('ds_omega.layers.Ui.which_key')
-  end
+  end,
+
+  ['conceal'] = function()
+    require('ds_omega.layers.Ui.conceal')
+  end,
 }
 
 return Ui

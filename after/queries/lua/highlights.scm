@@ -1,3 +1,5 @@
+;; extends 
+
 ;; Keywords
 
 "return" @keyword.return
@@ -193,3 +195,21 @@
 
 ;; Error
 (ERROR) @error
+
+;; Conceals
+(("then" @conditional) (#set! conceal "{"))
+(("else" @conditional) (#set! conceal "e"))
+(("elseif" @conditional) (#set! conceal "e"))
+((if_statement "end" @conditional) (#set! conceal "}"))
+
+(("do" @repeat) (#set! conceal "{"))
+(while_statement "end"  @repeat) (#set conceal "}")
+(for_statement "end"  @repeat) (#set conceal "}")
+
+(("function" @keyword.function) (#set! conceal "f"))
+((function_declaration "end" @keyword.function) (#set! conceal ""))
+((function_definition "end" @keyword.function) (#set! conceal ""))
+
+((function_call name: (identifier) @function.builtin (#eq? @function.builtin "require")) (#set! conceal "r"))
+
+(("local" @keyword) (#set! conceal "l"))
