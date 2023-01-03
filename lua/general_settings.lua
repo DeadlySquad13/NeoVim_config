@@ -235,7 +235,7 @@ local bw_local = {
   foldenable = true,
   signcolumn = 'yes',
   conceallevel = 2,
-  concealcursor = 'niv',
+  concealcursor = '', -- Always show unconcealed text under cursor.
   cursorline = IS_ENVIRONMENT_FAST,
 }
 

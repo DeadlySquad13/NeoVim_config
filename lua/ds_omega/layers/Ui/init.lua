@@ -23,6 +23,11 @@ Ui.plugins = {
 
     requires = 'nvim-treesitter/nvim-treesitter',
   },
+
+  ['headlines'] = {
+    'lukas-reineke/headlines.nvim',
+  },
+
     -- - Better UI for Lsp rename.
     -- use({
     --   'filipdutescu/renamer.nvim',
@@ -52,6 +57,10 @@ Ui.configs = {
 
   ['conceal'] = function()
     require('ds_omega.layers.Ui.conceal')
+  end,
+
+  ['headlines'] = function()
+    require('ds_omega.layers.Ui.headlines')
   end,
 }
 
