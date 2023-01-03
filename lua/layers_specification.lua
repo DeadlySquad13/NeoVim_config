@@ -108,6 +108,7 @@ return {
   --   'fidget', -- Progress handler.
     'which_key', -- Mappings visualization.
     'conceal', -- Conceal chosen language constructors with treesitter's aid.
+    'headlines', -- Background whole line highlights (for code blocks, headers...).
   },
 
   -- ['Writing'] = {
