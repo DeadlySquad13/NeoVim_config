@@ -14,7 +14,14 @@ Ui.plugins = {
 
   ['which_key'] = {
     'folke/which-key.nvim',
+
     event = 'BufWinEnter',
+  },
+
+  ['ufo'] = {
+    'kevinhwang91/nvim-ufo',
+
+    requires = 'kevinhwang91/promise-async'
   },
 
   ['conceal'] = {
@@ -53,6 +60,10 @@ Ui.configs = {
 
   ['which_key'] = function()
     require('ds_omega.layers.Ui.which_key')
+  end,
+
+  ['ufo'] = function()
+    require('ds_omega.layers.Ui.ufo')
   end,
 
   ['conceal'] = function()
