@@ -8,6 +8,6 @@ local AUTOCOMMANDS = {
   'revisit_last_position_in_file',
 }
 
-for _, module in AUTOCOMMANDS do
+for _, module in ipairs(AUTOCOMMANDS) do
   prequire('autocommands.' .. module)
 end
