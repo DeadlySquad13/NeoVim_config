@@ -275,18 +275,6 @@ augroup Latex
   autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
 augroup END
 
-
-" * Highlight on yank.
-augroup HighlightYankedText
-    autocmd!
-    autocmd TextYankPost *  silent! lua require'vim.highlight'.on_yank({ higroup = 'ColorColumn'})
-augroup END
-" * Preserve last cursor position after revisiting a file.
-if has("autocmd")
-  autocmd!
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-
 " Navigation.
 " # Across files.
 " * Rel.
