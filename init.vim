@@ -333,21 +333,6 @@ nmap ga <Plug>(EasyAlign)
 " Abbreviations
 runtime abbreviations.vim
 
-" * Rnvimr.
-" - Change the border's color
-let g:rnvimr_border_attr = {'fg': 14, 'bg': -1}
-" - Add a shadow window, value is equal to 100 will disable shadow
-let g:rnvimr_shadow_winblend = 60
-
-" * NERDTree.
-" - Start NERDTree automatically. If a file is specified, move the cursor to
-" its window.
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
-" - Place on the right.
-let g:NERDTreeWinPos = "right"
-
-
 " # Markdown.
 " Use signs to highlight code blocks.
 "function! ColorCodeBlocks() abort " {{{1
@@ -413,6 +398,7 @@ let g:NERDTreeWinPos = "right"
 "au BufEnter *.md call MarkdownBlocks()
 "au BufWritePost *.md call MarkdownBlocks()
 
+"" TODO: What it does?
 cmap <F7> <C-\>eAppendSome()<CR>
 func AppendSome()
    let cmd = getcmdline()
@@ -422,11 +408,3 @@ func AppendSome()
    " return cmd
 endfunc
 
-" Indent whitespace.
-highlight WhiteSpaceBol guifg=#C4B699
-" Another whitespace symbols.
-highlight WhiteSpaceMol guifg=#EFE0B9
-match WhiteSpaceMol / /
-2match WhiteSpaceBol /^ \+/
-
-" runtime syntax/general/comments.vim
