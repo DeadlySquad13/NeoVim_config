@@ -275,15 +275,6 @@ augroup Latex
   autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
 augroup END
 
-augroup Graphviz
-  " Clear all autocommands that were set before that.
-  autocmd!
-  " - Swap relationships.
-  autocmd FileType dot nnoremap <buffer> <localleader>sr ^"yct-<esc>2W"yP"yD^X"yPa<space><esc>
-  " - Run: create png from name of the current file and open it.
-  autocmd FileType dot nnoremap <buffer> <localleader><cr> :! dotPng %:r<cr>
-augroup END
-
 augroup Vim
   " Clear all autocommands that were set before that.
   autocmd!
