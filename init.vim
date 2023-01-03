@@ -275,20 +275,12 @@ augroup Latex
   autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
 augroup END
 
-augroup Vim
-  " Clear all autocommands that were set before that.
-  autocmd!
-  "" - Add plugin by formating and surrounding string from github.
-  autocmd BufNewFile,BufRead init.vim nmap <localleader>p "*pJJxhXysiW-
-    \Plug '<cr>'<cr>>>
-augroup END
 
 " * Highlight on yank.
 augroup HighlightYankedText
     autocmd!
     autocmd TextYankPost *  silent! lua require'vim.highlight'.on_yank({ higroup = 'ColorColumn'})
 augroup END
-
 " * Preserve last cursor position after revisiting a file.
 if has("autocmd")
   autocmd!
