@@ -430,16 +430,3 @@ match WhiteSpaceMol / /
 2match WhiteSpaceBol /^ \+/
 
 " runtime syntax/general/comments.vim
-
-" Filetypes.
-" - Config for Wsl.
-autocmd BufNewFile,BufReadPost .wslconfig set syntax=sh
-" - Config for Wyrd.
-autocmd BufNewFile,BufReadPost .wyrdrc set syntax=conf
-" - LaTex templates.
-autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
-" - LaTeX templates for notebook.
-autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
-" - Python config files.
-autocmd BufNewFile,BufReadPost setup.cfg set filetype=dosini
-
