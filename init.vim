@@ -193,12 +193,6 @@ nnoremap <c-e> 3<c-e>
 "    "autocmd BufWinEnter * silent normal! zO
 " augroup END
 
-" augroup LspFix
-"   autocmd!
-"   autocmd BufWinEnter * :LspStart
-"   autocmd BufWinEnter * :Copilot enable
-" augroup END
-
 augroup Markdown
   " Clear all autocommands that were set before that.
   autocmd!
@@ -259,56 +253,8 @@ augroup Markdown
   let g:mkdp_echo_preview_url = 1
 augroup END
 
-" * PostCss settings.
-augroup PostCss
-  autocmd!
-  autocmd BufNewFile,BufReadPost *.pcss set syntax=scss
-  autocmd BufNewFile,BufReadPost *.pcss set shiftwidth=4
-augroup END
-
-" Latex settings.
-augroup Latex
-  autocmd!
-  " - Templates.
-  autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
-  " - Templates for notebook.
-  autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
-augroup END
-
-augroup Graphviz
-  " Clear all autocommands that were set before that.
-  autocmd!
-  " - Swap relationships.
-  autocmd FileType dot nnoremap <buffer> <localleader>sr ^"yct-<esc>2W"yP"yD^X"yPa<space><esc>
-  " - Run: create png from name of the current file and open it.
-  autocmd FileType dot nnoremap <buffer> <localleader><cr> :! dotPng %:r<cr>
-augroup END
-
-augroup Vim
-  " Clear all autocommands that were set before that.
-  autocmd!
-  "" - Add plugin by formating and surrounding string from github.
-  autocmd BufNewFile,BufRead init.vim nmap <localleader>p "*pJJxhXysiW-
-    \Plug '<cr>'<cr>>>
-augroup END
-
-" * Highlight on yank.
-augroup HighlightYankedText
-    autocmd!
-    autocmd TextYankPost *  silent! lua require'vim.highlight'.on_yank({ higroup = 'ColorColumn'})
-augroup END
-
-" * Preserve last cursor position after revisiting a file.
-if has("autocmd")
-  autocmd!
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-
 " Navigation.
 " # Across files.
-" * Rnvimr.
-" - Make Ranger replace netrw and be the file explorer.
-let g:rnvimr_ex_enable = 1
 " * Rel.
 " - Jump to link (have to define here too because which_key doesn't handle
 "   conflicts occured by <unique> mapping of a Rel.vim).
@@ -333,86 +279,7 @@ nmap ga <Plug>(EasyAlign)
 " Abbreviations
 runtime abbreviations.vim
 
-" * Rnvimr.
-" - Change the border's color
-let g:rnvimr_border_attr = {'fg': 14, 'bg': -1}
-" - Add a shadow window, value is equal to 100 will disable shadow
-let g:rnvimr_shadow_winblend = 60
-
-" * NERDTree.
-" - Start NERDTree automatically. If a file is specified, move the cursor to
-" its window.
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
-" - Place on the right.
-let g:NERDTreeWinPos = "right"
-
-
-" # Markdown.
-" Use signs to highlight code blocks.
-"function! ColorCodeBlocks() abort " {{{1
-  "setlocal signcolumn=no
-
-  "sign define codeblock linehl=codeBlockBackground
-
-  "augroup code_block_background
-    "autocmd! * <buffer>
-    "autocmd InsertLeave  <buffer> call s:place_signs()
-    "autocmd BufEnter     <buffer> call s:place_signs()
-    "autocmd BufWritePost <buffer> call s:place_signs()
-  "augroup END
-"endfunction
-
-"function! s:place_signs()
-  "let l:continue = 0
-  "let l:file = expand('%')
-
-  "execute 'sign unplace * file=' . l:file
-
-  "for l:lnum in range(1, line('$'))
-    "let l:line = getline(l:lnum)
-    "if l:continue || l:line =~# '^\s*```'
-      "execute printf('sign place %d line=%d name=codeblock file=%s',
-            "\ l:lnum, l:lnum, l:file)
-    "endif
-
-    "let l:continue = l:continue
-          "\ ? l:line !~# '^\s*```$'
-          "\ : l:line =~# '^\s*```'
-  "endfor
-"endfunction
-
-"setl signcolumn=no
-
-"hi markdownCodeBlockBG ctermbg=137
-"sign define codeblock linehl=markdownCodeBlockBG
-
-"function! MarkdownBlocks()
-  "let l:continue = 0
-  "execute "sign unplace * file=".expand("%")
-
-  "" iterate through each line in the buffer
-  "for l:lnum in range(1, len(getline(1, "$")))
-    "" detect the start fo a code block
-    "if getline(l:lnum) =~ "^```.*$" || l:continue
-      "" continue placing signs, until the block stops
-      "let l:continue = 1
-      "" place sign
-      "execute "sign place ".l:lnum." line=".l:lnum." name=codeblock file=".expand("%")
-      "" stop placing signs
-      "if getline(l:lnum) =~ "^```$"
-        "let l:continue = 0
-      "endif
-    "endif
-  "endfor
-"endfunction
-
-"" Use signs to highlight code blocks
-"" Set signs on loading the file, leaving insert mode, and after writing it
-"au InsertLeave *.md call MarkdownBlocks()
-"au BufEnter *.md call MarkdownBlocks()
-"au BufWritePost *.md call MarkdownBlocks()
-
+"" TODO: What it does?
 cmap <F7> <C-\>eAppendSome()<CR>
 func AppendSome()
    let cmd = getcmdline()
@@ -421,25 +288,4 @@ func AppendSome()
    " call setcmdpos(strlen(cmd))
    " return cmd
 endfunc
-
-" Indent whitespace.
-highlight WhiteSpaceBol guifg=#C4B699
-" Another whitespace symbols.
-highlight WhiteSpaceMol guifg=#EFE0B9
-match WhiteSpaceMol / /
-2match WhiteSpaceBol /^ \+/
-
-" runtime syntax/general/comments.vim
-
-" Filetypes.
-" - Config for Wsl.
-autocmd BufNewFile,BufReadPost .wslconfig set syntax=sh
-" - Config for Wyrd.
-autocmd BufNewFile,BufReadPost .wyrdrc set syntax=conf
-" - LaTex templates.
-autocmd BufNewFile,BufReadPost *.tplx set syntax=tex
-" - LaTeX templates for notebook.
-autocmd BufNewFile,BufReadPost *.tex.j2 set syntax=tex
-" - Python config files.
-autocmd BufNewFile,BufReadPost setup.cfg set filetype=dosini
 

@@ -24,6 +24,17 @@ Ui.plugins = {
     requires = 'kevinhwang91/promise-async'
   },
 
+  ['conceal'] = {
+    --'Jxstxs/conceal.nvim',
+    'DeadlySquad13/conceal.nvim',
+
+    requires = 'nvim-treesitter/nvim-treesitter',
+  },
+
+  ['headlines'] = {
+    'lukas-reineke/headlines.nvim',
+  },
+
     -- - Better UI for Lsp rename.
     -- use({
     --   'filipdutescu/renamer.nvim',
@@ -53,6 +64,14 @@ Ui.configs = {
 
   ['ufo'] = function()
     require('ds_omega.layers.Ui.ufo')
+  end,
+
+  ['conceal'] = function()
+    require('ds_omega.layers.Ui.conceal')
+  end,
+
+  ['headlines'] = function()
+    require('ds_omega.layers.Ui.headlines')
   end,
 }
 

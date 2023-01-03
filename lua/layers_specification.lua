@@ -107,7 +107,9 @@ return {
     'notify', -- Add nice looking ui for notifications.
   --   'fidget', -- Progress handler.
     'which_key', -- Mappings visualization.
-    'ufo' -- Folding.
+    'ufo', -- Folding.
+    'conceal', -- Conceal chosen language constructors with treesitter's aid.
+    'headlines', -- Background whole line highlights (for code blocks, headers...).
   },
 
   -- ['Writing'] = {
