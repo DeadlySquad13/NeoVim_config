@@ -1,6 +1,6 @@
 return {
   -- Make Ranger replace netrw and be the file explorer.
-  rnvimr_ex_enable = 1
+  rnvimr_ex_enable = 1,
   -- Change the border's color.
   rnvimr_border_attr = {
     fg = 14,
