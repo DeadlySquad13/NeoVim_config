@@ -306,9 +306,6 @@ endif
 
 " Navigation.
 " # Across files.
-" * Rnvimr.
-" - Make Ranger replace netrw and be the file explorer.
-let g:rnvimr_ex_enable = 1
 " * Rel.
 " - Jump to link (have to define here too because which_key doesn't handle
 "   conflicts occured by <unique> mapping of a Rel.vim).
