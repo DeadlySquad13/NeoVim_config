@@ -214,6 +214,8 @@ local M = {
   list_deep_extend = list_deep_extend,
 
   os = require('utils.os'),
+
+  exec = require('utils.exec'),
 }
 
 --- Convert list to the table that you can use for fast find.
