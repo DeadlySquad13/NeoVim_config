@@ -58,6 +58,7 @@ local lsp_server_name_to_filetypes = {
   sumneko_lua = { 'lua' },
   tsserver = { 'typescript', 'typescriptreact' },
   texlab = { 'tex' },
+  gopls = { 'go' },
 }
 
 local enabled_filetypes = get_module_enabled_filetypes()

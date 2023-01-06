@@ -10,6 +10,7 @@ local servers_with_custom_configurations = {
   'jsonls',
 
   'texlab',
+  'gopls',
   -- bashls = default_server_config,
 
   -- Conflicts with prettier formatting in TS files.

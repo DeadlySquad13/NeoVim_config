@@ -17,5 +17,5 @@ end
 return {
   on_attach = {
     setup_eslint_server_keymappings
-  }
+  },
 }
