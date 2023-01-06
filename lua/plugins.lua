@@ -19,8 +19,9 @@ local install_cmd = string.format(
 -- Auto-install packer in case it hasn't been installed.
 if fn.glob(packer_install_path) == '' then
   vim.api.nvim_echo({ { 'Installing packer.nvim', 'Type' } }, true, {})
+  -- TODO: Remove this line. It seems only fn.system call works on Windows.
   vim.cmd(install_cmd)
-  acker_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
+  local packer_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
 end
 
 -- Load packer.nvim
