@@ -210,7 +210,7 @@ local indentation = {
   expandtab = true, -- When using <Tab>, put spaces instead of a <tab> character
 
   tabstop = 4, -- Number of spaces that a <Tab> in the file counts for.
-  shiftwidth = 4, -- Set number of spaces per auto indentation
+  shiftwidth = 0, -- Set number of spaces per auto indentation the same as the tabstop.
   softtabstop = -1, --  Number of spaces that a <Tab> in the file counts for while editing. Use number of shiftwidth.
   smarttab = true, -- At <Tab> at beginning line inserts spaces set in shiftwidth.
 }
