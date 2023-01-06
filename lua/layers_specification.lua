@@ -48,6 +48,7 @@ return {
 
     -- * Telescope.
     'telescope',
+    'telescope_file_browser',
   },
 
   ['Editing'] = {

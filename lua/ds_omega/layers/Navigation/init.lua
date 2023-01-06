@@ -23,6 +23,11 @@ Navigation.plugins = {
     requires = 'nvim-lua/plenary.nvim',
   },
 
+  ['telescope_file_browser'] = {
+    'nvim-telescope/telescope-file-browser.nvim',
+    requires = 'nvim-telescope/telescope.nvim',
+  },
+
   ['rnvimr'] = {
     'kevinhwang91/rnvimr',
   },
@@ -62,6 +67,11 @@ Navigation.configs = {
   ['telescope'] = function()
     require('ds_omega.layers.Navigation.telescope')
   end,
+
+  ['telescope_file_browser'] = function()
+    require('ds_omega.layers.Navigation.telescope_file_browser')
+  end,
+
 
   ['rnvimr'] = function()
     require('ds_omega.layers.Navigation.rnvimr')
