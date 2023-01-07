@@ -5,9 +5,9 @@ local edit_file = require('utils').edit_file
 -- TODO: Make default_text as regex.
 
 --- Open lua module: if only one file exists, jump to it immediately, otherwise
--- open directory.
----@param path (string) Absolute.
----@param opts (table | nil) Telescope find files picker options.
+-- open directory in file_browser.
+---@param path (string) Absolute path.
+---@param opts (table | nil) Telescope picker options.
 ---@return unknown
 local function open_lua_module(path, opts)
   local path_relative_to_runtimepath = convert_to_runtimepath(path)
@@ -21,39 +21,54 @@ local function open_lua_module(path, opts)
     return edit_file(files[1])
   end
 
-  return require('telescope.builtin').find_files(vim.tbl_extend('force', { cwd = path }, opts or {}))
+  local picker = require('telescope').extensions.file_browser.file_browser
+
+  return picker(vim.tbl_extend('force', { cwd = path }, opts or {}))
+end
+
+---  Depending on target uses appropriate callback.
+-- If it's file - opens it, if it's directory - opens file_browser.
+---@param path (string) Absolute path.
+---@param opts (table | nil) Telescope picker options.
+---@return unknown
+local function open(path, opts)
+  if vim.fn.isdirectory(path) == 0 then
+    return edit_file(path)
+  end
+
+  return open_lua_module(path, opts)
 end
 
 local function traverse_keymappings()
-  return open_lua_module(env.NVIM_LUA, { default_text = 'keymappings' })
+  return open_lua_module()
 end
 
 local function open_plugins()
-  edit_file(env.NVIM_PLUGINS)
+  edit_file()
 end
 
 local function open_layers_specification()
-  edit_file(env.NVIM_LAYERS_SPECIFICATION)
+  edit_file()
 end
 
 local function open_vimrc()
-  edit_file('$MYVIMRC')
+  edit_file()
 end
 
 local function open_config()
-  open_lua_module(env.NVIM_LUA_CONFIG)
+  open_lua_module()
 end
 
 local function open_general_settings()
-  edit_file(env.NVIM_GENERAL_SETTINGS)
+  edit_file()
 end
 
 local function traverse_layers()
-  open_lua_module(env.NVIM_LAYERS)
+  open_lua_module()
 end
 
 local function traverse_autocommands()
-  open_lua_module(env.NVIM_AUTOCOMMANDS)
+  open_lua_module()
 end
 
 local function open_goneovim_settings()
@@ -61,11 +76,11 @@ local function open_goneovim_settings()
 end
 
 local function traverse_after()
-  open_lua_module(env.NVIM_AFTER)
+  open_lua_module()
 end
 
 local function traverse_commands()
-  open_lua_module(env.NVIM_LUA, { default_text = 'commands' })
+  open_lua_module()
 end
 
 local gui_settings_paths = {
@@ -91,38 +106,44 @@ local choose_and_edit_gui_settings = function()
   end)
 end
 
-local edit_actions = {
-  keymappings = traverse_keymappings,
-  plugins = open_plugins,
-  layers_specification = open_layers_specification,
-  vimrc = open_vimrc,
-  config = open_config,
-  general_settings = open_general_settings,
-  layers = traverse_layers,
-  autocommands = traverse_autocommands,
+---@class Item
+---@field path (string) Path (can be at first index).
+---@field opts (table | nil) Telescope picker options.
+
+---@type table<string, Item>
+local items = {
+  keymappings = { env.NVIM_LUA, opts = { default_text = 'keymappings' } },
+  plugins = { env.NVIM_PLUGINS },
+  layers_specification = { env.NVIM_LAYERS_SPECIFICATION },
+  vimrc = { '$MYVIMRC' },
+  config = { env.NVIM_LUA_CONFIG },
+  general_settings = { env.NVIM_GENERAL_SETTINGS },
+  layers = { env.NVIM_LAYERS },
+  autocommands = { env.NVIM_AUTOCOMMANDS },
   gui = choose_and_edit_gui_settings,
-  after = traverse_after,
-  commands = traverse_commands,
+  after = { env.NVIM_AFTER },
+  commands = { env.NVIM_LUA, opts = { default_text = 'commands' } }
 }
 
-local edit_targets = {}
-
-local i = 0
-
-for edit_target, _ in pairs(edit_actions) do
-  i = i + 1
-  edit_targets[i] = edit_target
-end
-
 local choose_and_edit_target = function()
-  vim.ui.select(edit_targets, {
+  vim.ui.select(vim.tbl_keys(items), {
     prompt = 'Choose target to edit',
     telescope = require('telescope.themes').get_dropdown(),
   }, function(selected)
     if not selected then
       return
     end
-    edit_actions[selected]()
+
+    local selected_item = items[selected]
+
+    if type(selected_item) == 'function' then
+      return selected_item() 
+    end
+
+    local path = selected_item[1] or selected_item.path
+    local opts = selected_item.opts
+
+    open(path, opts)
   end)
 end
 
