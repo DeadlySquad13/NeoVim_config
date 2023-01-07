@@ -21,10 +21,6 @@ WindowManagement.plugins = {
 }
 
 WindowManagement.configs = {
-  ['bufdelete'] = function()
-    require('ds_omega.layers.WindowManagement.bufdelete')
-  end,
-
   ['focus'] = function()
     require('ds_omega.layers.WindowManagement.focus')
   end,
