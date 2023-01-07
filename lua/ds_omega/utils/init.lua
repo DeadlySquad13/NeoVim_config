@@ -1,4 +1,3 @@
-local fp = require('utils').fp
 local prequire = require('utils').prequire
 
 local function prequire_plugin(plugin_name)
