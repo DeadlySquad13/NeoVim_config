@@ -60,10 +60,6 @@ Navigation.configs = {
     require('ds_omega.layers.Navigation.quick_scope')
   end,
 
-  ['lightspeed'] = function ()
-    require('ds_omega.layers.Navigation.lightspeed')
-  end,
-
   ['marks'] = function()
     require('ds_omega.layers.Navigation.marks')
   end,
@@ -91,10 +87,6 @@ Navigation.configs = {
 
   ['other'] = function()
     require('ds_omega.layers.Navigation.other')
-  end,
-
-  ['rel'] = function()
-    require('ds_omega.layers.Navigation.rel')
   end,
 }
 
