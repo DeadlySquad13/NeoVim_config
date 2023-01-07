@@ -1,4 +1,4 @@
 local simple_plugin_setup = require('ds_omega.utils').simple_plugin_setup
 
 simple_plugin_setup('Comment', 'Editing.comments')
-require('config.comments.custom_comments')
+require('config.Editing.comments.custom_comments')

@@ -1,4 +1,4 @@
-  local which_key_utils = require('config.which_key.utils')
+  local which_key_utils = require('config.Ui.which_key.utils')
 
 --- Apply all lsp related keymappings.
 ---@param bufnr (integer)

@@ -22,7 +22,7 @@ vim.o.foldenable = true
 --   end
 -- end
 
-local apply_keymappings_once_ready = require('config.which_key.utils').apply_keymappings_once_ready
+local apply_keymappings_once_ready = require('config.Ui.which_key.utils').apply_keymappings_once_ready
 apply_keymappings_once_ready('n', {
   -- Using ufo provider need remap `zR` and `zM`.
   z = {

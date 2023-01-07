@@ -1,5 +1,5 @@
 local function setup_eslint_server_keymappings(_, bufnr)
-  local apply_keymappings = require('config.which_key.utils').apply_keymappings
+  local apply_keymappings = require('config.Ui.which_key.utils').apply_keymappings
 
   local mappings = {}
   mappings.n = {
