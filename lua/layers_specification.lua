@@ -1,3 +1,14 @@
+-- filetype_to_layers_specification = {
+--   'go' = ''
+-- }
+
+-- --- 
+-- ---@param langauge (string)
+-- ---@return 
+-- local function get_layers_specification(filetype)
+
+-- end
+
 return {
   ['Integrations'] = {
     'toggleterm', -- Terminal integration.
