@@ -46,6 +46,10 @@ Navigation.plugins = {
     'elihunter173/dirbuf.nvim',
   },
 
+  ['other'] = {
+    'rgroli/other.nvim',
+  },
+
   ['rel'] = {
     'aklt/rel.vim',
   }
@@ -83,6 +87,10 @@ Navigation.configs = {
 
   ['dirbuf'] = function()
     require('ds_omega.layers.Navigation.dirbuf')
+  end,
+
+  ['other'] = function()
+    require('ds_omega.layers.Navigation.other')
   end,
 
   ['rel'] = function()
