@@ -87,27 +87,6 @@ local function fancyparams(arg_def, f)
   end
 end
 
----  Converts path to runtimepath (see `:h runtimepath`) or more specifically to
--- stdpath('config') (see `:h stdpath`).
----@param path (string) Path that looks like
--- `home/dubuntus/.config/nvim/lua/config/incline.lua`
----@return (string) path Path thats truncated at the beggining (as if starting relatively
--- from stdpath('config')):
--- `lua/config/incline.lua`.
-local function convert_to_runtimepath(path)
-  local path_with_truncated_runtimepath = string.gsub(
-    path,
-    vim.fn.stdpath('config'),
-    ''
-  )
-
-  -- Removing first slash.
-  return path_with_truncated_runtimepath:sub(2)
-end
-
-local function edit_file(path)
-  return vim.cmd('e ' .. path)
-end
 
 local function apply_global_variables(global_variables)
   for name, value in pairs(global_variables) do
@@ -198,13 +177,12 @@ local M = {
   exists = exists,
   is_loaded = is_loaded,
 
-  -- # File system.
-  convert_to_runtimepath = convert_to_runtimepath,
-  edit_file = edit_file,
-
   -- # Functional programming.
   compose = compose,
   fp = fancyparams,
+
+  -- # File System.
+  file = require('utils.file'),
 
   -- # Collections.
   IndexedSet = IndexedSet,
