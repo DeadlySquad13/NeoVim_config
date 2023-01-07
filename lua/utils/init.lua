@@ -16,7 +16,7 @@ end
 --vim.notify.
 ---@param message (string) Message to display.
 ---@param level #Level of notification (see `:h vim.log.levels`).
----@param opts (table) Additional options for nvim.notify visualization (see `:h
+---@param opts (table|nil) Additional options for nvim.notify visualization (see `:h
 --notify.Options`).
 _G.notify = function(message, level, opts)
   local nvim_notify_is_available, nvim_notify = pcall(require, 'notify')
@@ -30,8 +30,8 @@ _G.notify = function(message, level, opts)
 end
 
 --- Protected require of the module.
----@param module_name 
----@return (boolean),module)
+---@param module_name (string)
+---@return (boolean), module|nil)
 local function prequire(module_name)
   local module_loading_error_handler = function(error)
     notify(
@@ -47,7 +47,7 @@ local function prequire(module_name)
   )
 
   if not status_ok then
-    return status_ok
+    return status_ok, nil
   end
 
   return status_ok, module
