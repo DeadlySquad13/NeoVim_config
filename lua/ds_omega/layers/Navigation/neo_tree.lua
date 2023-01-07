@@ -20,4 +20,4 @@ vim.fn.sign_define(
   { text = '', texthl = 'DiagnosticSignHint' }
 )
 
-simple_plugin_setup('neo-tree', 'neo_tree')
+simple_plugin_setup('neo-tree', 'Navigation.neo_tree')
