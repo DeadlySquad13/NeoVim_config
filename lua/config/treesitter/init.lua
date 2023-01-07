@@ -20,6 +20,12 @@ local incremental_selection = require_treesitter_configuration(
 )
 local rainbow = require_treesitter_configuration('rainbow')
 
+-- List of language that will be disabled
+local DISABLED_HIGHLIGHT_FILETYPES = {
+  'css',
+}
+local MAX_HIGHLIGHT_LINE_SIZE = 50000
+
 tree_sitter.setup({
   ensure_installed = parsers,
   ignore_install = {}, -- List of parsers to ignore installing
@@ -34,9 +40,9 @@ tree_sitter.setup({
 
   highlight = {
     enable = true, -- false will disable the whole extension
-    disable = {
-      'css'
-    }, -- list of language that will be disabled
+    disable = function(lang, bufnr)
+      return require('utils').Set(DISABLED_HIGHLIGHT_FILETYPES)[lang] or vim.api.nvim_buf_line_count(bufnr) > MAX_HIGHLIGHT_LINE_SIZE
+    end,
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
