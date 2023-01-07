@@ -6,7 +6,7 @@ if not illuminate_is_available then
   return 
 end
 
-local config_path = 'config.lsp.illuminate'
+local config_path = 'config.Lsp.illuminate'
 local config_is_available, config = prequire(config_path)
 if not config_is_available then
   config = {}
