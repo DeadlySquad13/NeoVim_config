@@ -16,13 +16,36 @@ local function prequire_plugin(plugin_name)
   return plugin_is_available, plugin
 end
 
+--- Perform common setup actions for connecting layer with user configuration.
+---@param plugin_name 
+---@param config_relative_path (string) If only layer name is given, plugin_name will be used
+-- instead assuming config is nested in this layer under the same name as
+-- plugin_name.
+---@example
+-- -- Config is in `Integrations.toggleterm`.
+-- simple_plugin_setup('toggleterm', 'Integrations')
+--
+-- -- Take config without changes: `Navigation.other`.
+-- simple_plugin_setup('other-nvim', 'Navigation.other')
+---@return
 local function simple_plugin_setup(plugin_name, config_relative_path)
   local plugin_is_available, plugin = prequire_plugin(plugin_name)
   if not plugin_is_available then
     return
   end
 
-  local config_path = 'config.' .. config_relative_path
+  -- Finding first segment. It must be a layer.
+  local segment_end = string.find(config_relative_path, "%.")
+
+  ---  Only layer name was given.
+  -- Assuming plugin_name and config_name for this plugin are the same.
+  if not segment_end then
+    local layer = config_relative_path
+
+    config_relative_path = layer .. plugin_name
+  end
+
+  local config_path = 'config.' .. (config_relative_path)
   local config_is_available, config = pcall(require, config_path)
   if not config_is_available then
     config = {}
