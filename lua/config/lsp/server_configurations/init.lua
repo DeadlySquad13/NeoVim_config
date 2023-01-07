@@ -11,10 +11,10 @@ local servers_with_custom_configurations = {
 
   'texlab',
   'gopls',
-  -- bashls = default_server_config,
+  -- bashls,
 
   -- Conflicts with prettier formatting in TS files.
-  -- stylelint_lsp = utils.base_config_without_formatting,
+  -- stylelint_lsp,
 }
 
 local custom_server_configurations = {}
