@@ -1,4 +1,4 @@
-local config = require('config.tpipeline')
+local config = require('config.Workspace.tpipeline')
 local tbl_remove_key = require('utils').tbl_remove_key
 
 local vim_settings = tbl_remove_key(config, 'vim_settings')
