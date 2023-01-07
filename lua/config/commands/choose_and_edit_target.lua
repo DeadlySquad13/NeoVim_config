@@ -39,50 +39,6 @@ local function open(path, opts)
   return open_lua_module(path, opts)
 end
 
-local function traverse_keymappings()
-  return open_lua_module()
-end
-
-local function open_plugins()
-  edit_file()
-end
-
-local function open_layers_specification()
-  edit_file()
-end
-
-local function open_vimrc()
-  edit_file()
-end
-
-local function open_config()
-  open_lua_module()
-end
-
-local function open_general_settings()
-  edit_file()
-end
-
-local function traverse_layers()
-  open_lua_module()
-end
-
-local function traverse_autocommands()
-  open_lua_module()
-end
-
-local function open_goneovim_settings()
-  edit_file(env.GONEOVIM_SETTINGS)
-end
-
-local function traverse_after()
-  open_lua_module()
-end
-
-local function traverse_commands()
-  open_lua_module()
-end
-
 local gui_settings_paths = {
   goneovim = env.GONEOVIM_SETTINGS,
   fvim = env.GONEOVIM_SETTINGS,
@@ -110,7 +66,7 @@ end
 ---@field path (string) Path (can be at first index).
 ---@field opts (table | nil) Telescope picker options.
 
----@type table<string, Item>
+---@type table<string, Item|function>
 local items = {
   keymappings = { env.NVIM_LUA, opts = { default_text = 'keymappings' } },
   plugins = { env.NVIM_PLUGINS },
