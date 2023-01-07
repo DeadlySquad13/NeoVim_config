@@ -74,7 +74,7 @@ end
 ---
 ---@param arg_def table with parameters with their default values.
 ---@param f function to which are default parameters are applied.
----@return new function with default parameters.
+---@return (function) # New function with default parameters.
 local function fancyparams(arg_def, f)
   return function(args)
     local params = {}
@@ -87,11 +87,11 @@ local function fancyparams(arg_def, f)
   end
 end
 
---- Converts path to runtimepath (see `:h runtimepath`) or more specifically to
+---  Converts path to runtimepath (see `:h runtimepath`) or more specifically to
 -- stdpath('config') (see `:h stdpath`).
----@param path that looks like
---`home/dubuntus/.config/nvim/lua/config/incline.lua`
----@return path thats truncated at the beggining (as if starting relatively
+---@param path (string) Path that looks like
+-- `home/dubuntus/.config/nvim/lua/config/incline.lua`
+---@return (string) path Path thats truncated at the beggining (as if starting relatively
 -- from stdpath('config')):
 -- `lua/config/incline.lua`.
 local function convert_to_runtimepath(path)
