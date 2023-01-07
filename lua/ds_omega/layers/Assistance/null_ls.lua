@@ -37,7 +37,7 @@ local function pop_unavailable_sources(sources)
   return available_sources
 end
 
-local sources = require('config.lsp.null_ls')
+local sources = require('config.Lsp.null_ls')
 
 --@see [config options](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/CONFIG.md).
 null_ls.setup({
