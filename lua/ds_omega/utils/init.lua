@@ -42,7 +42,7 @@ local function simple_plugin_setup(plugin_name, config_relative_path)
   if not segment_end then
     local layer = config_relative_path
 
-    config_relative_path = layer .. plugin_name
+    config_relative_path = layer ..'.'.. plugin_name
   end
 
   local config_path = 'config.' .. (config_relative_path)

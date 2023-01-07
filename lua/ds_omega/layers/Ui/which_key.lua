@@ -5,7 +5,7 @@ if not which_key_is_available then
   return
 end
 
-local apply_keymappings = require('config.which_key.utils').apply_keymappings
+local apply_keymappings = require('config.Ui.which_key.utils').apply_keymappings
 
 local mappings = require('config.keymappings')
 

@@ -1,6 +1,6 @@
 local simple_plugin_setup = require('ds_omega.utils').simple_plugin_setup
 
-local conceal_is_available, conceal = simple_plugin_setup('conceal', 'conceal')
+local conceal_is_available, conceal = simple_plugin_setup('conceal', 'Ui')
 
 if not conceal_is_available then
   return
