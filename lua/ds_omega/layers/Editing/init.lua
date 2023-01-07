@@ -65,24 +65,8 @@ Editing.configs = {
     require('ds_omega.layers.Editing.surround')
   end,
 
-  ['multi_cursors'] = function()
-    require('ds_omega.layers.Editing.multi_cursors')
-  end,
-
-  ['abolish'] = function()
-    require('ds_omega.layers.Editing.abolish')
-  end,
-
   ['tabout'] = function()
     require('ds_omega.layers.Editing.tabout')
-  end,
-
-  ['easy_align'] = function()
-    require('ds_omega.layers.Editing.easy_align')
-  end,
-
-  ['splitjoin'] = function()
-    require('ds_omega.layers.Editing.splitjoin')
   end,
 }
 
