@@ -242,7 +242,7 @@ local z_mappings = {
 local settings_mappings = {
   name = 'Settings',
   -- Colors.
-  c = { '<cmd>highlight<cr>', 'Show highlight groups colors' },
+  C = { '<cmd>highlight<cr>', 'Show highlight groups Colors' },
   --['*'] = { function() vim.fn['SynStack']() end, 'Show highlight groups under the cursor' }
   ['*'] = {
     -- ':TSHighlightCapturesUnderCursor<cr>',

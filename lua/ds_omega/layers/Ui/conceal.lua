@@ -11,6 +11,6 @@ end
 --conceal.generate_conceals()
 
 -- Bind a <leader>tc to toggle the concealing level
-vim.keymap.set("n", "<leader>tc", function()
+vim.keymap.set("n", "<leader>,c", function()
   conceal.toggle_conceal()
 end, { silent = true })
