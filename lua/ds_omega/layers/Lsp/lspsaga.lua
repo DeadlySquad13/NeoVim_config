@@ -6,7 +6,7 @@ if not lspsaga_is_available then
   return 
 end
 
-local config_path = 'config.lsp.lspsaga'
+local config_path = 'config.Lsp.lspsaga'
 local config_is_available, config = prequire(config_path)
 if not config_is_available then
   config = {}
