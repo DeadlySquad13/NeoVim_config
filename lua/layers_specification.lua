@@ -44,6 +44,8 @@ return {
     'neo_tree', -- Browse file tree.
     'dirbuf', -- Browse editable file tree like dired.
 
+    'other', -- Alternate and cycle between files of different types but the same business functionality.
+
     'rel', -- Jumping to file under cursor.
 
     -- * Telescope.
