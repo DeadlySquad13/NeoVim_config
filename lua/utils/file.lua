@@ -49,9 +49,9 @@ file.open_lua_module = function(path, opts)
     return file.edit_file(files[1])
   end
 
-  local picker = require('telescope').extensions.file_browser.file_browser
+  local picker = require('telescope.builtin').find_files
 
-  return picker(vim.tbl_extend('force', { cwd = path }, opts or { depth = 2 }))
+  return picker(vim.tbl_extend('force', { cwd = path }, opts))
 end
 
 ---  Depending on target uses appropriate callback.
