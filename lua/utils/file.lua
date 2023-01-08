@@ -14,9 +14,9 @@ end
 
 ---  Converts path to runtimepath (see `:h runtimepath`) or more specifically to
 -- stdpath('config') (see `:h stdpath`).
----@param path (string) Path that looks like
+---@param path (string) Absolute path, for example:
 -- `home/dubuntus/.config/nvim/lua/config/incline.lua`
----@return (string) path Path thats truncated at the beggining (as if starting relatively
+---@return (string) path Path that's truncated at the beginning (as if starting relatively
 -- from stdpath('config')):
 -- `lua/config/incline.lua`.
 file.convert_to_runtimepath = function(path)
@@ -28,6 +28,17 @@ file.convert_to_runtimepath = function(path)
 
   -- Removing first slash.
   return path_with_truncated_runtimepath:sub(2)
+end
+---  Checks if the given path points to a lua module (folder with init.lua
+-- inside)
+---@param path (string) Absolute path, for example: 
+-- `home/dubuntus/.config/nvim/lua/config/incline`
+---@return (boolean)
+file.is_lua_module = function(path)
+  local path_relative_to_runtimepath = file.convert_to_runtimepath(path)
+  local files_found = vim.api.nvim_get_runtime_file(path_relative_to_runtimepath..'/init.lua', false) -- Return when a first match found.
+
+  return not vim.tbl_isempty(files_found)
 end
 
 -- TODO: Make default_text as regex.

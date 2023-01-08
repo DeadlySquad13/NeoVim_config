@@ -58,7 +58,17 @@ local function simple_plugin_setup(plugin_name, config_relative_path)
     )
   end
 
-  plugin.setup(config)
+  local absolute_path = require('constants.env').NVIM_LUA_CONFIG ..'/'.. string.gsub(config_relative_path, '%.', '/')
+  if not require('utils.file').is_lua_module(absolute_path) then
+    plugin.setup(config)
+
+    return plugin_is_available, plugin
+  end
+
+  plugin.setup(config.settings)
+  for mode, keymappings_for_mode in pairs(config.keymappings or {}) do
+    require('config.Ui.which_key.utils').apply_keymappings_once_ready(mode, keymappings_for_mode)
+  end
 
   return plugin_is_available, plugin
 end
