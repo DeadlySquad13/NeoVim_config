@@ -3,14 +3,12 @@ local format_buf_name = require('config.utils').format_buf_name;
 --render_props: {
   --buf: number,
   --win: number,
+  --focus: boolean,
 --}
 local function render(render_props)
-  local win_id = render_props.win;
-  local buf_id = render_props.buf;
+  local buf_name = vim.api.nvim_buf_get_name(render_props.buf);
+  local win_number = vim.api.nvim_win_get_number(render_props.win);
 
-  local buf_name = vim.api.nvim_buf_get_name(buf_id);
-
-  local win_number = vim.api.nvim_win_get_number(win_id);
   return {
     { win_number, group = 'SpecialKey' },
     { '. ', group = 'Delimiter' },
@@ -26,17 +24,17 @@ return {
   hide = {
     cursorline = false,
     focused_win = false,
-    only_win = false
+    only_win = false,
   },
   highlight = {
     groups = {
       InclineNormal = {
         default = true,
-        group = 'NormalFloat'
+        group = 'BufferLineBufferSelected',
       },
       InclineNormalNC = {
         default = true,
-        group = 'NormalFloat'
+        group = 'Normal'
       }
     }
   },
