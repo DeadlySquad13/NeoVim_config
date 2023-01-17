@@ -82,6 +82,7 @@ return {
     'indent', -- Indents.
     'hydrogen', -- Hydrogen (jupyter notebook cells).
     'word', -- Case delimited and _ delimited words.
+    'treesitter', -- General treesitter textobjects operating on queries.
   },
 
   ['Lsp'] = {
