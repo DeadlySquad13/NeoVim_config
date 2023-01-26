@@ -65,6 +65,7 @@ return {
     'telescope_file_browser',
   },
 
+  -- Related to editing text.
   ['Editing'] = {
     'autopairs', -- Automatically insert brackets.
     'comments', -- Keybindings for commenting.
@@ -73,7 +74,8 @@ return {
     'abolish', -- Case permutations (from snake_case to camelCase and so on).
     'tabout', -- Quick jump out of parentheses.
     'easy_align', -- Align by symbol or regex pattern.
-    'splitjoin' -- Change object from inline to multi-line and vice versa.
+    'splitjoin', -- Change object from inline to multi-line and vice versa.
+    'undo', -- Operate with undo tree.
   },
 
   ['TextObjects'] = {

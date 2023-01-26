@@ -27,6 +27,7 @@ return {
   },
 
   extensions = {
-    file_browser = require('config.Navigation.telescope_file_browser')
+    file_browser = require('config.Navigation.telescope_file_browser'),
+    undo = require('config.Editing.undo'),
   }
 }
