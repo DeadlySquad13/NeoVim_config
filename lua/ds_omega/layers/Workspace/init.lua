@@ -33,6 +33,10 @@ Workspace.plugins = {
     end,
   },
 
+  ['scope'] = {
+    'tiagovla/scope.nvim',
+  },
+
   ['jabs'] = {
     'matbme/JABS.nvim',
     cmd = 'JABSOpen',
@@ -77,6 +81,10 @@ Workspace.configs = {
 
   ['bufferline'] = function()
     require('ds_omega.layers.Workspace.bufferline')
+  end,
+
+  ['scope'] = function()
+    require('ds_omega.layers.Workspace.scope')
   end,
 
   ['jabs'] = function()

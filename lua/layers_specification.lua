@@ -21,6 +21,7 @@ return {
 
     -- * Buffers.
     'bufferline', -- Buffer line.
+    'scope', -- Limit buffers to current tab.
     'jabs', -- Buffer management popup.
 
     -- * Winbar: statusline at the top of the window.
