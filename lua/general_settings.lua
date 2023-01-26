@@ -189,17 +189,21 @@ local global_local = {
 }
 
 
+local shell_settings = {}
+--
 -- Program that will be used when issuing `:!`.
 -- global_local.shell = '/bin/bash', -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
-if require('utils.os').is("Windows_NT") then
-  if vim.fn.executable('pwsh.exe') == 1 then
-    global_local.shell = 'pwsh.exe' -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
-    global_local.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
-    global_local.shellxquote = ''
-    global_local.shellquote = ''
-    -- global_local.shellpipe = '| Out-File -Encoding UTF8 %s'
-    -- global_local.shellredir = '| Out-File -Encoding UTF8 %s'
-  end
+if vim.fn.executable('pwsh.exe') == 1 then
+  local pwsh_settings = {
+    shell = 'pwsh.exe', -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
+    shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+    shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+    shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+    shellquote = "",
+    shellxquote = "",
+  }
+
+  shell_settings = pwsh_settings
 end
 
 
@@ -253,6 +257,7 @@ set_settings(
     buffer_local_settings,
     global_local,
     bw_local,
+    shell_settings,
     indentation
   )
 )
