@@ -1,5 +1,5 @@
 -- change the lsp symbol kind
-local lspkind = require('lspsaga.lspkind')
+-- local lspkind = require('lspsaga.lspkind')
 
 return {
   -- ???
