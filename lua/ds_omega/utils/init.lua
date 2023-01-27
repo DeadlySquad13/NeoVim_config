@@ -49,12 +49,15 @@ local function simple_plugin_setup(plugin_name, config_relative_path)
   local config_is_available, config = pcall(require, config_path)
   if not config_is_available then
     config = {}
-    notify(
-      'Config for plugin `' .. plugin_name .. '` on path `' .. config_path .. '` does not exist!\nReverting to default configuration.',
-      vim.log.levels.WARN,
-      {
-        title = 'Core',
-      }
+    if LOG_INTO.notify then
+      notify(
+        'Config for plugin `' .. plugin_name .. '` on path `' .. config_path .. '` does not exist!\nReverting to default configuration.',
+        { title = 'Core' }
+      )
+    end
+
+    log('Core')(
+      'Config for plugin `' .. plugin_name .. '` on path `' .. config_path .. '` does not exist!\nReverting to default configuration.'
     )
   end
 

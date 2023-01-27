@@ -54,6 +54,42 @@ local function prequire(module_name)
 end
 _G.prequire = prequire
 
+local outfile = string.format("%s/debug.log", vim.api.nvim_call_function("stdpath", {"data"}))
+
+-- See [debuglog source](https://github.com/smartpde/debuglog/blob/main/lua/debuglog.lua).
+_G.log = function(name, hl, opts)
+  local debuglog_is_available, debuglog = prequire('debuglog')
+
+  --   dlog is just a shim to a debuglog plugin. It won't work until plugin is
+  -- loaded therefore I can't use logging before plugins loading.
+  if debuglog_is_available then
+    -- FIX: Somehow it's delayed if invoked in layer configurations.
+    debuglog.enable(name)
+    return require('utils.dlog')(name, hl, opts)
+  end
+
+  return function(...)
+    if LOG_INTO.messages then
+      local message = string.format(...)
+      vim.api.nvim_echo({
+        {os.date("%H:%M:%S:")}, {" "}, {name},
+        {": "}, {message}
+      }, true, {})
+    end
+    if LOG_INTO.file then
+      local fp = io.open(outfile, "a")
+      local str = os.date("%H:%M:%S: ") .. string.format(...) .. "\n"
+
+      if not fp then
+        return
+      end
+
+      fp:write(str)
+      fp:close()
+    end
+  end
+end
+
 -- Shortcut for printing variables in a meaningless way: showing contents of a
 --   table via vim.inspect. Used log as console.log in js works pretty the same
 --   way.
@@ -194,34 +230,10 @@ local M = {
   os = require('utils.os'),
 
   exec = require('utils.exec'),
+
+  Set = require('utils.Set').Set,
+
+  SetIntersection = require('utils.Set').SetIntersection,
 }
-
---- Convert list to the table that you can use for fast find.
----@param list (table) list of items { 'a', 'b', 'c' }.
----@return (table) table #table of items { 'a' = true, 'b' = true, 'c' = true }.
----@ref see [luadoc arithmetic metamethods](https://www.lua.org/pil/13.1.html)
---for further set implementation.
-M.Set = function(list)
-  local set = {}
-  for _, item in ipairs(list) do
-    set[item] = true
-  end
-  return set
-end
-
-M.SetIntersection = function(a, b)
-  local res = {}
-  if not a then
-    return nil
-  end
-  if not b then
-    return a
-  end
-
-  for k in pairs(a) do
-    res[k] = b[k]
-  end
-  return res
-end
 
 return M
