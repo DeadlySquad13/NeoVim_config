@@ -228,6 +228,7 @@ startup({
     use({
       'kevinhwang91/nvim-bqf',
 
+      event = 'FileType qf',
       requires = {
         {
           'junegunn/fzf.vim',
@@ -415,9 +416,6 @@ startup({
     --end
     --})
 
-    -- Show undo history visually
-    --use({'simnalamburt/vim-mundo', cmd = {'MundoToggle', 'MundoShow'}})
-
     -- Manage your yank history
     --if vim.g.is_win or vim.g.is_mac then
     --use({'svermeulen/vim-yoink', event = 'VimEnter'})
@@ -448,8 +446,6 @@ startup({
 
     -- Better git log display
     --use({ 'rbong/vim-flog', requires = 'tpope/vim-fugitive', cmd = { 'Flog' } })
-
-    --use({ 'kevinhwang91/nvim-bqf', event = 'FileType qf', config = [[require('config.bqf')]] })
 
     -- Better git commit experience
     --use({'rhysd/committia.vim', opt = true, setup = [[vim.cmd('packadd committia.vim')]]})
