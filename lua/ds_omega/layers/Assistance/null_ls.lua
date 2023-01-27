@@ -6,31 +6,50 @@ if not null_ls_is_available then
   return
 end
 
----
----@param program_name (string)
-local function check_if_executable(program_name)
-  ---@type (boolean)
-  local is_executable = vim.fn.executable(program_name) == 1
 
-  if not is_executable then
-    notify(
-      'Program "'
-      .. program_name
-      .. '" is not executable! Make sure it\'s installed and in your $PATH.',
-      vim.log.levels.ERROR,
-      { title = 'Null-ls', timeout = 1000 }
-    )
-  end
+local function notify_that_source_is_not_executable(source)
+  local program_name = source._opts.command
 
-  return is_executable
+  local NullLs = require('utils').create_augroup('NullLs__'..program_name, { clear = true })
+
+  require('utils').create_autocmd({ 'FileType' }, {
+    group = NullLs,
+    desc = 'Notify that program of source is not executable.',
+
+    pattern = source.filetypes,
+
+    callback = function()
+      local message = 'Program "' .. program_name .. '" is not executable! Make sure it\'s installed and in your $PATH.'
+
+      if LOG_INTO.notify then
+        notify(message, {
+            title = 'NullLs',
+            timeout = 1000,
+          }
+        )
+      end
+
+      log('NullLs')(message)
+    end,
+
+    once = true,
+  })
 end
 
-local function pop_unavailable_sources(sources)
+
+---  Adds a message to the unavailable sources.
+---@param sources 
+---@return 
+local function process_set_sources(sources)
   local available_sources = {}
 
   for _, source in ipairs(sources) do
-    if check_if_executable(source._opts.command) then
+    local program_name = source._opts.command
+
+    if vim.fn.executable(program_name) == 1 then
       table.insert(available_sources, source)
+    else
+      notify_that_source_is_not_executable(source)
     end
   end
 
@@ -41,5 +60,5 @@ local sources = require('config.Lsp.null_ls')
 
 --@see [config options](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/CONFIG.md).
 null_ls.setup({
-  sources = pop_unavailable_sources(sources),
+  sources = process_set_sources(sources),
 })

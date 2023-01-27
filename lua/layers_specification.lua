@@ -10,6 +10,11 @@
 -- end
 
 return {
+  -- Development plugins specific to neovim infrastructure.
+  ['NeoVimDevelopment'] = {
+    'debuglog', -- Logging.
+  },
+
   ['Integrations'] = {
     'toggleterm', -- Terminal integration.
   },
