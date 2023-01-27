@@ -19,7 +19,7 @@ return {
   formatting.stylua,
 
   -- General
-  ---@see [misspell](https://github.com/client9/misspell).
+  -- see [misspell](https://github.com/client9/misspell).
   -- diagnostics.misspell,
 
   -- Typescript
