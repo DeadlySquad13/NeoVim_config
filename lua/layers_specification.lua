@@ -52,7 +52,8 @@ return {
     -- * Inside  file.
     -- Was lagging :(
     -- 'quick_scope', -- More efficient jumping inside a line.
-    'lightspeed',
+    -- 'lightspeed',
+    'leap',
     'marks', -- Marks and bookmarks.
 
     -- * Across files.
