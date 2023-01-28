@@ -1,3 +1,5 @@
+local undo_actions = require("telescope-undo.actions")
+
 return {
   -- use_custom_command = { 'cmd.exe', '/c', [[echo $DIFF | delta]]}, -- setting this implies `use_delta = false`. Accepted format is: { "bash", "-c", "echo '$DIFF' | delta" }
   use_custom_command = { 'pwsh.exe', '-NoProfile', '-Command', 'echo "$DIFF" | delta'}, -- setting this implies `use_delta = false`. Accepted format is: { "bash", "-c", "echo '$DIFF' | delta" }
@@ -8,7 +10,7 @@ return {
   },
 
   diff_context_lines = vim.o.scrolloff,
-  entry_format = "state #$ID, $STAT, $TIME",
+  entry_format = 'state #$ID, $STAT, $TIME',
 
   mappings = {
     i = {
@@ -17,9 +19,9 @@ return {
       -- installing as a dependency of telescope in it's `requirements` and loading this
       -- extension from there instead of having the separate plugin definition as outlined
       -- above.
-      ["<cr>"] = require("telescope-undo.actions").yank_additions,
-      ["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
-      ["<C-cr>"] = require("telescope-undo.actions").restore,
+      ["<C-y>"] = undo_actions.yank_additions,
+      -- ["<C-y>"] = undo_actions.yank_deletions,
+      ["<Cr>"] = undo_actions.restore,
     },
   },
 }
