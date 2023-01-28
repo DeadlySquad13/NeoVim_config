@@ -5,8 +5,18 @@ return {
   case_sensitive = true,
   equivalence_classes = { ' \t\r\n' },
   substitute_chars = { ['\r'] = '¬' },
-  safe_labels = { 's', 'f', 'n', 'u', 't' },
-  labels = { 's', 'f', 'n', 'j', 'k' },
+  safe_labels = {
+    's', 'f', 'n', 'u', 't', '/',
+    'S', 'F', 'N', 'L', 'H', 'M', 'U', 'G', 'T', '?', 'Z'
+  }
+  labels = {
+    's', 'f',
+    'j', 'k', 'l', 'h', 'o', 'd', 'w', 'e', 'm',
+    'v', 'r', 'c', 'x', '/', 'z',
+    'S', 'F',
+    'J', 'K', 'L', 'H', 'O', 'D', 'W', 'E', 'M',
+    'V', 'R', 'C', 'X', '?', 'Z' 
+  },
   special_keys = {
     repeat_search = '<enter>',
     next_phase_one_target = '<enter>',
