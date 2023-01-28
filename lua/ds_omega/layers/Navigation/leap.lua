@@ -1,23 +1,28 @@
 local prequire = require('utils').prequire
 
-local leap_is_available, leap = prequire('leap')
+local ds_omega_utils_is_available, ds_omega_utils = prequire('ds_omega.utils')
 
-if not leap_is_available then
-  return 
+if not ds_omega_utils_is_available then
+  return
 end
 
-print('leap mappings')
+local leap_is_available, leap = require('ds_omega.utils').prequire_plugin('leap')
+if not leap_is_available then
+  return
+end
+
+local settings, keymappings = ds_omega_utils.get_plugin_config('leap', 'Navigation')
+
+--   Should be  done in `leap.opt.key = value` fashion. Just assigning
+-- a table doesn't work.
+for key, setting in pairs(settings) do
+  leap.opts[key] = setting
+end
+
+-- Without first parameter = true it won't override existing keymappings.
 leap.add_default_mappings()
 
-local config_is_avalable, config = prequire('config.Navigation.leap')
-
-if config_is_avalable then
-  if config.settings then
-    --   Should be  done in `leap.opt.key = value` fashion. Just assigning
-    -- a table doesn't work.
-    for key, setting in pairs(config.settings) do
-      leap.opts[key] = setting
-    end
-  end
+if keymappings then
+  ds_omega_utils.apply_plugin_keymappings(keymappings)
 end
 
