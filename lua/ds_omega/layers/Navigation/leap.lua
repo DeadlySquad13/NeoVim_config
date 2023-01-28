@@ -9,10 +9,15 @@ end
 print('leap mappings')
 leap.add_default_mappings()
 
-local settings_are_avalable, settings = prequire('config.Navigation.leap')
+local config_is_avalable, config = prequire('config.Navigation.leap')
 
-if settings_are_avalable then
-  for key, setting in pairs(settings) do
-    leap.opts[key] = setting
+if config_is_avalable then
+  if config.settings then
+    --   Should be  done in `leap.opt.key = value` fashion. Just assigning
+    -- a table doesn't work.
+    for key, setting in pairs(config.settings) do
+      leap.opts[key] = setting
+    end
   end
 end
+
