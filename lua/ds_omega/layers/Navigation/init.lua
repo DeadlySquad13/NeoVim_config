@@ -14,6 +14,10 @@ Navigation.plugins = {
     end
   },
 
+  ['leap'] = {
+    'ggandor/leap.nvim',
+  },
+
   ['marks'] = {
     'chentoast/marks.nvim',
   },
@@ -58,6 +62,10 @@ Navigation.plugins = {
 Navigation.configs = {
   ['quick_scope'] = function()
     require('ds_omega.layers.Navigation.quick_scope')
+  end,
+
+  ['leap'] = function()
+    require('ds_omega.layers.Navigation.leap')
   end,
 
   ['marks'] = function()
