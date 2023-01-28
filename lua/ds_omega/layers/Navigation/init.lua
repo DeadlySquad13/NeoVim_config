@@ -18,6 +18,12 @@ Navigation.plugins = {
     'ggandor/leap.nvim',
   },
 
+  ['flit'] = {
+    'ggandor/flit.nvim',
+
+    requires = 'leap.nvim',
+  },
+
   ['marks'] = {
     'chentoast/marks.nvim',
   },
@@ -66,6 +72,10 @@ Navigation.configs = {
 
   ['leap'] = function()
     require('ds_omega.layers.Navigation.leap')
+  end,
+
+  ['flit'] = function()
+    require('ds_omega.layers.Navigation.flit')
   end,
 
   ['marks'] = function()

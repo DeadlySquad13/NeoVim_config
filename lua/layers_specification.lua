@@ -53,7 +53,8 @@ return {
     -- Was lagging :(
     -- 'quick_scope', -- More efficient jumping inside a line.
     -- 'lightspeed',
-    'leap',
+    'leap',-- jump and operate with a help of clever labels.
+    'flit', -- f/F, t/T motions enhanced with leap.
     'marks', -- Marks and bookmarks.
 
     -- * Across files.
