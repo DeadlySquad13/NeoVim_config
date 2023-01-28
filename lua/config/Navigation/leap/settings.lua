@@ -7,15 +7,15 @@ return {
   substitute_chars = { ['\r'] = '¬' },
   safe_labels = {
     's', 'f', 'n', 'u', 't', '/',
-    'S', 'F', 'N', 'L', 'H', 'M', 'U', 'G', 'T', '?', 'Z'
-  }
+    'S', 'F', 'N', 'L', 'H', 'M', 'U', 'G', 'T', '?', 'Z',
+  },
   labels = {
     's', 'f',
     'j', 'k', 'l', 'h', 'o', 'd', 'w', 'e', 'm',
     'v', 'r', 'c', 'x', '/', 'z',
     'S', 'F',
     'J', 'K', 'L', 'H', 'O', 'D', 'W', 'E', 'M',
-    'V', 'R', 'C', 'X', '?', 'Z' 
+    'V', 'R', 'C', 'X', '?', 'Z',
   },
   special_keys = {
     repeat_search = '<enter>',
