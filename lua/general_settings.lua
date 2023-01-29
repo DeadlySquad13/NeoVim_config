@@ -242,6 +242,7 @@ local bw_local = {
   conceallevel = 2,
   concealcursor = '', -- Always show unconcealed text under cursor.
   cursorline = IS_ENVIRONMENT_FAST,
+  guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20',
 }
 
 local utils_setters = require('utils.setters')
