@@ -1,7 +1,7 @@
 local choose_and_edit_target = require('config.commands.choose_and_edit_target')
 local create_user_command = require('config.commands.utils').create_user_command
 
----@see `:h user-commands` and `:h nvim_create_user_command()`.
+-- See `:h user-commands` and `:h nvim_create_user_command()`.
 
 create_user_command(
   'ChooseAndEditConfigs',

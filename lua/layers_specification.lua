@@ -52,8 +52,12 @@ return {
     -- * Inside  file.
     -- Was lagging :(
     -- 'quick_scope', -- More efficient jumping inside a line.
-    'lightspeed',
+    -- 'lightspeed',
+    'leap',-- jump and operate with a help of clever labels.
+    'flit', -- f/F, t/T motions enhanced with leap.
     'marks', -- Marks and bookmarks.
+    'sj', -- Jump to specific search result with labels.
+    'syntax_tree_surfer', -- Surf through nodes of treesitter syntax tree.
 
     -- * Across files.
     -- - Harpoon?
