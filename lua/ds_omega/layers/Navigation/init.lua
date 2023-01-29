@@ -24,6 +24,10 @@ Navigation.plugins = {
     requires = 'leap.nvim',
   },
 
+  ['sj'] = {
+    'woosaaahh/sj.nvim',
+  },
+
   ['marks'] = {
     'chentoast/marks.nvim',
   },
@@ -76,6 +80,10 @@ Navigation.configs = {
 
   ['flit'] = function()
     require('ds_omega.layers.Navigation.flit')
+  end,
+
+  ['sj'] = function()
+    require('ds_omega.layers.Navigation.sj')
   end,
 
   ['marks'] = function()
