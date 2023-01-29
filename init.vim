@@ -214,3 +214,8 @@ func AppendSome()
    " return cmd
 endfunc
 
+" Highlight only leading whitespace characters.
+highlight WhiteSpaceLeading guifg=#918278
+highlight WhiteSpace guifg=#efe0b9
+match WhiteSpace / /
+2match WhiteSpaceLeading /^ \+/
