@@ -57,6 +57,7 @@ return {
     'flit', -- f/F, t/T motions enhanced with leap.
     'marks', -- Marks and bookmarks.
     'sj', -- Jump to specific search result with labels.
+    'syntax_tree_surfer', -- Surf through nodes of treesitter syntax tree.
 
     -- * Across files.
     -- - Harpoon?
