@@ -56,6 +56,7 @@ return {
     'leap',-- jump and operate with a help of clever labels.
     'flit', -- f/F, t/T motions enhanced with leap.
     'marks', -- Marks and bookmarks.
+    'sj', -- Jump to specific search result with labels.
 
     -- * Across files.
     -- - Harpoon?
