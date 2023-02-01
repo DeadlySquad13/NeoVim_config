@@ -14,6 +14,24 @@ Navigation.plugins = {
     end
   },
 
+  ['leap'] = {
+    'ggandor/leap.nvim',
+  },
+
+  ['flit'] = {
+    'ggandor/flit.nvim',
+
+    requires = 'leap.nvim',
+  },
+
+  ['sj'] = {
+    'woosaaahh/sj.nvim',
+  },
+
+  ['syntax_tree_surfer'] = {
+    'ziontee113/syntax-tree-surfer',
+  },
+
   ['marks'] = {
     'chentoast/marks.nvim',
   },
@@ -58,6 +76,22 @@ Navigation.plugins = {
 Navigation.configs = {
   ['quick_scope'] = function()
     require('ds_omega.layers.Navigation.quick_scope')
+  end,
+
+  ['leap'] = function()
+    require('ds_omega.layers.Navigation.leap')
+  end,
+
+  ['flit'] = function()
+    require('ds_omega.layers.Navigation.flit')
+  end,
+
+  ['sj'] = function()
+    require('ds_omega.layers.Navigation.sj')
+  end,
+
+  ['syntax_tree_surfer'] = function()
+    require('ds_omega.layers.Navigation.syntax_tree_surfer')
   end,
 
   ['marks'] = function()

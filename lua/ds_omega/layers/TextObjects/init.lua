@@ -35,6 +35,13 @@ TextObjects.plugins = {
     event = 'VimEnter',
     after = 'vim-textobj-user',
   },
+
+  -- Has it's config in treesitter.
+  ['treesitter'] = {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+
+    requires = 'nvim-treesitter',
+  }
 }
 
 return TextObjects

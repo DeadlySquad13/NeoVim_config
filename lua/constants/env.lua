@@ -25,6 +25,13 @@ local nvim_queries = nvim_after .. '/queries'
 
 local goneovim_settings = user_config .. '/goneovim/settings.toml'
 
+---@type table<'file'|'messages'|'notify', boolean>
+LOG_INTO = require('utils.Set').Set({
+  -- 'file',
+  'messages',
+  -- 'notify'
+})
+
 return {
   HOME = home,
   USER_CONFIG = user_config,

@@ -50,6 +50,15 @@ Editing.plugins = {
   ['splitjoin'] = {
     'AndrewRadev/splitjoin.vim'
   },
+
+  ['undo'] = {
+    'debugloop/telescope-undo.nvim',
+
+    requires = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim',
+    },
+  },
 }
 
 Editing.configs = {
@@ -67,6 +76,10 @@ Editing.configs = {
 
   ['tabout'] = function()
     require('ds_omega.layers.Editing.tabout')
+  end,
+
+  ['undo'] = function()
+    require('ds_omega.layers.Editing.undo')
   end,
 }
 

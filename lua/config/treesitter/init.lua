@@ -20,6 +20,8 @@ local incremental_selection = require_treesitter_configuration(
 )
 local rainbow = require_treesitter_configuration('rainbow')
 
+local textobjects = require_treesitter_configuration('textobjects')
+
 -- List of language that will be disabled
 local DISABLED_HIGHLIGHT_FILETYPES = {
   'css',
@@ -53,6 +55,8 @@ tree_sitter.setup({
 
   -- Brackets.
   rainbow = rainbow,
+
+  textobjects = textobjects,
 
   context_commentstring = {
     enable = true,

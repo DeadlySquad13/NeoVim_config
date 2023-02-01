@@ -7,7 +7,7 @@ local window_visuals = require('config.lsp.completion.window_visuals')
 local formatting = require('config.lsp.completion.formatting')
 local keymappings = require('config.lsp.completion.keymappings')
 
-local MIN_KEYWORD_LENGTH = 4
+local MIN_KEYWORD_LENGTH = 2
 
 cmp.setup({
   window = window_visuals,

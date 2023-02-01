@@ -152,7 +152,8 @@ local global_local = {
   --completeopt    = "menuone,noselect",
   --jumpoptions    = "stack",
   --showmode       = false,
-  --shortmess      = "aoOTIcF",
+  shortmess = 'filwxoOsTIF',
+  report = 4,
   --scrolloff      = 2,
   --sidescrolloff  = 5,
   ruler = IS_ENVIRONMENT_FAST,
@@ -172,10 +173,10 @@ local global_local = {
   -- (tab: simple dash + Electric Arrow (U+2301))
   list = true, -- Show special characters.
   listchars = {
-    eol = '┐', -- ^Vu2510 --[[ '↴' -- Look too big with Iosevka ]]
+    eol = '¬', -- ^Vu00ac, was ┐ ^Vu2510 and '↴' -- Look too big with Iosevka
     nbsp = '⦸',
     space = '⋅',
-    tab = '-⌁',
+    tab = '⌁ ',
     trail = '-',
     extends = '→',
     precedes = '←',
@@ -189,17 +190,21 @@ local global_local = {
 }
 
 
+local shell_settings = {}
+--
 -- Program that will be used when issuing `:!`.
 -- global_local.shell = '/bin/bash', -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
-if require('utils.os').is("Windows_NT") then
-  if vim.fn.executable('pwsh.exe') == 1 then
-    global_local.shell = 'pwsh.exe' -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
-    global_local.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
-    global_local.shellxquote = ''
-    global_local.shellquote = ''
-    -- global_local.shellpipe = '| Out-File -Encoding UTF8 %s'
-    -- global_local.shellredir = '| Out-File -Encoding UTF8 %s'
-  end
+if vim.fn.executable('pwsh.exe') == 1 then
+  local pwsh_settings = {
+    shell = 'pwsh.exe', -- Unfortunately, I have two errors (`job` and `ioctl`) when running with bash.
+    shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+    shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+    shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+    shellquote = "",
+    shellxquote = "",
+  }
+
+  shell_settings = pwsh_settings
 end
 
 
@@ -237,6 +242,7 @@ local bw_local = {
   conceallevel = 2,
   concealcursor = '', -- Always show unconcealed text under cursor.
   cursorline = IS_ENVIRONMENT_FAST,
+  guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20',
 }
 
 local utils_setters = require('utils.setters')
@@ -253,6 +259,7 @@ set_settings(
     buffer_local_settings,
     global_local,
     bw_local,
+    shell_settings,
     indentation
   )
 )

@@ -10,6 +10,11 @@
 -- end
 
 return {
+  -- Development plugins specific to neovim infrastructure.
+  ['NeoVimDevelopment'] = {
+    'debuglog', -- Logging.
+  },
+
   ['Integrations'] = {
     'toggleterm', -- Terminal integration.
   },
@@ -21,6 +26,7 @@ return {
 
     -- * Buffers.
     'bufferline', -- Buffer line.
+    'scope', -- Limit buffers to current tab.
     'jabs', -- Buffer management popup.
 
     -- * Winbar: statusline at the top of the window.
@@ -46,8 +52,12 @@ return {
     -- * Inside  file.
     -- Was lagging :(
     -- 'quick_scope', -- More efficient jumping inside a line.
-    'lightspeed',
+    -- 'lightspeed',
+    'leap',-- jump and operate with a help of clever labels.
+    'flit', -- f/F, t/T motions enhanced with leap.
     'marks', -- Marks and bookmarks.
+    'sj', -- Jump to specific search result with labels.
+    'syntax_tree_surfer', -- Surf through nodes of treesitter syntax tree.
 
     -- * Across files.
     -- - Harpoon?
@@ -64,6 +74,7 @@ return {
     'telescope_file_browser',
   },
 
+  -- Related to editing text.
   ['Editing'] = {
     'autopairs', -- Automatically insert brackets.
     'comments', -- Keybindings for commenting.
@@ -72,7 +83,8 @@ return {
     'abolish', -- Case permutations (from snake_case to camelCase and so on).
     'tabout', -- Quick jump out of parentheses.
     'easy_align', -- Align by symbol or regex pattern.
-    'splitjoin' -- Change object from inline to multi-line and vice versa.
+    'splitjoin', -- Change object from inline to multi-line and vice versa.
+    'undo', -- Operate with undo tree.
   },
 
   ['TextObjects'] = {
@@ -82,6 +94,7 @@ return {
     'indent', -- Indents.
     'hydrogen', -- Hydrogen (jupyter notebook cells).
     'word', -- Case delimited and _ delimited words.
+    'treesitter', -- General treesitter textobjects operating on queries.
   },
 
   ['Lsp'] = {
