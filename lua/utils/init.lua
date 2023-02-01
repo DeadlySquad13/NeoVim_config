@@ -230,9 +230,6 @@ local M = {
   os = require('utils.os'),
 
   exec = require('utils.exec'),
-}
-
-  exec = require('utils.exec'),
 
   Set = require('utils.Set').Set,
 
