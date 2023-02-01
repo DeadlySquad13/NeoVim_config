@@ -289,6 +289,7 @@ startup({
     -- - Themes.
     --use({ 'morhetz/gruvbox' });
     use({ 'sainnhe/gruvbox-material' })
+    use({ 'savq/melange-nvim' })
     use({ 'vim-airline/vim-airline-themes' })
 
     use({

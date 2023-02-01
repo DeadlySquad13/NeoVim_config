@@ -87,4 +87,23 @@ return {
   -- the related filetypes into this table
   -- like server_filetype_map = { metals = { "sbt", "scala" } }
   server_filetype_map = {},
+
+  ui = {
+     -- Currently, only the round theme exists
+    theme = "round",
+    -- This option only works in Neovim 0.9
+    title = true,
+    -- Border type can be single, double, rounded, solid, shadow.
+    border = "solid",
+    winblend = 0,
+    expand = "⮚ ",
+    collapse = "⮛ ",
+    preview = "👁 ", -- Eye: U+1F441.
+    code_action = "💡",
+    diagnostic = "🐞 ",
+    incoming = "📨 ", -- Incoming envelope: U+1F4E8.
+    outgoing = "✉  ", -- Envelope: ^Vu2709.
+    hover = '🔍 ', -- Left-Pointing Magnifying Glass: U+1F50D.
+    kind = {},
+  }
 }
