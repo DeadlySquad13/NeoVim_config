@@ -19,9 +19,9 @@ return {
       -- installing as a dependency of telescope in it's `requirements` and loading this
       -- extension from there instead of having the separate plugin definition as outlined
       -- above.
-      ["<C-y>"] = undo_actions.yank_additions,
-      -- ["<C-y>"] = undo_actions.yank_deletions,
-      ["<Cr>"] = undo_actions.restore,
+      ['<C-y>'] = undo_actions.yank_additions,
+      -- ['<C-y>'] = undo_actions.yank_deletions,
+      ['<Cr>'] = undo_actions.restore,
     },
   },
 }
