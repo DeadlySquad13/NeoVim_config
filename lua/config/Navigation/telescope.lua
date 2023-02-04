@@ -1,29 +1,33 @@
+local actions = require('telescope.actions')
+
+local common_keymappings = {
+  ['<C-d>'] = actions.delete_buffer,
+  ['<C-s>'] = actions.select_horizontal,
+}
+
 return {
   defaults = {
-    -- Default configuration for telescope goes here:
-    -- config_key = value,
+    -- Default configuration for telescope.
     mappings = {
-      n = {
-        ['<c-d>'] = require('telescope.actions').delete_buffer,
-      },
-      i = {
+      n = vim.tbl_extend('force', common_keymappings, {
+        ['<c-d>'] = actions.delete_buffer,
+      }),
+      i = vim.tbl_extend('force', common_keymappings, {
         -- map actions.which_key to <C-h> (default: <C-/>)
         -- actions.which_key shows the mappings for your picker,
         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
         ['<C-h>'] = 'which_key',
-        ['<c-d>'] = require('telescope.actions').delete_buffer,
-      },
+      }),
     }
   },
 
   pickers = {
-    -- Default configuration for builtin pickers goes here:
-    -- picker_name = {
-    --   picker_config_key = value,
-    --   ...
-    -- }
-    -- Now the picker_config_key will be applied every time you call this
-    -- builtin picker
+    buffers = {
+      layout_strategy = 'vertical',
+      layout_config = {
+        preview_height = 0.6,
+      },
+    },
   },
 
   extensions = {

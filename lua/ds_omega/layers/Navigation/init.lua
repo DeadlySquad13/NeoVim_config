@@ -38,11 +38,13 @@ Navigation.plugins = {
 
   ['telescope'] = {
     'nvim-telescope/telescope.nvim',
+
     requires = 'nvim-lua/plenary.nvim',
   },
 
   ['telescope_file_browser'] = {
     'nvim-telescope/telescope-file-browser.nvim',
+
     requires = 'nvim-telescope/telescope.nvim',
   },
 
