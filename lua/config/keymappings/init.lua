@@ -251,10 +251,6 @@ local mappings = {
   -- Alternate mappings (functions simillar to `g`).
   [';'] = {
     name = 'Alternate',
-    s = {
-      '<Plug>(leap-from-window)',
-      'Jump to location in another window',
-    },
   },
 
   -- a = a_mappings,
