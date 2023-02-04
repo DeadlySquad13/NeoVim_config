@@ -58,6 +58,10 @@ Editing.plugins = {
 
     requires = 'nvim-telescope/telescope.nvim',
   },
+
+  ['auto_save'] = {
+    'pocco81/auto-save.nvim',
+  },
 }
 
 Editing.configs = {
@@ -83,6 +87,10 @@ Editing.configs = {
 
   ['undo'] = function()
     require('ds_omega.layers.Editing.undo')
+  end,
+
+  ['auto_save'] = function()
+    require('ds_omega.layers.Editing.auto_save')
   end,
 }
 

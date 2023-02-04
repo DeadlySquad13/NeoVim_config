@@ -85,6 +85,7 @@ return {
     'easy_align', -- Align by symbol or regex pattern.
     'treesj', -- Change object from inline to multi-line and vice versa.
     'undo', -- Operate with undo tree.
+    'auto_save' -- Automatically save and run commands on configured events.
   },
 
   ['TextObjects'] = {
