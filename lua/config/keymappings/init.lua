@@ -252,21 +252,6 @@ local settings_mappings = {
   ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
 }
 
-local window_mappings = {
-  name = 'Window',
-  -- List of windows like in tmux?
-  --w = {  },
-
-  -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
-  -- such jump.
-  o = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
-  ['<c-o>'] = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
-
-  m = { ':FocusMaximise<cr>', 'Maximise window' },
-
-  [tinykeymap_transitive_catalizator] = { 'Window Mode' },
-}
-
 local mappings = {
   name = 'Main',
 
@@ -347,7 +332,7 @@ local mappings = {
   -- y = y_mappings,
   -- z = z_mappings,
 
-  ['<c-w>'] = window_mappings,
+  ['<C-w>'] = require('config.keymappings.window'),
   -- Swap mark jumps.
   -- ["'"] = { '`' },
   -- ['`'] = { "'" },

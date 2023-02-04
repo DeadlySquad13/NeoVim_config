@@ -5,11 +5,11 @@ local tinykeymap_map_transitive_catalizator = '.';
 
 -- * Windows.
 -- Path: /home/dubuntus/.vim/plugged/tinykeymap_vim/autoload/tinykeymap/map/windows.vim
-vim.g['tinykeymap#map#windows#map'] = '<c-w>' .. tinykeymap_map_transitive_catalizator;
+-- vim.g['tinykeymap#map#windows#map'] = '<c-w>' .. tinykeymap_map_transitive_catalizator;
 local tinykeymap_map = vim.fn['tinykeymap#Map'];
 local tinykeymap_enter_map = vim.fn['tinykeymap#EnterMap'];
-local tinykeymap_load = vim.fn['tinykeymap#Load'];
-tinykeymap_load('windows')
+-- local tinykeymap_load = vim.fn['tinykeymap#Load'];
+-- tinykeymap_load('windows')
 
 -- * HorizontalScroll.
 local tinykeymap_map_horizontal_scroll_map = '<leader>zh' .. tinykeymap_map_transitive_catalizator;
