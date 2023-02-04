@@ -1,6 +1,6 @@
 local ft = require('constants').filetypes
 
-local is_focus_bugged = true
+local is_focus_bugged = false
 
 return {
   -- The focused window will no longer automatically resize. Other focus
@@ -31,7 +31,7 @@ return {
 
   -- Force minimum width for the unfocused window.
   -- Default: Calculated based on golden ratio.
-  --min_width = 80,
+  -- min_width = 80,
 
   -- Force height for the focused window.
   -- Default: Calculated based on golden ratio.
