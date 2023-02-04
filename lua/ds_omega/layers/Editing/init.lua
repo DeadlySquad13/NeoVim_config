@@ -54,10 +54,7 @@ Editing.plugins = {
   ['undo'] = {
     'debugloop/telescope-undo.nvim',
 
-    requires = {
-      'nvim-telescope/telescope.nvim',
-      'nvim-lua/plenary.nvim',
-    },
+    requires = 'nvim-telescope/telescope.nvim',
   },
 }
 
