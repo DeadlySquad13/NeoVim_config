@@ -1,8 +1,7 @@
 --local prequire = require('utils').prequire;
-local tinykeymap_transitive_catalizator = '.'
 
-local forward_slash = '<c-_>'
-local backslash = [[\]]
+local CONSTANTS = require('config.keymappings._common.constants')
+local KEY = CONSTANTS.KEY
 
 -- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
 -- Uppercase all comments and add dot at the end:
@@ -144,54 +143,7 @@ local toggle_mappings = {
   q = { ':QuickScopeToggle<cr>', 'QuickScope' },
 }
 
-local telescope_builtin = require('telescope.builtin')
 local telescope_extensions = require('telescope').extensions
-
--- # Navigation. Helps find things, used as lookup table (navigation panel).
-local navigation_mappings = {
-  name = 'Navigation',
-  -- * Telescope.
-  f = {
-    function()
-      telescope_builtin.find_files()
-    end,
-    'Find in current directory',
-  },
-  F = {
-    ':RnvimrToggle<cr>',
-    'Files via Rnvimr'
-  },
-  -- s = {
-  --   require('session-lens').search_session()
-  --   'Session search',
-  -- },
-  g = {
-    function()
-      telescope_builtin.live_grep()
-    end,
-    'Live grep',
-  },
-  b = {
-    function()
-      telescope_builtin.buffers()
-    end,
-    'Buffers',
-  },
-  h = {
-    function()
-      telescope_builtin.help_tags()
-    end,
-    'Help tags',
-  },
-  t = {
-    function()
-      telescope_builtin.treesitter()
-    end,
-    'Treesitter',
-  },
-
-  [backslash] = { ':Neotree<cr>', 'Filetree'},
-}
 
 -- Open something.
 local open_mappings = {
@@ -234,7 +186,7 @@ local yank_mappings = { '"+y', 'Yank into clipboard register' }
 
 local z_mappings = {
   h = {
-    [tinykeymap_transitive_catalizator] = { 'Horizontal Scroll Mode' },
+    [CONSTANTS.transitive_catalizator] = { 'Horizontal Scroll Mode' },
   },
 }
 
@@ -272,7 +224,9 @@ local mappings = {
     -- k = k_mappings,
     -- l = l_mappings,
     m = major_mappings,
-    n = navigation_mappings,
+    --
+    -- Navigation. Helps find things, used as lookup table (navigation panel).
+    n = require('config.keymappings.navigation'),
     o = open_mappings,
     p = paste_mappings,
     -- q = q_mappings,
@@ -298,10 +252,9 @@ local mappings = {
   [';'] = {
     name = 'Alternate',
     s = {
-      '<Plug>Lightspeed_gs',
-      'Down/right (successors in the window tree)',
+      '<Plug>(leap-from-window)',
+      'Jump to location in another window',
     },
-    S = { '<Plug>Lightspeed_gS', 'Up/left (predecessors in the window tree)' },
   },
 
   -- a = a_mappings,
@@ -434,7 +387,7 @@ local x_mappings = {
   -- z = z_mappings,
 
   -- ['<c-w>'] = {
-  -- [tinykeymap_transitive_catalizator] = { 'Window Mode' },
+  -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
   -- }
 
   --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
@@ -446,7 +399,7 @@ local i_mappings = {
   -- Unfortunately, have default <c-t> mapped in
   ['<c-m>'] = { '<c-t>', 'Indent once' },
 
-  [forward_slash] = {
+  [KEY.forward_slash] = {
     -- '<esc>:lua require("Comment.api").toggle_current_linewise()<CR>`ti',
     '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
     'Comment current line',
