@@ -105,7 +105,7 @@ local window_hydra = Hydra({
     -- { '<C-j>', function() splits.resize_down(2)  end },
     -- { '<C-k>', function() splits.resize_up(2)    end },
     -- { '<C-l>', function() splits.resize_right(2) end },
-    { '=', wincmd '=', { desc = 'Make equally high and wideEqualize windows' } },
+    { '=', wincmd '=', { desc = 'Make equally high and wide' } },
 
     { 's', pcmd('split', 'E36') },
     { '<C-s>', pcmd('split', 'E36'), { desc = false } },
@@ -141,8 +141,14 @@ local window_mappings = {
 
   -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
   -- such jump.
-  o = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
-  ['<c-o>'] = { [[:lua require('nvim-window').pick()<CR>]], 'Pick window' },
+  -- o = { require('nvim-window').pick, 'Pick window' },
+  -- ['<c-o>'] = { require('nvim-window').pick, 'Pick window' },
+
+  s = { pcmd('split', 'E36') },
+  ['<C-s>'] = { pcmd('split', 'E36') },
+  v = { pcmd('vsplit', 'E36') },
+  ['<C-v>'] = { pcmd('vsplit', 'E36') },
+
 
   m = { ':FocusMaximise<cr>', 'Maximise window' },
 
