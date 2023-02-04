@@ -50,16 +50,6 @@ local window_hint = [[
  _b_: choose buffer
 ]]
 
---[[ call tinykeymap#Map('windows', '>', '<count1>wincmd >', {'desc': 'Increase width'})
-call tinykeymap#Map('windows', '<', '<count1>wincmd <', {'desc': 'Decrease width'})
-call tinykeymap#Map('windows', '|', 'vertical resize <count>', {'desc': 'Set width'})
-call tinykeymap#Map('windows', '+', 'resize +<count1>', {'desc': 'Increase height'})
-call tinykeymap#Map('windows', '-', 'resize -<count1>', {'desc': 'Decrease height'})
-call tinykeymap#Map('windows', '_', 'resize <count>', {'desc': 'Set height'})
-call tinykeymap#Map('windows', 'w', '<count>wincmd w', {'desc': 'Below-right window'})
-call tinykeymap#Map('windows', 'W', '<count>wincmd W', {'desc': 'Above-left window'})
-]]--
-
 ---@param key (string)
 local function wincmd(key)
   return cmd('wincmd ' .. key)
@@ -101,12 +91,15 @@ local window_hydra = Hydra({
     { 'T', wincmd 'T', { desc = 'Move current window to a new tab page' } },
 
     -- Resizing.
-    -- { '<C-h>', function() splits.resize_left(2)  end },
-    -- { '<C-j>', function() splits.resize_down(2)  end },
-    -- { '<C-k>', function() splits.resize_up(2)    end },
-    -- { '<C-l>', function() splits.resize_right(2) end },
+    { '>', wincmd '>', { desc = 'Increase width' } },
+    { '<', wincmd '<', { desc = 'Decrease width' } },
+
+    { '+', wincmd '+', { desc = 'Increase height' } },
+    { '-', wincmd '-', { desc = 'Decrease height' } },
+
     { '=', wincmd '=', { desc = 'Make equally high and wide' } },
 
+    -- Splitting.
     { 's', pcmd('split', 'E36') },
     { '<C-s>', pcmd('split', 'E36'), { desc = false } },
     { 'v', pcmd('vsplit', 'E36') },
