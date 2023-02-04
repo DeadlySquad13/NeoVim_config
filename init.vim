@@ -214,8 +214,12 @@ func AppendSome()
    " return cmd
 endfunc
 
-" Highlight only leading whitespace characters.
-highlight WhiteSpaceLeading guifg=#918278
-highlight WhiteSpace guifg=#efe0b9
-match WhiteSpace / /
-2match WhiteSpaceLeading /^ \+/
+" Highlight
+augroup HighlightLeadingWhiteSpace
+  " Clear all autocommands that were set before that.
+  autocmd!
+  autocmd ColorScheme highlight WhiteSpaceLeading guifg=#918278
+  autocmd ColorScheme highlight WhiteSpace guifg=#efe0b9
+  autocmd ColorScheme match WhiteSpace / /
+  autocmd ColorScheme 2match WhiteSpaceLeading /^ \+/
+augroup END
