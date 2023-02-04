@@ -23,11 +23,11 @@ local common_keymappings = {
   -- Picking.
   p = { function() vim.cmd('BufferLinePick') end, 'Pick' },
 
+  -- Sorting.
   s = { cmd 'bufferLineSortByRelativeDirectory', 'Sort by relative directory' },
 }
 
 local function transform_to_hydra(key)
-  P(key)
   local keymapping = common_keymappings[key]
 
   return { key, keymapping[1], { desc = keymapping[2] } }
