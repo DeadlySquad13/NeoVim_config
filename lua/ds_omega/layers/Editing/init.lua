@@ -47,8 +47,10 @@ Editing.plugins = {
     'junegunn/vim-easy-align'
   },
 
-  ['splitjoin'] = {
-    'AndrewRadev/splitjoin.vim'
+  ['treesj'] = {
+    'Wansmer/treesj',
+
+    requires = 'nvim-treesitter',
   },
 
   ['undo'] = {
@@ -73,6 +75,10 @@ Editing.configs = {
 
   ['tabout'] = function()
     require('ds_omega.layers.Editing.tabout')
+  end,
+
+  ['treesj'] = function()
+    require('ds_omega.layers.Editing.treesj')
   end,
 
   ['undo'] = function()
