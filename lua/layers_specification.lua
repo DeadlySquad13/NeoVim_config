@@ -125,8 +125,14 @@ return {
   --   Everything that helps you manage the project (sessions, documentation,
   -- notes)
   ['ProjectManagement'] = {
-      'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
-      'auto_session',
+    'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
+    'auto_session',
+  },
+
+  --   Utilities that help to manage editor functionality: organize
+  -- keymappings, commands...
+  ['EditorManagement'] = {
+    'hydra',
   },
 
   ['Ui'] = {
