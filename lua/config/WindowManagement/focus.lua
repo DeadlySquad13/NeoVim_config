@@ -61,7 +61,7 @@ return {
   -- Gets the vim variable setcolumn when focus.setup() is run
   -- See :h signcolumn for more options e.g :set signcolum=yes
   -- Default: true, signcolumn=auto
-  signcolumn = not is_focus_bugged,
+  signcolumn = not is_focus_bugged and vim.g.signcolumn,
 
   -- Displays a cursor column in the focused window only.
   -- See :h cursorcolumn for more options.

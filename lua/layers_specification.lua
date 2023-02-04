@@ -44,7 +44,7 @@ return {
     -- Focus on window: keep it dynamically larger, remove numbers, cursor
     --   and signcolumn on inactive windows.
     'focus',
-    --'window', -- Jump to specified window.
+    'window', -- Jump to specified window.
     'winshift', -- Move windows without changing layout.
   },
 
