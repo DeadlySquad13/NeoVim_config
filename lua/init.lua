@@ -6,6 +6,7 @@
 local function append_to_package_path(path)
   package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
 end
+
 append_to_package_path(require('constants.env').NVIM_AFTER)
 require('general_settings')
 require('config.commands')

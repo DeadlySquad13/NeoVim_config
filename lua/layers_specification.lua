@@ -105,6 +105,8 @@ return {
 
     'lspsaga', -- Better UI for lsp handlers.
     'illuminate', -- Highlight symbol under cursor.
+
+    'lsp_format', -- Format on save.
     --'tex',
     -- # Ai language assitance.
     -- It was laggy :(
