@@ -39,6 +39,10 @@ Lsp.plugins = {
   ['illuminate'] = {
     'RRethy/vim-illuminate',
   },
+
+  ['lsp_format'] = {
+    'lukas-reineke/lsp-format.nvim',
+  },
 }
 
 Lsp.configs = {
@@ -53,6 +57,10 @@ Lsp.configs = {
 
   ['illuminate'] = function()
     require('ds_omega.layers.Lsp.illuminate')
+  end,
+
+  ['lsp_format'] = function()
+    require('ds_omega.layers.Lsp.lsp_format')
   end,
 }
 

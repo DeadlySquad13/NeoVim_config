@@ -11,6 +11,12 @@ local default_server_configuration = require(
   'config.Lsp.server_configurations.default'
 )
 
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●', -- Could be '■ ', '▎', 'x'
+  }
+})
+
 -- Should be Set.
 _G.layer_specification_map = nil
 local function get_module_specification(layer_specification, name)

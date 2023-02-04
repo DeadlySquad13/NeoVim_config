@@ -14,11 +14,13 @@ return {
         library = vim.api.nvim_get_runtime_file('', true),
         maxPreload = 10000,
         preloadFileSize = 10000,
+        checkThirdParty = false,
       },
     },
   },
 
   on_attach = {
-    lsp_handlers.disable_formatting
+    lsp_handlers.disable_formatting,
+    lsp_handlers.auto_format_on_save,
   }
 }
