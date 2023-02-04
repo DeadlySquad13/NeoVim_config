@@ -1,43 +1,7 @@
 local Hydra = require('hydra')
--- local splits = require('smart-splits')
 
 local cmd = require('hydra.keymap-util').cmd
 local pcmd = require('hydra.keymap-util').pcmd
-
--- local buffer_hydra = Hydra({
---    name = 'Barbar',
---    config = {
---       on_key = function()
---          -- Preserve animation
---          vim.wait(200, function() vim.cmd 'redraw' end, 30, false)
---       end
---    },
---    heads = {
---       { 'h', function() vim.cmd('BufferPrevious') end, { on_key = false } },
---       { 'l', function() vim.cmd('BufferNext') end, { desc = 'choose', on_key = false } },
-
---       { 'H', function() vim.cmd('BufferMovePrevious') end },
---       { 'L', function() vim.cmd('BufferMoveNext') end, { desc = 'move' } },
-
---       { 'p', function() vim.cmd('BufferPin') end, { desc = 'pin' } },
-
---       { 'd', function() vim.cmd('BufferClose') end, { desc = 'close' } },
---       { 'c', function() vim.cmd('BufferClose') end, { desc = false } },
---       { 'q', function() vim.cmd('BufferClose') end, { desc = false } },
-
---       { 'od', function() vim.cmd('BufferOrderByDirectory') end, { desc = 'by directory' } },
---       { 'ol', function() vim.cmd('BufferOrderByLanguage') end,  { desc = 'by language' } },
---       { '<Esc>', nil, { exit = true } }
---    }
--- })
-
--- local function choose_buffer()
---    if #vim.fn.getbufinfo({ buflisted = true }) > 1 then
---       buffer_hydra:activate()
---    end
--- end
-
--- vim.keymap.set('n', 'gb', choose_buffer)
 
 local window_hint = [[
  ^^^^^^^^^^^^     Move      ^^    Size   ^^   ^^     Split
@@ -105,8 +69,8 @@ local window_hydra = Hydra({
     { 'v', pcmd('vsplit', 'E36') },
     { '<C-v>', pcmd('vsplit', 'E36'), { desc = false } },
 
-    { 'o', wincmd 'o', { exit = true, desc = 'Remain only' } },
-    { '<C-o>', wincmd 'o', { exit = true, desc = false } },
+    { 'z', wincmd 'o', { exit = true, desc = 'Remain only' } },
+    { '<C-z>', wincmd 'o', { exit = true, desc = false } },
 
     -- { 'o',     require('nvim-window').pick, { desc = 'Pick window' } },
     -- { '<C-o>', require('nvim-window').pick, { desc = 'Pick window' } },
@@ -125,8 +89,6 @@ local window_hydra = Hydra({
   }
 })
 
-local TRANSITIVE_CATALIZATOR = '.'
-
 local window_mappings = {
   name = 'Window',
   -- List of windows like in tmux?
@@ -134,8 +96,12 @@ local window_mappings = {
 
   -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
   -- such jump.
-  -- o = { require('nvim-window').pick, 'Pick window' },
-  -- ['<c-o>'] = { require('nvim-window').pick, 'Pick window' },
+  o = { require('nvim-window').pick, 'Pick window' },
+  ['<c-o>'] = { require('nvim-window').pick, 'Pick window' },
+
+  -- Overrides close preview window.
+  z = { wincmd 'o', 'Remain only' },
+  ['<C-z>'] = { wincmd 'o' },
 
   s = { pcmd('split', 'E36') },
   ['<C-s>'] = { pcmd('split', 'E36') },
@@ -145,7 +111,7 @@ local window_mappings = {
 
   m = { ':FocusMaximise<cr>', 'Maximise window' },
 
-  [TRANSITIVE_CATALIZATOR] = { function() window_hydra:activate() end, 'Activate window mode' },
+  [require('config.keymappings._common.constants').transitive_catalizator] = { function() window_hydra:activate() end, 'Activate window mode' },
 }
 
 return window_mappings
