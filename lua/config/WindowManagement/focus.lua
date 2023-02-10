@@ -55,13 +55,13 @@ return {
 
   -- Displays a cursorline in the focused window only.
   -- Not displayed in unfocused windows.
-  cursorline = not is_focus_bugged,
+  cursorline = not is_focus_bugged and vim.g.cursorline,
 
   -- Displays a sign column in the focused window only
   -- Gets the vim variable setcolumn when focus.setup() is run
   -- See :h signcolumn for more options e.g :set signcolum=yes
   -- Default: true, signcolumn=auto
-  signcolumn = not is_focus_bugged and vim.g.signcolumn,
+  signcolumn = not is_focus_bugged,
 
   -- Displays a cursor column in the focused window only.
   -- See :h cursorcolumn for more options.
@@ -71,7 +71,10 @@ return {
   -- Displays a color column in the focused window only.
   -- See `:h colorcolumn` for more options.
   -- Default: enable = false, width = 80.
-  colorcolumn = { enable = not is_focus_bugged, width = 80 },
+  colorcolumn = {
+    enable = not is_focus_bugged and vim.g.colorcolumn,
+    width = vim.g.colorcolumn or 80,
+  },
 
   -- Displays line numbers in the focused window only.
   -- Not displayed in unfocused windows.

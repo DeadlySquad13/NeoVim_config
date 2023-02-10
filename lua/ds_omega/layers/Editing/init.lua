@@ -44,7 +44,7 @@ Editing.plugins = {
   },
 
   ['easy_align'] = {
-    'junegunn/vim-easy-align'
+    'junegunn/vim-easy-align',
   },
 
   ['treesj'] = {
@@ -61,6 +61,12 @@ Editing.plugins = {
 
   ['auto_save'] = {
     'pocco81/auto-save.nvim',
+  },
+
+  ['yati'] = {
+    'yioneko/nvim-yati',
+    tag = '*',
+    requires = 'nvim-treesitter/nvim-treesitter',
   },
 }
 

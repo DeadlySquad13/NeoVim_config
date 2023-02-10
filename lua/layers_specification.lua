@@ -2,9 +2,9 @@
 --   'go' = ''
 -- }
 
--- --- 
+-- ---
 -- ---@param langauge (string)
--- ---@return 
+-- ---@return
 -- local function get_layers_specification(filetype)
 
 -- end
@@ -27,7 +27,7 @@ return {
     -- * Buffers.
     'bufferline', -- Buffer line.
     'scope', -- Limit buffers to current tab.
-    'jabs', -- Buffer management popup.
+    -- 'jabs', -- Buffer management popup.
 
     -- * Winbar: statusline at the top of the window.
     'incline',
@@ -53,7 +53,7 @@ return {
     -- Was lagging :(
     -- 'quick_scope', -- More efficient jumping inside a line.
     -- 'lightspeed',
-    'leap',-- jump and operate with a help of clever labels.
+    'leap', -- jump and operate with a help of clever labels.
     'flit', -- f/F, t/T motions enhanced with leap.
     'marks', -- Marks and bookmarks.
     'sj', -- Jump to specific search result with labels.
@@ -85,7 +85,8 @@ return {
     'easy_align', -- Align by symbol or regex pattern.
     'treesj', -- Change object from inline to multi-line and vice versa.
     'undo', -- Operate with undo tree.
-    'auto_save' -- Automatically save and run commands on configured events.
+    'auto_save', -- Automatically save and run commands on configured events.
+    'yati', -- Improve treesitter indent experience.
   },
 
   ['TextObjects'] = {
@@ -117,10 +118,10 @@ return {
     --   'html',
 
     --   -- 'webdevelopment'
-    -- }, 
+    -- },
   },
 
-   -- Linting, formatting and additional code actions.
+  -- Linting, formatting and additional code actions.
   ['Assistance'] = {
     'null_ls',
   },
@@ -141,7 +142,7 @@ return {
   ['Ui'] = {
     'dressing', -- Prettier wrappers for vim.ui.select. Can use telescope layouts.
     'notify', -- Add nice looking ui for notifications.
-  --   'fidget', -- Progress handler.
+    --   'fidget', -- Progress handler.
     'which_key', -- Mappings visualization.
     'ufo', -- Folding.
     'conceal', -- Conceal chosen language constructors with treesitter's aid.
@@ -173,4 +174,3 @@ return {
 --        },
 --     },
 --   }
-
