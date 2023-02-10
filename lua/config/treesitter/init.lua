@@ -1,8 +1,7 @@
 local prequire = require('utils').prequire
 
-local tree_sitter_is_available, tree_sitter = prequire(
-  'nvim-treesitter.configs'
-)
+local tree_sitter_is_available, tree_sitter =
+prequire('nvim-treesitter.configs')
 
 if not tree_sitter_is_available then
   return
@@ -15,12 +14,13 @@ local function require_treesitter_configuration(configuration)
 end
 
 local parsers = require_treesitter_configuration('parsers')
-local incremental_selection = require_treesitter_configuration(
-  'incremental_selection'
-)
+local incremental_selection =
+require_treesitter_configuration('incremental_selection')
 local rainbow = require_treesitter_configuration('rainbow')
 
 local textobjects = require_treesitter_configuration('textobjects')
+
+local yati_is_available, yati = prequire('config.Editing.yati')
 
 -- List of language that will be disabled
 local DISABLED_HIGHLIGHT_FILETYPES = {
@@ -32,7 +32,7 @@ tree_sitter.setup({
   ensure_installed = parsers,
   ignore_install = {}, -- List of parsers to ignore installing
   indent = {
-    enable = true,
+    enable = not yati_is_available,
     disable = {
       'yaml',
       'python',
@@ -43,7 +43,8 @@ tree_sitter.setup({
   highlight = {
     enable = true, -- false will disable the whole extension
     disable = function(lang, bufnr)
-      return require('utils').Set(DISABLED_HIGHLIGHT_FILETYPES)[lang] or vim.api.nvim_buf_line_count(bufnr) > MAX_HIGHLIGHT_LINE_SIZE
+      return require('utils').Set(DISABLED_HIGHLIGHT_FILETYPES)[lang]
+          or vim.api.nvim_buf_line_count(bufnr) > MAX_HIGHLIGHT_LINE_SIZE
     end,
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
@@ -64,6 +65,8 @@ tree_sitter.setup({
     --   Comment.nvim.
     enable_autocmd = false,
   },
+
+  yati = yati,
 })
 
 -- Needed for parser generator to work. TS will try compilers from left to
