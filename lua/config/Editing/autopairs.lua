@@ -12,9 +12,9 @@ return {
   },
   disable_filetype = { 'TelescopePrompt' },
   -- Disable when recording or executing a macro.
-  disable_in_macro = false,
+  disable_in_macro = true,
   -- Disable when insert after visual block mode.
-  disable_in_visualblock = false,
+  disable_in_visualblock = true,
   ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], '%s+', ''),
   enable_moveright = true,
   -- Add bracket pairs after quote.
