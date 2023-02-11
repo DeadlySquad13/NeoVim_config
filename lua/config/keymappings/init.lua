@@ -225,10 +225,14 @@ d = {
 
 local g_mappings = {
   -- I moved comment mappings to <Leader>c as it seems more ergonomic.
-  c = { '<cmd>e <cedit>', 'Edit file corresponding to a word under cursor' },
+  c = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a word under cursor' },
   l = nil,
   y = nil,
   b = nil,
+}
+
+local r_mappings = {
+  l = { 'r', 'Replace' },
 }
 
 local y_mappings = {
@@ -313,7 +317,7 @@ local mappings = {
   p = paste_with_indent,
   P = paste_before_with_indent,
   -- q = q_mappings,
-  -- r = r_mappings,
+  r = r_mappings,
   -- s = s_mappings,
   -- t = t_mappings,
   -- u = u_mappings,
