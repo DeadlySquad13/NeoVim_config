@@ -68,6 +68,10 @@ Editing.plugins = {
     tag = '*',
     requires = 'nvim-treesitter/nvim-treesitter',
   },
+
+  ['substitute'] = {
+    'gbprod/substitute.nvim',
+  }
 }
 
 Editing.configs = {
@@ -97,6 +101,10 @@ Editing.configs = {
 
   ['auto_save'] = function()
     require('ds_omega.layers.Editing.auto_save')
+  end,
+
+  ['substitute'] = function()
+    require('ds_omega.layers.Editing.substitute')
   end,
 }
 

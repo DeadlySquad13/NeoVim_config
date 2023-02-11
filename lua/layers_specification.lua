@@ -87,6 +87,7 @@ return {
     'undo', -- Operate with undo tree.
     'auto_save', -- Automatically save and run commands on configured events.
     'yati', -- Improve treesitter indent experience.
+    'substitute', -- Adds new substitute operator.
   },
 
   ['TextObjects'] = {
