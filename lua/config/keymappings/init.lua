@@ -87,16 +87,11 @@ local jump_mappings = {
   name = 'Jump',
 }
 
--- # Rename. Search and replace mappings.
+-- # Replace. Search and replace mappings.
+-- Used as motion over range for substitute nvim.
 local rename_mappings = {
-  name = 'Rename',
+  name = 'Replace',
 
-  -- Current word under cursor.
-  w = {
-    [[:%s;\<<c-r><c-w>\>;;g<left><left>]],
-    'Current word under cursor',
-    silent = false,
-  },
   -- vnoremap <leader>sw <esc>:%s;\<<c-r><c-w>\>;;g<left><left>
   -- Don't really remember why I needed it...
   t = { [[:%s;<\w*>\(<\\\w*>\)\?;;g<left><left>]], 'Tag' },
