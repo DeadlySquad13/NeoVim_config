@@ -9,7 +9,7 @@ Navigation.plugins = {
   ['lightspeed'] = {
     'ggandor/lightspeed.nvim',
 
-    setup = function ()
+    setup = function()
       require('autocommands.lightspeed')
     end
   },
@@ -67,7 +67,12 @@ Navigation.plugins = {
   },
 
   ['other'] = {
-    'rgroli/other.nvim',
+    -- 'rgroli/other.nvim',
+    'DeadlySquad13/other.nvim',
+
+    branch = 'create-file',
+  },
+
   },
 
   ['rel'] = {
