@@ -73,8 +73,6 @@ Navigation.plugins = {
     branch = 'create-file',
   },
 
-  },
-
   ['rel'] = {
     'aklt/rel.vim',
   }
