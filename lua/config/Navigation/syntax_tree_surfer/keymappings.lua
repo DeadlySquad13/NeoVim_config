@@ -1,3 +1,13 @@
+-- Syntax Tree Surfer V2 Mappings
+-- Targeted Jump with virtual_text
+local prequire = require('utils').prequire
+
+local syntax_tree_surfer_is_available, sts = prequire('syntax-tree-surfer')
+
+if not syntax_tree_surfer_is_available or not sts then
+  return
+end
+
 return {
   n = {
     v = {
@@ -19,7 +29,7 @@ return {
         expr = true,
       },
 
-      -- Swap Current Node at the Cursor with it's siblings, Dot Repeatable
+      -- Swap Current Node at the Cursor with it's siblings, Dot Repeatable.
       d = {
         function()
           vim.opt.opfunc = 'v:lua.STSSwapCurrentNodeNextNormal_Dot'
@@ -37,21 +47,69 @@ return {
         expr = true,
       },
 
-
       -- Visual Selection from Normal Mode.
       x = { '<Cmd>STSSelectMasterNode<Cr>', 'Select master node' },
       n = { '<Cmd>STSSelectCurrentNode<Cr>', 'Select current node' },
     },
+
+    -- Targeted jump.
+    ['<leader>g'] = {
+      name = 'Go',
+
+      j = {
+        function()
+          sts.targeted_jump({
+            'function',
+            'if_statement',
+            'else_clause',
+            'else_statement',
+            'elseif_statement',
+            'for_statement',
+            'while_statement',
+            'switch_statement',
+          })
+        end,
+        'To one of nodes',
+      },
+
+      v = {
+        function()
+          sts.targeted_jump({ 'variable_declaration' })
+        end,
+        'To one of variable declarations',
+      },
+
+      fu = {
+        function()
+          sts.targeted_jump({ 'function', 'arrow_function', 'function_definition' })
+        end,
+        'To one of functions',
+      },
+
+      ['if'] = {
+        function()
+          sts.targeted_jump({ 'if_statement' })
+        end,
+        'To one of if statements',
+      },
+
+      fo = {
+        function()
+          sts.targeted_jump({ 'for_statement' })
+        end,
+        'To one of for statements',
+      },
+    }
   },
 
   x = {
-    -- Select Nodes in Visual Mode
+    -- Select Nodes in Visual Mode.
     J = { '<Cmd>STSSelectNextSiblingNode<Cr>', 'Select next sibling node' },
     K = { '<Cmd>STSSelectPrevSiblingNode<Cr>', 'Select previous sibling node' },
     H = { '<Cmd>STSSelectParentNode<Cr>', 'Select parent node' },
     L = { '<Cmd>STSSelectChildNode<Cr>', 'select child node' },
 
-    -- Swapping Nodes in Visual Mode
+    -- Swapping Nodes in Visual Mode.
     ['<A-j>'] = { '<Cmd>STSSwapNextVisual<Cr>', 'Swap with next node' },
     ['<A-k>'] = { '<Cmd>STSSwapPrevVisual<Cr>', 'Swap with previous node' },
   }

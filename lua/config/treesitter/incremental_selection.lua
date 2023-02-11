@@ -1,5 +1,5 @@
 return {
-  enable = true,
+  enable = false,
   keymaps = {
     init_selection = 'gnn',
     node_incremental = 'grn',

@@ -13,7 +13,7 @@ local default_server_configuration = require(
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '●', -- Could be '■ ', '▎', 'x'
+    prefix = '● ', -- Could be '■ ', '▎', 'x'
   }
 })
 
@@ -35,7 +35,6 @@ local function get_module_specification(layer_specification, name)
 
   return _G.layer_specification_map[name]
 end
-
 
 local function get_module_enabled_filetypes()
   local SetIntersection = require('utils').SetIntersection
@@ -122,9 +121,9 @@ local function setup_lsp_servers()
         custom_server_configuration.on_attach
       )
 
-      if server_name == 'eslint' then 
+      if server_name == 'eslint' then
         local eslint_config = require("lspconfig.server_configurations.eslint")
-        server_configuration.opts ={}
+        server_configuration.opts = {}
         server_configuration.opts.cmd = { "yarn", "exec", unpack(eslint_config.default_config.cmd) }
       end
       if server_name == 'sumneko_lua' then
