@@ -7,7 +7,7 @@ local function add_mappings(new_mappings)
     end
   end
 
-  vim.list_extend(mappings, P(new_mappings))
+  vim.list_extend(mappings, new_mappings)
 end
 
 -- Go.
