@@ -1,4 +1,4 @@
---local prequire = require('utils').prequire;
+-- Available lowercase key pairs in normal mode: https://gist.github.com/romainl/1f93db9dc976ba851bbb
 
 local CONSTANTS = require('config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
@@ -36,7 +36,7 @@ local e_mappings = {
   -- Open vimrc in vertical split.
   v = { '<cmd>vsplit $MYVIMRC<cr>', 'Vimrc' },
 
-  h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head'},
+  h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head' },
 
   -- * Snippets.
   -- Relevant snippet engine command will be called to edit snippets
@@ -204,6 +204,48 @@ local settings_mappings = {
   ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
 }
 
+c = {
+  d = nil,
+  m = nil,
+  o = nil,
+  p = nil,
+  q = nil,
+  u = nil,
+  y = nil,
+}
+
+d = {
+  c = nil,
+  m = nil,
+  q = nil,
+  r = nil,
+  s = nil,
+  y = nil,
+}
+
+local g_mappings = {
+  -- I moved comment mappings to <Leader>c as it seems more ergonomic.
+  c = { '<cmd>e <cedit>', 'Edit file corresponding to a word under cursor' },
+  l = nil,
+  y = nil,
+  b = nil,
+}
+
+local y_mappings = {
+  c = nil,
+  d = nil,
+  m = nil,
+  o = nil,
+  p = nil,
+  q = nil,
+  r = nil,
+  u = nil,
+}
+
+local z_mappings = {
+  q = nil,
+}
+
 local mappings = {
   name = 'Main',
 
@@ -212,7 +254,7 @@ local mappings = {
     -- a = a_mappings,
     b = require('config.keymappings.buffer'),
     c = vim.tbl_extend('error', comment_mappings, {
-      d = {':lcd %:h<cr>', 'Change cwd to current file directory'},
+      d = { ':lcd %:h<cr>', 'Change cwd to current file directory' },
     }),
     -- d = d_mappings,
     e = e_mappings,
@@ -259,7 +301,7 @@ local mappings = {
   -- d = d_mappings,
   -- e = e_mappings,
   -- f = f_mappings,
-  -- g = g_mappings,
+  g = g_mappings,
   -- h = h_mappings,
   -- i = i_mappings,
   -- j = j_mappings,
@@ -401,7 +443,7 @@ local i_mappings = {
     'Comment current line',
   },
 }
-local c_mappings ={
+local c_mappings = {
   name = 'Main',
 
   ['<C-j>'] = { '<C-n>', 'Next command in history' },
