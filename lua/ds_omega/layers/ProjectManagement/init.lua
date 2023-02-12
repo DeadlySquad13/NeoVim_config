@@ -9,6 +9,13 @@ ProjectManagement.plugins = {
   ['todo_comments'] = {
     'folke/todo-comments.nvim',
   },
+
+  ['mind'] = {
+    'phaazon/mind.nvim',
+    branch = 'v2',
+
+    requires = { 'nvim-lua/plenary.nvim' },
+  },
 }
 
 ProjectManagement.configs = {
@@ -18,6 +25,10 @@ ProjectManagement.configs = {
 
   ['todo_comments'] = function()
     require('ds_omega.layers.ProjectManagement.todo_comments')
+  end,
+
+  ['mind'] = function()
+    require('ds_omega.layers.ProjectManagement.mind')
   end,
 }
 

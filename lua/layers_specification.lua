@@ -132,6 +132,7 @@ return {
   ['ProjectManagement'] = {
     'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
     'auto_session',
+    'mind',
   },
 
   --   Utilities that help to manage editor functionality: organize
