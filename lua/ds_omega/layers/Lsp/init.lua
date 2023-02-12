@@ -2,16 +2,21 @@
 local Lsp = {}
 
 Lsp.plugins = {
-  ['lsp'] = {
-    'williamboman/nvim-lsp-installer',
-    {
-      'neovim/nvim-lspconfig',
+  ['mason'] = {
+    'williamboman/mason.nvim',
+  },
+
+  ['mason_lspconfig'] = { 
+    'williamboman/mason-lspconfig.nvim',
+    after = 'mason.nvim',
+  },
+
+  ['lspconfig'] = {
+    'neovim/nvim-lspconfig',
+    after = {
       -- Lsp relies on cmp-nvim-lsp during capabilities initialization.
-      after = { 'cmp-nvim-lsp' },
-      -- TODO: How to better handle it?
-      config = function()
-        require('ds_omega.layers.Lsp.lsp')
-      end
+      'cmp-nvim-lsp',
+      'mason-lspconfig.nvim'
     },
   },
 
@@ -46,10 +51,17 @@ Lsp.plugins = {
 }
 
 Lsp.configs = {
-  -- ['lsp'] = function()
-  --   vim.notify('Load LSP')
-  --   require('ds_omega.layers.Lsp.lsp')
-  -- end,
+  ['mason'] = function()
+    require('ds_omega.layers.Lsp.mason')
+  end,
+
+  ['mason_lspconfig'] = function()
+    require('ds_omega.layers.Lsp.mason_lspconfig')
+  end,
+
+  ['lspconfig'] = function()
+    require('ds_omega.layers.Lsp.lsp')
+  end,
 
   ['lspsaga'] = function()
     require('ds_omega.layers.Lsp.lspsaga')

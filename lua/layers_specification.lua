@@ -101,7 +101,10 @@ return {
   },
 
   ['Lsp'] = {
-    'lsp',
+    -- 'lsp',
+    'mason',
+    'mason_lspconfig',
+    'lspconfig',
     'typescript', -- Typesript lsp utils.
     'neodev', -- Lua better lsp settings.
 
