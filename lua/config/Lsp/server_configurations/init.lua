@@ -1,5 +1,5 @@
 local servers_with_custom_configurations = {
-  'sumneko_lua',
+  'lua_ls',
   'pyright',
 
   -- * Web Development.
