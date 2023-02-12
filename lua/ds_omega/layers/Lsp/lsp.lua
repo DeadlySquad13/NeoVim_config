@@ -5,7 +5,6 @@ if not lspconfig_is_available then
   return
 end
 
-require('ds_omega.layers.Lsp.lsp_installer')
 local server_configurations = require('config.Lsp.server_configurations')
 local default_server_configuration = require(
   'config.Lsp.server_configurations.default'
