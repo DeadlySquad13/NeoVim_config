@@ -25,4 +25,3 @@ leap.add_default_mappings()
 if keymappings then
   ds_omega_utils.apply_plugin_keymappings(keymappings)
 end
-

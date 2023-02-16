@@ -1,17 +1,18 @@
--- See [second proposal](https://github.com/ggandor/leap.nvim/discussions/41):
 -- abcd|                    |bcde
--- ████e  ←  Zab    zde  →  █████    (this might also be the desired behavior for Visual `s` - see below)
--- ab██e  ←  Xab    xde  →  ███de
+-- ████e  ←  Mab    mde  →  █████    (this might also be the desired behavior for Visual `s` - see below)
+-- ab██e  ←  Zab    zde  →  ███de
 local keymappings = {
-  z = { '<Plug>(leap-forward-to)', 'Leap forward to' },
-  Z = { '<Plug>(leap-backward-to)', 'Leap backward to' },
-
-  -- 'x' for exclusive.
-  x = { '<Plug>(leap-forward-till)', 'Leap forward till' },
-  X = { '<Plug>(leap-backward-till)', 'Leap backward till' },
+    -- Inclusive (move to).
+    m = { '<Plug>(leap-forward-to)', 'Leap forward to' },
+    M = { '<Plug>(leap-backward-to)', 'Leap backward to' },
+    gm = { '<Plug>(leap-from-window)', 'Leap from window' },
+    -- Exclusive.
+    z = { '<Plug>(leap-forward-till)', 'Leap forward till' },
+    Z = { '<Plug>(leap-backward-till)', 'Leap backward till' },
 }
 
 return {
-  o = keymappings,
-  x = keymappings,
+    n = keymappings,
+    o = keymappings,
+    x = keymappings,
 }
