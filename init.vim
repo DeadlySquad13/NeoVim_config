@@ -108,8 +108,9 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " - Make Y behave similar to D in normal mode.
 nnoremap Y y$
 
-" * Open new file in vertical split (similar to built-in <c-w>n).
-nnoremap <c-w>v :vnew<cr>
+" * Open new file in vertical / horizontal split (similar to built-in <c-w>n).
+nnoremap <C-w>v :vnew<Cr>
+nnoremap <C-w>s :below new<Cr>
 
 " * Remaping line concatenation for use of j with modifier in non-vim apps.
 noremap <a-j> J
