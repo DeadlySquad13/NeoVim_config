@@ -37,7 +37,7 @@ local e_mappings = {
     e = { ':ChooseAndEditConfigs<cr>', 'Choose and Edit configs' },
     -- Open vimrc in vertical split.
     v = { '<cmd>vsplit $MYVIMRC<cr>', 'Vimrc' },
-    h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head' },
+    h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head', silent = false },
     -- * Snippets.
     -- Relevant snippet engine command will be called to edit snippets
     --   definitions.
@@ -134,6 +134,7 @@ local toggle_mappings = {
 
 local telescope_extensions = require('telescope').extensions
 
+-- TODO: Move to some other mapping.
 -- Open something.
 local open_mappings = {
     name = 'Open',
@@ -188,8 +189,9 @@ local settings_mappings = {
     ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
 }
 
-local c = {
-    d = nil,
+local c_mappings = {
+    -- Can be nested more as this action will be confirmed as soon as you press ':'.
+    d = { ':lcd %:h<cr>', 'Change cwd to current file directory' },
     -- m = nil,
     o = nil,
     p = nil,
@@ -198,7 +200,7 @@ local c = {
     y = nil,
 }
 
-local d = {
+local d_mappings = {
     c = nil,
     -- m = nil,
     q = nil,
@@ -240,9 +242,7 @@ local mappings = {
         name = 'Leader',
         -- a = a_mappings,
         b = require('config.keymappings.buffer'),
-        c = vim.tbl_extend('error', comment_mappings, {
-            d = { ':lcd %:h<cr>', 'Change cwd to current file directory' },
-        }),
+        c = comment_mappings,
         -- d = d_mappings,
         e = e_mappings,
         f = file_mappings,
@@ -256,7 +256,7 @@ local mappings = {
 
         -- Navigation. Helps find things, used as lookup table (navigation panel).
         n = require('config.keymappings.navigation'),
-        o = open_mappings,
+        o = { 'mto<Esc>`t', 'Create a new line below the current', },
         p = paste_mappings,
         -- q = q_mappings,
         r = rename_mappings,
@@ -269,6 +269,7 @@ local mappings = {
         y = yank_mappings,
         z = z_mappings,
 
+        O = { 'mtO<Esc>`t', 'Create a new line above the current', },
         [','] = settings_mappings,
     },
     ['<localleader>'] = {
@@ -281,7 +282,7 @@ local mappings = {
     },
     -- a = a_mappings,
     -- b = b_mappings,
-    -- c = c_mappings,
+    c = c_mappings,
     -- d = d_mappings,
     -- e = e_mappings,
     -- f = f_mappings,
@@ -379,7 +380,7 @@ local x_mappings = {
     },
     -- a = a_mappings,
     -- b = b_mappings,
-    -- c = c_mappings,
+    c = c_mappings,
     -- d = d_mappings,
     -- e = e_mappings,
     -- f = f_mappings,
@@ -415,14 +416,15 @@ local x_mappings = {
 local i_mappings = {
     name = 'Main',
     -- Unfortunately, have default <c-t> mapped in
-    ['<c-m>'] = { '<c-t>', 'Indent once' },
+    -- ['<c-m>'] = { '<c-t>', 'Indent once' },
     [KEY.forward_slash] = {
         -- '<esc>:lua require("Comment.api").toggle_current_linewise()<CR>`ti',
         '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
         'Comment current line',
     },
 }
-local c_mappings = {
+
+local command_mappings = {
     name = 'Main',
     ['<C-j>'] = { '<C-n>', 'Next command in history' },
     ['<C-k>'] = { '<C-p>', 'Previous command in history' },
@@ -432,5 +434,5 @@ return {
     n = mappings,
     x = x_mappings,
     i = i_mappings,
-    c = c_mappings,
+    c = command_mappings,
 }
