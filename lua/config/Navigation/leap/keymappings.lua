@@ -12,11 +12,10 @@ local keymappings = vim.tbl_extend('error', leap_to_keymappings, {
         -- Exclusive.
         z = { '<Plug>(leap-forward-till)', 'Leap forward till' },
         Z = { '<Plug>(leap-backward-till)', 'Leap backward till' },
-    }
-    )
+    })
 
 return {
     n = leap_to_keymappings,
-    o = keymappings,
+    o = leap_to_keymappings,
     x = keymappings,
 }

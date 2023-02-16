@@ -89,12 +89,6 @@ let g:surround_{char2nr('-')} = "\1start: \1\r\2end: \2"
 " - **L**ua anonymous function.
 let g:surround_{char2nr('la')} = "function() \r end"
 
-" * Create a new line above the current one without exiting normal mode.
-map <Leader>O mtO<Esc>`t
-
-" * Create a new line below the current one without exiting normal mode.
-map <Leader>o mto<Esc>`t
-
 " * Keep visual mode after indent.
 vnoremap > >gv
 vnoremap < <gv
