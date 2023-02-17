@@ -13,7 +13,7 @@ local default_server_configuration = require(
 vim.diagnostic.config({
   virtual_text = {
     prefix = '● ', -- Could be '■ ', '▎', 'x'
-  }
+  },
 })
 
 -- Should be Set.
@@ -59,7 +59,7 @@ local lsp_server_name_to_filetypes = {
   jsonls = { 'json' },
   pylsp = { 'python' },
   pyright = { 'python' },
-  sumneko_lua = { 'lua' },
+  lua_ls = { 'lua' },
   tsserver = { 'typescript', 'typescriptreact' },
   texlab = { 'tex' },
   gopls = { 'go' },
@@ -121,9 +121,13 @@ local function setup_lsp_servers()
       )
 
       if server_name == 'eslint' then
-        local eslint_config = require("lspconfig.server_configurations.eslint")
+        local eslint_config = require('lspconfig.server_configurations.eslint')
         server_configuration.opts = {}
-        server_configuration.opts.cmd = { "yarn", "exec", unpack(eslint_config.default_config.cmd) }
+        server_configuration.opts.cmd = {
+          'yarn',
+          'exec',
+          unpack(eslint_config.default_config.cmd),
+        }
       end
       if server_name == 'sumneko_lua' then
         require('ds_omega.layers.Lsp.neodev')
