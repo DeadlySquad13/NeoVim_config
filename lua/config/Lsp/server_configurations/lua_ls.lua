@@ -3,6 +3,10 @@ local lsp_handlers = require('ds_omega.layers.Lsp.handlers')
 return {
   settings = {
     Lua = {
+      format = {
+       -- Works only once server is loaded so it doesn't fit my workflow as it has a long loading time.
+        enable = false,
+      },
       runtime = {
         version = 'LuaJIT',
       },
@@ -18,9 +22,8 @@ return {
       },
     },
   },
-
   on_attach = {
     lsp_handlers.disable_formatting,
     lsp_handlers.auto_format_on_save,
-  }
+  },
 }
