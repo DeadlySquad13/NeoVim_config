@@ -1,11 +1,14 @@
-local lsp_handlers = require('ds_omega.layers.Lsp.handlers')
+-- local lsp_handlers = require('ds_omega.layers.Lsp.handlers')
 
 return {
   settings = {
     Lua = {
       format = {
-       -- Works only once server is loaded so it doesn't fit my workflow as it has a long loading time.
-        enable = false,
+        enable = true,
+        defaultConfig = {
+          indent_style = 'space',
+          indent_size = '2',
+        }
       },
       runtime = {
         version = 'LuaJIT',
@@ -23,7 +26,8 @@ return {
     },
   },
   on_attach = {
-    lsp_handlers.disable_formatting,
-    lsp_handlers.auto_format_on_save,
+    --   Saving overrides current file as if no edits were made until the server
+    -- is loaded. May be related to https://github.com/LuaLS/lua-language-server/issues/1049.
+    -- lsp_handlers.auto_format_on_save,
   },
 }

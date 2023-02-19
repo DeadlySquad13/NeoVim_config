@@ -16,7 +16,7 @@ local diagnostics = null_ls.builtins.diagnostics
 --   file](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/generators.lua)
 return {
   -- Lua
-  formatting.stylua,
+  -- formatting.stylua,
 
   -- General
   -- see [misspell](https://github.com/client9/misspell).
