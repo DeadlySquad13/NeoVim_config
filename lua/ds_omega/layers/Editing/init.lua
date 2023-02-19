@@ -19,7 +19,7 @@ Editing.plugins = {
     ['surround'] = {
         'kylechui/nvim-surround',
     },
-    ['multi_cursors'] = {
+    ['visual_multi'] = {
         'mg979/vim-visual-multi',
         branch = 'master',
     },
@@ -78,6 +78,9 @@ Editing.configs = {
     end,
     ['surround'] = function()
       require('ds_omega.layers.Editing.surround')
+    end,
+    ['visual_multi'] = function()
+      require('ds_omega.layers.Editing.visual_multi')
     end,
     ['tabout'] = function()
       require('ds_omega.layers.Editing.tabout')

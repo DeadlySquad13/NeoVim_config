@@ -30,7 +30,7 @@ apply_keymappings_once_ready('n', {
     M = { ufo.closeAllFolds, 'Open all folds' },
   },
 
-  ['<A-k>'] = { ufo.peekFoldedLinesUnderCursor, 'Peek lines' },
+  ['<C-j>'] = { ufo.peekFoldedLinesUnderCursor, 'Peek lines' },
 })
 
 local get_customized_selector = require('ds_omega.layers.Ui.ufo.get_customized_selector')
