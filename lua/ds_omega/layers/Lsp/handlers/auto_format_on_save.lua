@@ -6,7 +6,7 @@ local function auto_format_on_save(client)
   local lsp_format_is_available, lsp_format = prequire('lsp-format')
 
   if not lsp_format_is_available then
-    return 
+    return
   end
 
   lsp_format.on_attach(client)

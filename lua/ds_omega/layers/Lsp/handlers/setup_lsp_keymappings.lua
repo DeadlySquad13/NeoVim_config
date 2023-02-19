@@ -42,12 +42,12 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
     name = 'LSP',
 
     -- General.
-    ['<space>wa'] = { lsp_buf.add_workspace_folder, 'Add workspace folder' },
-    ['<space>wr'] = {
+    ['<Leader>wa'] = { lsp_buf.add_workspace_folder, 'Add workspace folder' },
+    ['<Leader>wr'] = {
       lsp_buf.remove_workspace_folder,
       'Remove workspace folder',
     },
-    ['<space>wl'] = {
+    ['<Leader>wl'] = {
       function()
         vim.pretty_print(lsp_buf.list_workspace_folders())
       end,
@@ -60,15 +60,15 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
     ['K'] = { lsp_buf.hover, 'Hover' },
     ['<c-k>'] = { lsp_buf.signature_help, 'Signature help' },
     -- Editing.
-    ['<space>rs'] = { lsp_buf.rename, 'Rename Symbol' },
-    ['<space>ca'] = { lsp_buf.code_action, 'Code Action' }, -- Change from `c`.
-    ['<space>q'] = {
+    ['<Leader>rs'] = { lsp_buf.rename, 'Rename Symbol' },
+    ['<Leader>ca'] = { lsp_buf.code_action, 'Code Action' }, -- Change from `c`.
+    ['<Leader>q'] = {
       function()
         vim.diagnostic.setqflist({ open = true })
       end,
       'Send diagnostic to quickfix list',
     },
-    ['<space>ff'] = { lsp_buf.format, 'Format' },
+    ['<Leader>ff'] = { lsp_buf.format, 'Format' },
 
     -- Navigation.
     ['[d'] = {
@@ -135,7 +135,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
       'Go to next hint',
     },
 
-    ['<space>i'] = {
+    ['<Leader>i'] = {
       d = {
         '<Cmd>Lspsaga show_line_diagnostics<Cr>',
         'Investigate line diagnostics',
@@ -145,7 +145,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
   }
 
   keymappings.x = {
-    ['<space>ff'] = { lsp_buf.format, 'Format' },
+    ['<Leader>ff'] = { lsp_buf.format, 'Format' },
   }
 
   local options = {
