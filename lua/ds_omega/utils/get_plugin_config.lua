@@ -4,10 +4,10 @@
 -- plugin_name.
 ---@example
 -- -- Config is in `Integrations.toggleterm`.
--- simple_plugin_setup('toggleterm', 'Integrations')
+-- get_plugin_config('toggleterm', 'Integrations')
 --
 -- -- Take config without changes: `Navigation.other`.
--- simple_plugin_setup('other-nvim', 'Navigation.other')
+-- get_plugin_config('other-nvim', 'Navigation.other')
 local function get_plugin_config(plugin_name, config_relative_path)
   -- Finding first segment. It must be a layer.
   local segment_end = string.find(config_relative_path, "%.")
