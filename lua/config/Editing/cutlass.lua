@@ -4,5 +4,7 @@ return {
         -- Surround mappings.
         'ns', 'nS',
         'vs', 'vS',
+        -- Change mappings.
+        'nc', 'vc',
     },
 }
