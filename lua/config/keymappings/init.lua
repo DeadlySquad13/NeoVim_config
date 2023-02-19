@@ -194,7 +194,7 @@ local c_mappings = {
     d = { ':lcd %:h<cr>', 'Change cwd to current file directory' },
     -- m = nil,
     o = nil,
-    p = nil,
+    -- p = nil, -- Used in yanky.
     q = nil,
     u = nil,
     y = nil,
@@ -234,6 +234,7 @@ local y_mappings = {
 
 local z_mappings = {
     q = nil,
+    -- p = nil, -- Used in yanky.
 }
 
 local mappings = {
