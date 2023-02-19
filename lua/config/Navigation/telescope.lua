@@ -33,5 +33,8 @@ return {
   extensions = {
     file_browser = require('config.Navigation.telescope_file_browser'),
     undo = require('config.Editing.undo'),
+    --   Unfortunately, doesn't work. Should be set up in setup function of
+    -- yanky.
+    yank_history = require('config.Editing.yanky.picker').telescope,
   }
 }
