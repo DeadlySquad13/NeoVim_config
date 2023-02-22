@@ -104,10 +104,10 @@ return {
 
   x = {
     -- Select Nodes in Visual Mode.
-    J = { '<Cmd>STSSelectNextSiblingNode<Cr>', 'Select next sibling node' },
-    K = { '<Cmd>STSSelectPrevSiblingNode<Cr>', 'Select previous sibling node' },
-    H = { '<Cmd>STSSelectParentNode<Cr>', 'Select parent node' },
-    L = { '<Cmd>STSSelectChildNode<Cr>', 'select child node' },
+    ['<C-j>'] = { '<Cmd>STSSelectNextSiblingNode<Cr>', 'Select next sibling node' },
+    ['<C-k>'] = { '<Cmd>STSSelectPrevSiblingNode<Cr>', 'Select previous sibling node' },
+    ['<C-h>'] = { '<Cmd>STSSelectParentNode<Cr>', 'Select parent node' },
+    ['<C-l>'] = { '<Cmd>STSSelectChildNode<Cr>', 'select child node' },
 
     -- Swapping Nodes in Visual Mode.
     ['<A-j>'] = { '<Cmd>STSSwapNextVisual<Cr>', 'Swap with next node' },

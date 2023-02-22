@@ -262,157 +262,159 @@ local leader_mappings = {
     z = z_mappings,
     O = { 'mtO<Esc>`t', 'Create a new line above the current', },
     [','] = settings_mappings,
-
     ['<Leader>'] = {
-      name = 'Previous', -- and repeat?
+        name = 'Previous', -- and repeat?
 
-      c = { ':<Up>', 'Command' },
-      b = { '<C-6>', 'Buffer' },
-      w = { '<C-w>p', 'Window' },
+        c = { ':<Up>', 'Command' },
+        b = { '<C-6>', 'Buffer' },
+        w = { '<C-w>p', 'Window' },
     }
 }
 
-local mappings = {
-    name = 'Main',
-    -- a = a_mappings,
-    -- b = b_mappings,
-    c = c_mappings,
-    -- d = d_mappings,
-    -- e = e_mappings,
-    -- f = f_mappings,
-    g = g_mappings,
-    -- h = h_mappings,
-    -- i = i_mappings,
-    -- j = j_mappings,
-    -- k = k_mappings,
-    -- l = l_mappings,
-    -- m = m_mappings,
-    -- n = n_mappings,
-    -- o = o_mappings,
-    -- p = paste_with_indent,
-    -- P = paste_before_with_indent,
-    -- q = q_mappings,
-    r = r_mappings,
-    -- s = s_mappings,
-    -- t = t_mappings,
-    -- u = u_mappings,
-    -- v = v_mappings,
-    --w = w_mappings,
-    -- x = x_mappings,
-    -- y = y_mappings,
-    -- z = z_mappings,
 
+local common_mappings = {
     -- Make default layout more ergonomic.
     H = { '^', 'Go to the beginning of the line' },
     J = { '}', 'Go one paragraph down' },
     K = { '{', 'Go one paragraph up' },
     L = { '$', 'Go to the end of the line' },
     ['}'] = { 'J', 'Join lines' },
-
-    ['<C-w>'] = require('config.keymappings.window'),
-    ['<leader>'] = leader_mappings,
-    -- Alternate mappings (functions simillar to `g`).
-    [':'] = {
-        name = 'Alternate',
-    },
-    [';'] = { ':', 'Enter command line mode' },
-    -- Swap mark jumps.
-    ["'"] = { '`', 'Jump to position' },
-    ['`'] = { "'", 'Jump to position linewise' },
-    ["''"] = { '``', 'Jump to last position' },
-    ["``"] = { "''", 'Jump to last position linewise' },
 }
+
+local mappings = vim.tbl_extend('error', common_mappings, {
+        name = 'Main',
+        -- a = a_mappings,
+        -- b = b_mappings,
+        c = c_mappings,
+        -- d = d_mappings,
+        -- e = e_mappings,
+        -- f = f_mappings,
+        g = g_mappings,
+        -- h = h_mappings,
+        -- i = i_mappings,
+        -- j = j_mappings,
+        -- k = k_mappings,
+        -- l = l_mappings,
+        -- m = m_mappings,
+        -- n = n_mappings,
+        -- o = o_mappings,
+        -- p = paste_with_indent,
+        -- P = paste_before_with_indent,
+        -- q = q_mappings,
+        r = r_mappings,
+        -- s = s_mappings,
+        -- t = t_mappings,
+        -- u = u_mappings,
+        -- v = v_mappings,
+        --w = w_mappings,
+        -- x = x_mappings,
+        -- y = y_mappings,
+        -- z = z_mappings,
+
+        ['<C-w>'] = require('config.keymappings.window'),
+        ['<leader>'] = leader_mappings,
+        -- Alternate mappings (functions simillar to `g`).
+        [':'] = {
+            name = 'Alternate',
+        },
+        [';'] = { ':', 'Enter command line mode' },
+        -- Swap mark jumps.
+        ["'"] = { '`', 'Jump to position' },
+        ['`'] = { "'", 'Jump to position linewise' },
+        ["''"] = { '``', 'Jump to last position' },
+        ["``"] = { "''", 'Jump to last position linewise' },
+    })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local x_mappings = {
-    name = 'Main',
-    ['<leader>'] = {
-        name = 'Leader',
+local x_mappings = vim.tbl_extend('error', common_mappings, {
+        name = 'Main',
+        ['<leader>'] = {
+            name = 'Leader',
+            -- a = a_mappings,
+            -- b = buffer_mappings,
+            c = comment_mappings,
+            -- d = d_mappings,
+            -- e = e_mappings,
+            -- f = file_mappings,
+            -- g = go_mappings,
+            -- h = help_mappings,
+            -- i = i_mappings,
+            -- j = jump_mappings,
+            -- k = k_mappings,
+            -- l = l_mappings,
+            -- m = major_mappings,
+            -- n = navigation_mappings,
+            -- o = o_mappings,
+            p = paste_mappings,
+            -- q = q_mappings,
+            -- r = r_mappings,
+            -- s = s_mappings,
+            -- t = toggle_mappings,
+            -- u = u_mappings,
+            -- v = v_mappings,
+            -- w = w_mappings,
+            -- x = x_mappings,
+            y = yank_mappings,
+            -- z = z_mappings,
+
+            -- [','] = settings_mappings,
+
+            -- Comments.
+            -- Unfortunately, gv doesn't work at the end, it get's overriden by
+            --   something...
+            ['>'] = {
+                '<esc><cmd>lua ___comment_semantically(vim.fn.visualmode())<cr>',
+                'Comment semantically',
+            },
+            ['<'] = {
+                '<esc><cmd>lua ___uncomment_semantically(vim.fn.visualmode())<cr>',
+                'Uncomment semantically',
+            },
+        },
+        -- Alternate mappings (functions simillar to `g`).
+        [';'] = {
+            name = 'Alternate',
+            s = {
+                '<Plug>Lightspeed_gs',
+                'Down/right (successors in the window tree)',
+            },
+            S = { '<Plug>Lightspeed_gS', 'Up/left (predecessors in the window tree)' },
+        },
         -- a = a_mappings,
-        -- b = buffer_mappings,
-        c = comment_mappings, -- <leader><c-/> can be used instead if there's a candidate for `c`.
+        -- b = b_mappings,
+        c = c_mappings,
         -- d = d_mappings,
         -- e = e_mappings,
-        -- f = file_mappings,
-        -- g = go_mappings,
-        -- h = help_mappings,
+        -- f = f_mappings,
+        -- g = g_mappings,
+        -- h = h_mappings,
         -- i = i_mappings,
-        -- j = jump_mappings,
+        -- j = j_mappings,
         -- k = k_mappings,
         -- l = l_mappings,
-        -- m = major_mappings,
-        -- n = navigation_mappings,
+        -- m = m_mappings,
+        -- n = n_mappings,
         -- o = o_mappings,
-        p = paste_mappings,
+        -- p = paste_with_indent,
+        -- P = paste_before_with_indent,
         -- q = q_mappings,
         -- r = r_mappings,
         -- s = s_mappings,
-        -- t = toggle_mappings,
+        -- t = t_mappings,
         -- u = u_mappings,
         -- v = v_mappings,
         -- w = w_mappings,
         -- x = x_mappings,
-        y = yank_mappings,
+        -- y = y_mappings,
         -- z = z_mappings,
 
-        -- [','] = settings_mappings,
+        -- ['<c-w>'] = {
+        -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
+        -- }
 
-        -- Comments.
-        -- Unfortunately, gv doesn't work at the end, it get's overriden by
-        --   something...
-        ['>'] = {
-            '<esc><cmd>lua ___comment_semantically(vim.fn.visualmode())<cr>',
-            'Comment semantically',
-        },
-        ['<'] = {
-            '<esc><cmd>lua ___uncomment_semantically(vim.fn.visualmode())<cr>',
-            'Uncomment semantically',
-        },
-    },
-    -- Alternate mappings (functions simillar to `g`).
-    [';'] = {
-        name = 'Alternate',
-        s = {
-            '<Plug>Lightspeed_gs',
-            'Down/right (successors in the window tree)',
-        },
-        S = { '<Plug>Lightspeed_gS', 'Up/left (predecessors in the window tree)' },
-    },
-    -- a = a_mappings,
-    -- b = b_mappings,
-    c = c_mappings,
-    -- d = d_mappings,
-    -- e = e_mappings,
-    -- f = f_mappings,
-    -- g = g_mappings,
-    -- h = h_mappings,
-    -- i = i_mappings,
-    -- j = j_mappings,
-    -- k = k_mappings,
-    -- l = l_mappings,
-    -- m = m_mappings,
-    -- n = n_mappings,
-    -- o = o_mappings,
-    p = paste_with_indent,
-    P = paste_before_with_indent,
-    -- q = q_mappings,
-    -- r = r_mappings,
-    -- s = s_mappings,
-    -- t = t_mappings,
-    -- u = u_mappings,
-    -- v = v_mappings,
-    -- w = w_mappings,
-    -- x = x_mappings,
-    -- y = y_mappings,
-    -- z = z_mappings,
-
-    -- ['<c-w>'] = {
-    -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
-    -- }
-
-    --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
-}
+        --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
+    })
 
 local i_mappings = {
     name = 'Main',
