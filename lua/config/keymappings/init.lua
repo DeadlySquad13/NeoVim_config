@@ -262,6 +262,14 @@ local leader_mappings = {
     z = z_mappings,
     O = { 'mtO<Esc>`t', 'Create a new line above the current', },
     [','] = settings_mappings,
+
+    ['<Leader>'] = {
+      name = 'Previous', -- and repeat?
+
+      c = { ':<Up>', 'Command' },
+      b = { '<C-6>', 'Buffer' },
+      w = { '<C-w>p', 'Window' },
+    }
 }
 
 local mappings = {
@@ -303,14 +311,11 @@ local mappings = {
 
     ['<C-w>'] = require('config.keymappings.window'),
     ['<leader>'] = leader_mappings,
-    ['<localleader>'] = {
-        -- p = paste_without_indent,
-        -- P = paste_before_without_indent,
-    },
     -- Alternate mappings (functions simillar to `g`).
-    [';'] = {
+    [':'] = {
         name = 'Alternate',
     },
+    [';'] = { ':', 'Enter command line mode' },
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },

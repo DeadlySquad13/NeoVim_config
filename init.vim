@@ -62,11 +62,6 @@ let g:autopep8_disable_show_diff=1
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " Coding
-" * Wordmotion.
-" relevant only with smart find (for example, from vim-lighspeed)
-" \ and overwrites ; of vim-targets.
-let g:wordmotion_prefix = ';'
-
 " # Formatting.
 " * Easy Align.
 " - Start interactive EasyAlign in visual mode (e.g. vipga)
