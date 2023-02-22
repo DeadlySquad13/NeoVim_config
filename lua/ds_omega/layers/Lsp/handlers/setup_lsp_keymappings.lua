@@ -57,8 +57,15 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
     -- Investigation.
     ['gd'] = { lsp_buf.definition, 'Jump to definition' },
     ['<c-]>'] = { lsp_buf.definition, 'Jump to definition' },
-    ['K'] = { lsp_buf.hover, 'Hover' },
     ['<c-k>'] = { lsp_buf.signature_help, 'Signature help' },
+    ['<Leader>i'] = {
+      i = { lsp_buf.hover, 'Hover' },
+      d = {
+        '<Cmd>Lspsaga show_line_diagnostics<Cr>',
+        'Investigate line diagnostics',
+      },
+      r = { lsp_buf.references, 'List References' },
+    },
     -- Editing.
     ['<Leader>rs'] = { lsp_buf.rename, 'Rename Symbol' },
     ['<Leader>ca'] = { lsp_buf.code_action, 'Code Action' }, -- Change from `c`.
@@ -133,14 +140,6 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
         lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.HINT })
       end,
       'Go to next hint',
-    },
-
-    ['<Leader>i'] = {
-      d = {
-        '<Cmd>Lspsaga show_line_diagnostics<Cr>',
-        'Investigate line diagnostics',
-      },
-      r = { lsp_buf.references, 'List References' },
     },
   }
 
