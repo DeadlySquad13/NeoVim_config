@@ -311,19 +311,13 @@ local mappings = {
 
     ['<C-w>'] = require('config.keymappings.window'),
     -- Swap mark jumps.
-    -- ["'"] = { '`' },
-    -- ['`'] = { "'" },
-    -- ["''"] = { '``' },
-    -- ["``"] = { "''" },
+    ["'"] = { '`', 'Jump to position' },
+    ['`'] = { "'", 'Jump to position linewise' },
+    ["''"] = { '``', 'Jump to last position' },
+    ["``"] = { "''", 'Jump to last position linewise' },
 }
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
--- Unfortunately, bindings above don't work.
--- Swap mark jumps.
-vim.cmd("nnoremap ' `")
-vim.cmd("nnoremap ` '")
-vim.cmd("nnoremap '' ``")
-vim.cmd("nnoremap `` ''")
 
 local x_mappings = {
     name = 'Main',
