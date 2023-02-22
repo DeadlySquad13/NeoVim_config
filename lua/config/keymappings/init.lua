@@ -147,12 +147,6 @@ local open_mappings = {
 
 local paste_mappings = { '"+p', 'Paste from clipboard register' }
 
-local paste_with_indent = { 'p==^', 'Paste with indent' }
-local paste_before_with_indent = { 'P==^', 'Paste before with indent' }
-
-local paste_without_indent = { 'p^', 'Paste without indent' }
-local paste_before_without_indent = { 'P^', 'Paste before without indent' }
-
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
 
@@ -237,50 +231,41 @@ local z_mappings = {
     -- p = nil, -- Used in yanky.
 }
 
+local leader_mappings = {
+    name = 'Leader',
+    -- a = a_mappings,
+    b = require('config.keymappings.buffer'),
+    c = comment_mappings,
+    -- d = d_mappings,
+    e = e_mappings,
+    f = file_mappings,
+    g = go_mappings,
+    h = help_mappings,
+    -- i = i_mappings,
+    j = jump_mappings,
+    -- k = k_mappings,
+    -- l = l_mappings,
+    m = { 'm', 'Mark' },
+    -- Navigation. Helps find things, used as lookup table (navigation panel).
+    n = require('config.keymappings.navigation'),
+    o = { 'mto<Esc>`t', 'Create a new line below the current', },
+    p = paste_mappings,
+    -- q = q_mappings,
+    r = rename_mappings,
+    s = session_mappings,
+    t = toggle_mappings,
+    -- u = u_mappings,
+    -- v = v_mappings,
+    -- w = w_mappings,
+    -- x = x_mappings,
+    y = yank_mappings,
+    z = z_mappings,
+    O = { 'mtO<Esc>`t', 'Create a new line above the current', },
+    [','] = settings_mappings,
+}
+
 local mappings = {
     name = 'Main',
-    ['<leader>'] = {
-        name = 'Leader',
-        -- a = a_mappings,
-        b = require('config.keymappings.buffer'),
-        c = comment_mappings,
-        -- d = d_mappings,
-        e = e_mappings,
-        f = file_mappings,
-        g = go_mappings,
-        h = help_mappings,
-        -- i = i_mappings,
-        j = jump_mappings,
-        -- k = k_mappings,
-        -- l = l_mappings,
-        m = { 'm', 'Mark' },
-
-        -- Navigation. Helps find things, used as lookup table (navigation panel).
-        n = require('config.keymappings.navigation'),
-        o = { 'mto<Esc>`t', 'Create a new line below the current', },
-        p = paste_mappings,
-        -- q = q_mappings,
-        r = rename_mappings,
-        s = session_mappings,
-        t = toggle_mappings,
-        -- u = u_mappings,
-        -- v = v_mappings,
-        -- w = w_mappings,
-        -- x = x_mappings,
-        y = yank_mappings,
-        z = z_mappings,
-
-        O = { 'mtO<Esc>`t', 'Create a new line above the current', },
-        [','] = settings_mappings,
-    },
-    ['<localleader>'] = {
-        p = paste_without_indent,
-        P = paste_before_without_indent,
-    },
-    -- Alternate mappings (functions simillar to `g`).
-    [';'] = {
-        name = 'Alternate',
-    },
     -- a = a_mappings,
     -- b = b_mappings,
     c = c_mappings,
@@ -296,8 +281,8 @@ local mappings = {
     -- m = m_mappings,
     -- n = n_mappings,
     -- o = o_mappings,
-    p = paste_with_indent,
-    P = paste_before_with_indent,
+    -- p = paste_with_indent,
+    -- P = paste_before_with_indent,
     -- q = q_mappings,
     r = r_mappings,
     -- s = s_mappings,
@@ -309,7 +294,23 @@ local mappings = {
     -- y = y_mappings,
     -- z = z_mappings,
 
+    -- Make default layout more ergonomic.
+    H = { '^', 'Go to the beginning of the line' },
+    J = { '}', 'Go one paragraph down' },
+    K = { '{', 'Go one paragraph up' },
+    L = { '$', 'Go to the end of the line' },
+    ['}'] = { 'J', 'Join lines' },
+
     ['<C-w>'] = require('config.keymappings.window'),
+    ['<leader>'] = leader_mappings,
+    ['<localleader>'] = {
+        -- p = paste_without_indent,
+        -- P = paste_before_without_indent,
+    },
+    -- Alternate mappings (functions simillar to `g`).
+    [';'] = {
+        name = 'Alternate',
+    },
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
