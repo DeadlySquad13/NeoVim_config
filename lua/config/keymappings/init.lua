@@ -279,6 +279,17 @@ local common_mappings = {
     K = { '{', 'Go one paragraph up' },
     L = { '$', 'Go to the end of the line' },
     ['}'] = { 'J', 'Join lines' },
+
+    -- Alternate mappings (functions simillar to `g`).
+    [':'] = {
+        name = 'Alternate',
+    },
+    [';'] = { ':', 'Enter command line mode' },
+    -- Swap mark jumps.
+    ["'"] = { '`', 'Jump to position' },
+    ['`'] = { "'", 'Jump to position linewise' },
+    ["''"] = { '``', 'Jump to last position' },
+    ["``"] = { "''", 'Jump to last position linewise' },
 }
 
 local mappings = vim.tbl_extend('error', common_mappings, {
@@ -313,16 +324,6 @@ local mappings = vim.tbl_extend('error', common_mappings, {
 
         ['<C-w>'] = require('config.keymappings.window'),
         ['<leader>'] = leader_mappings,
-        -- Alternate mappings (functions simillar to `g`).
-        [':'] = {
-            name = 'Alternate',
-        },
-        [';'] = { ':', 'Enter command line mode' },
-        -- Swap mark jumps.
-        ["'"] = { '`', 'Jump to position' },
-        ['`'] = { "'", 'Jump to position linewise' },
-        ["''"] = { '``', 'Jump to last position' },
-        ["``"] = { "''", 'Jump to last position linewise' },
     })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
@@ -371,15 +372,6 @@ local x_mappings = vim.tbl_extend('error', common_mappings, {
                 '<esc><cmd>lua ___uncomment_semantically(vim.fn.visualmode())<cr>',
                 'Uncomment semantically',
             },
-        },
-        -- Alternate mappings (functions simillar to `g`).
-        [';'] = {
-            name = 'Alternate',
-            s = {
-                '<Plug>Lightspeed_gs',
-                'Down/right (successors in the window tree)',
-            },
-            S = { '<Plug>Lightspeed_gS', 'Up/left (predecessors in the window tree)' },
         },
         -- a = a_mappings,
         -- b = b_mappings,
