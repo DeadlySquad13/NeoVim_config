@@ -32,7 +32,7 @@ Editing.plugins = {
         -- Should be after mappings to overwrite the trigger key ('tab').
         after = {
             'which-key.nvim',
-            'tinykeymap_vim',
+            -- 'tinykeymap_vim',
 
             'nvim-treesitter', -- Needs utils from treesitter.
         },

@@ -36,12 +36,23 @@ TextObjects.plugins = {
     after = 'vim-textobj-user',
   },
 
+  ['smart_word'] = {
+    'anuvyklack/vim-smartword',
+    event = 'VimEnter',
+  },
+
   -- Has it's config in treesitter.
   ['treesitter'] = {
     'nvim-treesitter/nvim-treesitter-textobjects',
 
     requires = 'nvim-treesitter',
   }
+}
+
+TextObjects.configs = {
+  ['smart_word'] = function()
+    require('ds_omega.layers.TextObjects.smart_word')
+  end,
 }
 
 return TextObjects

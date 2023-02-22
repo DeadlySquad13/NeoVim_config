@@ -15,43 +15,43 @@ local tinykeymap_enter_map = vim.fn['tinykeymap#EnterMap'];
 local tinykeymap_map_horizontal_scroll_map = '<leader>zh' .. tinykeymap_map_transitive_catalizator;
 
 tinykeymap_enter_map('HorizontalScroll', tinykeymap_map_horizontal_scroll_map, {
-      name = 'horizontal scroll mode'
-    });
+    name = 'horizontal scroll mode'
+});
 
 -- - Mappings.
 tinykeymap_map(
-      'HorizontalScroll', 'h',
-      'execute  "normal! zh"',
-      { desc = 'Left' });
+    'HorizontalScroll', 'h',
+    'execute  "normal! zh"',
+    { desc = 'Left' });
 tinykeymap_map(
-      'HorizontalScroll', 'l',
-      'execute  "normal zl"',
-      { desc = 'Right' });
+    'HorizontalScroll', 'l',
+    'execute  "normal zl"',
+    { desc = 'Right' });
 tinykeymap_map(
-      'HorizontalScroll', 'H',
-      'execute  "normal zH"',
-      { desc = 'Left half screen width' });
+    'HorizontalScroll', 'H',
+    'execute  "normal zH"',
+    { desc = 'Left half screen width' });
 tinykeymap_map(
-      'HorizontalScroll', 'L',
-      'execute  "normal zL"',
-      { desc = 'Right half screen width' });
+    'HorizontalScroll', 'L',
+    'execute  "normal zL"',
+    { desc = 'Right half screen width' });
 
 -- * ExpandRegion (without catalizator yet, should be enhanced with treesitter).
 tinykeymap_enter_map(
-  'ExpandRegion', '<a-v>',
-  { name = 'expand region mode' }
+    'ExpandRegion', '<a-v>',
+    { name = 'expand region mode' }
 );
 
 -- - Mappings.
 tinykeymap_map('ExpandRegion',
-  'v',
-  'execute "normal \\<Plug(expand_region_expand)"',
-  { desc = 'Expand selection' }
+    'v',
+    'execute "normal \\<Plug(expand_region_expand)"',
+    { desc = 'Expand selection' }
 );
 
 tinykeymap_map(
-  'ExpandRegion',
-  'V', 
-  'execute "normal \\<Plug>(expand_region_shrink)"',
-  { desc = 'Shrink selection' }
+    'ExpandRegion',
+    'V',
+    'execute "normal \\<Plug>(expand_region_shrink)"',
+    { desc = 'Shrink selection' }
 );
