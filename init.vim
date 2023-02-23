@@ -62,6 +62,10 @@ let g:autopep8_disable_show_diff=1
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " Coding
+" * Wordmotion.
+" let g:wordmotion_prefix = ','
+let g:wordmotion_nomap = 1
+
 " # Formatting.
 " * Easy Align.
 " - Start interactive EasyAlign in visual mode (e.g. vipga)
