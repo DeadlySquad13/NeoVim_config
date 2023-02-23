@@ -271,8 +271,12 @@ local leader_mappings = {
     }
 }
 
-
 local common_mappings = {
+    w = { '<Plug>(smartword-w)', 'w' },
+    b = { '<Plug>(smartword-b)', 'b' },
+    e = { '<Plug>(smartword-e)', 'e' },
+    ge = { '<Plug>(smartword-ge)', 'ge' },
+
     -- Make default layout more ergonomic.
     H = { '^', 'Go to the beginning of the line' },
     J = { '}', 'Go one paragraph down' },
@@ -292,7 +296,7 @@ local common_mappings = {
     ["``"] = { "''", 'Jump to last position linewise' },
 }
 
-local mappings = vim.tbl_extend('error', common_mappings, {
+local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         name = 'Main',
         -- a = a_mappings,
         -- b = b_mappings,
@@ -328,7 +332,7 @@ local mappings = vim.tbl_extend('error', common_mappings, {
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local x_mappings = vim.tbl_extend('error', common_mappings, {
+local xmode_mappings = vim.tbl_extend('error', common_mappings, {
         name = 'Main',
         ['<leader>'] = {
             name = 'Leader',
@@ -408,7 +412,7 @@ local x_mappings = vim.tbl_extend('error', common_mappings, {
         --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
     })
 
-local i_mappings = {
+local imode_mappings = {
     name = 'Main',
     -- Unfortunately, have default <c-t> mapped in
     -- ['<c-m>'] = { '<c-t>', 'Indent once' },
@@ -419,15 +423,16 @@ local i_mappings = {
     },
 }
 
-local command_mappings = {
+local cmode_mappings = {
     name = 'Main',
     ['<C-j>'] = { '<C-n>', 'Next command in history' },
     ['<C-k>'] = { '<C-p>', 'Previous command in history' },
 }
 
 return {
-    n = mappings,
-    x = x_mappings,
-    i = i_mappings,
-    c = command_mappings,
+    n = nmode_mappings,
+    x = xmode_mappings,
+    i = imode_mappings,
+    c = cmode_mappings,
+    o = common_mappings,
 }
