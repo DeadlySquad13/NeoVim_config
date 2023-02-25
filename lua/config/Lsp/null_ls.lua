@@ -15,20 +15,20 @@ local diagnostics = null_ls.builtins.diagnostics
 --   @see [generators source
 --   file](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/generators.lua)
 return {
-  -- Lua
+  -- Lua.
   -- formatting.stylua,
 
-  -- General
+  -- General.
   -- see [misspell](https://github.com/client9/misspell).
   -- diagnostics.misspell,
 
-  -- Typescript
+  -- Typescript.
   formatting.prettierd,
-  -- - Frontend
+  -- - Frontend.
   formatting.stylelint,
   diagnostics.stylelint,
 
-  -- Python
+  -- Python.
   formatting.black,
   formatting.isort,
   diagnostics.flake8,
