@@ -109,7 +109,7 @@ end
 local function setup_lsp_servers()
   for server_name, custom_server_configuration in pairs(server_configurations) do
     if is_lsp_server_enabled(server_name) then
-      local server_configuration = default_server_configuration
+      local server_configuration = vim.deepcopy(default_server_configuration)
 
       -- TODO: use classes.
       add_custom_server_settings(
