@@ -63,6 +63,7 @@ local lsp_server_name_to_filetypes = {
   tsserver = { 'typescript', 'typescriptreact' },
   texlab = { 'tex' },
   gopls = { 'go' },
+  r_language_server = { 'r' },
 }
 
 local enabled_filetypes = get_module_enabled_filetypes()
@@ -108,7 +109,7 @@ end
 local function setup_lsp_servers()
   for server_name, custom_server_configuration in pairs(server_configurations) do
     if is_lsp_server_enabled(server_name) then
-      local server_configuration = default_server_configuration
+      local server_configuration = vim.deepcopy(default_server_configuration)
 
       -- TODO: use classes.
       add_custom_server_settings(
@@ -129,6 +130,7 @@ local function setup_lsp_servers()
           unpack(eslint_config.default_config.cmd),
         }
       end
+
       if server_name == 'sumneko_lua' then
         require('ds_omega.layers.Lsp.neodev')
       end

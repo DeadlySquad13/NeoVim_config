@@ -160,6 +160,9 @@ local paste_mappings = { '"+p', 'Paste from clipboard register' }
 --  "end
 --  "EOF
 --
+
+local execute_mappings = { '<Cmd>JupyniumExecuteSelectedCells<Cr>', 'Execute selected cells' }
+
 local yank_mappings = { '"+y', 'Yank into clipboard register' }
 -- local yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
 
@@ -257,7 +260,7 @@ local leader_mappings = {
     -- u = u_mappings,
     -- v = v_mappings,
     -- w = w_mappings,
-    -- x = x_mappings,
+    x = execute_mappings,
     y = yank_mappings,
     z = z_mappings,
     O = { 'mtO<Esc>`t', 'Create a new line above the current', },
@@ -359,14 +362,14 @@ local xmode_mappings = vim.tbl_extend('error', common_mappings, {
             -- u = u_mappings,
             -- v = v_mappings,
             -- w = w_mappings,
-            -- x = x_mappings,
+            x = execute_mappings,
             y = yank_mappings,
             -- z = z_mappings,
 
             -- [','] = settings_mappings,
 
             -- Comments.
-            -- Unfortunately, gv doesn't work at the end, it get's overriden by
+            -- Unfortunately, gv doesn't work at the end, it gets overriden by
             --   something...
             ['>'] = {
                 '<esc><cmd>lua ___comment_semantically(vim.fn.visualmode())<cr>',

@@ -53,8 +53,8 @@ return {
     },
 
     -- Targeted jump.
-    ['<leader>g'] = {
-      name = 'Go',
+    ['<leader>j'] = {
+      name = 'Jump',
 
       j = {
         function()
