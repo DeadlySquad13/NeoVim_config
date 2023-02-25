@@ -131,6 +131,11 @@ return {
         'auto_session',
         'mind',
     },
+    ['Git'] = {
+      'fugitive',
+      'neogit',
+      'diffview',
+    },
     --   Utilities that help to manage editor functionality: organize
     -- keymappings, commands...
     ['EditorManagement'] = {
