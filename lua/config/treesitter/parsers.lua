@@ -26,4 +26,6 @@ return {
   'cmake',
   'c',
   'cpp',
+
+  'r',
 }
