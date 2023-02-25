@@ -63,6 +63,7 @@ local lsp_server_name_to_filetypes = {
   tsserver = { 'typescript', 'typescriptreact' },
   texlab = { 'tex' },
   gopls = { 'go' },
+  r_language_server = { 'r' },
 }
 
 local enabled_filetypes = get_module_enabled_filetypes()
@@ -129,6 +130,7 @@ local function setup_lsp_servers()
           unpack(eslint_config.default_config.cmd),
         }
       end
+
       if server_name == 'sumneko_lua' then
         require('ds_omega.layers.Lsp.neodev')
       end

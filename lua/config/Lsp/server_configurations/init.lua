@@ -11,6 +11,7 @@ local servers_with_custom_configurations = {
 
   'texlab',
   'gopls',
+  'r_language_server',
   -- bashls,
 
   -- Conflicts with prettier formatting in TS files.
