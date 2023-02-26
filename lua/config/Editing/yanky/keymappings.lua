@@ -58,8 +58,8 @@ local function get_put_keymappings(mode)
   return {
       p = { '<Plug>(YankyPutAfter)', 'Put after' },
       P = { '<Plug>(YankyPutBefore)', 'Put before' },
-      [';p'] = { '<Plug>(YankyGPutAfter)', 'G put after' },
-      [';P'] = { '<Plug>(YankyGPutBefore)', 'G put before' },
+      ['[p'] = { '<Plug>(YankyGPutAfter)', 'G put after' },
+      ['[P'] = { '<Plug>(YankyGPutBefore)', 'G put before' },
       -- Adjust indent to the current line.
       -- - Stay on pasted line.
       ['z'] = {
