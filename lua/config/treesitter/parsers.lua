@@ -1,5 +1,6 @@
 return {
   -- General.
+  'gitcommit',
   'regex',
   'python',
   'rst', -- ReStructuredText (docstrings for python).
