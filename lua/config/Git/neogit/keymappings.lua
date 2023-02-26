@@ -1,8 +1,10 @@
 return {
-  n = {
-    ['<Leader>g'] = {
-      '<Cmd>Neogit<Cr>',
-      'Open Neogit',
+    n = {
+        ['<Leader>g'] = {
+            g = {
+                '<Cmd>Neogit<Cr>',
+                'Open Neogit',
+            }
+        }
     }
-  }
 }
