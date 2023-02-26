@@ -87,15 +87,6 @@ startup({
       --   config = [[ require('config.tinykeymap') ]],
       -- })
 
-      -- * Starting page.
-      use({
-          'glepnir/dashboard-nvim',
-          cond = function()
-            return not vim.g.started_by_firenvim
-          end,
-          config = [[ require('config.dashboard') ]],
-      })
-
       -- * Project management.
       -- - Session management.
       use({
