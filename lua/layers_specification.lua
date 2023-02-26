@@ -149,6 +149,7 @@ return {
         'ufo', -- Folding.
         'conceal', -- Conceal chosen language constructors with treesitter's aid.
         'headlines', -- Background whole line highlights (for code blocks, headers...).
+        'dashboard', -- Starting page.
     },
     -- ['Writing'] = {
     --   'vimtex',
