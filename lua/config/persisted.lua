@@ -1,13 +1,6 @@
-local prequire = require('utils').prequire
-
-local persisted_status_is_ok, persisted = prequire('persisted')
-if not persisted_status_is_ok then
-  return
-end
-
 local ENV = require('constants.env')
 
-persisted.setup({
+return {
   -- Unfortunately, SessionLoadLast doesn't work with save_dir even though it's
   --   newer.
   --save_dir = ENV.NVIM_DATA .. '/sessions/', -- directory where session files are saved
@@ -25,12 +18,4 @@ persisted.setup({
   --before_source = function(session) end, -- function to run before the session is sourced via telescope
   --after_source = function(session) end, -- function to run after the session is sourced via telescope
   --},
-})
-
--- To load the telescope extension.
-local telescope_status_is_ok, telescope = prequire('telescope')
-if not telescope_status_is_ok then
-  return
-end
-
-telescope.load_extension('persisted')
+}

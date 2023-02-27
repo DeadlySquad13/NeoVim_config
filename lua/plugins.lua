@@ -87,14 +87,6 @@ startup({
       --   config = [[ require('config.tinykeymap') ]],
       -- })
 
-      -- * Project management.
-      -- - Session management.
-      use({
-          'olimorris/persisted.nvim',
-          --module = "persisted", -- For lazy loading
-          config = [[ require('config.persisted') ]],
-      })
-
       -- * Russian layout.
       --use({ 'powerman/vim-plugin-ruscmd' })
       use({
