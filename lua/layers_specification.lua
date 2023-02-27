@@ -146,6 +146,7 @@ return {
     --   Everything that helps you manage the project (sessions, documentation,
     -- notes)
     ['ProjectManagement'] = {
+        'persisted', -- Session manager with git branch support.
         'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
         'auto_session',
         'mind',
