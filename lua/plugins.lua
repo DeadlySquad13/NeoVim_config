@@ -227,19 +227,6 @@ startup({
       --   end,
       --   ft = { 'markdown' },
       -- })
-      -- Visuals.
-      -- Show match number and index for searching
-      --use ({
-      --'kevinhwang91/nvim-hlslens',
-      --branch = 'main',
-      --keys = {{'n', '*'}, {'n', '#'}, {'n', 'n'}, {'n', 'N'}}
-      --})
-      -- * Highlight range of an exmode command.
-      use({ 'winston0410/cmd-parser.nvim' })
-      use({
-          'winston0410/range-highlight.nvim',
-          config = [[ require('config.range_highlight') ]],
-      })
 
       -- * Theme.
       -- - Helpers for creating a theme.
@@ -248,7 +235,6 @@ startup({
       --use({ 'morhetz/gruvbox' });
       use({ 'sainnhe/gruvbox-material' })
       use({ 'savq/melange-nvim' })
-      use({ 'vim-airline/vim-airline-themes' })
 
       use({
           -- 'DeadlySquad13/deadly-gruv.nvim',
@@ -258,33 +244,10 @@ startup({
       });
 
       -- * Highlighting.
-      -- - Colors.
-      use({
-          'norcalli/nvim-colorizer.lua',
-          config = [[ require('config.colorizer') ]],
-      })
-      -- - Hide cursorline during moving, highlight words under cursor.
-      -- use({ 'yamatsum/nvim-cursorline' })
-      -- - Brackets.
-      use({
-          -- '~/Projects/nvim-ts-rainbow',
-          'DeadlySquad13/nvim-ts-rainbow',
-      })
-
-      -- - Indents.
-      -- use({
-      --   'lukas-reineke/indent-blankline.nvim',
-      --   event = 'VimEnter',
-      --   -- Uses treesitter to calculate indentation when possible.
-      --   after = 'nvim-treesitter',
-      --   config = [[ require('config.indent_blankline') ]],
-      -- })
-      -- * Icons. (!) Should be loaded last (after nerd-tree, airline, etc...).
       --   Nerd patched fonts required.
-      use({ 'ryanoasis/vim-devicons' })
-      use({
-          'bryanmylee/vim-colorscheme-icons',
-      })
+      -- use({
+      --     'bryanmylee/vim-colorscheme-icons',
+      -- })
 
       -- - Documentation generation.
       use({
