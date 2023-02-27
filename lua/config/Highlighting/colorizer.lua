@@ -1,6 +1,6 @@
--- First table for specific filetypes (see examples below), second - for all
---   filetypes.
-require('colorizer').setup(nil, {
+local settings = {}
+
+settings.global = {
   RGB      = true;         -- #RGB hex codes
 	RRGGBB   = true;         -- #RRGGBB hex codes
 	names    = true;         -- "Name" codes like Blue
@@ -11,8 +11,9 @@ require('colorizer').setup(nil, {
 	css_fn   = true;        -- Enable all CSS *functions*: rgb_fn, hsl_fn
 	-- Available modes: foreground, background
 	mode     = 'background'; -- Set the display mode.
-})
+}
 
+settings.filetype = {
 -- Attach to certain Filetypes, add special configuration for `html`
 -- Use `background` for everything else.
 -- require 'colorizer'.setup {
@@ -47,3 +48,6 @@ require('colorizer').setup(nil, {
 --   '!vim'; -- Exclude vim from highlighting.
 --   -- Exclusion Only makes sense if '*' is specified!
 -- }
+}
+
+return settings

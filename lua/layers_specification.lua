@@ -169,6 +169,16 @@ return {
         'headlines', -- Background whole line highlights (for code blocks, headers...).
         'dashboard', -- Starting page.
     },
+    -- Make experience inside nvim more colorful.
+    ['Highlighting'] = {
+        'colorizer', -- Highlight color representation (such as #aa4400) with corresponding color.
+        'rainbow', -- Highlight brackets.
+        'devicons',
+        'range_highlight',
+        -- 'indent_blankline',
+        -- 'hslens', -- Show match number and index for searching.
+        'cmd_parser', -- Highlight range of an exmode command.
+    }
     -- ['Writing'] = {
     --   'vimtex',
     -- }
