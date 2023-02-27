@@ -135,33 +135,6 @@ startup({
           config = [[ require('config.emmet-vim') ]],
       })
 
-      -- * Autocomplete
-      use({
-          'hrsh7th/nvim-cmp',
-          -- event = "InsertEnter", -- for lazyload
-          requires = {
-              { 'hrsh7th/cmp-nvim-lsp',    after = 'nvim-cmp' },
-              { 'f3fora/cmp-spell',        after = 'nvim-cmp' },
-              { 'hrsh7th/cmp-path',        after = 'nvim-cmp' },
-              { 'hrsh7th/cmp-buffer',      after = 'nvim-cmp' },
-              { 'hrsh7th/cmp-calc',        after = 'nvim-cmp' },
-              { 'hrsh7th/cmp-cmdline',     after = 'nvim-cmp' },
-              { 'hrsh7th/cmp-omni',        after = 'nvim-cmp' },
-
-              -- * Ai assitance
-              { 'hrsh7th/cmp-copilot',     after = 'nvim-cmp' },
-
-              -- for ultisnips users.
-              --{ 'quangnguyen30192/cmp-nvim-ultisnips', after = { 'nvim-cmp', 'ultisnips' } },
-              { 'saadparwaiz1/cmp_luasnip' },
-
-              -- Cool icons.
-              { 'onsails/lspkind.nvim' },
-          },
-          config = [[ require('config.lsp.completion') ]],
-      })
-      --use {'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp'}
-
       -- - Python formatter.
       use({ 'tell-k/vim-autopep8', ft = { 'python' } })
 
