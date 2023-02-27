@@ -85,6 +85,7 @@ return {
         'substitute', -- Adds new substitute operator.
         'cutlass', -- Remove yank on delete and add special cut operator.
         'yanky', -- Add yank utilities such as history.
+        'dial', -- Enhanced Ctrl-A and Ctrl-X.
     },
     ['TextObjects'] = {
         'textobjects', -- Core for this layer.
@@ -178,8 +179,12 @@ return {
         -- 'indent_blankline',
         -- 'hslens', -- Show match number and index for searching.
         'cmd_parser', -- Highlight range of an exmode command.
-    }
-    -- ['Writing'] = {
+    },
+    ['Markdown'] = {
+        'mkdx',
+        'markdown_preview',
+    },
+    -- ['Latex'] = {
     --   'vimtex',
     -- }
 }
