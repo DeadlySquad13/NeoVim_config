@@ -140,23 +140,6 @@ startup({
 
       -- Editing.
       use({
-          'monaqa/dial.nvim',
-          config = function()
-            require('config.dial')
-          end,
-      })
-      -- * See current registers.
-      -- use({ 'gennaro-tedesco/nvim-peekup' })
-
-      -- * Batching.
-      -- use({ 'terryma/vim-expand-region' })
-
-      -- # Targets.
-      -- use({
-      --   'wellle/targets.vim',
-      --   event = 'VimEnter',
-      -- })
-      use({
           'echasnovski/mini.nvim',
           config = function()
             require('config.mini.ai')
@@ -205,29 +188,6 @@ startup({
           },
       })
 
-      -- Markdown.
-      -- use({ 'plasticboy/vim-markdown' })
-      use({
-          'SidOfc/mkdx',
-          ft = { 'markdown' },
-      })
-      -- * Preview.
-      --use ({ 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' });
-      use({
-          'iamcco/markdown-preview.nvim',
-          run = function()
-            vim.fn['mkdp#util#install']()
-          end,
-      })
-      -- use({
-      --   'iamcco/markdown-preview.nvim',
-      --   run = 'cd app && npm install',
-      --   setup = function()
-      --     vim.g.mkdp_filetypes = { 'markdown' }
-      --   end,
-      --   ft = { 'markdown' },
-      -- })
-
       -- * Theme.
       -- - Helpers for creating a theme.
       use({ 'rktjmp/lush.nvim' })
@@ -275,9 +235,6 @@ startup({
           end,
       })
 
-      -- Python indent (follows the PEP8 style)
-      --use({ 'Vimjas/vim-python-pep8-indent', ft = { 'python' } })
-
       -- Python-related text object
       --use({ 'jeetsukumaran/vim-pythonsense', ft = { 'python' } })
 
@@ -289,48 +246,23 @@ startup({
       -- Stay after pressing * and search selected text
       --use({'haya14busa/vim-asterisk', event = 'VimEnter'})
 
-      -- File search, tag search and more
-      --if vim.g.is_win then
-      --use({'Yggdroot/LeaderF', cmd = 'Leaderf'})
-      --else
-      --use({ 'Yggdroot/LeaderF', cmd = 'Leaderf', run = ':LeaderfInstallCExtension' })
-      --end
-
-      -- search emoji and other symbols
-      --use {'nvim-telescope/telescope-symbols.nvim', after = 'telescope.nvim'}
-
-      -- Another similar plugin is command-t
-      -- use 'wincent/command-t'
-
-      -- Another grep tool (similar to Sublime Text Ctrl+Shift+F)
-      -- use 'dyng/ctrlsf.vim'
-
       -- A grepping tool
       -- use {'mhinz/vim-grepper', cmd = {'Grepper', '<plug>(GrepperOperator)'}}
 
       -- Show git change (change, delete, add) signs in vim sign column
-      --use({'mhinz/vim-signify', event = 'BufEnter'})
-      -- Another similar plugin
       -- use 'airblade/vim-gitgutter'
 
       -- Highlight URLs inside vim
       --use({'itchyny/vim-highlighturl', event = 'VimEnter'})
 
-      -- For Windows and Mac, we can open an URL in the browser. For Linux, it may
-      -- not be possible since we maybe in a server which disables GUI.
-      --if vim.g.is_win or vim.g.is_mac then
-      ---- open URL in browser
+      --open URL in browser
       --use({'tyru/open-browser.vim', event = 'VimEnter'})
-      --end
 
       -- Only install these plugins if ctags are installed on the system
       --if utils.executable('ctags') then
       ---- show file tags in vim window
       --use({'liuchengxu/vista.vim', cmd = 'Vista'})
       --end
-
-      -- Automatic insertion and deletion of a pair of characters
-      --use({'Raimondi/delimitMate', event = 'InsertEnter'})
 
       -- Autosave files on certain events
       --use({
@@ -341,17 +273,8 @@ startup({
       --end
       --})
 
-      -- Manage your yank history
-      --if vim.g.is_win or vim.g.is_mac then
-      --use({'svermeulen/vim-yoink', event = 'VimEnter'})
-      --end
-
       -- Handy unix command inside Vim (Rename, Move etc.)
       --use({'tpope/vim-eunuch', cmd = {'Rename', 'Delete'}})
-
-      -- Show the content of register in preview window
-      -- use({ 'junegunn/vim-peekaboo' })
-      --use({ 'jdhao/better-escape.vim', event = { 'InsertEnter' } })
 
       --if vim.g.is_mac then
       --use({ 'lyokha/vim-xkbswitch', event = { 'InsertEnter' } })
@@ -362,14 +285,8 @@ startup({
       -- Syntax check and make
       -- use 'neomake/neomake'
 
-      -- Auto format tools
-      --use({ 'sbdchd/neoformat', cmd = { 'Neoformat' } })
-      -- use 'Chiel92/vim-autoformat'
-
-      -- Git command inside vim
-      --use({ 'tpope/vim-fugitive', event = 'User InGitRepo' })
-
       -- Better git log display
+      -- Other alternatives are listed in FAQ
       --use({ 'rbong/vim-flog', requires = 'tpope/vim-fugitive', cmd = { 'Flog' } })
 
       -- Better git commit experience
@@ -384,30 +301,17 @@ startup({
       -- Markdown JSON header highlight plugin
       --use({ 'elzr/vim-json', ft = { 'json', 'markdown' } })
 
-      -- Only use these plugin on Windows and Mac and when LaTeX is installed
-      --if vim.g.is_win or vim.g.is_mac and utils.executable('latex') then
-      --use({ 'lervag/vimtex', ft = { 'tex' } })
-
-      ---- use {'matze/vim-tex-fold', ft = {'tex', }}
-      ---- use 'Konfekt/FastFold'
-      --end
+      --use {'matze/vim-tex-fold', ft = {'tex', }}
+      --use 'Konfekt/FastFold'
 
       -- Modern matchit implementation
       -- Better alternative to vim default `%`.
       --use({'andymass/vim-matchup', event = 'VimEnter'})
 
-      -- Edit text area in browser using nvim
       -- Debugger plugin
       --if vim.g.is_win or vim.g.is_linux then
       --use({ 'sakhnik/nvim-gdb', run = { 'bash install.sh' }, opt = true, setup = [[vim.cmd('packadd nvim-gdb')]] })
       --end
-
-      --if vim.g.is_linux then
-      --use({'ojroques/vim-oscyank', cmd = {'OSCYank', 'OSCYankReg'}})
-      --end
-
-      -- show and trim trailing whitespaces
-      --use {'jdhao/whitespace.nvim', event = 'VimEnter'}
     end,
     config = {
         max_jobs = 16,

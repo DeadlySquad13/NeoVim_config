@@ -67,6 +67,9 @@ Editing.plugins = {
     ['yanky'] = {
         'gbprod/yanky.nvim',
     },
+    ['dial'] = {
+        'monaqa/dial.nvim',
+    },
 }
 
 Editing.configs = {
@@ -102,6 +105,9 @@ Editing.configs = {
     end,
     ['yanky'] = function()
       require('ds_omega.layers.Editing.yanky')
+    end,
+    ['dial'] = function()
+      require('ds_omega.layers.Editing.dial')
     end,
 }
 
