@@ -6,6 +6,7 @@ local utils = require('config.lsp.utils')
 local t = utils.t
 
 local neogen = require('neogen')
+
 return {
   ['<Tab>'] = cmp.mapping({
     c = function(fallback)
