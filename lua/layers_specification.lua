@@ -124,6 +124,24 @@ return {
     ['Assistance'] = {
         'null_ls',
     },
+    ['Completion'] = {
+        'cmp',
+
+        'lsp',
+        'spell',
+        'path',
+        'buffer',
+        'calc',
+        'cmdline',
+        'omni',
+
+        'copilot', -- Copilot source for cmp.
+
+        -- Snippets.
+        'luasnip',
+
+        'lspkind', -- For cool icons inside completion window.
+    },
     --   Everything that helps you manage the project (sessions, documentation,
     -- notes)
     ['ProjectManagement'] = {
