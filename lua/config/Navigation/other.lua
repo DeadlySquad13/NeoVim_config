@@ -22,6 +22,18 @@ add_mappings({
   },
 })
 
+-- React.
+add_mappings({
+  {
+    pattern = "(.*).tsx$",
+    target = "%1.pcss",
+  },
+  {
+    pattern = "(.*).pcss$",
+    target = "%1.tsx",
+  }
+})
+
 -- # Lua.
 -- Between config and layer.
 add_mappings({
