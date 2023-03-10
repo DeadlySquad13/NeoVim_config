@@ -68,12 +68,6 @@ startup({
       -- - With Jupyter.
       use({ 'untitled-ai/jupyter_ascending.vim' })
       use({
-          'luk400/vim-jukit',
-          config = function()
-            require('config.jukit')
-          end,
-      })
-      use({
           'kiyoon/jupynium.nvim',
           run = 'pip3 install --user .',
       })
