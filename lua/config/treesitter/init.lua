@@ -38,6 +38,9 @@ tree_sitter.setup({
       'python',
     },
   },
+
+  yati = yati,
+
   incremental_selection = incremental_selection,
 
   highlight = {
@@ -65,8 +68,6 @@ tree_sitter.setup({
     --   Comment.nvim.
     enable_autocmd = false,
   },
-
-  yati = yati,
 })
 
 -- Needed for parser generator to work. TS will try compilers from left to
