@@ -185,6 +185,9 @@ return {
         'mkdx',
         'markdown_preview',
     },
+    ['Jupyter'] = {
+        'jukit', -- Mappings, highlights, objects to work with notebooks. Also adds utilities to convert notebook <-> source.
+    }
     -- ['Latex'] = {
     --   'vimtex',
     -- }
