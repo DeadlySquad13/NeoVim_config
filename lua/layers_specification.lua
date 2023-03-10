@@ -13,6 +13,7 @@ return {
     -- Development plugins specific to neovim infrastructure.
     ['NeoVimDevelopment'] = {
         'debuglog', -- Logging.
+        'yop', -- Utily to create your own operator.
     },
     ['Integrations'] = {
         'toggleterm', -- Terminal integration.
