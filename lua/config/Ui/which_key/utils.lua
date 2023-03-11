@@ -53,7 +53,8 @@ local function format(str, char)
   return replace_char(str:upper():find(char), str, special_symbols[char])
 end
 
--- TOFIX: Prefer uppercase letters.
+-- TODO: Prefer uppercase letters.
+-- FIX: Breaks on non letters such as `^`.
 -- Iterates through mappings, applying `format` function.
 local function format_mappings_names(mappings, group_mapping_key)
   local formatted_mappings = {}
@@ -139,7 +140,8 @@ M.apply_keymappings = function(mode, keymappings, custom_options)
   local options = options_with_defaults(custom_options)
   options.mode = mode
 
-  return which_key.register(format_mappings_names(keymappings, 'M'), options)
+  -- return which_key.register(format_mappings_names(keymappings, 'M'), options)
+  return which_key.register(keymappings, options)
 end
 
 local keymappings_group = require('utils').create_augroup('Keymappings', { clear = true })
