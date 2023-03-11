@@ -91,6 +91,7 @@ return {
         'cutlass', -- Remove yank on delete and add special cut operator.
         'yanky', -- Add yank utilities such as history.
         'dial', -- Enhanced Ctrl-A and Ctrl-X.
+        'recorder', -- Easier management of macroses.
     },
     ['TextObjects'] = {
         'textobjects', -- Core for this layer.

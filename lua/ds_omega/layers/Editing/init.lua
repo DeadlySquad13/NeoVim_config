@@ -70,6 +70,9 @@ Editing.plugins = {
     ['dial'] = {
         'monaqa/dial.nvim',
     },
+    ['recorder'] = {
+        'chrisgrieser/nvim-recorder',
+    },
 }
 
 Editing.configs = {
@@ -108,6 +111,9 @@ Editing.configs = {
     end,
     ['dial'] = function()
       require('ds_omega.layers.Editing.dial')
+    end,
+    ['recorder'] = function()
+      require('ds_omega.layers.Editing.recorder')
     end,
 }
 

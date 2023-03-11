@@ -192,7 +192,7 @@ local c_mappings = {
     -- m = nil,
     o = nil,
     -- p = nil, -- Used in yanky.
-    q = nil,
+    -- q = nil, -- Used in nvim-recorder (edit macro).
     u = nil,
     y = nil,
 }
@@ -224,7 +224,7 @@ local y_mappings = {
     -- m = nil,
     o = nil,
     p = nil,
-    q = nil,
+    -- q = nil, -- Used in nvim-recorder (yank macro).
     r = nil,
     u = nil,
 }
