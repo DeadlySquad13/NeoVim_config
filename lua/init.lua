@@ -8,8 +8,9 @@ local function append_to_package_path(path)
 end
 
 append_to_package_path(require('constants.env').NVIM_AFTER)
+require('utils.global')
 require('general_settings')
-require('config.commands')
+require('config.Commands')
 require('autocommands')
 local colorschemas = require('config.theme')
 require('ds_omega.utils').load_coloscheme(
