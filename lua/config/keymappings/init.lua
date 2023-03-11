@@ -287,6 +287,9 @@ local common_mappings = {
     L = { '$', 'Go to the end of the line' },
     ['}'] = { 'J', 'Join lines' },
 
+    ['^'] = { 'H', 'Move cursor to the top of the screen' },
+    ['$'] = { 'L', 'Move cursor to the bottom of the screen' },
+
     -- Alternate mappings (functions simillar to `g`).
     [':'] = {
         name = 'Alternate',
