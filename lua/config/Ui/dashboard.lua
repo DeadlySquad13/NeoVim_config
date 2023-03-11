@@ -1,6 +1,6 @@
 local prequire = require('utils').prequire;
 
-local choose_and_edit_configs = require('config.commands.choose_and_edit_configs');
+local choose_and_edit_configs = require('config.Commands.choose_and_edit_configs');
 
 -- Possible extensions for dashboard:
 -- - more find file utils,
