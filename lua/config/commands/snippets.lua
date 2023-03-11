@@ -1,5 +1,5 @@
 local is_loaded = require('utils').is_loaded
-local create_user_command = require('config.commands.utils').create_user_command
+local create_user_command = require('config.Commands.utils').create_user_command
 local ENV = require('constants.env')
 
 local luasnip_loaders_is_available, luasnip_loaders = pcall(
