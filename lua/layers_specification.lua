@@ -176,7 +176,7 @@ return {
     ['Highlighting'] = {
         'colorizer', -- Highlight color representation (such as #aa4400) with corresponding color.
         'rainbow', -- Highlight brackets.
-        'devicons',
+        -- 'devicons',
         'range_highlight',
         -- 'indent_blankline',
         -- 'hslens', -- Show match number and index for searching.
