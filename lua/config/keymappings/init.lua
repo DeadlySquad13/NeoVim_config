@@ -234,10 +234,13 @@ local z_mappings = {
     -- p = nil, -- Used in yanky.
 }
 
+local buffer_mappings_module = require('config.keymappings.buffer')
+local buffer_mappings, change_buffer_mappings = buffer_mappings_module[1], buffer_mappings_module[2]
+
 local leader_mappings = {
     name = 'Leader',
     -- a = a_mappings,
-    b = require('config.keymappings.buffer'),
+    b = buffer_mappings,
     c = comment_mappings,
     -- d = d_mappings,
     e = e_mappings,
@@ -274,7 +277,7 @@ local leader_mappings = {
     }
 }
 
-local common_mappings = {
+local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     w = { '<Plug>(smartword-w)', 'w' },
     b = { '<Plug>(smartword-b)', 'b' },
     e = { '<Plug>(smartword-e)', 'e' },
@@ -300,7 +303,7 @@ local common_mappings = {
     ['`'] = { "'", 'Jump to position linewise' },
     ["''"] = { '``', 'Jump to last position' },
     ["``"] = { "''", 'Jump to last position linewise' },
-}
+})
 
 local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         name = 'Main',
@@ -333,7 +336,7 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         -- z = z_mappings,
 
         ['<C-w>'] = require('config.keymappings.window'),
-        ['<leader>'] = leader_mappings,
+        ['<leader>'] = P(leader_mappings),
     })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
