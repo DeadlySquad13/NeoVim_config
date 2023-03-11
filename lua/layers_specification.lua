@@ -168,7 +168,7 @@ return {
     },
     ['Ui'] = {
         'dressing', -- Prettier wrappers for vim.ui.select. Can use telescope layouts.
-        'notify', -- Add nice looking ui for notifications.
+        -- 'notify', -- Add nice looking ui for notifications.
         --   'fidget', -- Progress handler.
         'which_key', -- Mappings visualization.
         'ufo', -- Folding.
@@ -190,9 +190,9 @@ return {
         'mkdx',
         'markdown_preview',
     },
-    ['Jupyter'] = {
-        'jukit', -- Mappings, highlights, objects to work with notebooks. Also adds utilities to convert notebook <-> source.
-    }
+    -- ['Jupyter'] = {
+        -- 'jukit', -- Mappings, highlights, objects to work with notebooks. Also adds utilities to convert notebook <-> source.
+    -- }
     -- ['Latex'] = {
     --   'vimtex',
     -- }
