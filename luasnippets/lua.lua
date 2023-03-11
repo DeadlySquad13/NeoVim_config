@@ -11,7 +11,7 @@ local optional_field = utils_ls.optional_field
 return {}, {
   s(
     {
-      trig = 'reqm',
+      trig = ';req',
       dscr = 'Require module',
     },
     fmt(
