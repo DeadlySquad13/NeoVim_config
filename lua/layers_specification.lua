@@ -25,7 +25,7 @@ return {
     ['Workspace'] = {
         -- * Status line.
         -- 'tpipeline', -- Move status line to the tmux.
-        -- 'lualine', -- Pretty status line in lua.
+        'lualine', -- Pretty status line in lua.
 
         -- * Buffers.
         'bufferline', -- Buffer line.
