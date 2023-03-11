@@ -41,7 +41,7 @@ startup({
 
       --  requires = 'nvim-lua/plenary.nvim',
       --})
-      -- - Packer itself can be managed.
+
       use({ 'wbthomason/packer.nvim', opt = true })
 
       -- General.
@@ -147,6 +147,7 @@ startup({
           cmd = { 'TSHighlightCapturesUnderCursor', 'TSPlaygroundToggle' },
           requires = 'nvim-treesitter/nvim-treesitter',
       })
+
       use({
           'stsewd/sphinx.nvim',
           run = ':UpdateRemotePlugins',
@@ -178,7 +179,6 @@ startup({
       -- - Helpers for creating a theme.
       use({ 'rktjmp/lush.nvim' })
       -- - Themes.
-      --use({ 'morhetz/gruvbox' });
       use({ 'sainnhe/gruvbox-material' })
       use({ 'savq/melange-nvim' })
 
