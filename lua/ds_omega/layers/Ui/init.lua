@@ -36,6 +36,20 @@ Ui.plugins = {
           return not vim.g.started_by_firenvim
         end,
     },
+    ['noice'] = {
+    disable = true,
+      'folke/noice.nvim',
+
+      requires = {
+          -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries.
+          'MunifTanjim/nui.nvim',
+          -- OPTIONAL:
+          --   `nvim-notify` is only needed, if you want to use the notification view.
+          --   If not available, we use `mini` as the fallback.
+          -- 'rcarriga/nvim-notify',
+          }
+    },
+
     -- - Better UI for Lsp rename.
     -- use({
     --   'filipdutescu/renamer.nvim',
@@ -68,8 +82,11 @@ Ui.configs = {
     ['headlines'] = function()
       require('ds_omega.layers.Ui.headlines')
     end,
-    ['dashboard'] = function()
-      require('ds_omega.layers.Ui.dashboard')
+    ['headlines'] = function()
+      require('ds_omega.layers.Ui.headlines')
+    end,
+    ['noice'] = function()
+      require('ds_omega.layers.Ui.noice')
     end,
 }
 

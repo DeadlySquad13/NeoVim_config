@@ -176,6 +176,7 @@ return {
         'conceal', -- Conceal chosen language constructors with treesitter's aid.
         'headlines', -- Background whole line highlights (for code blocks, headers...).
         'dashboard', -- Starting page.
+        -- 'noice', -- Better commandline.
     },
     -- Make experience inside nvim more colorful.
     ['Highlighting'] = {
