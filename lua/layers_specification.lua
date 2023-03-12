@@ -98,7 +98,7 @@ return {
         'word_column', -- Columns.
         'indented_paragraph', -- Indented paragraph.
         'indent', -- Indents.
-        'hydrogen', -- Hydrogen (jupyter notebook cells).
+        -- 'hydrogen', -- Hydrogen (jupyter notebook cells).
         'word', -- More granular, case delimited and _ delimited words.
         'smart_word', -- Words that ignore some special symbols which you won't consider as a 'word' in most cases.
         'treesitter', -- General treesitter textobjects operating on queries.
