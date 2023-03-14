@@ -83,10 +83,6 @@ Workspace.configs = {
     require('ds_omega.layers.Workspace.bufferline')
   end,
 
-  ['scope'] = function()
-    require('ds_omega.layers.Workspace.scope')
-  end,
-
   ['jabs'] = function()
     require('ds_omega.layers.Workspace.jabs')
   end,

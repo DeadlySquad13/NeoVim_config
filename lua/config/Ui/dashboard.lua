@@ -1,6 +1,6 @@
 local prequire = require('utils').prequire;
 
-local choose_and_edit_configs = require('config.commands.choose_and_edit_configs');
+local choose_and_edit_configs = require('config.Commands.choose_and_edit_configs');
 
 -- Possible extensions for dashboard:
 -- - more find file utils,
@@ -81,13 +81,13 @@ if telescope_builtin_is_available then
       {
           icon = '',
           desc = format_description('Find files'),
-          key = leader .. ' o f',
+          key = leader .. ' n f',
           action = telescope_builtin.find_files,
       },
       {
           icon = '',
           desc = format_description('Find files by grep'),
-          key = leader .. ' f w',
+          key = leader .. ' n g',
           action = telescope_builtin.live_grep,
       },
   })
@@ -101,7 +101,7 @@ if telescope_is_available then
 
   if pick_session then
     add_sections({{
-        icon = '☆',
+        icon = '*',
         desc = format_description('Pick session'),
         key = leader .. ' o s',
         action = pick_session,
@@ -110,7 +110,7 @@ if telescope_is_available then
 end
 
 add_sections({{
-    icon = '☆',
+    icon = '🚪',
     desc = format_description('Back to reality...'),
     key = 'Z Q',
     action = 'quit!'

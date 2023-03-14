@@ -18,9 +18,13 @@ return {}, {
     t('<-'),
     {
       condition = function()
-        local node = vim.treesitter.get_node_at_cursor(0)
+        local node_type_under_cursor = vim.treesitter.get_node():type()
 
-        return node ~= 'call'
+        return not vim.tbl_contains({
+          'call',
+          'comment',
+          'if',
+        }, node_type_under_cursor)
       end,
     }
   ),

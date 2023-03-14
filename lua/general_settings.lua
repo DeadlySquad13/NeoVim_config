@@ -1,11 +1,11 @@
 local ENV = require('constants.env')
 local set = vim.opt
 
----@see [Managing vim options section in "Getting started using Lua in
+---See [Managing vim options section in "Getting started using Lua in
 --Nvim"](https://github.com/nanotee/nvim-lua-guide#managing-vim-options)
 
 -- Is your environment fast enough to handle frequent redraws?
----@see `:h slow-terminal`.
+---See `:h slow-terminal`.
 local IS_ENVIRONMENT_FAST = false
 
 -- Bash doesn’t load your .bashrc unless it’s interactive.
@@ -20,13 +20,13 @@ set.shellcmdflag:append('i')
 set.whichwrap:append('hl')
 
 -- Better to use 0 with tpipeline.
-local function get_laststatus()
-  if require('utils').is_loaded('vim-tpipeline') then
-    return 0
-  end
+-- local function get_laststatus()
+--   if require('utils').is_loaded('vim-tpipeline') then
+--     return 0
+--   end
 
-  return 3
-end
+--   return 3
+-- end
 
 local buffer_local_settings = {
   -- * Languages.
@@ -163,12 +163,12 @@ local global_local = {
   --helpheight     = 12,
   --previewheight  = 12,
   --showcmd        = false,
-  cmdheight  = 0, -- Show only when neccessary.
+  cmdheight  = 1, -- 0 Show only when neccessary, n - always show n lines.
   --cmdwinheight   = 5,
   --equalalways    = false,
-  laststatus = get_laststatus(),
+  laststatus = 3, --[[ get_laststatus(), ]]
   fillchars  = 'fold: ',
-  --display        = "lastline",
+  --sdisplay        = "lastline",
   showbreak  = '↳  ', -- ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
   -- (tab: simple dash + Electric Arrow (U+2301))
   list       = true, -- Show special characters.

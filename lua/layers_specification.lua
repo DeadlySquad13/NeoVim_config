@@ -13,14 +13,19 @@ return {
     -- Development plugins specific to neovim infrastructure.
     ['NeoVimDevelopment'] = {
         'debuglog', -- Logging.
+        'yop', -- Utily to create your own operator.
     },
     ['Integrations'] = {
         'toggleterm', -- Terminal integration.
     },
+    -- Commands for ex-mode.
+    ['Commands'] = {
+        'genghis', -- Convenience file operations (better `:e`, `:mv`...)
+    },
     ['Workspace'] = {
         -- * Status line.
         -- 'tpipeline', -- Move status line to the tmux.
-        -- 'lualine', -- Pretty status line in lua.
+        'lualine', -- Pretty status line in lua.
 
         -- * Buffers.
         'bufferline', -- Buffer line.
@@ -85,6 +90,8 @@ return {
         'substitute', -- Adds new substitute operator.
         'cutlass', -- Remove yank on delete and add special cut operator.
         'yanky', -- Add yank utilities such as history.
+        'dial', -- Enhanced Ctrl-A and Ctrl-X.
+        'recorder', -- Easier management of macroses.
     },
     ['TextObjects'] = {
         'textobjects', -- Core for this layer.
@@ -124,9 +131,28 @@ return {
     ['Assistance'] = {
         'null_ls',
     },
+    ['Completion'] = {
+        'cmp',
+
+        'lsp',
+        'spell',
+        'path',
+        'buffer',
+        'calc',
+        'cmdline',
+        'omni',
+
+        'copilot', -- Copilot source for cmp.
+
+        -- Snippets.
+        'luasnip',
+
+        'lspkind', -- For cool icons inside completion window.
+    },
     --   Everything that helps you manage the project (sessions, documentation,
     -- notes)
     ['ProjectManagement'] = {
+        'persisted', -- Session manager with git branch support.
         'todo_comments', -- Highlight and search for todo comments like `TODO`, `HACK`, `FIX` in your project.
         'auto_session',
         'mind',
@@ -143,7 +169,7 @@ return {
     },
     ['Ui'] = {
         'dressing', -- Prettier wrappers for vim.ui.select. Can use telescope layouts.
-        'notify', -- Add nice looking ui for notifications.
+        -- 'notify', -- Add nice looking ui for notifications.
         --   'fidget', -- Progress handler.
         'which_key', -- Mappings visualization.
         'ufo', -- Folding.
@@ -151,7 +177,24 @@ return {
         'headlines', -- Background whole line highlights (for code blocks, headers...).
         'dashboard', -- Starting page.
     },
-    -- ['Writing'] = {
+    -- Make experience inside nvim more colorful.
+    ['Highlighting'] = {
+        'colorizer', -- Highlight color representation (such as #aa4400) with corresponding color.
+        'rainbow', -- Highlight brackets.
+        -- 'devicons',
+        'range_highlight',
+        -- 'indent_blankline',
+        -- 'hslens', -- Show match number and index for searching.
+        'cmd_parser', -- Highlight range of an exmode command.
+    },
+    ['Markdown'] = {
+        'mkdx',
+        'markdown_preview',
+    },
+    -- ['Jupyter'] = {
+        -- 'jukit', -- Mappings, highlights, objects to work with notebooks. Also adds utilities to convert notebook <-> source.
+    -- }
+    -- ['Latex'] = {
     --   'vimtex',
     -- }
 }
