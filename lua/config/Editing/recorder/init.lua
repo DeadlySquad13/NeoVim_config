@@ -1,3 +1,7 @@
 return {
-  settings = require('config.Editing.recorder.settings'),
+  'chrisgrieser/nvim-recorder',
+
+  opts = require('config.Editing.recorder.settings'),
+
+  config = true,
 }

@@ -1,40 +1,48 @@
-local actions = require('telescope.actions')
-
-local common_keymappings = {
-  ['<C-d>'] = actions.delete_buffer,
-  ['<C-s>'] = actions.select_horizontal,
-}
-
 return {
-  defaults = {
-    -- Default configuration for telescope.
-    mappings = {
-      n = vim.tbl_extend('force', common_keymappings, {
-        ['<c-d>'] = actions.delete_buffer,
-      }),
-      i = vim.tbl_extend('force', common_keymappings, {
-        -- map actions.which_key to <C-h> (default: <C-/>)
-        -- actions.which_key shows the mappings for your picker,
-        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ['<C-h>'] = 'which_key',
-      }),
+ 'nvim-telescope/telescope.nvim',
+  dependencies = 'nvim-lua/plenary.nvim',
+
+  opts = function()
+
+    local actions = require('telescope.actions')
+
+    local common_keymappings = {
+      ['<C-d>'] = actions.delete_buffer,
+      ['<C-s>'] = actions.select_horizontal,
     }
-  },
 
-  pickers = {
-    buffers = {
-      layout_strategy = 'vertical',
-      layout_config = {
-        preview_height = 0.6,
+    return {
+      defaults = {
+        -- Default configuration for telescope.
+        mappings = {
+          n = vim.tbl_extend('force', common_keymappings, {
+            ['<c-d>'] = actions.delete_buffer,
+          }),
+          i = vim.tbl_extend('force', common_keymappings, {
+            -- map actions.which_key to <C-h> (default: <C-/>)
+            -- actions.which_key shows the mappings for your picker,
+            -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+            ['<C-h>'] = 'which_key',
+          }),
+        }
       },
-    },
-  },
 
-  extensions = {
-    file_browser = require('config.Navigation.telescope_file_browser'),
-    undo = require('config.Editing.undo'),
-    --   Unfortunately, doesn't work. Should be set up in setup function of
-    -- yanky.
-    yank_history = require('config.Editing.yanky.picker').telescope,
-  }
+      pickers = {
+        buffers = {
+          layout_strategy = 'vertical',
+          layout_config = {
+            preview_height = 0.6,
+          },
+        },
+      },
+
+      extensions = {
+        file_browser = require('config.Navigation.telescope_file_browser').opts,
+        undo = require('config.Editing.undo').opts(),
+        --   Unfortunately, doesn't work. Should be set up in setup function of
+        -- yanky.
+        yank_history = require('config.Editing.yanky.picker').telescope,
+      }
+    }
+  end,
 }

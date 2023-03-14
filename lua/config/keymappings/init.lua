@@ -140,7 +140,7 @@ local open_mappings = {
     name = 'Open',
     -- * Telescope.
     s = {
-        telescope_extensions.persisted.persisted,
+        'Telescope persisted', -- telescope_extensions.persisted.persisted,
         'Session',
     },
 }
@@ -335,8 +335,8 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         -- y = y_mappings,
         -- z = z_mappings,
 
-        ['<C-w>'] = require('config.keymappings.window'),
-        ['<leader>'] = P(leader_mappings),
+        -- ['<C-w>'] = require('config.keymappings.window'),
+        ['<leader>'] = leader_mappings,
     })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])

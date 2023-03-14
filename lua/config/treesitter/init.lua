@@ -39,7 +39,7 @@ tree_sitter.setup({
     },
   },
 
-  yati = yati,
+  yati = yati.opts,
 
   incremental_selection = incremental_selection,
 
