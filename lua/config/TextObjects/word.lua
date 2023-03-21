@@ -1,40 +1,48 @@
-local Hydra = require('hydra')
+return {
+  'chaoren/vim-wordmotion',
+  -- event = 'VimEnter',
+  -- after = 'vim-textobj-user',
 
--- Reference: [Hydra wiki](https://github.com/anuvyklack/hydra.nvim/wiki/Quick-words)
-Hydra({
-   name = 'Quick words',
-   config = {
-      color = 'pink',
-      hint = {
-        type = 'statusline',
-      },
-   },
-   mode = { 'n','x','o' },
-   body = ',',
-   heads = {
-      { 'w', '<Plug>WordMotion_w' },
-      { 'b', '<Plug>WordMotion_b' },
-      { 'e', '<Plug>WordMotion_e' },
-      { 'ge', '<Plug>WordMotion_ge' },
+  config = function()
+    local Hydra = require('hydra')
 
-      { '<Esc>', nil, { exit = true, mode = 'n' } }
-   }
-})
+    -- Reference: [Hydra wiki](https://github.com/anuvyklack/hydra.nvim/wiki/Quick-words)
+    Hydra({
+       name = 'Quick words',
+       config = {
+          color = 'pink',
+          hint = {
+            type = 'statusline',
+          },
+       },
+       mode = { 'n','x','o' },
+       body = ',',
+       heads = {
+          { 'w', '<Plug>WordMotion_w' },
+          { 'b', '<Plug>WordMotion_b' },
+          { 'e', '<Plug>WordMotion_e' },
+          { 'ge', '<Plug>WordMotion_ge' },
 
---[[ Hydra({
-   name = 'Quick words',
-   config = {
-      color = 'pink',
-      hint = {
-        type = 'statusline',
-      },
-   },
-   mode = { 'x','o' },
-   body = ',',
-   heads = {
-      { 'iw', '<Plug>WordMotion_W' },
-      { 'iW', '<Plug>WordMotion_iW' },
+          { '<Esc>', nil, { exit = true, mode = 'n' } }
+       }
+    })
 
-      { '<Esc>', nil, { exit = true, mode = 'n' } }
-   }
-}) ]]
+    --[[ Hydra({
+       name = 'Quick words',
+       config = {
+          color = 'pink',
+          hint = {
+            type = 'statusline',
+          },
+       },
+       mode = { 'x','o' },
+       body = ',',
+       heads = {
+          { 'iw', '<Plug>WordMotion_W' },
+          { 'iW', '<Plug>WordMotion_iW' },
+
+          { '<Esc>', nil, { exit = true, mode = 'n' } }
+       }
+    }) ]]
+  end,
+}

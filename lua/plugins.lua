@@ -40,6 +40,7 @@ require('lazy').setup({
   { import = 'config.Navigation' },
   { import = 'config.Ui' },
   { import = 'config.EditorManagement' },
+  { import = 'config.TextObjects' },
 })
 
 -- local startup = require('utils.core').startup
