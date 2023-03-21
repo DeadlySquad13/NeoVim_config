@@ -20,7 +20,7 @@ local rainbow = require_treesitter_configuration('rainbow')
 
 local textobjects = require_treesitter_configuration('textobjects')
 
-local yati_is_available, yati = prequire('config.Editing.yati')
+-- local yati_is_available, yati = prequire('config.Editing.yati')
 
 -- List of language that will be disabled
 local DISABLED_HIGHLIGHT_FILETYPES = {
@@ -32,14 +32,14 @@ tree_sitter.setup({
   ensure_installed = parsers,
   ignore_install = {}, -- List of parsers to ignore installing
   indent = {
-    enable = not yati_is_available,
+    -- enable = not yati_is_available,
     disable = {
       'yaml',
       'python',
     },
   },
 
-  yati = yati.opts,
+  -- yati = yati.opts,
 
   incremental_selection = incremental_selection,
 

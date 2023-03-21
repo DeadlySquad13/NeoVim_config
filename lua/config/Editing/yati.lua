@@ -1,7 +1,7 @@
 return {
   'yioneko/nvim-yati',
 
-  tag = '*',
+  -- tag = '*',
 
   dependencies = 'nvim-treesitter/nvim-treesitter',
 
@@ -15,4 +15,8 @@ return {
     --   or a custom function return the final indent result.
     default_fallback = 'auto',
   },
+
+  config = function()
+    return
+  end,
 }
