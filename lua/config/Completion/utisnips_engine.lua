@@ -1,4 +1,4 @@
-local utils = require('config.lsp.utils')
+local utils = require('config.Completion.utils')
 local t = utils.t;
 
 local ultisnips_engine = {

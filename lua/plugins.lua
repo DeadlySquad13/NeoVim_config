@@ -42,6 +42,8 @@ require('lazy').setup({
   { import = 'config.EditorManagement' },
   { import = 'config.TextObjects' },
   { import = 'config.ProjectManagement' },
+  { import = 'config.Lsp' },
+  -- { import = 'config.Jupyter' },
 })
 
 -- local startup = require('utils.core').startup

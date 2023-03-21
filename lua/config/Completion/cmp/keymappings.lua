@@ -1,8 +1,8 @@
 local cmp = require('cmp')
-local snippets_engine = require('config.lsp.luasnip_engine')
+local snippets_engine = require('config.Completion.luasnip_engine')
 local ls = require('luasnip')
 local ls_select_choice = require('luasnip.extras.select_choice')
-local utils = require('config.lsp.utils')
+local utils = require('config.Completion.utils')
 local t = utils.t
 
 local neogen = require('neogen')
