@@ -86,7 +86,6 @@ require('lazy').setup({
 --           config = [[ require('config.firenvim') ]],
 --       })
 --       -- - With Jupyter.
---       use({ 'untitled-ai/jupyter_ascending.vim' })
 --       use({
 --           'kiyoon/jupynium.nvim',
 --           run = 'pip3 install --user .',
