@@ -36,6 +36,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   { import = 'config.Assistance' },
+  { import = 'config.Commands' },
   { import = 'config.Completion' },
   { import = 'config.Editing' },
   { import = 'config.EditorManagement' },

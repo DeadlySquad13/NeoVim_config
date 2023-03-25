@@ -9,7 +9,7 @@ end
 append_to_package_path(require('constants.env').NVIM_AFTER)
 require('utils.global')
 require('general_settings')
-require('config.Commands')
+require('config.commands')
 local colorschemas = require('config.theme')
 require('ds_omega.utils').load_coloscheme(
     colorschemas.COLORSCHEME_NAME,
