@@ -1,5 +1,5 @@
-local utils = require('config.Completion.utils')
-local t = utils.t;
+local utils = require('config.Completion.cmp.utils')
+local t = utils.t
 
 local ultisnips_engine = {
   can_jump = function()

@@ -1,4 +1,4 @@
-local snippets_engine = require('config.lsp.luasnip_engine')
+local snippets_engine = require('config.Completion.cmp.luasnip_engine')
 
 local cmp = require('cmp')
 local compare = require('cmp.config.compare')

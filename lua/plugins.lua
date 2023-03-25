@@ -43,6 +43,8 @@ require('lazy').setup({
   { import = 'config.TextObjects' },
   { import = 'config.ProjectManagement' },
   { import = 'config.Lsp' },
+  { import = 'config.Lsp' },
+  { import = 'config.Completion' },
   -- { import = 'config.Jupyter' },
 })
 
@@ -112,16 +114,6 @@ require('lazy').setup({
 --       --setup = [[ require('autocommands.ultisnips') ]],
 --       --config = [[ require('config.ultisnips') ]],
 --       --});
---       use({
---           'L3MON4D3/LuaSnip',
---           -- Breaks as cmp is loaded earlier. Make as a dep for cmp?
---           --event = 'BufReadPre',
-
---           config = [[ require('config.luasnip') ]],
---           requires = {
---               'molleweide/LuaSnip-snippets.nvim',
---           },
---       })
 
 --       -- * Collections of snippets.
 --       -- - General and specific for popular filetypes.
