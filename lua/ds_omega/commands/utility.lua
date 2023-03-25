@@ -1,4 +1,4 @@
-local create_user_command = require('config.Commands.utils').create_user_command
+local create_user_command = require('ds_omega.commands.utils').create_user_command
 
 ---@ref https://github.com/mrjones2014/load-all.nvim
 local fileExtension = '.lua'
