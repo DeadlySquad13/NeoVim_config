@@ -35,17 +35,17 @@ vim.opt.rtp:prepend(lazypath)
 -- end
 
 require('lazy').setup({
-  { import = 'config.Highlighting.deadly_gruv' },
-  { import = 'config.Editing' },
-  { import = 'config.Navigation' },
-  { import = 'config.Ui' },
-  { import = 'config.EditorManagement' },
-  { import = 'config.TextObjects' },
-  { import = 'config.ProjectManagement' },
-  { import = 'config.Lsp' },
-  { import = 'config.Lsp' },
+  { import = 'config.Assistance' },
   { import = 'config.Completion' },
-  -- { import = 'config.Jupyter' },
+  { import = 'config.Editing' },
+  { import = 'config.EditorManagement' },
+  { import = 'config.Highlighting.deadly_gruv' },
+  { import = 'config.Jupyter' },
+  { import = 'config.Lsp' },
+  { import = 'config.Navigation' },
+  { import = 'config.ProjectManagement' },
+  { import = 'config.TextObjects' },
+  { import = 'config.Ui' },
 })
 
 -- local startup = require('utils.core').startup
