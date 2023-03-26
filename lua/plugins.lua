@@ -40,13 +40,17 @@ require('lazy').setup({
   { import = 'config.Completion' },
   { import = 'config.Editing' },
   { import = 'config.EditorManagement' },
-  { import = 'config.Highlighting.deadly_gruv' },
+  -- { import = 'config.Git' },
+  { import = 'config.Highlighting' },
   { import = 'config.Jupyter' },
   { import = 'config.Lsp' },
   { import = 'config.Navigation' },
+  { import = 'config.NeoVimDevelopment' },
   { import = 'config.ProjectManagement' },
   { import = 'config.TextObjects' },
   { import = 'config.Ui' },
+  -- { import = 'config.WindowManagement' },
+  -- { import = 'config.Workspace' },
 })
 
 -- local startup = require('utils.core').startup
@@ -85,12 +89,6 @@ require('lazy').setup({
 --           end,
 --           config = [[ require('config.firenvim') ]],
 --       })
---       -- - With Jupyter.
---       use({
---           'kiyoon/jupynium.nvim',
---           run = 'pip3 install --user .',
---       })
-
 --       -- - Open and write files with sudo.
 --       use({ 'lambdalisue/suda.vim' })
 
@@ -106,14 +104,6 @@ require('lazy').setup({
 --           'lyokha/vim-xkbswitch',
 --           config = [[ require('config.xkbswitch') ]],
 --       })
-
---       -- # Snippets.
---       --use({
---       --'SirVer/ultisnips',
-
---       --setup = [[ require('autocommands.ultisnips') ]],
---       --config = [[ require('config.ultisnips') ]],
---       --});
 
 --       -- * Collections of snippets.
 --       -- - General and specific for popular filetypes.
