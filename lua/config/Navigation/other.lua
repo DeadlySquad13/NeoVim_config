@@ -15,6 +15,18 @@ return {
       vim.list_extend(mappings, new_mappings)
     end
 
+    -- React.
+    add_mappings({
+      {
+        pattern = "(.*).tsx$",
+        target = "%1.pcss",
+      },
+      {
+        pattern = "(.*).pcss$",
+        target = "%1.tsx",
+      }
+    })
+
     -- Go.
     add_mappings({
       {
