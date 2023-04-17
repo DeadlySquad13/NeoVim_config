@@ -5,6 +5,12 @@ local KEY = require('config.keymappings._common.constants').KEY
 return {
   name = 'Navigation',
   -- * Telescope.
+  n = {
+    function()
+      telescope_builtin.resume()
+    end,
+    'Resume'
+  },
   f = {
     function()
       telescope_builtin.find_files()
