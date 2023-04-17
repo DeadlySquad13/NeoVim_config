@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local illuminate_is_available, illuminate = prequire('illuminate')
 
@@ -6,7 +6,7 @@ if not illuminate_is_available then
   return 
 end
 
-local config_path = 'config.Lsp.illuminate'
+local config_path = 'ds_omega.config.Lsp.illuminate'
 local config_is_available, config = prequire(config_path)
 if not config_is_available then
   config = {}

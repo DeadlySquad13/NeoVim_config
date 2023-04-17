@@ -1,6 +1,6 @@
-local is_loaded = require('utils').is_loaded
+local is_loaded = require('ds_omega.utils').is_loaded
 local create_user_command = require('ds_omega.commands.utils').create_user_command
-local ENV = require('constants.env')
+local ENV = require('ds_omega.constants.env')
 
 local luasnip_loaders_is_available, luasnip_loaders = pcall(
   require,

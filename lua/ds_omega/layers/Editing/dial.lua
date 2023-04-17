@@ -2,7 +2,7 @@ local utils = require('ds_omega.utils')
 
 local settings, keymappings = utils.get_plugin_config('dial', 'Editing')
 
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local config_is_available, config = prequire('dial.config')
 

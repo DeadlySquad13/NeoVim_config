@@ -34,7 +34,7 @@ create_user_command(
     -- Load modules back.
     vim.cmd('source $MYVIMRC')
 
-    load_all(require('constants.env').NVIM_LAYERS, 2)
+    load_all(require('ds_omega.constants.env').NVIM_LAYERS, 2)
   end,
   { nargs = 0 }
 )

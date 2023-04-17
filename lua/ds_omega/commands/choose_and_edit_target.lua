@@ -24,7 +24,7 @@ local choose_and_edit_target = function(items)
     local path = selected_item[1] or selected_item.path
     local opts = selected_item.opts
 
-    require('utils.file').open(path, opts or {})
+    require('ds_omega.utils.file').open(path, opts or {})
   end)
 end
 

@@ -9,7 +9,7 @@ end
 --   notify function.
 vim.notify = notify;
 
-if require('utils').exists('telescope.nvim') then
+if require('ds_omega.utils').exists('telescope.nvim') then
   local telescope_is_available, telescope = prequire("telescope")
   telescope.load_extension("notify")
 end

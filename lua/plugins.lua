@@ -1,4 +1,4 @@
-local ENV = require('constants.env')
+local ENV = require('ds_omega.constants.env')
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -35,26 +35,26 @@ vim.opt.rtp:prepend(lazypath)
 -- end
 
 require('lazy').setup({
-  { import = 'config.Assistance' },
-  { import = 'config.Commands' },
-  { import = 'config.Completion' },
-  { import = 'config.Editing' },
-  { import = 'config.EditorManagement' },
-  -- { import = 'config.Git' },
-  { import = 'config.Highlighting' },
-  { import = 'config.Jupyter' },
-  { import = 'config.Lsp' },
-  { import = 'config.Snippets' },
-  { import = 'config.Navigation' },
-  { import = 'config.NeoVimDevelopment' },
-  { import = 'config.ProjectManagement' },
-  { import = 'config.TextObjects' },
-  { import = 'config.Ui' },
-  -- { import = 'config.WindowManagement' },
-  -- { import = 'config.Workspace' },
+  { import = 'ds_omega.config.Assistance' },
+  { import = 'ds_omega.config.Commands' },
+  { import = 'ds_omega.config.Completion' },
+  { import = 'ds_omega.config.Editing' },
+  { import = 'ds_omega.config.EditorManagement' },
+  -- { import = 'ds_omega.config.Git' },
+  { import = 'ds_omega.config.Highlighting' },
+  { import = 'ds_omega.config.Jupyter' },
+  { import = 'ds_omega.config.Lsp' },
+  { import = 'ds_omega.config.Snippets' },
+  { import = 'ds_omega.config.Navigation' },
+  { import = 'ds_omega.config.NeoVimDevelopment' },
+  { import = 'ds_omega.config.ProjectManagement' },
+  { import = 'ds_omega.config.TextObjects' },
+  { import = 'ds_omega.config.Ui' },
+  -- { import = 'ds_omega.config.WindowManagement' },
+  -- { import = 'ds_omega.config.Workspace' },
 })
 
--- local startup = require('utils.core').startup
+-- local startup = require('ds_omega.utils.core').startup
 
 -- startup({
 --     function(use, use_plugin, use_rocks)
@@ -88,7 +88,7 @@ require('lazy').setup({
 --           run = function()
 --             vim.fn['firenvim#install'](0)
 --           end,
---           config = [[ require('config.firenvim') ]],
+--           config = [[ require('ds_omega.config.firenvim') ]],
 --       })
 --       -- - Open and write files with sudo.
 --       use({ 'lambdalisue/suda.vim' })
@@ -96,14 +96,14 @@ require('lazy').setup({
 --       use({ 'tpope/vim-repeat', event = 'VimEnter' })
 --       -- use({
 --       --   'tomtom/tinykeymap_vim',
---       --   config = [[ require('config.tinykeymap') ]],
+--       --   config = [[ require('ds_omega.config.tinykeymap') ]],
 --       -- })
 
 --       -- * Russian layout.
 --       --use({ 'powerman/vim-plugin-ruscmd' })
 --       use({
 --           'lyokha/vim-xkbswitch',
---           config = [[ require('config.xkbswitch') ]],
+--           config = [[ require('ds_omega.config.xkbswitch') ]],
 --       })
 
 --       -- * Collections of snippets.
@@ -116,9 +116,9 @@ require('lazy').setup({
 --           --  Have to disable it globally before it's loaded. Otherwise plugin will
 --           --  polute all filetypes with it's keybindings after it has been loaded
 --           --  in some file.
---           setup = [[ require('config.emmet-vim_setup') ]],
+--           setup = [[ require('ds_omega.config.emmet-vim_setup') ]],
 --           ft = { 'css', 'html', 'javascriptreact', 'typescriptreact' },
---           config = [[ require('config.emmet-vim') ]],
+--           config = [[ require('ds_omega.config.emmet-vim') ]],
 --       })
 
 --       -- - Python formatter.
@@ -128,7 +128,7 @@ require('lazy').setup({
 --       use({
 --           'echasnovski/mini.nvim',
 --           config = function()
---             require('config.mini.ai')
+--             require('ds_omega.config.mini.ai')
 --           end,
 --           -- branch = 'stable'
 --       })
@@ -139,7 +139,7 @@ require('lazy').setup({
 --           'nvim-treesitter/nvim-treesitter',
 --           -- - We recommend updating the parsers on update.
 --           run = ':TSUpdate',
---           config = [[ require('config.treesitter') ]],
+--           config = [[ require('ds_omega.config.treesitter') ]],
 --       })
 
 --       use({
@@ -184,7 +184,7 @@ require('lazy').setup({
 --       -- - Documentation generation.
 --       use({
 --           'danymat/neogen',
---           config = [[ require('config.neogen') ]],
+--           config = [[ require('ds_omega.config.neogen') ]],
 --           --config = function()
 --           --require('neogen').setup();
 --           --end,
@@ -241,7 +241,7 @@ require('lazy').setup({
 --       --'Pocco81/AutoSave.nvim',
 --       --event = 'VimEnter',
 --       --config = function()
---       --vim.defer_fn(function() require('config.autosave') end, 1500)
+--       --vim.defer_fn(function() require('ds_omega.config.autosave') end, 1500)
 --       --end
 --       --})
 

@@ -1,4 +1,4 @@
-  local which_key_utils = require('config.Ui.which_key.utils')
+  local which_key_utils = require('ds_omega.config.Ui.which_key.utils')
 
 --- Apply all lsp related keymappings.
 ---@param bufnr (integer)
@@ -7,7 +7,7 @@
 local setup_lsp_keymappings = function(bufnr, additional_keymappings)
   additional_keymappings = additional_keymappings or {}
   local lsp_buf = vim.lsp.buf
-  local prequire = require('utils').prequire
+  local prequire = require('ds_omega.utils').prequire
 
   local lsp_diagnostic = vim.diagnostic
 

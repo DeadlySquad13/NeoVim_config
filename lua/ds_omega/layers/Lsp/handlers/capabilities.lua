@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local capabilities_are_available, capabilities = prequire('cmp_nvim_lsp')
 

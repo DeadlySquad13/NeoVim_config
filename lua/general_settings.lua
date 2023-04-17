@@ -1,4 +1,4 @@
-local ENV = require('constants.env')
+local ENV = require('ds_omega.constants.env')
 local set = vim.opt
 
 ---See [Managing vim options section in "Getting started using Lua in
@@ -21,7 +21,7 @@ set.whichwrap:append('hl')
 
 -- Better to use 0 with tpipeline.
 -- local function get_laststatus()
---   if require('utils').is_loaded('vim-tpipeline') then
+--   if require('ds_omega.utils').is_loaded('vim-tpipeline') then
 --     return 0
 --   end
 
@@ -245,7 +245,7 @@ local bw_local = {
   guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20',
 }
 
-local utils_setters = require('utils.setters')
+local utils_setters = require('ds_omega.utils.setters')
 local set_settings, set_global_variables = utils_setters.set_settings, utils_setters.set_global_variables
 
 set_global_variables({

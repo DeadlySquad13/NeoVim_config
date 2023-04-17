@@ -56,7 +56,7 @@ Ui.plugins = {
     --   branch = 'master',
     --   requires = { { 'nvim-lua/plenary.nvim' } },
 
-    --   config = [[ require('config.renamer') ]],
+    --   config = [[ require('ds_omega.config.renamer') ]],
     -- })
 }
 

@@ -2,7 +2,7 @@ local simple_plugin_setup = require('ds_omega.utils').simple_plugin_setup
 
 simple_plugin_setup('lualine', 'Workspace')
 
--- local prequire = require('utils').prequire;
+-- local prequire = require('ds_omega.utils').prequire;
 
 -- local lualine_is_available, lualine = prequire('lualine');
 
@@ -10,4 +10,4 @@ simple_plugin_setup('lualine', 'Workspace')
 --   return;
 -- end
 
--- lualine.setup(require('config.lualine'))
+-- lualine.setup(require('ds_omega.config.lualine'))
