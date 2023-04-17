@@ -1,3 +1,5 @@
+local prequire = require('utils').prequire
+
 local cmp = require('cmp')
 local snippets_engine = require('config.Completion.cmp.luasnip_engine')
 local ls = require('luasnip')
@@ -5,7 +7,7 @@ local ls_select_choice = require('luasnip.extras.select_choice')
 local utils = require('config.Completion.cmp.utils')
 local t = utils.t
 
-local neogen = require('neogen')
+local neogen_is_available, neogen = prequire('neogen')
 
 return {
   ['<Tab>'] = cmp.mapping({
@@ -53,7 +55,7 @@ return {
 
     -- Not yet intergrated with ultisnips, have to separately define jumps
     --   in mappings.
-    if neogen.jumpable() then
+    if neogen_is_available and neogen.jumpable() then
       return neogen.jump_next()
     end
 
@@ -69,7 +71,7 @@ return {
     local backwards = true
     -- Not yet intergrated with ultisnips, have to separately define jumps
     --   in mappings.
-    if neogen.jumpable(backwards) then
+    if neogen_is_available and neogen.jumpable(backwards) then
       return neogen.jump_prev()
     end
 

@@ -174,13 +174,6 @@ require('lazy').setup({
 --           },
 --       })
 
---       -- * Theme.
---       -- - Helpers for creating a theme.
---       use({ 'rktjmp/lush.nvim' })
---       -- - Themes.
---       use({ 'sainnhe/gruvbox-material' })
---       use({ 'savq/melange-nvim' })
-
 --       -- * Highlighting.
 --       --   Nerd patched fonts required.
 --       -- use({

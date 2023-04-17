@@ -6,7 +6,7 @@ return {
   config = function(_, opts)
     require('yanky').setup(opts)
 
-    keymappings = require('config.Editing.yanky.keymappings')
+    local keymappings = require('config.Editing.yanky.keymappings')
     require('ds_omega.utils').apply_plugin_keymappings(keymappings)
 
     local prequire = require('utils').prequire

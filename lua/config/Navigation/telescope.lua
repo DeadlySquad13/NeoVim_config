@@ -11,6 +11,8 @@ return {
       ['<C-s>'] = actions.select_horizontal,
     }
 
+    local pickers = require('config.Editing.yanky.picker')()
+
     return {
       defaults = {
         -- Default configuration for telescope.
@@ -41,7 +43,7 @@ return {
         undo = require('config.Editing.undo').opts(),
         --   Unfortunately, doesn't work. Should be set up in setup function of
         -- yanky.
-        yank_history = require('config.Editing.yanky.picker').telescope,
+        yank_history = pickers.telescope,
       }
     }
   end,
