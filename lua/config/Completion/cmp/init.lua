@@ -11,6 +11,8 @@ return {
     'hrsh7th/cmp-omni',
     'hrsh7th/cmp-copilot',
     'saadparwaiz1/cmp_luasnip',
+
+    'onsails/lspkind.nvim',
   },
 
   opts = require('config.Completion.cmp.settings'),

@@ -44,6 +44,7 @@ require('lazy').setup({
   { import = 'config.Highlighting' },
   { import = 'config.Jupyter' },
   { import = 'config.Lsp' },
+  { import = 'config.Snippets' },
   { import = 'config.Navigation' },
   { import = 'config.NeoVimDevelopment' },
   { import = 'config.ProjectManagement' },
