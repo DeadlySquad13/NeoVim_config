@@ -103,7 +103,7 @@ local small_greek_letters = {
   ),
   s(
     {
-      trig = 'm',
+      trig = ';m',
       dscr = 'mu',
     },
     t([[\mu]])

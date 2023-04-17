@@ -15,13 +15,16 @@ return {
         'debuglog', -- Logging.
         'yop', -- Utily to create your own operator.
     },
+
     ['Integrations'] = {
         'toggleterm', -- Terminal integration.
     },
+
     -- Commands for ex-mode.
     ['Commands'] = {
         'genghis', -- Convenience file operations (better `:e`, `:mv`...)
     },
+
     ['Workspace'] = {
         -- * Status line.
         -- 'tpipeline', -- Move status line to the tmux.
