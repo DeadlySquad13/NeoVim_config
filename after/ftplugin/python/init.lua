@@ -4,9 +4,9 @@ local options = {
   shiftwidth = 4,
 }
 
-require('utils.setters').set_local_settings(options)
+require('ds_omega.utils.setters').set_local_settings(options)
 
-local apply_bufferlocal_keymappings = require('config.Ui.which_key.utils').apply_bufferlocal_keymappings
+local apply_bufferlocal_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_bufferlocal_keymappings
 
 apply_bufferlocal_keymappings('n', {
   ['<Cr>'] = { '<Cmd>:!python %<Cr>', 'Run current file' },

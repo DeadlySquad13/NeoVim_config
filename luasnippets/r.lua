@@ -281,7 +281,7 @@ local big_greek_latters = {
   ),
 }
 
-local latex_snippets = require('utils').list_deep_extend(
+local latex_snippets = require('ds_omega.utils').list_deep_extend(
   small_greek_letters,
   big_greek_latters,
   {
