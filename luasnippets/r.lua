@@ -295,6 +295,17 @@ local latex_snippets = require('ds_omega.utils').list_deep_extend(
         { i(1), i(2) }
       )
     )
+  },
+  {
+    s(
+      {
+        trig = '~~',
+        dscr = 'Approximately'
+      },
+      t(
+        [[\approx]]
+      )
+    )
   }
 )
 
