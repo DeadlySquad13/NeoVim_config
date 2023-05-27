@@ -103,7 +103,7 @@ local small_greek_letters = {
   ),
   s(
     {
-      trig = 'm',
+      trig = ';m',
       dscr = 'mu',
     },
     t([[\mu]])
@@ -281,7 +281,7 @@ local big_greek_latters = {
   ),
 }
 
-local latex_snippets = require('utils').list_deep_extend(
+local latex_snippets = require('ds_omega.utils').list_deep_extend(
   small_greek_letters,
   big_greek_latters,
   {
@@ -293,6 +293,17 @@ local latex_snippets = require('utils').list_deep_extend(
       lfmt(
         [[\frac{<>}{<>}]],
         { i(1), i(2) }
+      )
+    )
+  },
+  {
+    s(
+      {
+        trig = '~~',
+        dscr = 'Approximately'
+      },
+      t(
+        [[\approx]]
       )
     )
   }

@@ -46,3 +46,7 @@ if exists('g:fvim_loaded')
     nnoremap <silent> <C-ScrollWheelDown> :set guifont=-<CR>
     nnoremap <A-Cr> :FVimToggleFullScreen<CR>
 endif
+
+if exists('g:nvy')
+    set guifont=Iosevka:h10
+endif
