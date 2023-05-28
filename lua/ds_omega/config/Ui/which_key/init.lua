@@ -1,8 +1,26 @@
 return {
   'folke/which-key.nvim',
+  enabled = true,
 
   opts = require('ds_omega.config.Ui.which_key.settings'),
   config = function(_, opts)
+    vim.o.timeout = true
+    vim.o.timeoutlen = 300
+
+    local lmu = require('langmapper.utils')
+    local view = require('which-key.view')
+    local execute = view.execute
+
+    -- wrap `execute()` and translate sequence back
+    view.execute = function(prefix_i, mode, buf)
+      -- Translate back to English characters
+      local ru_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru')
+      execute(ru_prefix_i, mode, buf)
+
+      local hdn_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'hdn')
+      execute(hdn_prefix_i, mode, buf)
+    end
+
     require('which-key').setup(opts)
 
     local apply_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_keymappings
@@ -14,3 +32,5 @@ return {
     end
   end
 }
+
+

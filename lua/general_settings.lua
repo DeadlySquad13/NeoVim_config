@@ -236,18 +236,19 @@ local function escape(str)
   return vim.fn.escape(str, escape_chars)
 end
 
--- Recommended to use lua template string
+local ru =                   [[ёйцукенгшщзхъфывапролджэ\\ячсмитьбю.]]
 local en =                   [[`qwertyuiop[]asdfghjkl;'\\zxcvbnm,./]]
 local hands_down_neu =       [[`wfmpv/.q"'z(rsntg,aeihj)\xcldb-uoyk]]
 
--- local ru = [[ёйцукенгшщзхъфывапролджэячсмить]]
-local en_shift =             [[~QWERT^[_]P{}ASDFGHJKL:"||ZXCVBNM<>?]]
+local ru_shift =             [[ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ//ЯЧСМИТЬБЮ,]]
+local en_shift =             [[~QWERTYUIOP{}ASDFGHJKL:"||ZXCVBNM<>?]]
 local hands_down_neu_shift = [[~WFMPV*:Q[]Z{RSNTG;AEIHJ}|XCLDB+UOYK]]
 
 local langmap = {
     langmap = vim.fn.join({
         -- | `to` should be first     | `from` should be second
-        -- escape(ru_shift) .. ';' .. escape(en_shift),
+        escape(ru_shift) .. ';' .. escape(en_shift),
+        escape(ru) .. ';' .. escape(en),
         escape(hands_down_neu_shift) .. ';' .. escape(en_shift),
         escape(hands_down_neu) .. ';' .. escape(en),
     }, ','),
