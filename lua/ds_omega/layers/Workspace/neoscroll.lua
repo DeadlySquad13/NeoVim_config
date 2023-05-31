@@ -2,7 +2,7 @@ local simple_plugin_setup = require('ds_omega.utils').simple_plugin_setup
 
 simple_plugin_setup('neoscroll', 'Workspace')
 
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 local is_neoscroll_config_available, neoscroll_config = prequire('neoscroll.config')
 if not is_neoscroll_config_available then
   return

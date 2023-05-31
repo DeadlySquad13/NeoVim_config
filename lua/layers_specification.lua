@@ -15,13 +15,16 @@ return {
         'debuglog', -- Logging.
         'yop', -- Utily to create your own operator.
     },
+
     ['Integrations'] = {
         'toggleterm', -- Terminal integration.
     },
+
     -- Commands for ex-mode.
     ['Commands'] = {
         'genghis', -- Convenience file operations (better `:e`, `:mv`...)
     },
+
     ['Workspace'] = {
         -- * Status line.
         -- 'tpipeline', -- Move status line to the tmux.
@@ -98,7 +101,7 @@ return {
         'word_column', -- Columns.
         'indented_paragraph', -- Indented paragraph.
         'indent', -- Indents.
-        'hydrogen', -- Hydrogen (jupyter notebook cells).
+        -- 'hydrogen', -- Hydrogen (jupyter notebook cells).
         'word', -- More granular, case delimited and _ delimited words.
         'smart_word', -- Words that ignore some special symbols which you won't consider as a 'word' in most cases.
         'treesitter', -- General treesitter textobjects operating on queries.
@@ -176,6 +179,7 @@ return {
         'conceal', -- Conceal chosen language constructors with treesitter's aid.
         'headlines', -- Background whole line highlights (for code blocks, headers...).
         'dashboard', -- Starting page.
+        -- 'noice', -- Better commandline.
     },
     -- Make experience inside nvim more colorful.
     ['Highlighting'] = {

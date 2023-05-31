@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local ds_omega_utils_is_available, ds_omega_utils = prequire('ds_omega.utils')
 

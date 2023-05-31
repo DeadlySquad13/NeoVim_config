@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 -- Just activate hydra.
-prequire('config.TextObjects.word')
+prequire('ds_omega.config.TextObjects.word')

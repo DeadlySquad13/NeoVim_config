@@ -4,4 +4,4 @@ local options = {
   shiftwidth = 4,
 }
 
-require('utils.setters').set_local_settings(options)
+require('ds_omega.utils.setters').set_local_settings(options)
