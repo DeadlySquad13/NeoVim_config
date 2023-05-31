@@ -6,7 +6,7 @@ local on_attach = function(client, bufnr)
   local filter_diagnostics_by_severity_keymappings = setup_filter_diagnostics_by_severity()
   setup_lsp_keymappings(bufnr, { filter_diagnostics_by_severity_keymappings })
 
-  if not require('utils').exists('vim-illuminate') then
+  if not require('ds_omega.utils').exists('vim-illuminate') then
     setup_symbol_highlight_under_cursor(client)
   end
 

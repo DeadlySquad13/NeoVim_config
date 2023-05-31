@@ -1,4 +1,3 @@
---- Add folder to the list of possible paths which is used during module
 --requirement.
 -- It will be added as a simple module pattern (either `path.lua` or
 --`path/init.lua`).
@@ -7,15 +6,14 @@ local function append_to_package_path(path)
   package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
 end
 
-append_to_package_path(require('constants.env').NVIM_AFTER)
-require('utils.global')
+append_to_package_path(require('ds_omega.constants.env').NVIM_AFTER)
+require('ds_omega.utils.global')
 require('general_settings')
-require('config.Commands')
-require('autocommands')
-local colorschemas = require('config.theme')
-require('ds_omega.utils').load_coloscheme(
+require('ds_omega.commands')
+require('plugins')
+local colorschemas = require('ds_omega.config.theme')
+require('ds_omega.ds_omega_utils').load_coloscheme(
     colorschemas.COLORSCHEME_NAME,
     colorschemas.BACKUP_COLORSCHEME_NAME,
     colorschemas.FALLBACK_COLORSCHEME_NAME
 )
-require('plugins')

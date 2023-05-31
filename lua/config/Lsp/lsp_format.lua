@@ -1,3 +1,0 @@
-return {
-  sync = true,
-}

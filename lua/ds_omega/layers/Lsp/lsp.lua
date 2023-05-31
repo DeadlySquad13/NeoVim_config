@@ -1,13 +1,13 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local lspconfig_is_available, lspconfig = prequire('lspconfig')
 if not lspconfig_is_available then
   return
 end
 
-local server_configurations = require('config.Lsp.server_configurations')
+local server_configurations = require('ds_omega.config.Lsp.server_configurations')
 local default_server_configuration = require(
-  'config.Lsp.server_configurations.default'
+  'ds_omega.config.Lsp.server_configurations.default'
 )
 
 vim.diagnostic.config({
@@ -36,7 +36,7 @@ local function get_module_specification(layer_specification, name)
 end
 
 local function get_module_enabled_filetypes()
-  local SetIntersection = require('utils').SetIntersection
+  local SetIntersection = require('ds_omega.utils').SetIntersection
   local layer_specification = require('layers_specification')['Lsp']
 
   if not layer_specification then
@@ -95,7 +95,7 @@ local function add_custom_server_settings(configuration, custom_settings)
   end
 end
 
-local compose = require('utils').compose
+local compose = require('ds_omega.utils').compose
 
 local function add_server_on_attach_addons(configuration, on_attach_addons)
   if on_attach_addons then

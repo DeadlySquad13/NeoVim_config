@@ -1,5 +1,5 @@
 local function setup_symbol_highlight_under_cursor(client)
-  if not P(client.server_capabilities).documentHighlightProvider then
+  if not client.server_capabilities.documentHighlightProvider then
     return
   end
 

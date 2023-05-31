@@ -10,7 +10,7 @@ Navigation.plugins = {
     'ggandor/lightspeed.nvim',
 
     setup = function()
-      require('autocommands.lightspeed')
+      require('ds_omega.autocommands.lightspeed')
     end
   },
 

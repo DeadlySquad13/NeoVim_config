@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 --- Enable auto format on save if the lsp-format is available.
 ---@param client

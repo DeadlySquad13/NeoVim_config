@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 --- Disables formatting provided by lsp server if the null-ls is available.
 ---@param client

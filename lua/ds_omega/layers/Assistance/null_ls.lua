@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local null_ls_is_available, null_ls = prequire('null-ls')
 
@@ -10,9 +10,9 @@ end
 local function notify_that_source_is_not_executable(source)
   local program_name = source._opts.command
 
-  local NullLs = require('utils').create_augroup('NullLs__'..program_name, { clear = true })
+  local NullLs = require('ds_omega.utils').create_augroup('NullLs__'..program_name, { clear = true })
 
-  require('utils').create_autocmd({ 'FileType' }, {
+  require('ds_omega.utils').create_autocmd({ 'FileType' }, {
     group = NullLs,
     desc = 'Notify that program of source is not executable.',
 
@@ -56,7 +56,7 @@ local function process_set_sources(sources)
   return available_sources
 end
 
-local sources = require('config.Lsp.null_ls')
+local sources = require('ds_omega.config.Lsp.null_ls')
 
 --@see [config options](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/CONFIG.md).
 null_ls.setup({
