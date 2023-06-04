@@ -229,31 +229,6 @@ local bw_local = {
     cursorline     = IS_ENVIRONMENT_FAST,
     guicursor      = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20',
 }
-
-local function escape(str)
-  -- You need to escape these characters to work correctly
-  local escape_chars = [[;,."|\]]
-  return vim.fn.escape(str, escape_chars)
-end
-
-local ru =                   [[ёйцукенгшщзхъфывапролджэ\\ячсмитьбю.]]
-local en =                   [[`qwertyuiop[]asdfghjkl;'\\zxcvbnm,./]]
-local hands_down_neu =       [[`wfmpv/.q"'z(rsntg,aeihj)\xcldb-uoyk]]
-
-local ru_shift =             [[ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ//ЯЧСМИТЬБЮ,]]
-local en_shift =             [[~QWERTYUIOP{}ASDFGHJKL:"||ZXCVBNM<>?]]
-local hands_down_neu_shift = [[~WFMPV*:Q[]Z{RSNTG;AEIHJ}|XCLDB+UOYK]]
-
-local langmap = {
-    langmap = vim.fn.join({
-        -- | `to` should be first     | `from` should be second
-        escape(ru_shift) .. ';' .. escape(en_shift),
-        escape(ru) .. ';' .. escape(en),
-        escape(hands_down_neu_shift) .. ';' .. escape(en_shift),
-        escape(hands_down_neu) .. ';' .. escape(en),
-    }, ','),
-}
-
 local utils_setters = require('ds_omega.utils.setters')
 local set_settings, set_global_variables = utils_setters.set_settings, utils_setters.set_global_variables
 
@@ -261,6 +236,8 @@ set_global_variables({
     mapleader = ' ',
     maplocalleader = '\\',
 })
+
+local langmap = require('langmap').langmap.to_hands_down_neu
 
 set_settings(
     vim.tbl_extend(
@@ -270,6 +247,6 @@ set_settings(
         bw_local,
         shell_settings,
         indentation,
-        langmap
-    )
+        { langmap = langmap }
+        )
 )

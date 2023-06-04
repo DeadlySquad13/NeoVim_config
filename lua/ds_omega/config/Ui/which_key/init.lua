@@ -17,8 +17,8 @@ return {
       local ru_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru')
       execute(ru_prefix_i, mode, buf)
 
-      local hdn_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'hdn')
-      execute(hdn_prefix_i, mode, buf)
+      -- local hdn_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'hdn')
+      -- execute(hdn_prefix_i, mode, buf)
     end
 
     require('which-key').setup(opts)
