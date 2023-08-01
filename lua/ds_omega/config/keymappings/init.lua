@@ -304,6 +304,32 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     ['`'] = { "'", 'Jump to position linewise' },
     ["''"] = { '``', 'Jump to last position' },
     ["``"] = { "''", 'Jump to last position linewise' },
+
+    -- Custom layout.
+    -- w = { 'v', 'Visual' },
+    -- f = { 'y', 'Yank' },
+    -- m = { 'c', 'Change' },
+    -- ['.'] = { 'o', 'New line' },
+    -- q = { 'i', 'Insert' },
+
+    -- r = { 'f', 'Find' },
+    -- s = { 'r', 'Replace' },
+    -- n = { 'x', 'Cut' },
+    -- t = { 's', 'Surround' },
+    -- a = { 'w', 'Next word' },
+    -- e = { 'a', 'Insert after' },
+    -- i = { 'm', 'Mark' },
+    -- j = { 'q', 'Record macro' },
+
+    -- x = { 't', 'Go to' },
+    -- c = { 'b', 'Back' },
+    -- l = { 'd', 'Delete' },
+    -- d = { 'e', 'Back to end' },
+    -- o = { 'g', 'g' },
+    -- y = { 'n', 'Next' },
+
+    [','] = { '.', 'Repeat' },
+    -- i = { 'm'}
 })
 
 local nmode_mappings = vim.tbl_extend('error', common_mappings, {
