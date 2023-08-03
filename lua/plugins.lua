@@ -40,7 +40,7 @@ require('lazy').setup({
   { import = 'ds_omega.config.Completion' },
   { import = 'ds_omega.config.Editing' },
   { import = 'ds_omega.config.EditorManagement' },
-  -- { import = 'ds_omega.config.Git' },
+  { import = 'ds_omega.config.Git' },
   { import = 'ds_omega.config.Highlighting' },
   { import = 'ds_omega.config.Jupyter' },
   { import = 'ds_omega.config.Lsp' },
