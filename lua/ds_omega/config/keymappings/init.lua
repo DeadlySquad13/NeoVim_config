@@ -299,6 +299,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
         name = 'Alternate',
     },
     ['h'] = { ':', 'Enter command line mode' },
+    ['k'] = { '/', 'Search'},
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
