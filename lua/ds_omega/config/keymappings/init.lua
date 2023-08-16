@@ -307,6 +307,10 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     ["``"] = { "''", 'Jump to last position linewise' },
 })
 
+local minifiles_toggle = function(...)
+  if not MiniFiles.close() then MiniFiles.open(...) end
+end
+
 local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         name = 'Main',
         -- a = a_mappings,
@@ -339,6 +343,8 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
 
         -- ['<C-w>'] = require('ds_omega.config.keymappings.window'),
         ['<leader>'] = leader_mappings,
+
+        ['-'] = { minifiles_toggle, 'Navigate through files' },
     })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
