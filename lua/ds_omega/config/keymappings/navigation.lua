@@ -21,6 +21,10 @@ return {
     ':RnvimrToggle<cr>',
     'Files via Rnvimr'
   },
+  o = {
+    telescope_builtin.oldfiles,
+    'Old files',
+  },
   -- s = {
   --   require('session-lens').search_session()
   --   'Session search',
@@ -50,6 +54,5 @@ return {
     'Treesitter',
   },
 
-  [KEY.backslash] = { ':Neotree<cr>', 'Filetree'},
+  [KEY.backslash] = { ':Neotree<cr>', 'Filetree' },
 }
-
