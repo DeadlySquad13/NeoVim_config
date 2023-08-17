@@ -341,7 +341,7 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         -- y = y_mappings,
         -- z = z_mappings,
 
-        -- ['<C-w>'] = require('ds_omega.config.keymappings.window'),
+        ['<C-w>'] = require('ds_omega.config.keymappings.window'),
         ['<leader>'] = leader_mappings,
 
         ['-'] = { minifiles_toggle, 'Navigate through files' },
