@@ -30,7 +30,7 @@ end
 return {
   keymappings = { env.NVIM_LUA, opts = { default_text = 'keymappings' } },
   -- plugins = { env.NVIM_PLUGINS },
-  utils = { env.NVIM_LUA, opts = { default_text = 'ds_omega.utils' } },
+  utils = { env.NVIM_LUA, opts = { default_text = 'ds_omegautils' } },
   layers_specification = { env.NVIM_LAYERS_SPECIFICATION },
   -- vimrc = { '$MYVIMRC' },
   config = { env.NVIM_LUA_CONFIG },
