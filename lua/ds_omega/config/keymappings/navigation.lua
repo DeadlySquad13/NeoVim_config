@@ -1,20 +1,17 @@
 local telescope_builtin = require('telescope.builtin')
+local telescope_extensions = require('telescope').extensions
 
 local KEY = require('ds_omega.config.keymappings._common.constants').KEY
 
-return {
+local navigation_mappings = {
   name = 'Navigation',
   -- * Telescope.
   n = {
-    function()
-      telescope_builtin.resume()
-    end,
+    telescope_builtin.resume,
     'Resume'
   },
   f = {
-    function()
-      telescope_builtin.find_files()
-    end,
+    telescope_builtin.find_files,
     'Find in current directory',
   },
   F = {
@@ -25,34 +22,46 @@ return {
     telescope_builtin.oldfiles,
     'Old files',
   },
+
+  b = {
+    telescope_builtin.buffers,
+    'Buffers',
+  },
+
   -- s = {
   --   require('session-lens').search_session()
   --   'Session search',
   -- },
   g = {
-    function()
-      telescope_builtin.live_grep()
-    end,
+    telescope_builtin.live_grep,
     'Live grep',
   },
-  b = {
-    function()
-      telescope_builtin.buffers()
-    end,
-    'Buffers',
-  },
+
   h = {
-    function()
-      telescope_builtin.help_tags()
-    end,
+    telescope_builtin.help_tags,
     'Help tags',
   },
   t = {
-    function()
-      telescope_builtin.treesitter()
-    end,
+    telescope_builtin.treesitter,
     'Treesitter',
   },
 
   [KEY.backslash] = { ':Neotree<cr>', 'Filetree' },
 }
+
+if not vim.tbl_isempty(telescope_extensions.scope) then
+  vim.tbl_extend("force", navigation_mappings, {
+    b = {
+      telescope_builtin.buffers,
+      'Tab-local Buffers',
+    },
+    B = {
+      telescope_extensions.scope.buffers,
+      'All Buffers',
+    },
+  }
+  )
+end
+
+
+return navigation_mappings
