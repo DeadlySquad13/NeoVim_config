@@ -4,7 +4,7 @@ return {
   opts = {
     -- The characters available for hinting windows.
     chars = {
-      'f', 'j', 'd', 'k', 's', 'l', 'a', ';'
+      'r', 's', 'n', 't', 'a', 'e', 'i', 'h',
     },
 
     -- A group to use for overwriting the Normal highlight group in the floating
