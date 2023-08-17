@@ -12,8 +12,7 @@ WindowManagement.plugins = {
   },
 
   ['window'] = {
-   'https://gitlab.com/yorickpeterse/nvim-window.git',
-    as = 'nvim-window',
+    'yorickpeterse/nvim-window'
   },
 
   ['winshift'] = {
