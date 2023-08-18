@@ -299,6 +299,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
         name = 'Alternate',
     },
     ['h'] = { ':', 'Enter command line mode' },
+    ['k'] = { '/', 'Search'},
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
@@ -332,6 +333,10 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- i = { 'm'}
 })
 
+local minifiles_toggle = function(...)
+  if not MiniFiles.close() then MiniFiles.open(...) end
+end
+
 local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         name = 'Main',
         -- a = a_mappings,
@@ -362,8 +367,10 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         -- y = y_mappings,
         -- z = z_mappings,
 
-        -- ['<C-w>'] = require('ds_omega.config.keymappings.window'),
+        ['<C-w>'] = require('ds_omega.config.keymappings.window'),
         ['<leader>'] = leader_mappings,
+
+        ['-'] = { minifiles_toggle, 'Navigate through files' },
     })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
