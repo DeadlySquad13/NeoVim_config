@@ -235,6 +235,8 @@ local set_settings, set_global_variables = utils_setters.set_settings, utils_set
 set_global_variables({
     mapleader = ' ',
     maplocalleader = '\\',
+    -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
+    fugitive_no_maps = 1,
 })
 
 local langmap = require('langmap').langmap.to_hands_down_neu
