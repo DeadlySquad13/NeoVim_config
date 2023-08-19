@@ -11,6 +11,7 @@ require('ds_omega.utils.global')
 require('general_settings')
 require('ds_omega.commands')
 require('plugins')
+require('ds_omega.autocommands')
 local colorschemas = require('ds_omega.config.theme')
 require('ds_omega.ds_omega_utils').load_coloscheme(
     colorschemas.COLORSCHEME_NAME,

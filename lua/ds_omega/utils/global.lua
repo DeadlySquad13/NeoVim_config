@@ -9,7 +9,7 @@ local env = require('ds_omega.constants.env')
 ---@param data any data.
 ---@return data without changes.
 _G.P = function(data)
-  vim.pretty_print(data)
+  vim.print(data)
   return data
 end
 

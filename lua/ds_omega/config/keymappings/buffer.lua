@@ -19,7 +19,7 @@ local common_keymappings = {
     -- Picking.
     p = { function() vim.cmd('BufferLinePick') end, 'Pick' },
     -- Sorting.
-    s = { cmd 'bufferLineSortByRelativeDirectory', 'Sort by relative directory' },
+    s = { cmd 'BufferLineSortByRelativeDirectory', 'Sort by relative directory' },
 }
 
 local function transform_to_hydra(key)

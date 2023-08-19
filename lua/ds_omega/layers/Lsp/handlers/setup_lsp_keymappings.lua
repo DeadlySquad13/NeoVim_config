@@ -49,7 +49,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
     },
     ['<Leader>wl'] = {
       function()
-        vim.pretty_print(lsp_buf.list_workspace_folders())
+        vim.print(lsp_buf.list_workspace_folders())
       end,
       'List workspace folders',
     },

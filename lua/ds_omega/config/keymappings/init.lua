@@ -87,7 +87,7 @@ local jump_mappings = {
 }
 
 -- # Replace. Search and replace mappings.
--- Used as motion over range for substitute nvim.
+-- Use    ['<Right>'] = { 'l', 'Right' }, as motion over range for substitute nvim.
 local rename_mappings = {
     name = 'Replace',
     -- vnoremap <leader>sw <esc>:%s;\<<c-r><c-w>\>;;g<left><left>
@@ -215,6 +215,7 @@ local g_mappings = {
 }
 
 local r_mappings = {
+    ['<Right>'] = { 'r', 'Replace' },
     l = { 'r', 'Replace' },
 }
 
@@ -297,13 +298,18 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     [':'] = {
         name = 'Alternate',
     },
-    [';'] = { ':', 'Enter command line mode' },
+    ['h'] = { ':', 'Enter command line mode' },
+    ['k'] = { '/', 'Search'},
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
     ["''"] = { '``', 'Jump to last position' },
     ["``"] = { "''", 'Jump to last position linewise' },
 })
+
+local minifiles_toggle = function(...)
+  if not MiniFiles.close() then MiniFiles.open(...) end
+end
 
 local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         name = 'Main',
@@ -335,8 +341,10 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         -- y = y_mappings,
         -- z = z_mappings,
 
-        -- ['<C-w>'] = require('ds_omega.config.keymappings.window'),
+        ['<C-w>'] = require('ds_omega.config.keymappings.window'),
         ['<leader>'] = leader_mappings,
+
+        ['-'] = { minifiles_toggle, 'Navigate through files' },
     })
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
