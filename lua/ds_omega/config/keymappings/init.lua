@@ -219,6 +219,7 @@ local replace_mappings = {
 
 local f_mappings = {
    'y', 'Yank',
+    f = { 'yy', 'Yank cuffent line' },
     c = nil,
     d = nil,
     -- m = nil,
