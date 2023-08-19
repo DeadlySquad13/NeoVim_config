@@ -314,7 +314,6 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     m = {
       'c', 'Change',
       m = { 'cc', 'Change whole line' },
-      t = { '<Plug>(nvim-surround-change)', 'Change surrounding pair' },
     },
     M = { 'C', 'Change to the end of line' },
     ['.'] = { 'o', 'New line below' },
@@ -326,7 +325,8 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     s = vim.tbl_extend('error',  replace_mappings, { 'r', 'Replace' }),
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
-    a = { '<Plug>(smartword-w)', 'Next word' },
+    -- FIX: Breaks surround.
+    -- a = { '<Plug>(smartword-w)', 'Next word' },
     A = { 'W', 'Next Word' },
     e = { 'a', 'Insert after' },
     E = { 'A', 'Insert at the end of line' },
@@ -340,7 +340,6 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     l = {
       '"_d', 'Delete',
       l = { '"_dd', 'Delete line' },
-      t = { '<Plug>(nvim-surround-delete)', 'Delete surrounding pair' },
     }, -- d keymap is hardcoded in cutlass so I have to remap it manually.
     L = { '"_D', 'Delete to the end of line' },
     d = { '<Plug>(smartword-e)', 'Back to end' },
