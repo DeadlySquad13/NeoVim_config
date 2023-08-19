@@ -16,7 +16,6 @@ return {
           insert_only = false,
 
           -- These are passed to nvim_open_win
-          anchor = 'SW',
           border = 'rounded',
           -- 'editor' and 'win' will default to being centered
           relative = 'cursor',
@@ -37,6 +36,7 @@ return {
           },
 
           override = function(conf)
+            conf.anchor = 'SW'
             -- This is the config that will be passed to nvim_open_win.
             -- Change values here to customize the layout
             return conf
@@ -100,7 +100,6 @@ return {
           -- Options for built-in selector
           builtin = {
               -- These are passed to nvim_open_win
-              anchor = 'NW',
               border = 'rounded',
               -- 'editor' and 'win' will default to being centered
               relative = 'editor',
@@ -123,6 +122,7 @@ return {
               min_height = { 10, 0.2 },
 
               override = function(conf)
+                conf.anchor = 'NW'
                 -- This is the config that will be passed to nvim_open_win.
                 -- Change values here to customize the layout
                 return conf
