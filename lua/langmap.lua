@@ -6,13 +6,13 @@ end
 
 -- Modified mappings for `.` and `,` because they were mapping even when hdn
 -- was selected leading to confusion.
-local ru =                   [[ёйцукенгшщзхъфывапролджэ\\ячсмитьбю.]]
-local en =                   [[`qwertyuiop[]asdfghjkl;'\\zxcvbnm,./]]
-local hands_down_neu =       [[`wfmpv/.q"'z(rsntg,aeihj)\xcldb-uoy.]]
+local ru =                   [[ёйцукенгшщзхъфывапролджэ\\ячсмитьбю./]]
+local en =                   [[`qwertyuiop[]asdfghjkl;'\\zxcvbnm,.//]]
+local hands_down_neu =       [[`wfmpv/.q"'z(rsntg,aeihj)\xcldb-uoy./]]
 
-local ru_shift =             [[ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ//ЯЧСМИТЬБЮ,]]
-local en_shift =             [[~QWERTYUIOP{}ASDFGHJKL:"||ZXCVBNM<>?]]
-local hands_down_neu_shift = [[~WFMPV*:Q[]Z{RSNTG;AEIHJ}|XCLDB+UOY,]]
+local ru_shift =             [[ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ//ЯЧСМИТЬБЮ,/]]
+local en_shift =             [[~QWERTYUIOP{}ASDFGHJKL:"||ZXCVBNM<>?/]]
+local hands_down_neu_shift = [[~WFMPV*:Q[]Z{RSNTG;AEIHJ}|XCLDB+UOY,/]]
 
 return {
     layouts = {
