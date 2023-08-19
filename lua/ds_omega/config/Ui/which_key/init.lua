@@ -2,11 +2,13 @@ return {
   'folke/which-key.nvim',
   enabled = true,
 
+  init = function()
+    vim.o.timeout = true
+    vim.o.timeoutlen = 600
+  end,
+
   opts = require('ds_omega.config.Ui.which_key.settings'),
   config = function(_, opts)
-    vim.o.timeout = true
-    vim.o.timeoutlen = 300
-
     local lmu = require('langmapper.utils')
     local view = require('which-key.view')
     local execute = view.execute
