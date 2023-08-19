@@ -75,7 +75,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " * Copy all file into system register (*).
-nnoremap y% gg"*yG
+nnoremap f% gg"*yG
 
 " * Matching braces.
 packadd! matchit
