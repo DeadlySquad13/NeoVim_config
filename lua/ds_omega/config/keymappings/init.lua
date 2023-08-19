@@ -145,7 +145,7 @@ local open_mappings = {
     },
 }
 
-local paste_mappings = { '"+p', 'Paste from clipboard register' }
+local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
@@ -163,8 +163,8 @@ local paste_mappings = { '"+p', 'Paste from clipboard register' }
 
 local execute_mappings = { '<Cmd>JupyniumExecuteSelectedCells<Cr>', 'Execute selected cells' }
 
-local yank_mappings = { '"+y', 'Yank into clipboard register' }
--- local yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
+local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
+-- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
 
 local z_mappings = {
     h = {
@@ -186,13 +186,11 @@ local settings_mappings = {
     ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
 }
 
-local c_mappings = {
-    -- Can be nested more as this action will be confirmed as soon as you press ':'.
-    d = { ':lcd %:h<cr>', 'Change cwd to current file directory' },
+local change_mappings = {
     -- m = nil,
     o = nil,
     -- p = nil, -- Used in yanky.
-    -- q = nil, -- Used in nvim-recorder (edit macro).
+    -- j = nil, -- Used in nvim-recorder (edit macro).
     u = nil,
     y = nil,
 }
@@ -214,17 +212,18 @@ local g_mappings = {
     b = nil,
 }
 
-local r_mappings = {
+local replace_mappings = {
     ['<Right>'] = { 'r', 'Replace' },
     l = { 'r', 'Replace' },
 }
 
-local y_mappings = {
+local f_mappings = {
+   'y', 'Yank',
     c = nil,
     d = nil,
     -- m = nil,
     o = nil,
-    p = nil,
+    p = { ':lcd %:h<Cr>', 'Change cwd to current file directory' },
     -- q = nil, -- Used in nvim-recorder (yank macro).
     r = nil,
     u = nil,
@@ -245,7 +244,7 @@ local leader_mappings = {
     c = comment_mappings,
     -- d = d_mappings,
     e = e_mappings,
-    f = file_mappings,
+    f = vim.tbl_extend('error', file_mappings, special_yank_mappings),
     g = go_mappings,
     h = help_mappings,
     -- i = i_mappings,
@@ -255,8 +254,9 @@ local leader_mappings = {
     m = { 'm', 'Mark' },
     -- Navigation. Helps find things, used as lookup table (navigation panel).
     n = require('ds_omega.config.keymappings.navigation'),
-    o = { 'mto<Esc>`t', 'Create a new line below the current', },
-    p = paste_mappings,
+    ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
+    [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
+    p = special_paste_mappings,
     -- q = q_mappings,
     r = rename_mappings,
     s = session_mappings,
@@ -265,9 +265,8 @@ local leader_mappings = {
     -- v = v_mappings,
     -- w = w_mappings,
     x = execute_mappings,
-    y = yank_mappings,
+    -- y = y_mappings,
     z = z_mappings,
-    O = { 'mtO<Esc>`t', 'Create a new line above the current', },
     [','] = settings_mappings,
     ['<Leader>'] = {
         name = 'Previous', -- and repeat?
@@ -278,28 +277,30 @@ local leader_mappings = {
     }
 }
 
+vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
+-- vim.keymap.set({ 'n', 'x', }, 'f', 'y', { remap = true })
+
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
-    w = { '<Plug>(smartword-w)', 'w' },
-    b = { '<Plug>(smartword-b)', 'b' },
-    e = { '<Plug>(smartword-e)', 'e' },
-    ge = { '<Plug>(smartword-ge)', 'ge' },
+    -- w = { '<Plug>(smartword-w)', 'w' },
+    -- b = { '<Plug>(smartword-b)', 'b' },
+    -- e = { '<Plug>(smartword-e)', 'e' },
+    gd = { '<Plug>(smartword-ge)', 'ge' },
 
     -- Make default layout more ergonomic.
-    H = { '^', 'Go to the beginning of the line' },
-    J = { '}', 'Go one paragraph down' },
-    K = { '{', 'Go one paragraph up' },
-    L = { '$', 'Go to the end of the line' },
+    -- H = { '^', 'Go to the beginning of the line' },
+    -- J = { '}', 'Go one paragraph down' },
+    -- K = { '{', 'Go one paragraph up' },
+    -- L = { '$', 'Go to the end of the line' },
     ['}'] = { 'J', 'Join lines' },
 
     ['^'] = { 'H', 'Move cursor to the top of the screen' },
     ['$'] = { 'L', 'Move cursor to the bottom of the screen' },
 
     -- Alternate mappings (functions simillar to `g`).
-    [':'] = {
-        name = 'Alternate',
-    },
-    ['h'] = { ':', 'Enter command line mode' },
-    ['k'] = { '/', 'Search'},
+    -- [':'] = {
+    --     name = 'Alternate',
+    -- },
+    ['r'] = { ':', 'Enter command line mode' },
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
@@ -308,40 +309,78 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
 
     -- Custom layout.
     -- w = { 'v', 'Visual' },
-    -- f = { 'y', 'Yank' },
-    -- m = { 'c', 'Change' },
-    -- ['.'] = { 'o', 'New line' },
-    -- q = { 'i', 'Insert' },
+    f = f_mappings,
+    F = { 'Y', 'Yank to the end of line' },
+    m = {
+      'c', 'Change',
+      m = { 'cc', 'Change whole line' },
+      t = { '<Plug>(nvim-surround-change)', 'Change surrounding pair' },
+    },
+    M = { 'C', 'Change to the end of line' },
+    ['.'] = { 'o', 'New line below' },
+    [':'] = { 'O', 'New line above' },
+    q = { 'i', 'Insert' },
+    Q = { 'I', 'Insert at the start of the line' },
 
     -- r = { 'f', 'Find' },
-    -- s = { 'r', 'Replace' },
+    s = vim.tbl_extend('error',  replace_mappings, { 'r', 'Replace' }),
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
-    -- a = { 'w', 'Next word' },
-    -- e = { 'a', 'Insert after' },
+    a = { '<Plug>(smartword-w)', 'Next word' },
+    A = { 'W', 'Next Word' },
+    e = { 'a', 'Insert after' },
+    E = { 'A', 'Insert at the end of line' },
     -- i = { 'm', 'Mark' },
+    -- h = { 'f', 'Find' },
     -- j = { 'q', 'Record macro' },
 
-    -- x = { 't', 'Go to' },
-    -- c = { 'b', 'Back' },
-    -- l = { 'd', 'Delete' },
-    -- d = { 'e', 'Back to end' },
+    -- x = {  },
+    c = { '<Plug>(smartword-b)', 'Word back' },
+    C = { 'B', 'Word Back' },
+    l = {
+      '"_d', 'Delete',
+      l = { '"_dd', 'Delete line' },
+      t = { '<Plug>(nvim-surround-delete)', 'Delete surrounding pair' },
+    }, -- d keymap is hardcoded in cutlass so I have to remap it manually.
+    L = { '"_D', 'Delete to the end of line' },
+    d = { '<Plug>(smartword-e)', 'Back to end' },
+    D = { 'E', 'Back to End' },
     -- o = { 'g', 'g' },
-    -- y = { 'n', 'Next' },
+    O = { 'G', 'Go to the end of file' },
+    y = { '.', 'Repeat' },
+    -- ['k'] = { '/', 'Search'},
 
-    [','] = { '.', 'Repeat' },
+    ['<Tab>'] = { 'n', 'Next' },
+    ['<S-Tab>'] = { 'N', 'Next' },
     -- i = { 'm'}
 })
+
+-- Extends table with selected behavior like `vim.tbl_extend` but
+--   doesn't override k<Plug>(smartword-e)eys that are tables itself. Instead it recursively
+--   merges tables from left and right tables.
+local tbl_recursive_extend = function(behavior, left, right)
+  local result = vim.deepcopy(left)
+
+  for key, value in pairs(left) do
+    -- result[key]
+  end
+end
+
+local function merge(a, b)
+    if type(a) == 'table' and type(b) == 'table' then
+        for k,v in pairs(b) do if type(v)=='table' and type(a[k] or false)=='table' then merge(a[k],v) else a[k]=v end end
+    end
+    return a
+end
 
 local minifiles_toggle = function(...)
   if not MiniFiles.close() then MiniFiles.open(...) end
 end
-
-local nmode_mappings = vim.tbl_extend('error', common_mappings, {
+local nmode_mappings = merge(common_mappings, {
         name = 'Main',
         -- a = a_mappings,
         -- b = b_mappings,
-        c = c_mappings,
+        -- c = c_mappings,
         -- d = d_mappings,
         -- e = e_mappings,
         -- f = f_mappings,
@@ -351,13 +390,13 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
         -- j = j_mappings,
         -- k = k_mappings,
         -- l = l_mappings,
-        -- m = m_mappings,
+        -- m = change_mappings,
         -- n = n_mappings,
         -- o = o_mappings,
         -- p = paste_with_indent,
         -- P = paste_before_with_indent,
         -- q = q_mappings,
-        r = r_mappings,
+        -- r = r_mappings,
         -- s = s_mappings,
         -- t = t_mappings,
         -- u = u_mappings,
@@ -375,7 +414,7 @@ local nmode_mappings = vim.tbl_extend('error', common_mappings, {
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local xmode_mappings = vim.tbl_extend('error', common_mappings, {
+local xmode_mappings = merge(common_mappings, {
         name = 'Main',
         ['<leader>'] = {
             name = 'Leader',
@@ -384,7 +423,7 @@ local xmode_mappings = vim.tbl_extend('error', common_mappings, {
             c = comment_mappings,
             -- d = d_mappings,
             -- e = e_mappings,
-            -- f = file_mappings,
+            f = special_yank_mappings,
             -- g = go_mappings,
             -- h = help_mappings,
             -- i = i_mappings,
@@ -394,7 +433,7 @@ local xmode_mappings = vim.tbl_extend('error', common_mappings, {
             -- m = major_mappings,
             -- n = navigation_mappings,
             -- o = o_mappings,
-            p = paste_mappings,
+            p = special_paste_mappings,
             -- q = q_mappings,
             -- r = r_mappings,
             -- s = s_mappings,
@@ -403,7 +442,7 @@ local xmode_mappings = vim.tbl_extend('error', common_mappings, {
             -- v = v_mappings,
             -- w = w_mappings,
             x = execute_mappings,
-            y = yank_mappings,
+            -- y = y_mappings,
             -- z = z_mappings,
 
             -- [','] = settings_mappings,
@@ -422,7 +461,7 @@ local xmode_mappings = vim.tbl_extend('error', common_mappings, {
         },
         -- a = a_mappings,
         -- b = b_mappings,
-        c = c_mappings,
+        -- m = change_mappings,
         -- d = d_mappings,
         -- e = e_mappings,
         -- f = f_mappings,
