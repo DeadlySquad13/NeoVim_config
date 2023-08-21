@@ -40,7 +40,7 @@ require('lazy').setup({
   { import = 'ds_omega.config.Completion' },
   { import = 'ds_omega.config.Editing' },
   { import = 'ds_omega.config.EditorManagement' },
-  -- { import = 'ds_omega.config.Git' },
+  { import = 'ds_omega.config.Git' },
   { import = 'ds_omega.config.Highlighting' },
   { import = 'ds_omega.config.Jupyter' },
   { import = 'ds_omega.config.Lsp' },
@@ -50,8 +50,8 @@ require('lazy').setup({
   { import = 'ds_omega.config.ProjectManagement' },
   { import = 'ds_omega.config.TextObjects' },
   { import = 'ds_omega.config.Ui' },
-  -- { import = 'ds_omega.config.WindowManagement' },
-  -- { import = 'ds_omega.config.Workspace' },
+  { import = 'ds_omega.config.WindowManagement' },
+  { import = 'ds_omega.config.Workspace' },
 })
 
 -- local startup = require('ds_omega.utils.core').startup
