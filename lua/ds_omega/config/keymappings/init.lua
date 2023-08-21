@@ -206,7 +206,9 @@ local d_mappings = {
 
 local g_mappings = {
     -- I moved comment mappings to <Leader>c as it seems more ergonomic.
-    c = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a word under cursor' },
+
+    -- Similar to gf.
+    F = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a file / word under cursor' },
     l = nil,
     y = nil,
     b = nil,
@@ -225,6 +227,7 @@ local f_mappings = {
     -- m = nil,
     o = nil,
     p = { ':lcd %:h<Cr>', 'Change cwd to current file directory' },
+    ['%'] = { '<Cmd>let @" = expand("%:p")', 'Full path of the current file' },
     -- q = nil, -- Used in nvim-recorder (yank macro).
     r = nil,
     u = nil,

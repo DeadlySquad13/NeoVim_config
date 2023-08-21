@@ -13,7 +13,8 @@ return {
       'pyright',
 
       -- * Web Development.
-      'tsserver',
+      -- 'tsserver',
+      'vtsls',
       'cssls',
       'html',
       'eslint',
@@ -101,6 +102,7 @@ return {
       pyright = { 'python' },
       lua_ls = { 'lua' },
       tsserver = { 'typescript', 'typescriptreact' },
+      vtsls = { 'typescript', 'typescriptreact' },
       texlab = { 'tex' },
       gopls = { 'go' },
       r_language_server = { 'r' },

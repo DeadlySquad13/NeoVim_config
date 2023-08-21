@@ -19,8 +19,8 @@ return {
     },
     fmt(
       [[
-      export const {}: StoryObj<typeof {}> = {{ args: {{,
-          {}
+      export const {}: StoryObj<typeof {}> = {{ args: {{
+            {}
       }}}};
       ]],
       {
@@ -37,4 +37,36 @@ return {
       }
     )
   )
-}, {}
+}, {
+  s(
+    {
+      trig = '~stories',
+      dscr = 'Template for stories file',
+    },
+    fmt(
+      [[
+        import React from 'react';
+        import {{ Meta, StoryObj }} from '@storybook/react';
+
+        import {{ {} }} from './{}';
+
+        const settings: Meta<typeof {}> = {{
+            title: 'Shepherd/Component/{}',
+            component: {},
+        }};
+
+        export default settings;
+      ]],
+      {
+        i(1, 'Component'),
+        i(2, 'component-filename'),
+        i(1, 'Component'),
+        i(1, 'Component'),
+        i(1, 'Component'),
+      }
+    ),
+    {
+      condition = conds.line_begin,
+    }
+  ),
+}
