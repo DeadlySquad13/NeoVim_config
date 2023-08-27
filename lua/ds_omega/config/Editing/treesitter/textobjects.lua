@@ -66,7 +66,8 @@ local goto_previous = add_prefix(K.previous, move_objects.previous)
 
 return {
   select = {
-    enable = true,
+    -- Mini.ai has a feature with 'next' and 'last' variants.
+    enable = false,
 
     -- Automatically jump forward to textobj, similar to targets.vim
     lookahead = true,
