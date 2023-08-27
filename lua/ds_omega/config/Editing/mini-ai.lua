@@ -35,9 +35,10 @@ return {
         inside_next = K.inside .. 'n',
         inside_last = K.inside .. 'l',
 
-        -- Move cursor to corresponding edge of `a` textobject
-        goto_left = K.previous,
-        goto_right = K.next,
+        -- Better works in nvim-treesitter-textobjects.
+        -- Move cursor to corresponding edge of `a` textobject.
+        goto_left = nil,
+        goto_right = nil,
       },
 
       -- Number of lines within which textobject is searched
