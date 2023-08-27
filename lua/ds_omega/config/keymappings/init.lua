@@ -221,7 +221,7 @@ local f_mappings = {
    'y', 'Yank',
     f = { 'yy', 'Yank cuffent line' },
     c = nil,
-    d = nil,
+    -- d = nil,
     -- m = nil,
     o = nil,
     p = { ':lcd %:h<Cr>', 'Change cwd to current file directory' },
@@ -347,7 +347,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     D = { 'E', 'Back to End' },
     -- o = { 'g', 'g' },
     O = { 'G', 'Go to the end of file' },
-    y = { '.', 'Repeat' },
+    Y = { '.', 'Repeat' },
     -- ['k'] = { '/', 'Search'},
 
     ['<Tab>'] = { 'n', 'Next' },
