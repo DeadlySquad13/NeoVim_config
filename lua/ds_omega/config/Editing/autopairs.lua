@@ -3,12 +3,12 @@ return {
 
   opts = {
     fast_wrap = {
-      map = '<M-e>',
+      map = '<M-a>',
       chars = { '{', '[', '(', '"', "'" },
       pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
       offset = 0, -- Offset from pattern match.
       end_key = '$',
-      keys = 'qwertyuiopzxcvbnmasdfghjkl',
+      keys = 'rsntaeihg,wfmp.qxclduoyk',
       check_comma = true,
       highlight = 'Search',
       highlight_grey = 'Comment',
@@ -33,5 +33,67 @@ return {
     map_c_w = true,
   },
 
-  config = true,
+  config = function(_, opts)
+    local prequire = require('ds_omega.utils').prequire
+
+    local nvim_autopairs_is_available, nvim_autopairs = prequire('nvim-autopairs')
+
+    if not nvim_autopairs_is_available or not nvim_autopairs then
+      return
+    end
+
+    nvim_autopairs.setup(opts)
+
+    local Rule = require('nvim-autopairs.rule')
+    -- Add spaces between parentheses
+    -- Before Insert After
+    -- ()     space  ( | )
+    -- ( | )  space  (  )|
+    -- Reference: [wiki](https://github.com/windwp/nvim-autopairs/wiki/Custom-rules#add-spaces-between-parentheses)
+    local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
+    nvim_autopairs.add_rules({
+      Rule(' ', ' '):with_pair(function(opts)
+        local pair = opts.line:sub(opts.col - 1, opts.col)
+        return vim.tbl_contains({
+          brackets[1][1] .. brackets[1][2],
+          brackets[2][1] .. brackets[2][2],
+          brackets[3][1] .. brackets[3][2],
+        }, pair)
+      end),
+    })
+
+    for _, bracket in pairs(brackets) do
+      nvim_autopairs.add_rules({
+        Rule(bracket[1] .. ' ', ' ' .. bracket[2])
+            :with_pair(function()
+              return false
+            end)
+            :with_move(function(opts)
+              return opts.prev_char:match('.%' .. bracket[2]) ~= nil
+            end)
+            :use_key(bracket[2]),
+      })
+    end
+
+    -- Move past commas and semicolons.
+    -- Reference: [wiki](https://github.com/windwp/nvim-autopairs/wiki/Custom-rules#move-past-commas-and-semicolons)
+    for _, punct in pairs({ ',', ';' }) do
+      nvim_autopairs.add_rules({
+        Rule('', punct)
+            :with_move(function(move_opts)
+              return move_opts.char == punct
+            end)
+            :with_pair(function()
+              return false
+            end)
+            :with_del(function()
+              return false
+            end)
+            :with_cr(function()
+              return false
+            end)
+            :use_key(punct),
+      })
+    end
+  end,
 }
