@@ -16,6 +16,11 @@ return {
       change = 'mt',
       change_line = 'mT',
     },
+
+    aliases = {
+        q = { '"', "'", "`" },
+        t = { "}", "]", ")", ">", '"', "'", "`" },
+    }
   },
 
   config = true,
