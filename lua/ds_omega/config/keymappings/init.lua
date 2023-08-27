@@ -319,8 +319,6 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     M = { 'C', 'Change to the end of line' },
     ['.'] = { 'o', 'New line below' },
     [':'] = { 'O', 'New line above' },
-    q = { 'i', 'Insert' },
-    Q = { 'I', 'Insert at the start of the line' },
 
     -- r = { 'f', 'Find' },
     s = vim.tbl_extend('error',  replace_mappings, { 'r', 'Replace' }),
@@ -329,8 +327,6 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- FIX: Breaks surround.
     -- a = { '<Plug>(smartword-w)', 'Next word' },
     A = { 'W', 'Next Word' },
-    e = { 'a', 'Insert after' },
-    E = { 'A', 'Insert at the end of line' },
     -- i = { 'm', 'Mark' },
     -- h = { 'f', 'Find' },
     -- j = { 'q', 'Record macro' },
@@ -367,10 +363,18 @@ local tbl_recursive_extend = function(behavior, left, right)
 end
 
 local function merge(a, b)
-    if type(a) == 'table' and type(b) == 'table' then
-        for k,v in pairs(b) do if type(v)=='table' and type(a[k] or false)=='table' then merge(a[k],v) else a[k]=v end end
+    if type(a) ~= 'table' or type(b) ~= 'table' then
+      return a
     end
-    return a
+
+    local result = vim.deepcopy(a)
+    for k,v in pairs(b) do
+      if type(v)=='table' and type(result[k] or false) =='table' then
+        merge(result[k],v) else result[k]=v
+      end
+    end
+
+    return result
 end
 
 local minifiles_toggle = function(...)
@@ -382,7 +386,8 @@ local nmode_mappings = merge(common_mappings, {
         -- b = b_mappings,
         -- c = c_mappings,
         -- d = d_mappings,
-        -- e = e_mappings,
+        e = { 'a', 'Insert after' },
+        E = { 'A', 'Insert at the end of line' },
         -- f = f_mappings,
         g = g_mappings,
         -- h = h_mappings,
@@ -395,7 +400,8 @@ local nmode_mappings = merge(common_mappings, {
         -- o = o_mappings,
         -- p = paste_with_indent,
         -- P = paste_before_with_indent,
-        -- q = q_mappings,
+        q = { 'i', 'Insert' },
+        Q = { 'I', 'Insert at the start of the line' },
         -- r = r_mappings,
         -- s = s_mappings,
         -- t = t_mappings,
@@ -464,6 +470,7 @@ local xmode_mappings = merge(common_mappings, {
         -- m = change_mappings,
         -- d = d_mappings,
         -- e = e_mappings,
+        E = { 'A', 'Insert after visual block' },
         -- f = f_mappings,
         -- g = g_mappings,
         -- h = h_mappings,
@@ -477,6 +484,7 @@ local xmode_mappings = merge(common_mappings, {
         -- p = paste_with_indent,
         -- P = paste_before_with_indent,
         -- q = q_mappings,
+        Q = { 'I', 'Insert before visual block' },
         -- r = r_mappings,
         -- s = s_mappings,
         -- t = t_mappings,
