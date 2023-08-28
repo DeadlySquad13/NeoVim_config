@@ -98,19 +98,12 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " * Yanking.
 
-" - Make Y behave similar to D in normal mode.
-nnoremap Y y$
-
 " * Open new file in vertical / horizontal split (similar to built-in <c-w>n).
 nnoremap <C-w>v :vnew<Cr>
 nnoremap <C-w>s :below new<Cr>
 
 " * Remaping line concatenation for use of j with modifier in non-vim apps.
 noremap <a-j> J
-
-" * Vertical.
-nnoremap <c-y> 3<c-y>
-nnoremap <c-e> 3<c-e>
 
 augroup Markdown
   " Clear all autocommands that were set before that.
