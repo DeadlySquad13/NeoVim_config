@@ -109,11 +109,11 @@ return {
   ---@type table
   extra = {
     ---Add comment on the line above
-    above = '<leader>cO',
+    above = '<leader>c:',
     ---Add comment on the line below
-    below = '<leader>co',
+    below = '<leader>c.',
     ---Add comment at the end of line
-    eol = '<leader>cA',
+    eol = '<leader>cE',
   },
 
   ---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
