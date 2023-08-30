@@ -78,8 +78,9 @@ local global_local = {
     undodir        = ENV.NVIM_DATA .. '/undo/',
     -- - Persistant buffers.
     hidden         = true,
-    -- - Try to reuse windows / tabs when switching buffers.
-    switchbuf      = 'usetab',
+    -- - Try to reuse windows / tabs when switching buffers. If buffer with
+    -- given entry inside isn't open yet, create a new tab page with it.
+    switchbuf      = { 'usetab', 'newtab' },
     -- Give freedom to visual mod by allowing it to travel when there's no text.
     virtualedit    = 'block',
     -- * Visuals.
