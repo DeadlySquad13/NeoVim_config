@@ -284,6 +284,12 @@ local leader_mappings = {
 vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
 -- vim.keymap.set({ 'n', 'x', }, 'f', 'y', { remap = true })
 
+local nxmode_mappings = {
+  ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
+  ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
+}
+
+-- Mostly jumps and textobjects that are usable in n, x and o modes.
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- w = { '<Plug>(smartword-w)', 'w' },
     -- b = { '<Plug>(smartword-b)', 'b' },
@@ -295,10 +301,12 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- J = { '}', 'Go one paragraph down' },
     -- K = { '{', 'Go one paragraph up' },
     -- L = { '$', 'Go to the end of the line' },
-    ['}'] = { 'J', 'Join lines' },
+    -- ['}'] = { 'J', 'Join lines' },
 
     ['^'] = { 'H', 'Move cursor to the top of the screen' },
     ['$'] = { 'L', 'Move cursor to the bottom of the screen' },
+
+    ['<Home>'] = { '^', 'Jump to the first non-blank character of the line' },
 
     -- Alternate mappings (functions simillar to `g`).
     -- [':'] = {
@@ -383,7 +391,7 @@ end
 local minifiles_toggle = function(...)
   if not MiniFiles.close() then MiniFiles.open(...) end
 end
-local nmode_mappings = merge(common_mappings, {
+local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
         name = 'Main',
         -- a = a_mappings,
         -- b = b_mappings,
@@ -419,11 +427,11 @@ local nmode_mappings = merge(common_mappings, {
         ['<leader>'] = leader_mappings,
 
         ['-'] = { minifiles_toggle, 'Navigate through files' },
-    })
+    }))
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local xmode_mappings = merge(common_mappings, {
+local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
         name = 'Main',
         ['<leader>'] = {
             name = 'Leader',
@@ -503,7 +511,7 @@ local xmode_mappings = merge(common_mappings, {
         -- }
 
         --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
-    })
+    }))
 
 local imode_mappings = {
     name = 'Main',
@@ -514,6 +522,8 @@ local imode_mappings = {
         '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
         'Comment current line',
     },
+
+    ['<Home>'] = { '<C-o>^', 'Jump to the first non-blank character of the line' },
 }
 
 local cmode_mappings = {
@@ -522,10 +532,16 @@ local cmode_mappings = {
     ['<C-k>'] = { '<C-p>', 'Previous command in history' },
 }
 
+local omode_mappings = merge(common_mappings, {
+  name = 'Main',
+  e = { 'a', 'Around' },
+  q = { 'i', 'Inside' },
+})
+
 return {
     n = nmode_mappings,
     x = xmode_mappings,
     i = imode_mappings,
     c = cmode_mappings,
-    o = common_mappings,
+    o = omode_mappings,
 }
