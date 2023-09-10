@@ -11,15 +11,15 @@ local substitute_range = require('substitute.range')
 -- Though of substitute as replacement so 'r'.
 return {
   n = {
-    r = { substitute.operator, 'Replace' },
-    rs = { substitute.line, 'Replace line' },
-    R = { substitute.eol, 'Replace to end of line' },
+    s = { substitute.operator, 'Replace' },
+    ss = { substitute.line, 'Replace line' },
+    S = { substitute.eol, 'Replace to end of line' },
 
     --   There's prompt current text that may be useful:
     -- https://github.com/gbprod/substitute.nvim#rangeprompt_current_text
 
     ['<Leader>'] = {
-      r = {
+      s = {
         function()
           substitute_range.operator({
             group_substituted_text = true,
@@ -28,7 +28,7 @@ return {
         'Replace range',
       },
 
-      rr = {
+      ss = {
         function()
           substitute_range.word({
             group_substituted_text = true,
@@ -37,7 +37,7 @@ return {
         'Replace word under cursor',
       },
 
-      R = {
+      S = {
         function()
           substitute_range.operator({
             group_substituted_text = true,
@@ -50,7 +50,7 @@ return {
   },
 
   x = {
-    r = { substitute.visual, 'Replace', },
+    s = { substitute.visual, 'Replace', },
     ['<Leader>r'] = { substitute_range.visual, 'Replace range' },
   },
 }

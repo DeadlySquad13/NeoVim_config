@@ -67,7 +67,7 @@ local function get_put_keymappings(mode)
           P = { '<Plug>(YankyPutIndentBeforeLinewise)', 'Put before and adjust the indent to the current line' },
       },
       -- - Stay on current line.
-      ['c'] = {
+      ['m'] = {
           p = {
               with_preserved_position('PutIndentAfter', mode),
               'Put after (adjusted to current line) but stay on current line'
@@ -85,7 +85,7 @@ local function get_put_keymappings(mode)
               P = { '<Plug>(YankyPutIndentBeforeShiftRight)', 'Put before and adjust the indent to the current line' },
           },
           -- - Stay on current line.
-          ['c'] = {
+          ['m'] = {
               p = {
                 with_preserved_position('PutIndentAfter', mode, 'ShiftRight'),
                 'Put after (adjusted to current line) but stay on current line',

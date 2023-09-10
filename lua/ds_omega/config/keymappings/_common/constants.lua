@@ -7,4 +7,12 @@ CONSTANTS.KEY = {
   backslash = [[\]],
 }
 
+CONSTANTS.keymappings = {
+  inside = 'q',
+  around = 'e',
+
+  next = 'y',
+  previous = '"',
+}
+
 return CONSTANTS
