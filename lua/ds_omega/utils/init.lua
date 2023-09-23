@@ -143,9 +143,9 @@ local M = {
 
   exec = require('ds_omega.utils.exec'),
 
-  Set = require('ds_omega.utils.Set').Set,
+  Set = require('ds_omega.utils.set').Set,
 
-  SetIntersection = require('ds_omega.utils.Set').SetIntersection,
+  SetIntersection = require('ds_omega.utils.set').SetIntersection,
 }
 
 return M

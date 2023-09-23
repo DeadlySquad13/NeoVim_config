@@ -31,7 +31,7 @@ return {
 
     local custom_server_configurations = {}
     for _, server_name in ipairs(servers_with_custom_configurations) do
-      custom_server_configurations[server_name] = require('ds_omega.config.lsp.server_configurations' .. '.' .. server_name)
+      custom_server_configurations[server_name] = require('ds_omega.config.Lsp.server_configurations' .. '.' .. server_name)
     end
 
     return custom_server_configurations
