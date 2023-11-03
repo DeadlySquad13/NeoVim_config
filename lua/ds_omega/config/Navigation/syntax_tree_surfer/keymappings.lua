@@ -53,10 +53,11 @@ return {
     },
 
     -- Targeted jump.
-    ['<leader>j'] = {
+    ['<leader>'..'i'] = {
       name = 'Jump',
 
-      j = {
+      -- Good roll from i to h
+      h = {
         function()
           sts.targeted_jump({
             'function',
@@ -79,21 +80,23 @@ return {
         'To one of variable declarations',
       },
 
-      fu = {
+      -- Similar to vim's ]m jumps and it resolves conflicts with for
+      --   statements.
+      m = {
         function()
           sts.targeted_jump({ 'function', 'arrow_function', 'function_definition' })
         end,
         'To one of functions',
       },
 
-      ['if'] = {
+      ['d'] = {
         function()
           sts.targeted_jump({ 'if_statement' })
         end,
         'To one of if statements',
       },
 
-      fo = {
+      f = {
         function()
           sts.targeted_jump({ 'for_statement' })
         end,

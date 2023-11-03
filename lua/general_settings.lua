@@ -78,8 +78,9 @@ local global_local = {
     undodir        = ENV.NVIM_DATA .. '/undo/',
     -- - Persistant buffers.
     hidden         = true,
-    -- - Try to reuse windows / tabs when switching buffers.
-    switchbuf      = 'usetab',
+    -- - Try to reuse windows / tabs when switching buffers. If buffer with
+    -- given entry inside isn't open yet, create a new tab page with it.
+    switchbuf      = { 'usetab', 'newtab' },
     -- Give freedom to visual mod by allowing it to travel when there's no text.
     virtualedit    = 'block',
     -- * Visuals.
@@ -235,6 +236,8 @@ local set_settings, set_global_variables = utils_setters.set_settings, utils_set
 set_global_variables({
     mapleader = ' ',
     maplocalleader = '\\',
+    -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
+    fugitive_no_maps = 1,
 })
 
 local langmap = require('langmap').langmap.to_hands_down_neu

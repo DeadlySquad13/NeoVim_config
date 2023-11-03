@@ -4,7 +4,7 @@ return {
   opts = {
     -- Whether to map keybinds or not.
     -- Default true.
-    default_mappings = true,
+    default_mappings = false,
     -- Which builtin marks to show.
     -- Default {}.
     builtin_marks = { --[[ ".",  ]] "<", ">", "^" },
