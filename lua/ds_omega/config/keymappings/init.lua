@@ -8,6 +8,8 @@
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
 
+local merge = require('ds_omega.config.keymappings._common.utils').merge
+
 -- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
 -- Uppercase all comments and add dot at the end:
 --   '<,'>s;^\(-- \w\)\(.*\);\U\1\e\2.;
@@ -41,12 +43,18 @@ local e_mappings = {
     -- * Snippets.
     -- Relevant snippet engine command will be called to edit snippets
     --   definitions.
-    -- TODO: better pass here a function where it's decides how to edit.
-    -- - Appropriate for current file.
-    s = { '<cmd>SnippetsEdit<cr>', 'Snippets definitions' },
     -- - Choose from all available sources for current file.
     S = { '<cmd>ChooseSnippetsEdit<cr>', 'Choose Snippets definitions' },
 }
+
+
+-- TODO: Add alternative for luasnip.
+if require('ds_omega.utils').is_loaded('ultisnips') then
+    e_mappings = merge(e_mappings, {
+        -- Open snippets file that is appropriate for current file.
+        s = { '<cmd>SnippetsEdit<cr>', 'Snippets definitions' },
+    })
+end
 
 -- # File.
 -- Buffer mappings are mostly used, for now don't know what to place here.
@@ -285,8 +293,8 @@ vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
 -- vim.keymap.set({ 'n', 'x', }, 'f', 'y', { remap = true })
 
 local nxmode_mappings = {
-  ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
-  ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
+  -- ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
+  -- ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
@@ -371,21 +379,6 @@ local tbl_recursive_extend = function(behavior, left, right)
   for key, value in pairs(left) do
     -- result[key]
   end
-end
-
-local function merge(a, b)
-    if type(a) ~= 'table' or type(b) ~= 'table' then
-      return a
-    end
-
-    local result = vim.deepcopy(a)
-    for k,v in pairs(b) do
-      if type(v)=='table' and type(result[k] or false) =='table' then
-        merge(result[k],v) else result[k]=v
-      end
-    end
-
-    return result
 end
 
 local minifiles_toggle = function(...)
