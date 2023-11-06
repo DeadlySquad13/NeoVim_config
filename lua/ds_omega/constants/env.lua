@@ -26,7 +26,7 @@ local nvim_queries = nvim_after .. '/queries'
 local goneovim_settings = user_config .. '/goneovim/settings.toml'
 
 ---@type table<'file'|'messages'|'notify', boolean>
-LOG_INTO = require('ds_omega.utils.Set').Set({
+LOG_INTO = require('ds_omega.utils.set').Set({
   -- 'file',
   'messages',
   -- 'notify'

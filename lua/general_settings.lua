@@ -9,7 +9,7 @@ local set = vim.opt
 local IS_ENVIRONMENT_FAST = false
 
 -- Bash doesn’t load your .bashrc unless it’s interactive.
-set.shellcmdflag:append('i')
+-- set.shellcmdflag:append('i')
 
 -- Support for embedded scripts (for example, lua in init.vim)
 -- - Syntax highlighting.
