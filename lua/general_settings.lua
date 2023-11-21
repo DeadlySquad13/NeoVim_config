@@ -160,7 +160,7 @@ local global_local = {
     --sdisplay        = "lastline",
     showbreak      = '↳  ', -- ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
     -- (tab: simple dash + Electric Arrow (U+2301))
-    list           = true, -- Show special characters.
+    list           = false, -- Show special characters.
     listchars      = {
         -- eol = '¬', -- ^Vu00ac, was ┐ ^Vu2510 and '↴' -- Look too big with Iosevka
         nbsp = '⦸',
