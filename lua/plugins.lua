@@ -52,6 +52,7 @@ require('lazy').setup({
   { import = 'ds_omega.config.Ui' },
   { import = 'ds_omega.config.WindowManagement' },
   { import = 'ds_omega.config.Workspace' },
+  { import = 'ds_omega.config.Markdown' },
 })
 
 -- local startup = require('ds_omega.utils.core').startup
