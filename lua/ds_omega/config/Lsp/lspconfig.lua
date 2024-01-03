@@ -163,16 +163,6 @@ return {
             custom_server_configuration.on_attach
           )
 
-          if server_name == 'eslint' then
-            local eslint_config = require('lspconfig.server_configurations.eslint')
-            server_configuration.opts = {}
-            server_configuration.opts.cmd = {
-              'yarn',
-              'exec',
-              unpack(eslint_config.default_config.cmd),
-            }
-          end
-
           if server_name == 'sumneko_lua' then
             require('ds_omega.layers.Lsp.neodev')
           end

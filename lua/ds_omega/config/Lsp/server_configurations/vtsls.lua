@@ -9,7 +9,7 @@ end
 
 return {
   on_attach = {
-    lsp_handlers.disable_formatting,
+    -- lsp_handlers.disable_formatting,
     lsp_handlers.auto_format_on_save,
     setup_vtscs_keymappings,
   },

@@ -15,6 +15,9 @@ local function setup_eslint_server_keymappings(_, bufnr)
 end
 
 return {
+  settings = {
+    packageManager = 'yarn',
+  },
   on_attach = {
     setup_eslint_server_keymappings
   },
