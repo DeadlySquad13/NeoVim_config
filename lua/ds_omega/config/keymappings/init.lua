@@ -170,6 +170,10 @@ local z_mappings = {
     h = {
         [CONSTANTS.transitive_catalizator] = { 'Horizontal Scroll Mode' },
     },
+    ['-'] = { '<Cmd>set foldlevel-=1<Cr>', 'Decrease foldlevel' },
+    ['+'] = { '<Cmd>set foldlevel+=1<Cr>', 'Increase foldlevel' },
+    ['<Up>'] = { 'zkzxzz', 'Traverse folds and open current' },
+    ['<Down>'] = { 'zjzxzz', 'Traverse folds and open current' },
 }
 
 -- Historically ',' for me is a keybind for settings.
