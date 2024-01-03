@@ -80,7 +80,7 @@ local global_local = {
     hidden         = true,
     -- - Try to reuse windows / tabs when switching buffers. If buffer with
     -- given entry inside isn't open yet, create a new tab page with it.
-    switchbuf      = { 'usetab', 'newtab' },
+    switchbuf      = { 'usetab', 'uselast' },
     -- Give freedom to visual mod by allowing it to travel when there's no text.
     virtualedit    = 'block',
     -- * Visuals.
