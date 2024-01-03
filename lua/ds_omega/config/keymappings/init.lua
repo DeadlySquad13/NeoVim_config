@@ -218,6 +218,15 @@ local g_mappings = {
     b = nil,
 }
 
+if not vim.tbl_isempty(telescope_extensions.agrolens) then
+    g_mappings = vim.tbl_extend("force", g_mappings, {
+        m = { '<Cmd>Telescope agrolens query=functions buffers=all<Cr>', 'Go to function' },
+        M = { '<Cmd>Telescope agrolens query=functions<Cr>', 'Go to function (in current buffer)' },
+        c = { '<Cmd>Telescope agrolens query=callings buffers=all<Cr>', 'Go to function calling' },
+        C = { '<Cmd>Telescope agrolens query=callings<Cr>', 'Go to function calling (in current buffer)' },
+    })
+end
+
 local replace_mappings = {
     ['<Right>'] = { 'r', 'Replace' },
     l = { 'r', 'Replace' },
