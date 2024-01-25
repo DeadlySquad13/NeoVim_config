@@ -305,7 +305,7 @@ local nxmode_mappings = {
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
-    -- w = { '<Plug>(smartword-w)', 'w' },
+    w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
     -- b = { '<Plug>(smartword-b)', 'b' },
     -- e = { '<Plug>(smartword-e)', 'e' },
     gd = { '<Plug>(smartword-ge)', 'ge' },
@@ -350,24 +350,23 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
-    -- FIX: Breaks surround.
-    -- a = { '<Plug>(smartword-w)', 'Next word' },
-    A = { 'W', 'Next Word' },
+    a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- May be swapped with A as smartword is like extended version of W motion.
+    -- A = { 'W', 'Next Word' }, -- TODO: VACANT!
     -- i = { 'm', 'Mark' },
     -- h = { 'f', 'Find' },
     -- j = { 'q', 'Record macro' },
 
     -- x = {  },
-    c = { '<Plug>(smartword-b)', 'Word back' },
-    C = { 'B', 'Word Back' },
+    c = { '<Plug>(smartword-b)', 'Smart word Back' },
+    C = { "<Cmd>lua require('spider').motion('b')<Cr>", 'CamelCase word Back' },
     l = {
         '"_d',
         'Delete',
         l = { '"_dd', 'Delete line' },
     }, -- d keymap is hardcoded in cutlass so I have to remap it manually.
     L = { '"_D', 'Delete to the end of line' },
-    d = { '<Plug>(smartword-e)', 'Back to end' },
-    D = { 'E', 'Back to End' },
+    d = { '<Plug>(smartword-e)', 'Smart back to End' },
+    D = { "<Cmd>lua require('spider').motion('e')<Cr>", 'CamelCase back to End' },
     -- o = { 'g', 'g' },
     O = { 'G', 'Go to the end of file' },
     Y = { '.', 'Repeat' },
@@ -552,8 +551,8 @@ local cmode_mappings = {
 
 local omode_mappings = merge(common_mappings, {
     name = 'Main',
-    e = { 'a', 'Around' },
-    q = { 'i', 'Inside' },
+    -- e = { 'a', 'Around' },
+    -- q = { 'i', 'Inside' },
 })
 
 return {
