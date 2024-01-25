@@ -54,7 +54,7 @@ return {
     local illuminate_is_available, illuminate = prequire('illuminate')
 
     if not illuminate_is_available then
-      return 
+      return
     end
 
     illuminate.configure(opts)

@@ -46,12 +46,13 @@ require('lazy').setup({
   { import = 'ds_omega.config.Lsp' },
   { import = 'ds_omega.config.Snippets' },
   { import = 'ds_omega.config.Navigation' },
-  { import = 'ds_omega.config.NeoVimDevelopment' },
+  { import = 'ds_omega.config.NeovimDevelopment' },
   { import = 'ds_omega.config.ProjectManagement' },
   { import = 'ds_omega.config.TextObjects' },
   { import = 'ds_omega.config.Ui' },
   { import = 'ds_omega.config.WindowManagement' },
   { import = 'ds_omega.config.Workspace' },
+  { import = 'ds_omega.config.Markdown' },
 })
 
 -- local startup = require('ds_omega.utils.core').startup

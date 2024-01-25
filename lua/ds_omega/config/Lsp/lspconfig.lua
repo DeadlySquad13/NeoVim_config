@@ -13,7 +13,8 @@ return {
       'pyright',
 
       -- * Web Development.
-      'tsserver',
+      -- 'tsserver',
+      'vtsls',
       'cssls',
       'html',
       'eslint',
@@ -30,7 +31,7 @@ return {
 
     local custom_server_configurations = {}
     for _, server_name in ipairs(servers_with_custom_configurations) do
-      custom_server_configurations[server_name] = require('ds_omega.config.lsp.server_configurations' .. '.' .. server_name)
+      custom_server_configurations[server_name] = require('ds_omega.config.Lsp.server_configurations' .. '.' .. server_name)
     end
 
     return custom_server_configurations
@@ -101,6 +102,7 @@ return {
       pyright = { 'python' },
       lua_ls = { 'lua' },
       tsserver = { 'typescript', 'typescriptreact' },
+      vtsls = { 'typescript', 'typescriptreact' },
       texlab = { 'tex' },
       gopls = { 'go' },
       r_language_server = { 'r' },
@@ -160,16 +162,6 @@ return {
             server_configuration,
             custom_server_configuration.on_attach
           )
-
-          if server_name == 'eslint' then
-            local eslint_config = require('lspconfig.server_configurations.eslint')
-            server_configuration.opts = {}
-            server_configuration.opts.cmd = {
-              'yarn',
-              'exec',
-              unpack(eslint_config.default_config.cmd),
-            }
-          end
 
           if server_name == 'sumneko_lua' then
             require('ds_omega.layers.Lsp.neodev')

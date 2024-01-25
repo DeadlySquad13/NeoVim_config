@@ -44,6 +44,7 @@ return {
         --   Unfortunately, doesn't work. Should be set up in setup function of
         -- yanky.
         yank_history = pickers.telescope,
+        agrolens = require('ds_omega.config.Navigation.agrolens').opts,
       }
     }
   end,

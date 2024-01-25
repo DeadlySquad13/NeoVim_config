@@ -63,13 +63,6 @@ return {
 
       textobjects = textobjects,
 
-      context_commentstring = {
-        enable = true,
-        -- Disable the CursorHold autocommand of this plugin to work with
-        --   Comment.nvim.
-        enable_autocmd = false,
-      },
-
       playground = {
         enable = true,
         disable = {},

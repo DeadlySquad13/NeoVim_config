@@ -1,4 +1,4 @@
-local set_settings = require('utils.setters').set_settings
+local set_settings = require('ds_omega.utils.setters').set_settings
 
 set_settings({
   shiftwidth = 4, -- Set number of spaces per auto indentation

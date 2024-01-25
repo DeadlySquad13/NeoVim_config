@@ -2,7 +2,7 @@ local leap_settings = require('ds_omega.config.Navigation.leap.settings')
 
 return {
   auto_jump = false,
-  separator = ';', -- Character used to split the user input in <pattern> and <label> (can be empty).
+  separator = ',', -- Character used to split the user input in <pattern> and <label> (can be empty).
   use_overlay = false, -- If true, apply an overlay to better identify labels and matches.
   labels = leap_settings.labels,
   relative_labels = true, -- if true, labels are ordered from the cursor position, 

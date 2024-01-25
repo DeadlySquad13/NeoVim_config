@@ -124,7 +124,7 @@ local toggle_mappings = {
     f = { ':FocusToggle<cr>', 'Focus' },
     i = {
         function()
-          require('incline').toggle()
+            require('incline').toggle()
         end,
         'Incline (winbar)',
     },
@@ -145,7 +145,7 @@ local open_mappings = {
     },
 }
 
-local paste_mappings = { '"+p', 'Paste from clipboard register' }
+local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
@@ -163,13 +163,17 @@ local paste_mappings = { '"+p', 'Paste from clipboard register' }
 
 local execute_mappings = { '<Cmd>JupyniumExecuteSelectedCells<Cr>', 'Execute selected cells' }
 
-local yank_mappings = { '"+y', 'Yank into clipboard register' }
--- local yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
+local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
+-- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
 
 local z_mappings = {
     h = {
         [CONSTANTS.transitive_catalizator] = { 'Horizontal Scroll Mode' },
     },
+    ['-'] = { '<Cmd>set foldlevel-=1<Cr>', 'Decrease foldlevel' },
+    ['+'] = { '<Cmd>set foldlevel+=1<Cr>', 'Increase foldlevel' },
+    ['<Up>'] = { 'zkzxzz', 'Traverse folds and open current' },
+    ['<Down>'] = { 'zjzxzz', 'Traverse folds and open current' },
 }
 
 -- Historically ',' for me is a keybind for settings.
@@ -186,13 +190,11 @@ local settings_mappings = {
     ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
 }
 
-local c_mappings = {
-    -- Can be nested more as this action will be confirmed as soon as you press ':'.
-    d = { ':lcd %:h<cr>', 'Change cwd to current file directory' },
+local change_mappings = {
     -- m = nil,
     o = nil,
     -- p = nil, -- Used in yanky.
-    -- q = nil, -- Used in nvim-recorder (edit macro).
+    -- j = nil, -- Used in nvim-recorder (edit macro).
     u = nil,
     y = nil,
 }
@@ -208,29 +210,44 @@ local d_mappings = {
 
 local g_mappings = {
     -- I moved comment mappings to <Leader>c as it seems more ergonomic.
-    c = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a word under cursor' },
+
+    -- Similar to gf.
+    F = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a file / word under cursor' },
     l = nil,
     y = nil,
     b = nil,
 }
 
-local r_mappings = {
+if not vim.tbl_isempty(telescope_extensions.agrolens) then
+    g_mappings = vim.tbl_extend("force", g_mappings, {
+        m = { '<Cmd>Telescope agrolens query=functions buffers=all<Cr>', 'Go to function' },
+        M = { '<Cmd>Telescope agrolens query=functions<Cr>', 'Go to function (in current buffer)' },
+        c = { '<Cmd>Telescope agrolens query=callings buffers=all<Cr>', 'Go to function calling' },
+        C = { '<Cmd>Telescope agrolens query=callings<Cr>', 'Go to function calling (in current buffer)' },
+    })
+end
+
+local replace_mappings = {
     ['<Right>'] = { 'r', 'Replace' },
     l = { 'r', 'Replace' },
 }
 
-local y_mappings = {
+local f_mappings = {
+    'y',
+    'Yank',
+    f = { 'yy', 'Yank cuffent line' },
     c = nil,
-    d = nil,
+    -- d = nil,
     -- m = nil,
     o = nil,
-    p = nil,
+    p = { ':lcd %:h<Cr>', 'Change cwd to current file directory' },
+    ['%'] = { '<Cmd>let @" = expand("%:p")', 'Full path of the current file' },
     -- q = nil, -- Used in nvim-recorder (yank macro).
     r = nil,
     u = nil,
 }
 
-local z_mappings = {
+local z_leader_mappings = {
     q = nil,
     -- p = nil, -- Used in yanky.
 }
@@ -245,7 +262,7 @@ local leader_mappings = {
     c = comment_mappings,
     -- d = d_mappings,
     e = e_mappings,
-    f = file_mappings,
+    f = vim.tbl_extend('error', file_mappings, special_yank_mappings),
     g = go_mappings,
     h = help_mappings,
     -- i = i_mappings,
@@ -255,8 +272,9 @@ local leader_mappings = {
     m = { 'm', 'Mark' },
     -- Navigation. Helps find things, used as lookup table (navigation panel).
     n = require('ds_omega.config.keymappings.navigation'),
-    o = { 'mto<Esc>`t', 'Create a new line below the current', },
-    p = paste_mappings,
+    ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
+    [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
+    p = special_paste_mappings,
     -- q = q_mappings,
     r = rename_mappings,
     s = session_mappings,
@@ -265,9 +283,8 @@ local leader_mappings = {
     -- v = v_mappings,
     -- w = w_mappings,
     x = execute_mappings,
-    y = yank_mappings,
-    z = z_mappings,
-    O = { 'mtO<Esc>`t', 'Create a new line above the current', },
+    -- y = y_mappings,
+    z = z_leader_mappings,
     [','] = settings_mappings,
     ['<Leader>'] = {
         name = 'Previous', -- and repeat?
@@ -278,156 +295,241 @@ local leader_mappings = {
     }
 }
 
+vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
+-- vim.keymap.set({ 'n', 'x', }, 'f', 'y', { remap = true })
+
+local nxmode_mappings = {
+    ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
+    ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
+}
+
+-- Mostly jumps and textobjects that are usable in n, x and o modes.
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
-    w = { '<Plug>(smartword-w)', 'w' },
-    b = { '<Plug>(smartword-b)', 'b' },
-    e = { '<Plug>(smartword-e)', 'e' },
-    ge = { '<Plug>(smartword-ge)', 'ge' },
+    -- w = { '<Plug>(smartword-w)', 'w' },
+    -- b = { '<Plug>(smartword-b)', 'b' },
+    -- e = { '<Plug>(smartword-e)', 'e' },
+    gd = { '<Plug>(smartword-ge)', 'ge' },
 
     -- Make default layout more ergonomic.
-    H = { '^', 'Go to the beginning of the line' },
-    J = { '}', 'Go one paragraph down' },
-    K = { '{', 'Go one paragraph up' },
-    L = { '$', 'Go to the end of the line' },
-    ['}'] = { 'J', 'Join lines' },
+    -- H = { '^', 'Go to the beginning of the line' },
+    -- J = { '}', 'Go one paragraph down' },
+    -- K = { '{', 'Go one paragraph up' },
+    -- L = { '$', 'Go to the end of the line' },
+    -- ['}'] = { 'J', 'Join lines' },
 
     ['^'] = { 'H', 'Move cursor to the top of the screen' },
     ['$'] = { 'L', 'Move cursor to the bottom of the screen' },
 
+    ['<Home>'] = { '^', 'Jump to the first non-blank character of the line' },
+
     -- Alternate mappings (functions simillar to `g`).
-    [':'] = {
-        name = 'Alternate',
-    },
-    ['h'] = { ':', 'Enter command line mode' },
-    ['k'] = { '/', 'Search'},
+    -- [':'] = {
+    --     name = 'Alternate',
+    -- },
+    ['r'] = { ':', 'Enter command line mode' },
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
     ["''"] = { '``', 'Jump to last position' },
     ["``"] = { "''", 'Jump to last position linewise' },
+
+    -- Custom layout.
+    -- w = { 'v', 'Visual' },
+    f = f_mappings,
+    F = { 'Y', 'Yank to the end of line' },
+    m = {
+        'c',
+        'Change',
+        m = { 'cc', 'Change whole line' },
+    },
+    M = { 'C', 'Change to the end of line' },
+    ['.'] = { 'o', 'New line below' },
+    [':'] = { 'O', 'New line above' },
+
+    -- r = { 'f', 'Find' },
+    s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
+    -- n = { 'x', 'Cut' },
+    -- t = { 's', 'Surround' },
+    -- FIX: Breaks surround.
+    -- a = { '<Plug>(smartword-w)', 'Next word' },
+    A = { 'W', 'Next Word' },
+    -- i = { 'm', 'Mark' },
+    -- h = { 'f', 'Find' },
+    -- j = { 'q', 'Record macro' },
+
+    -- x = {  },
+    c = { '<Plug>(smartword-b)', 'Word back' },
+    C = { 'B', 'Word Back' },
+    l = {
+        '"_d',
+        'Delete',
+        l = { '"_dd', 'Delete line' },
+    }, -- d keymap is hardcoded in cutlass so I have to remap it manually.
+    L = { '"_D', 'Delete to the end of line' },
+    d = { '<Plug>(smartword-e)', 'Back to end' },
+    D = { 'E', 'Back to End' },
+    -- o = { 'g', 'g' },
+    O = { 'G', 'Go to the end of file' },
+    Y = { '.', 'Repeat' },
+    -- ['k'] = { '/', 'Search'},
+
+    ['<Tab>'] = { 'n', 'Next' },
+    ['<S-Tab>'] = { 'N', 'Next' },
+    -- i = { 'm'}
 })
 
-local minifiles_toggle = function(...)
-  if not MiniFiles.close() then MiniFiles.open(...) end
+-- Extends table with selected behavior like `vim.tbl_extend` but
+--   doesn't override k<Plug>(smartword-e)eys that are tables itself. Instead it recursively
+--   merges tables from left and right tables.
+local tbl_recursive_extend = function(behavior, left, right)
+    local result = vim.deepcopy(left)
+
+    for key, value in pairs(left) do
+        -- result[key]
+    end
 end
 
-local nmode_mappings = vim.tbl_extend('error', common_mappings, {
-        name = 'Main',
-        -- a = a_mappings,
-        -- b = b_mappings,
-        c = c_mappings,
-        -- d = d_mappings,
-        -- e = e_mappings,
-        -- f = f_mappings,
-        g = g_mappings,
-        -- h = h_mappings,
-        -- i = i_mappings,
-        -- j = j_mappings,
-        -- k = k_mappings,
-        -- l = l_mappings,
-        -- m = m_mappings,
-        -- n = n_mappings,
-        -- o = o_mappings,
-        -- p = paste_with_indent,
-        -- P = paste_before_with_indent,
-        -- q = q_mappings,
-        r = r_mappings,
-        -- s = s_mappings,
-        -- t = t_mappings,
-        -- u = u_mappings,
-        -- v = v_mappings,
-        --w = w_mappings,
-        -- x = x_mappings,
-        -- y = y_mappings,
-        -- z = z_mappings,
+local function merge(a, b)
+    if type(a) ~= 'table' or type(b) ~= 'table' then
+        return a
+    end
 
-        ['<C-w>'] = require('ds_omega.config.keymappings.window'),
-        ['<leader>'] = leader_mappings,
+    local result = vim.deepcopy(a)
+    for k, v in pairs(b) do
+        if type(v) == 'table' and type(result[k] or false) == 'table' then
+            merge(result[k], v)
+        else
+            result[k] = v
+        end
+    end
 
-        ['-'] = { minifiles_toggle, 'Navigate through files' },
-    })
+    return result
+end
+
+local minifiles_toggle = function(...)
+    if not MiniFiles.close() then MiniFiles.open(...) end
+end
+local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
+    name = 'Main',
+    -- a = a_mappings,
+    -- b = b_mappings,
+    -- c = c_mappings,
+    -- d = d_mappings,
+    e = { 'a', 'Insert after' },
+    E = { 'A', 'Insert at the end of line' },
+    -- f = f_mappings,
+    g = g_mappings,
+    -- h = h_mappings,
+    -- i = i_mappings,
+    -- j = j_mappings,
+    -- k = k_mappings,
+    -- l = l_mappings,
+    -- m = change_mappings,
+    -- n = n_mappings,
+    -- o = o_mappings,
+    -- p = paste_with_indent,
+    -- P = paste_before_with_indent,
+    q = { 'i', 'Insert' },
+    Q = { 'I', 'Insert at the start of the line' },
+    -- r = r_mappings,
+    -- s = s_mappings,
+    -- t = t_mappings,
+    -- u = u_mappings,
+    -- v = v_mappings,
+    --w = w_mappings,
+    -- x = x_mappings,
+    -- y = y_mappings,
+    z = z_mappings,
+
+    ['<C-w>'] = require('ds_omega.config.keymappings.window'),
+    ['<leader>'] = leader_mappings,
+
+    ['-'] = { minifiles_toggle, 'Navigate through files' },
+}))
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local xmode_mappings = vim.tbl_extend('error', common_mappings, {
-        name = 'Main',
-        ['<leader>'] = {
-            name = 'Leader',
-            -- a = a_mappings,
-            -- b = buffer_mappings,
-            c = comment_mappings,
-            -- d = d_mappings,
-            -- e = e_mappings,
-            -- f = file_mappings,
-            -- g = go_mappings,
-            -- h = help_mappings,
-            -- i = i_mappings,
-            -- j = jump_mappings,
-            -- k = k_mappings,
-            -- l = l_mappings,
-            -- m = major_mappings,
-            -- n = navigation_mappings,
-            -- o = o_mappings,
-            p = paste_mappings,
-            -- q = q_mappings,
-            -- r = r_mappings,
-            -- s = s_mappings,
-            -- t = toggle_mappings,
-            -- u = u_mappings,
-            -- v = v_mappings,
-            -- w = w_mappings,
-            x = execute_mappings,
-            y = yank_mappings,
-            -- z = z_mappings,
-
-            -- [','] = settings_mappings,
-
-            -- Comments.
-            -- Unfortunately, gv doesn't work at the end, it gets overriden by
-            --   something...
-            ['>'] = {
-                '<esc><cmd>lua ___comment_semantically(vim.fn.visualmode())<cr>',
-                'Comment semantically',
-            },
-            ['<'] = {
-                '<esc><cmd>lua ___uncomment_semantically(vim.fn.visualmode())<cr>',
-                'Uncomment semantically',
-            },
-        },
+local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
+    name = 'Main',
+    ['<leader>'] = {
+        name = 'Leader',
         -- a = a_mappings,
-        -- b = b_mappings,
-        c = c_mappings,
+        -- b = buffer_mappings,
+        c = comment_mappings,
         -- d = d_mappings,
         -- e = e_mappings,
-        -- f = f_mappings,
-        -- g = g_mappings,
-        -- h = h_mappings,
+        f = special_yank_mappings,
+        -- g = go_mappings,
+        -- h = help_mappings,
         -- i = i_mappings,
-        -- j = j_mappings,
+        -- j = jump_mappings,
         -- k = k_mappings,
         -- l = l_mappings,
-        -- m = m_mappings,
-        -- n = n_mappings,
+        -- m = major_mappings,
+        -- n = navigation_mappings,
         -- o = o_mappings,
-        -- p = paste_with_indent,
-        -- P = paste_before_with_indent,
+        p = special_paste_mappings,
         -- q = q_mappings,
         -- r = r_mappings,
         -- s = s_mappings,
-        -- t = t_mappings,
+        -- t = toggle_mappings,
         -- u = u_mappings,
         -- v = v_mappings,
         -- w = w_mappings,
-        -- x = x_mappings,
+        x = execute_mappings,
         -- y = y_mappings,
         -- z = z_mappings,
 
-        -- ['<c-w>'] = {
-        -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
-        -- }
+        -- [','] = settings_mappings,
 
-        --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
-    })
+        -- Comments.
+        -- Unfortunately, gv doesn't work at the end, it gets overriden by
+        --   something...
+        ['>'] = {
+            '<esc><cmd>lua ___comment_semantically(vim.fn.visualmode())<cr>',
+            'Comment semantically',
+        },
+        ['<'] = {
+            '<esc><cmd>lua ___uncomment_semantically(vim.fn.visualmode())<cr>',
+            'Uncomment semantically',
+        },
+    },
+    -- a = a_mappings,
+    -- b = b_mappings,
+    -- m = change_mappings,
+    -- d = d_mappings,
+    -- e = e_mappings,
+    E = { 'A', 'Insert after visual block' },
+    -- f = f_mappings,
+    -- g = g_mappings,
+    -- h = h_mappings,
+    -- i = i_mappings,
+    -- j = j_mappings,
+    -- k = k_mappings,
+    -- l = l_mappings,
+    -- m = m_mappings,
+    -- n = n_mappings,
+    -- o = o_mappings,
+    -- p = paste_with_indent,
+    -- P = paste_before_with_indent,
+    -- q = q_mappings,
+    Q = { 'I', 'Insert before visual block' },
+    -- r = r_mappings,
+    -- s = s_mappings,
+    -- t = t_mappings,
+    -- u = u_mappings,
+    -- v = v_mappings,
+    -- w = w_mappings,
+    -- x = x_mappings,
+    -- y = y_mappings,
+    -- z = z_mappings,
+
+    -- ['<c-w>'] = {
+    -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
+    -- }
+
+    --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
+}))
 
 local imode_mappings = {
     name = 'Main',
@@ -438,6 +540,8 @@ local imode_mappings = {
         '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
         'Comment current line',
     },
+
+    ['<Home>'] = { '<C-o>^', 'Jump to the first non-blank character of the line' },
 }
 
 local cmode_mappings = {
@@ -446,10 +550,16 @@ local cmode_mappings = {
     ['<C-k>'] = { '<C-p>', 'Previous command in history' },
 }
 
+local omode_mappings = merge(common_mappings, {
+    name = 'Main',
+    e = { 'a', 'Around' },
+    q = { 'i', 'Inside' },
+})
+
 return {
     n = nmode_mappings,
     x = xmode_mappings,
     i = imode_mappings,
     c = cmode_mappings,
-    o = common_mappings,
+    o = omode_mappings,
 }

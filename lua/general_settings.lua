@@ -9,7 +9,7 @@ local set = vim.opt
 local IS_ENVIRONMENT_FAST = false
 
 -- Bash doesn’t load your .bashrc unless it’s interactive.
-set.shellcmdflag:append('i')
+-- set.shellcmdflag:append('i')
 
 -- Support for embedded scripts (for example, lua in init.vim)
 -- - Syntax highlighting.
@@ -78,8 +78,9 @@ local global_local = {
     undodir        = ENV.NVIM_DATA .. '/undo/',
     -- - Persistant buffers.
     hidden         = true,
-    -- - Try to reuse windows / tabs when switching buffers.
-    switchbuf      = 'usetab',
+    -- - Try to reuse windows / tabs when switching buffers. If buffer with
+    -- given entry inside isn't open yet, create a new tab page with it.
+    switchbuf      = { 'usetab', 'uselast' },
     -- Give freedom to visual mod by allowing it to travel when there's no text.
     virtualedit    = 'block',
     -- * Visuals.
@@ -159,7 +160,7 @@ local global_local = {
     --sdisplay        = "lastline",
     showbreak      = '↳  ', -- ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
     -- (tab: simple dash + Electric Arrow (U+2301))
-    list           = true, -- Show special characters.
+    list           = false, -- Show special characters.
     listchars      = {
         -- eol = '¬', -- ^Vu00ac, was ┐ ^Vu2510 and '↴' -- Look too big with Iosevka
         nbsp = '⦸',
@@ -235,6 +236,8 @@ local set_settings, set_global_variables = utils_setters.set_settings, utils_set
 set_global_variables({
     mapleader = ' ',
     maplocalleader = '\\',
+    -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
+    fugitive_no_maps = 1,
 })
 
 local langmap = require('langmap').langmap.to_hands_down_neu
