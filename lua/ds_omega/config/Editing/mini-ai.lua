@@ -6,21 +6,34 @@ return {
     local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
     local K = CONSTANTS.keymappings
 
-    local spec_treesitter = require('mini.ai').gen_spec.treesitter
+    local spec = require('mini.ai').gen_spec
+    local spec_treesitter = spec.treesitter
 
     return {
       -- Table with textobject id as fields, textobject specification as values.
       -- Also use this to disable builtin textobjects. See |MiniAi.config|.
       custom_textobjects = {
         m = spec_treesitter({ a = '@function.outer', i = '@function.inner' }),
+        M = spec_treesitter({ a = '@class.outer', i = '@class.inner' }),
+
+        c = spec.function_call(),
+
         o = spec_treesitter({ a = '@loop.outer', i = '@loop.inner' }),
-        c = spec_treesitter({ a = '@class.outer', i = '@class.inner' }),
+
         ['/'] = spec_treesitter({ a = '@comment.outer', i = '@comment.inner' }),
+
         p = spec_treesitter({ a = '@parameter.outer', i = '@parameter.inner' }),
+
         -- Add attribute?
         a = spec_treesitter({ a = '@assignment.outer', i = '@assignment.inner' }),
+
         b = spec_treesitter({ a = '@block.outer', i = '@block.inner' }),
+
         d = spec_treesitter({ a = '@conditional.outer', i = '@conditional.inner' }),
+
+        -- FIX: Doesn't work.
+        k = spec_treesitter({ a = '@key.outer', i = '@key.inner' }),
+        v = spec_treesitter({ a = '@value.outer', i = '@value.inner' }),
       },
 
       -- Module mappings. Use `''` (empty string) to disable one.

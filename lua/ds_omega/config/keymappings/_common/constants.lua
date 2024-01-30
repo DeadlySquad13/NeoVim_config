@@ -11,6 +11,9 @@ CONSTANTS.keymappings = {
   inside = 'q',
   around = 'e',
 
+  inside_additional = 'Q',
+  around_additional = 'E',
+
   next = 'y',
   previous = '"',
 }

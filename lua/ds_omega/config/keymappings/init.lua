@@ -7,6 +7,10 @@
 
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
+local around = CONSTANTS.keymappings.around
+local inside = CONSTANTS.keymappings.inside
+local around_additional = CONSTANTS.keymappings.around_additional
+local inside_additional = CONSTANTS.keymappings.inside_additional
 
 -- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
 -- Uppercase all comments and add dot at the end:
@@ -298,7 +302,50 @@ local leader_mappings = {
 vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
 -- vim.keymap.set({ 'n', 'x', }, 'f', 'y', { remap = true })
 
+-- For textobjects.
+local oxmode_mappings = {
+    a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
+    [','] = { '<Cmd>lua require("various-textobjs").restOfParagraph()<Cr>', 'Rest of Paragraph' },
+    ['B'] = { '<Cmd>lua require("various-textobjs").entireBuffer()<Cr>', 'Entire buffer' },
+
+    [inside] = {
+        a = { '<Cmd>lua require("various-textobjs").subword("inner")<Cr>', 'Inside subword' },
+        A = { 'iw', 'Inside word' },
+
+        v = { '<Cmd>lua require("various-textobjs").value("inner")<Cr>', 'Inside Value of a key: value pair' },
+        k = { '<Cmd>lua require("various-textobjs").key("inner")<Cr>', 'Inside Key of a key: value pair' },
+
+        i = { '<Plug>(textobj-indent-same-i)', 'Inside block with the same indent' },
+        I = { '<Plug>(textobj-indent-i)', 'Inside block with the same indent, ignoring outliers' },
+    },
+    [around] = {
+        a = { '<Cmd>lua require("various-textobjs").subword("outer")<Cr>', 'Around subword' },
+        A = { 'aw', 'Around word' },
+
+        v = { '<Cmd>lua require("various-textobjs").value("outer")<Cr>', 'Around Value of a key: value pair' },
+        k = { '<Cmd>lua require("various-textobjs").key("outer")<Cr>', 'Around Key of a key: value pair' },
+
+        --   Indentation from various textobjects can't include whitespace.
+        i = { '<Plug>(textobj-indent-same-a)', 'Around block with the same Indent' },
+        I = { '<Plug>(textobj-indent-a)', 'Around block with the same Indent, ignoring outliers' },
+    },
+
+    [inside_additional] = {
+        i = { '<Cmd>lua require("various-textobjs").greedyOuterIndentation("inner")<Cr>', 'Inside block with the same Indent' },
+        -- i = { '<Cmd>lua require("various-textobjs").indentation("inner", "inner")<Cr>', 'Inside block with the same Indent' },
+
+        p = { 'ip', 'Inside paragraph' },
+    },
+    [around_additional] = {
+        i = { '<Cmd>lua require("various-textobjs").greedyOuterIndentation("outer")<Cr>', 'Around block with the same Indent' },
+        -- I = { '<Cmd>lua require("various-textobjs").indentation("outer", "outer", "noBlank")<Cr>', 'Inside block with the same indent, ignoring blanklines' },
+
+        p = { 'ap', 'Around Paragraph' },
+    },
+}
+
 local nxmode_mappings = {
+    a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
     ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
     ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
 }
@@ -306,9 +353,10 @@ local nxmode_mappings = {
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
+    W = { "<Plug>(smartword-w)", 'Smart next Word' },
     -- b = { '<Plug>(smartword-b)', 'b' },
     -- e = { '<Plug>(smartword-e)', 'e' },
-    gd = { '<Plug>(smartword-ge)', 'ge' },
+    gd = { '<Plug>(smartword-ge)', 'Smart ge' },
 
     -- Make default layout more ergonomic.
     -- H = { '^', 'Go to the beginning of the line' },
@@ -350,7 +398,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
-    a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- May be swapped with A as smartword is like extended version of W motion.
+    -- A = { '<Plug>(smartword-w)', 'Smart next Word' }, -- May be swapped with A as smartword is like extended version of W motion.
     -- A = { 'W', 'Next Word' }, -- TODO: VACANT!
     -- i = { 'm', 'Mark' },
     -- h = { 'f', 'Find' },
@@ -448,7 +496,7 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
+local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmode_mappings, {
     name = 'Main',
     ['<leader>'] = {
         name = 'Leader',
@@ -528,7 +576,7 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- }
 
     --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
-}))
+})))
 
 local imode_mappings = {
     name = 'Main',
@@ -549,11 +597,11 @@ local cmode_mappings = {
     ['<C-k>'] = { '<C-p>', 'Previous command in history' },
 }
 
-local omode_mappings = merge(common_mappings, {
+local omode_mappings = merge(common_mappings, merge(oxmode_mappings, {
     name = 'Main',
     -- e = { 'a', 'Around' },
     -- q = { 'i', 'Inside' },
-})
+}))
 
 return {
     n = nmode_mappings,
