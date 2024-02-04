@@ -10,13 +10,14 @@ local navigation_mappings = {
         telescope_builtin.resume,
         'Resume'
     },
+
     f = {
         telescope_builtin.find_files,
         'Find in current directory',
     },
     F = {
-        ':RnvimrToggle<cr>',
-        'Files via Rnvimr'
+        '<Cmd>RnvimrToggle<Cr>',
+        'Files via Rnvimr',
     },
     o = {
         telescope_builtin.oldfiles,
@@ -46,22 +47,46 @@ local navigation_mappings = {
         'Treesitter',
     },
 
-    [KEY.backslash] = { ':Neotree<cr>', 'Filetree' },
+    [KEY.forward_slash] = { ':Neotree<cr>', 'Filetree' },
+
+    e = {
+        ':e ./',
+        'Edit file',
+    },
 }
 
-if not vim.tbl_isempty(telescope_extensions.scope) then
+local scope_extension = telescope_extensions.scope
+if not vim.tbl_isempty(scope_extension) then
     navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
         b = {
             telescope_builtin.buffers,
             'Tab-local Buffers',
         },
         B = {
-            telescope_extensions.scope.buffers,
+            scope_extension.buffers,
             'All Buffers',
         },
-    }
-    )
+    })
 end
 
+-- local projects_extension = telescope_extensions.projects
+-- if not vim.tbl_isempty(projects_extension) then
+--     navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+--         p = {
+--             projects_extension.projects,
+--             'Projects',
+--         },
+--     })
+-- end
+
+local file_browser_extension = telescope_extensions.file_browser
+if not vim.tbl_isempty(file_browser_extension) then
+    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+        ['-'] = {
+            file_browser_extension.file_browser,
+            'File browser',
+        },
+    })
+end
 
 return navigation_mappings
