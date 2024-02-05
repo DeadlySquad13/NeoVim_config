@@ -19,19 +19,19 @@ local inside_additional = CONSTANTS.keymappings.inside_additional
 local comment_mappings = {
     D = { ':Neogen<cr>', 'Create Documentation comment' },
     ['>'] = {
-        '<CMD>set operatorfunc=v:lua.___comment_semantically<CR>g@',
+        '<Cmd>set operatorfunc=v:lua.___comment_semantically<Cr>g@',
         'Comment semantically',
     },
     ['<'] = {
-        '<CMD>set operatorfunc=v:lua.___uncomment_semantically<CR>g@',
+        '<Cmd>set operatorfunc=v:lua.___uncomment_semantically<Cr>g@',
         'Uncomment semantically',
     },
     ['>>'] = {
-        '<cmd>lua ___comment_semantically_current_line()<cr>',
+        '<Cmd>lua ___comment_semantically_current_line()<Cr>',
         'Comment semantically current line',
     },
     ['<<'] = {
-        '<cmd>lua ___uncomment_semantically_current_line()<cr>',
+        '<Cmd>lua ___uncomment_semantically_current_line()<Cr>',
         'Uncomment semantically current line',
     },
 }
@@ -241,12 +241,13 @@ local f_mappings = {
     'Yank',
     f = { 'yy', 'Yank cuffent line' },
     c = nil,
-    -- d = nil,
-    -- m = nil,
+    -- d = nil, -- d now is 'e' text-object
+    m = nil,
     o = nil,
-    p = { ':lcd %:h<Cr>', 'Change cwd to current file directory' },
-    ['%'] = { '<Cmd>let @" = expand("%:p")', 'Full path of the current file' },
-    -- q = nil, -- Used in nvim-recorder (yank macro).
+    p = { '<Cmd>lcd %:h<Cr><Leader>n', 'Change cwd to current file directory', noremap = false },
+    P = { '<Cmd>ProjectRoot<Cr><Leader>n', 'Change cwd to project root directory', noremap = false },
+    ['%'] = { '<Cmd>let @" = expand("%:p")', 'Full path of the current file' }, -- Forgot for what...
+    q = nil,
     r = nil,
     u = nil,
 }
@@ -384,7 +385,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- Custom layout.
     -- w = { 'v', 'Visual' },
     f = f_mappings,
-    F = { 'Y', 'Yank to the end of line' },
+    F = { 'y$', 'Yank to the end of line' },
     m = {
         'c',
         'Change',

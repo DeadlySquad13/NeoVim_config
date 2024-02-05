@@ -13,6 +13,7 @@ local common_keymappings = {
     P = { cmd 'BufferLineTogglePin', 'Toggle Pin' },
     -- Deletes buffer without closing vim if it was in the only window.
     d = { cmd 'Bdelete', 'Delete' },
+    D = { cmd '%bdelete', 'Delete' },
     z = { cmd '%bdelete|edit#', 'Delete all buffer except for current one' },
     --see the [lua api](https://github.com/akinsho/bufferline.nvim/blob/main/lua/bufferline.lua)
     --p = { function() bufferline.pick_buffer() end, 'Pick' },

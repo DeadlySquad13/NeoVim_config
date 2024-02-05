@@ -22,6 +22,8 @@ return {
     end
     local globalstatus = vim.o.laststatus == 3
 
+    local git_blame_is_available, git_blame = prequire('gitblame')
+
     return {
       options = {
         icons_enabled = true,
@@ -42,7 +44,8 @@ return {
         } },
 
         lualine_x = {
-          'progress', 'diagnostics'
+            not git_blame_is_available and 'diagnostics' or { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
+            'progress',
         },
         lualine_y = { 'diff' },
 
@@ -52,9 +55,9 @@ return {
         lualine_a = { get_window_number },
         lualine_b = {},
         lualine_c = { 'filename' },
-        lualine_x = { 'location' },
-        lualine_y = {},
-        lualine_z = {}
+        lualine_x = {},
+        lualine_y = { 'location' },
+        lualine_z = {},
       } or nil,
       tabline = {},
       extensions = {}
