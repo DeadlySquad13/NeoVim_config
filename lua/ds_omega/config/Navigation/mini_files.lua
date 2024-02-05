@@ -42,7 +42,7 @@ return {
       pattern = 'MiniFilesBufferCreate',
       desc = 'Add change current directory to current directory inside MiniFiles',
       callback = function(args)
-        vim.keymap.set('n', 'cd', mini_files_set_cwd, { buffer = args.data.buf_id })
+        vim.keymap.set('n', 'fp', mini_files_set_cwd, { buffer = args.data.buf_id })
       end,
     })
 
