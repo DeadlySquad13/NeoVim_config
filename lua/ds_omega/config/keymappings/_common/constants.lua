@@ -3,7 +3,7 @@ local CONSTANTS = {}
 CONSTANTS.transitive_catalizator = '.'
 
 CONSTANTS.KEY = {
-  -- forward_slash = '<c-_>',
+  C_forward_slash = '<c-_>',
   forward_slash = '/',
   backslash = [[\]],
 }

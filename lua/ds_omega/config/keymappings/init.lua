@@ -583,7 +583,7 @@ local imode_mappings = {
     name = 'Main',
     -- Unfortunately, have default <c-t> mapped in
     -- ['<c-m>'] = { '<c-t>', 'Indent once' },
-    [KEY.forward_slash] = {
+    [KEY.C_forward_slash] = {
         -- '<esc>:lua require("Comment.api").toggle_current_linewise()<CR>`ti',
         '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
         'Comment current line',
