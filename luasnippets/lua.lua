@@ -30,12 +30,12 @@ return {}, {
     },
     fmt(
       [[
-        local prequire = require('utils').prequire
+        local prequire = require('ds_omega.utils').prequire
 
         local {}_is_available, {} = prequire('{}')
 
         if not {}_is_available then
-          return {}
+          return{}
         end
       ]],
       {
