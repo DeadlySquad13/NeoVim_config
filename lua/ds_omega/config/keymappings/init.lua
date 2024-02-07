@@ -437,22 +437,8 @@ local tbl_recursive_extend = function(behavior, left, right)
     end
 end
 
-local function merge(a, b)
-    if type(a) ~= 'table' or type(b) ~= 'table' then
-        return a
-    end
 
-    local result = vim.deepcopy(a)
-    for k, v in pairs(b) do
-        if type(v) == 'table' and type(result[k] or false) == 'table' then
-            merge(result[k], v)
-        else
-            result[k] = v
-        end
-    end
-
-    return result
-end
+local merge = require('ds_omega.config.keymappings._common.utils').merge
 
 local minifiles_toggle = function(...)
     if not MiniFiles.close() then MiniFiles.open(...) end
