@@ -1,4 +1,4 @@
-local prequire = require('utils').prequire
+local prequire = require('ds_omega.utils').prequire
 
 local schemastore_is_available, schemastore = prequire('schemastore')
 
