@@ -69,15 +69,15 @@ if not vim.tbl_isempty(scope_extension) then
     })
 end
 
--- local projects_extension = telescope_extensions.projects
--- if not vim.tbl_isempty(projects_extension) then
---     navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
---         p = {
---             projects_extension.projects,
---             'Projects',
---         },
---     })
--- end
+local projects_extension = telescope_extensions.projects
+if not vim.tbl_isempty(projects_extension) then
+    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+        p = {
+            projects_extension.projects,
+            'Projects',
+        },
+    })
+end
 
 local file_browser_extension = telescope_extensions.file_browser
 if not vim.tbl_isempty(file_browser_extension) then

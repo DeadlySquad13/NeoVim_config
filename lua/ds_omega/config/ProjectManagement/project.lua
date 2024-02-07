@@ -1,5 +1,4 @@
 return {
-  enabled = false,
   'ahmedkhalf/project.nvim',
 
   opts = {
