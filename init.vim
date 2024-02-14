@@ -171,7 +171,7 @@ vnoremap <leader>de :!python3 -c 'import sys; from urllib import parse; print(pa
 nnoremap ]b :call searchpair('\[','','\]')<cr>
 nnoremap [b :call searchpair('\[','','\]','b')<cr>
 
-G" Abbreviations
+" Abbreviations
 runtime abbreviations.vim
 
 "" TODO: What it does?
