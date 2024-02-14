@@ -34,6 +34,14 @@ return {
   end,
 
   config = function()
-    require('telescope').load_extension('undo')
+      local prequire = require('ds_omega.utils').prequire
+
+      local telescope_is_available, telescope = prequire('telescope')
+
+      if not telescope_is_available then
+        return 
+      end
+
+      telescope.load_extension('undo')
   end,
 }

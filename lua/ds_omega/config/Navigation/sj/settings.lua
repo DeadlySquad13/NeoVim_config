@@ -9,6 +9,7 @@ return {
   update_search_register = true, -- If true, update the search register with the last used pattern.
   -- Can be: current_line, visible_lines_above, visible_lines_below, visible_lines, buffer.
   search_scope = 'buffer', -- To align more with default / and ?
+  stop_on_fail = false, -- if true, the search will stop when a search fails (no matches)
 
   keymaps = {
     prev_pattern = "<C-k>", -- Select the previous pattern while searching.

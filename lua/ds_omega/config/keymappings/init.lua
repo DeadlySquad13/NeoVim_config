@@ -5,8 +5,15 @@
 -- - default `m` and `M` should be remapped as something more valuable can be
 -- assigned to it.
 
+local utils = require('ds_omega.config.keymappings._common.utils')
+local merge, cmd = utils.merge, utils.cmd
+
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
+local around = CONSTANTS.keymappings.around
+local inside = CONSTANTS.keymappings.inside
+local around_additional = CONSTANTS.keymappings.around_additional
+local inside_additional = CONSTANTS.keymappings.inside_additional
 
 -- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
 -- Uppercase all comments and add dot at the end:
@@ -15,37 +22,37 @@ local KEY = CONSTANTS.KEY
 local comment_mappings = {
     D = { ':Neogen<cr>', 'Create Documentation comment' },
     ['>'] = {
-        '<CMD>set operatorfunc=v:lua.___comment_semantically<CR>g@',
+        '<Cmd>set operatorfunc=v:lua.___comment_semantically<Cr>g@',
         'Comment semantically',
     },
     ['<'] = {
-        '<CMD>set operatorfunc=v:lua.___uncomment_semantically<CR>g@',
+        '<Cmd>set operatorfunc=v:lua.___uncomment_semantically<Cr>g@',
         'Uncomment semantically',
     },
     ['>>'] = {
-        '<cmd>lua ___comment_semantically_current_line()<cr>',
+        cmd 'lua ___comment_semantically_current_line()',
         'Comment semantically current line',
     },
     ['<<'] = {
-        '<cmd>lua ___uncomment_semantically_current_line()<cr>',
+        cmd 'lua ___uncomment_semantically_current_line()',
         'Uncomment semantically current line',
     },
 }
 
 local e_mappings = {
     name = 'Edit',
-    e = { ':ChooseAndEditConfigs<cr>', 'Choose and Edit configs' },
+    e = { cmd 'ChooseAndEditConfigs', 'Choose and Edit configs' },
     -- Open vimrc in vertical split.
-    v = { '<cmd>vsplit $MYVIMRC<cr>', 'Vimrc' },
+    v = { cmd 'vsplit $MYVIMRC', 'Vimrc' },
     h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head', silent = false },
     -- * Snippets.
     -- Relevant snippet engine command will be called to edit snippets
     --   definitions.
     -- TODO: better pass here a function where it's decides how to edit.
     -- - Appropriate for current file.
-    s = { '<cmd>SnippetsEdit<cr>', 'Snippets definitions' },
+    s = { cmd 'SnippetsEdit', 'Snippets definitions' },
     -- - Choose from all available sources for current file.
-    S = { '<cmd>ChooseSnippetsEdit<cr>', 'Choose Snippets definitions' },
+    S = { cmd 'ChooseSnippetsEdit', 'Choose Snippets definitions' },
 }
 
 -- # File.
@@ -161,7 +168,7 @@ local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 --  "EOF
 --
 
-local execute_mappings = { '<Cmd>JupyniumExecuteSelectedCells<Cr>', 'Execute selected cells' }
+local execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute selected cells' }
 
 local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
 -- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
@@ -170,8 +177,8 @@ local z_mappings = {
     h = {
         [CONSTANTS.transitive_catalizator] = { 'Horizontal Scroll Mode' },
     },
-    ['-'] = { '<Cmd>set foldlevel-=1<Cr>', 'Decrease foldlevel' },
-    ['+'] = { '<Cmd>set foldlevel+=1<Cr>', 'Increase foldlevel' },
+    ['-'] = { cmd 'set foldlevel-=1', 'Decrease foldlevel' },
+    ['+'] = { cmd 'set foldlevel+=1', 'Increase foldlevel' },
     ['<Up>'] = { 'zkzxzz', 'Traverse folds and open current' },
     ['<Down>'] = { 'zjzxzz', 'Traverse folds and open current' },
 }
@@ -180,11 +187,11 @@ local z_mappings = {
 local settings_mappings = {
     name = 'Settings',
     -- Colors.
-    C = { '<cmd>highlight<cr>', 'Show highlight groups Colors' },
+    C = { cmd 'highlight', 'Show highlight groups Colors' },
     --['*'] = { function() vim.fn['SynStack']() end, 'Show highlight groups under the cursor' }
     ['*'] = {
         -- ':TSHighlightCapturesUnderCursor<cr>',
-        '<cmd>Inspect<cr>',
+        cmd 'Inspect',
         'Show highlight groups under the cursor',
     },
     ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
@@ -212,7 +219,7 @@ local g_mappings = {
     -- I moved comment mappings to <Leader>c as it seems more ergonomic.
 
     -- Similar to gf.
-    F = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a file / word under cursor' },
+    F = { cmd 'e <cfile>', 'Edit file corresponding to a file / word under cursor' },
     l = nil,
     y = nil,
     b = nil,
@@ -220,10 +227,10 @@ local g_mappings = {
 
 if not vim.tbl_isempty(telescope_extensions.agrolens) then
     g_mappings = vim.tbl_extend("force", g_mappings, {
-        m = { '<Cmd>Telescope agrolens query=functions buffers=all<Cr>', 'Go to function' },
-        M = { '<Cmd>Telescope agrolens query=functions<Cr>', 'Go to function (in current buffer)' },
-        c = { '<Cmd>Telescope agrolens query=callings buffers=all<Cr>', 'Go to function calling' },
-        C = { '<Cmd>Telescope agrolens query=callings<Cr>', 'Go to function calling (in current buffer)' },
+        m = { cmd 'Telescope agrolens query=functions buffers=all', 'Go to function' },
+        M = { cmd 'Telescope agrolens query=functions', 'Go to function (in current buffer)' },
+        c = { cmd 'Telescope agrolens query=callings buffers=all', 'Go to function calling' },
+        C = { cmd 'Telescope agrolens query=callings', 'Go to function calling (in current buffer)' },
     })
 end
 
@@ -237,12 +244,13 @@ local f_mappings = {
     'Yank',
     f = { 'yy', 'Yank cuffent line' },
     c = nil,
-    -- d = nil,
-    -- m = nil,
+    -- d = nil, -- d now is 'e' text-object
+    m = nil,
     o = nil,
-    p = { ':lcd %:h<Cr>', 'Change cwd to current file directory' },
-    ['%'] = { '<Cmd>let @" = expand("%:p")', 'Full path of the current file' },
-    -- q = nil, -- Used in nvim-recorder (yank macro).
+    p = { '<Cmd>lcd %:h<Cr><Leader>n', 'Change cwd to current file directory', noremap = false },
+    P = { '<Cmd>ProjectRoot<Cr><Leader>n', 'Change cwd to project root directory', noremap = false },
+    ['%'] = { '<Cmd>let @" = expand("%:p")', 'Full path of the current file' }, -- Forgot for what...
+    q = nil,
     r = nil,
     u = nil,
 }
@@ -298,17 +306,61 @@ local leader_mappings = {
 vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
 -- vim.keymap.set({ 'n', 'x', }, 'f', 'y', { remap = true })
 
+-- For textobjects.
+local oxmode_mappings = {
+    a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
+    [','] = { cmd 'lua require("various-textobjs").restOfParagraph()', 'Rest of Paragraph' },
+    ['B'] = { cmd 'lua require("various-textobjs").entireBuffer()', 'Entire buffer' },
+
+    [inside] = {
+        a = { cmd 'lua require("various-textobjs").subword("inner")', 'Inside subword' },
+        A = { 'iw', 'Inside word' },
+
+        v = { cmd 'lua require("various-textobjs").value("inner")', 'Inside Value of a key: value pair' },
+        k = { cmd 'lua require("various-textobjs").key("inner")', 'Inside Key of a key: value pair' },
+
+        i = { '<Plug>(textobj-indent-same-i)', 'Inside block with the same indent' },
+        I = { '<Plug>(textobj-indent-i)', 'Inside block with the same indent, ignoring outliers' },
+    },
+    [around] = {
+        a = { cmd 'lua require("various-textobjs").subword("outer")', 'Around subword' },
+        A = { 'aw', 'Around word' },
+
+        v = { cmd 'lua require("various-textobjs").value("outer")', 'Around Value of a key: value pair' },
+        k = { cmd 'lua require("various-textobjs").key("outer")', 'Around Key of a key: value pair' },
+
+        --   Indentation from various textobjects can't include whitespace.
+        i = { '<Plug>(textobj-indent-same-a)', 'Around block with the same Indent' },
+        I = { '<Plug>(textobj-indent-a)', 'Around block with the same Indent, ignoring outliers' },
+    },
+
+    [inside_additional] = {
+        i = { cmd 'lua require("various-textobjs").greedyOuterIndentation("inner")', 'Inside block with the same Indent' },
+        -- i = { cmd 'lua require("various-textobjs").indentation("inner", "inner")', 'Inside block with the same Indent' },
+
+        p = { 'ip', 'Inside paragraph' },
+    },
+    [around_additional] = {
+        i = { cmd 'lua require("various-textobjs").greedyOuterIndentation("outer")', 'Around block with the same Indent' },
+        -- I = { cmd 'lua require("various-textobjs").indentation("outer", "outer", "noBlank")', 'Inside block with the same indent, ignoring blanklines' },
+
+        p = { 'ap', 'Around Paragraph' },
+    },
+}
+
 local nxmode_mappings = {
+    a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
     ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
     ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
-    -- w = { '<Plug>(smartword-w)', 'w' },
+    w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
+    W = { "<Plug>(smartword-w)", 'Smart next Word' },
     -- b = { '<Plug>(smartword-b)', 'b' },
     -- e = { '<Plug>(smartword-e)', 'e' },
-    gd = { '<Plug>(smartword-ge)', 'ge' },
+    gd = { '<Plug>(smartword-ge)', 'Smart ge' },
 
     -- Make default layout more ergonomic.
     -- H = { '^', 'Go to the beginning of the line' },
@@ -336,7 +388,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- Custom layout.
     -- w = { 'v', 'Visual' },
     f = f_mappings,
-    F = { 'Y', 'Yank to the end of line' },
+    F = { 'y$', 'Yank to the end of line' },
     m = {
         'c',
         'Change',
@@ -350,24 +402,23 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
-    -- FIX: Breaks surround.
-    -- a = { '<Plug>(smartword-w)', 'Next word' },
-    A = { 'W', 'Next Word' },
+    -- A = { '<Plug>(smartword-w)', 'Smart next Word' }, -- May be swapped with A as smartword is like extended version of W motion.
+    -- A = { 'W', 'Next Word' }, -- TODO: VACANT!
     -- i = { 'm', 'Mark' },
     -- h = { 'f', 'Find' },
     -- j = { 'q', 'Record macro' },
 
     -- x = {  },
-    c = { '<Plug>(smartword-b)', 'Word back' },
-    C = { 'B', 'Word Back' },
+    c = { '<Plug>(smartword-b)', 'Smart word Back' },
+    C = { "<Cmd>lua require('spider').motion('b')<Cr>", 'CamelCase word Back' },
     l = {
         '"_d',
         'Delete',
         l = { '"_dd', 'Delete line' },
     }, -- d keymap is hardcoded in cutlass so I have to remap it manually.
     L = { '"_D', 'Delete to the end of line' },
-    d = { '<Plug>(smartword-e)', 'Back to end' },
-    D = { 'E', 'Back to End' },
+    d = { '<Plug>(smartword-e)', 'Smart back to End' },
+    D = { "<Cmd>lua require('spider').motion('e')<Cr>", 'CamelCase back to End' },
     -- o = { 'g', 'g' },
     O = { 'G', 'Go to the end of file' },
     Y = { '.', 'Repeat' },
@@ -389,22 +440,6 @@ local tbl_recursive_extend = function(behavior, left, right)
     end
 end
 
-local function merge(a, b)
-    if type(a) ~= 'table' or type(b) ~= 'table' then
-        return a
-    end
-
-    local result = vim.deepcopy(a)
-    for k, v in pairs(b) do
-        if type(v) == 'table' and type(result[k] or false) == 'table' then
-            merge(result[k], v)
-        else
-            result[k] = v
-        end
-    end
-
-    return result
-end
 
 local minifiles_toggle = function(...)
     if not MiniFiles.close() then MiniFiles.open(...) end
@@ -449,7 +484,7 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
-local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
+local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmode_mappings, {
     name = 'Main',
     ['<leader>'] = {
         name = 'Leader',
@@ -529,13 +564,13 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- }
 
     --['<c-i>'] = { '<cmd>lua require("luasnip.util.util").store_selection()<cr>gv"_s', 'Store selection and start inserting snippet'},
-}))
+})))
 
 local imode_mappings = {
     name = 'Main',
     -- Unfortunately, have default <c-t> mapped in
     -- ['<c-m>'] = { '<c-t>', 'Indent once' },
-    [KEY.forward_slash] = {
+    [KEY.C_forward_slash] = {
         -- '<esc>:lua require("Comment.api").toggle_current_linewise()<CR>`ti',
         '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>',
         'Comment current line',
@@ -550,11 +585,11 @@ local cmode_mappings = {
     ['<C-k>'] = { '<C-p>', 'Previous command in history' },
 }
 
-local omode_mappings = merge(common_mappings, {
+local omode_mappings = merge(common_mappings, merge(oxmode_mappings, {
     name = 'Main',
-    e = { 'a', 'Around' },
-    q = { 'i', 'Inside' },
-})
+    -- e = { 'a', 'Around' },
+    -- q = { 'i', 'Inside' },
+}))
 
 return {
     n = nmode_mappings,

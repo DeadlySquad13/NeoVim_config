@@ -16,9 +16,10 @@ return {
       ['/'] = { '/', 'Search' },
       ['?'] = { '?', 'Search backwards' },
 
+      -- Conflicts with substitute.
       -- Like a leap but a little bit different.
-      s = { function() sj.run({ search_scope = 'visible_lines' }) end, 'Search and jump across visible lines' },
-      S = { function() sj.run({ search_scope = 'visible_lines', forward_search = false }) end, 'Search and jump across visible lines backwards' },
+      -- s = { function() sj.run({ search_scope = 'visible_lines' }) end, 'Search and jump across visible lines' },
+      -- S = { function() sj.run({ search_scope = 'visible_lines', forward_search = false }) end, 'Search and jump across visible lines backwards' },
     },
   },
 }

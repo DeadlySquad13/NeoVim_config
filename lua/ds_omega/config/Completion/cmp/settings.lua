@@ -27,9 +27,9 @@ return function()
 
     -- Order matters!
     sources = cmp.config.sources({
-      { name = 'path', keyword_length = MIN_KEYWORD_LENGTH + 1, max_item_count = 30 }, -- Path completion.
       { name = 'nvim_lsp', keyword_length = MIN_KEYWORD_LENGTH, max_item_count = 30 }, -- Nvim-lsp.
       { name = 'nvim_lua', keyword_length = MIN_KEYWORD_LENGTH }, -- Nvim-lua functions.
+      { name = 'path', keyword_length = MIN_KEYWORD_LENGTH + 1, max_item_count = 30 }, -- Path completion.
       { name = 'luasnip', keyword_length = MIN_KEYWORD_LENGTH }, -- LuaSnip Snippets.
       --{ name = 'ultisnips' }, -- Ultisnips.
       -- Setting spell (and spelllang) is mandatory to use spellsuggest.

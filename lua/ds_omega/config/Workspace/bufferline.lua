@@ -12,8 +12,14 @@ return {
   opts = {
     options = {
       mode = "buffers", -- set to "tabs" to only show tabpages instead
+     --   Unfortunately, most commands work with ordinal numbers relative to currently visible buffers in bufferline.
+     -- But "ordinal" option takes all buffers into account. Fix is not likely
+     -- to be done in near future: https://github.com/akinsho/bufferline.nvim/issues/249
+     --   Absolute numbering will work correctly but it's harder to comprehend (you have to pay attention to numbers)
+     -- and it's bad for 10+ buffers.
       -- numbers = "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-      numbers = 'ordinal',
+      numbers = "none",
+      sort_by = 'directory',
       -- Used Bdelete (from plugin bufdelete) instead of bdelete so that the
       --   window layout is persistent.
       close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
