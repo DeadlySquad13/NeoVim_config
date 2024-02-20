@@ -34,26 +34,27 @@ vim.opt.rtp:prepend(lazypath)
 --   local packer_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
 -- end
 
-require('lazy').setup({
-  { import = 'ds_omega.config.Assistance' },
-  { import = 'ds_omega.config.Commands' },
-  { import = 'ds_omega.config.Completion' },
-  { import = 'ds_omega.config.Editing' },
-  { import = 'ds_omega.config.EditorManagement' },
-  { import = 'ds_omega.config.Git' },
-  { import = 'ds_omega.config.Highlighting' },
-  { import = 'ds_omega.config.Jupyter' },
-  { import = 'ds_omega.config.Lsp' },
-  { import = 'ds_omega.config.Snippets' },
-  { import = 'ds_omega.config.Navigation' },
-  { import = 'ds_omega.config.NeovimDevelopment' },
-  { import = 'ds_omega.config.ProjectManagement' },
-  { import = 'ds_omega.config.TextObjects' },
-  { import = 'ds_omega.config.Ui' },
-  { import = 'ds_omega.config.WindowManagement' },
-  { import = 'ds_omega.config.Workspace' },
-  { import = 'ds_omega.config.Markdown' },
-})
+require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.config.' .. module.import } end, {
+  { import = 'Assistance' },
+  { import = 'Commands' },
+  { import = 'Completion' },
+  { import = 'Editing' },
+  { import = 'EditorManagement' },
+  { import = 'Git' },
+  { import = 'Highlighting' },
+  { import = 'Jupyter' },
+  { import = 'Lsp' },
+  { import = 'Snippets' },
+  { import = 'Navigation' },
+  { import = 'NeovimDevelopment' },
+  { import = 'ProjectManagement' },
+  { import = 'TextObjects' },
+  { import = 'Ui' },
+  { import = 'WindowManagement' },
+  { import = 'Workspace' },
+  { import = 'Markdown' },
+  { import = 'Testing' },
+}))
 
 -- local startup = require('ds_omega.utils.core').startup
 

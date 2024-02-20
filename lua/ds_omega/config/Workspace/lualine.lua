@@ -39,9 +39,10 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff' },
-        lualine_c = { {
-          get_current_working_directory,
-        } },
+        lualine_c = {
+            { get_current_working_directory },
+            'rest' -- Show .env file in http files if it exists (rest.nvim).
+        },
 
         lualine_x = {
             not git_blame_is_available and 'diagnostics' or { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
