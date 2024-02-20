@@ -352,6 +352,8 @@ local nxmode_mappings = {
     a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
     ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
     ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
+    E = { 'A', 'Insert at the end of line (or selection)' },
+    Q = { 'I', 'Insert at the start of the line (or selection)' },
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
@@ -451,7 +453,6 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- c = c_mappings,
     -- d = d_mappings,
     e = { 'a', 'Insert after' },
-    E = { 'A', 'Insert at the end of line' },
     -- f = f_mappings,
     g = g_mappings,
     -- h = h_mappings,
@@ -465,7 +466,6 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- p = paste_with_indent,
     -- P = paste_before_with_indent,
     q = { 'i', 'Insert' },
-    Q = { 'I', 'Insert at the start of the line' },
     -- r = r_mappings,
     -- s = s_mappings,
     -- t = t_mappings,
