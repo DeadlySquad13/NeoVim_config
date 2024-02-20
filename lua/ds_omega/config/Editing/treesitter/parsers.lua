@@ -6,6 +6,7 @@ return {
   'rst', -- ReStructuredText (docstrings for python).
   'lua',
   'yaml',
+  'json', -- For configs files, programming and http testing (rest.nvim).
 
   -- Writing.
   'markdown',
@@ -29,4 +30,6 @@ return {
   'cpp',
 
   'r',
+
+  'http', -- For http testing (rest.nvim).
 }
