@@ -42,9 +42,11 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'EditorManagement' },
   { import = 'Git' },
   { import = 'Highlighting' },
+  { import = 'Integrations' },
   { import = 'Jupyter' },
   { import = 'Lsp' },
   { import = 'Snippets' },
+  { import = 'Testing' },
   { import = 'Navigation' },
   { import = 'NeovimDevelopment' },
   { import = 'ProjectManagement' },
@@ -53,7 +55,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'WindowManagement' },
   { import = 'Workspace' },
   { import = 'Markdown' },
-  { import = 'Testing' },
 }))
 
 -- local startup = require('ds_omega.utils.core').startup
