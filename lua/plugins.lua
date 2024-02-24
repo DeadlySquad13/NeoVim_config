@@ -13,27 +13,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- local plug_url_format = ''
--- if vim.g.is_linux then
---   plug_url_format = 'https://hub.fastgit.xyz/%s'
--- else
---   plug_url_format = 'https://github.com/%s'
--- end
-
--- local packer_repo = string.format(plug_url_format, 'wbthomason/packer.nvim')
--- local install_cmd = string.format(
---         'git clone --depth=1 %s %s',
---         packer_repo,
---         packer_install_path
---     )
--- Auto-install packer in case it hasn't been installed.
--- if fn.glob(packer_install_path) == '' then
---   vim.api.nvim_echo({ { 'Installing packer.nvim', 'Type' } }, true, {})
---   -- TODO: Remove this line. It seems only fn.system call works on Windows.
---   vim.cmd(install_cmd)
---   local packer_was_just_bootstrapped = fn.system({ 'git', 'clone', '--depth', '1', packer_repo, packer_install_path })
--- end
-
 require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.config.' .. module.import } end, {
   { import = 'Assistance' },
   { import = 'Commands' },
@@ -85,22 +64,8 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --       -- - With system.
 --       -- use({ 'majkinetor/vim-omnipresence' })
 
---       -- - With browser.
---       use({
---           'glacambre/firenvim',
---           run = function()
---             vim.fn['firenvim#install'](0)
---           end,
---           config = [[ require('ds_omega.config.firenvim') ]],
---       })
 --       -- - Open and write files with sudo.
 --       use({ 'lambdalisue/suda.vim' })
-
---       use({ 'tpope/vim-repeat', event = 'VimEnter' })
---       -- use({
---       --   'tomtom/tinykeymap_vim',
---       --   config = [[ require('ds_omega.config.tinykeymap') ]],
---       -- })
 
 --       -- * Russian layout.
 --       --use({ 'powerman/vim-plugin-ruscmd' })
@@ -110,8 +75,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --       })
 
 --       -- * Collections of snippets.
---       -- - General and specific for popular filetypes.
---       use({ 'honza/vim-snippets' })
 --       -- - Emmet for html.
 --       use({
 --           'mattn/emmet-vim',
