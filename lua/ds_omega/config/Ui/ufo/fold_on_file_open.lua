@@ -8,6 +8,12 @@ if not ufo_is_available or not ufo then
   return
 end
 
+-- TODO: Add options:
+-- - something like foldlevelstart=6,
+-- - don't fold it if file is not big enough (fits in current window),
+-- - fold with indent or treesitter while lsp is loading,
+-- - fold only some areas (for example, always fold imports even if everything
+-- fits in one window).
 local function applyFoldsAndThenCloseAllFolds(bufnr, providerName)
     require("async")(function()
         bufnr = bufnr or vim.api.nvim_get_current_buf()
