@@ -476,6 +476,12 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- y = y_mappings,
     z = z_mappings,
 
+    [')'] = {
+        name = 'Activate workspace modes',
+        t = { function() require('ds_omega.config.keymappings.tab'):activate() end, 'Activate tab mode' },
+        c = { function() require('ds_omega.config.keymappings.quickfix_list'):activate() end, 'Activate quickfix list mode' },
+    },
+
     ['<C-w>'] = require('ds_omega.config.keymappings.window'),
     ['<leader>'] = leader_mappings,
 
