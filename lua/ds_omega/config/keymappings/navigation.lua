@@ -50,8 +50,9 @@ local navigation_mappings = {
     [KEY.forward_slash] = { ':Neotree<cr>', 'Filetree' },
 
     e = {
-        ':e ./',
+        ':e .',
         'Edit file',
+        silent = false,
     },
 }
 
