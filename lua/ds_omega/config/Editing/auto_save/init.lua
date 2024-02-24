@@ -1,5 +1,5 @@
 return {
-  'pocco81/auto-save.nvim',
+  'okuuva/auto-save.nvim',
 
   opts = require('ds_omega.config.Editing.auto_save.settings'),
 
