@@ -136,7 +136,8 @@ local toggle_mappings = {
         'Incline (winbar)',
     },
     m = { ':FocusMaxOrEqual<cr>', 'Between Maximize and Equal' },
-    q = { ':QuickScopeToggle<cr>', 'QuickScope' },
+    -- q = { ':QuickScopeToggle<cr>', 'QuickScope' },
+    q = { cmd 'BqfAutoToggle', 'Toggle better quickfix auto toggle' }, -- TODO: Add 'BqfToggle' to quickfix buffer-local keymappings.
 }
 
 local telescope_extensions = require('telescope').extensions
@@ -153,6 +154,14 @@ local open_mappings = {
 }
 
 local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
+
+local q_leader_mappings = {
+    name = "Quickfix list",
+
+    q = { require("ds_omega.utils.quickfix_list").toggle_quickfix, "Toggle quickfix list" },
+
+    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list'):activate() end, 'Activate quickfix list mode' },
+}
 
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
@@ -283,7 +292,7 @@ local leader_mappings = {
     ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
     [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
     p = special_paste_mappings,
-    -- q = q_mappings,
+    q = q_leader_mappings,
     r = rename_mappings,
     s = session_mappings,
     t = toggle_mappings,
@@ -510,7 +519,7 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmod
         -- n = navigation_mappings,
         -- o = o_mappings,
         p = special_paste_mappings,
-        -- q = q_mappings,
+        q = q_leader_mappings,
         -- r = r_mappings,
         -- s = s_mappings,
         -- t = toggle_mappings,
