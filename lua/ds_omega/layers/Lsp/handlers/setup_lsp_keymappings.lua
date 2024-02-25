@@ -104,7 +104,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
         -- Editing.
         ['<Leader>rs'] = { lsp_buf.rename, 'Rename Symbol' },
         ['<Leader>aa'] = { code_action, 'Code Action' },
-        ['<Leader>q'] = {
+        ['<Leader>qd'] = {
             function()
                 vim.diagnostic.setqflist({ open = true })
             end,

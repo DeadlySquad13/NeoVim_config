@@ -8,13 +8,13 @@ return {
 
         -- Pretty fold column ([even prettier one](https://github.com/kevinhwang91/nvim-ufo/issues/4)):
         -- Arrows are U+2B9{B,A}
-        vim.o.fillchars = [[eob: ,fold: ,foldopen:⮛,foldsep: ,foldclose:⮚]]
+        vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
         vim.o.foldcolumn = '1'
 
-        vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-        -- vim.o.foldlevelstart = 99
-        vim.o.foldlevelstart = 6
+        vim.o.foldlevel = 99         -- Using ufo provider need a large value, feel free to decrease the value
+        vim.o.foldlevelstart = 99
+        -- vim.o.foldlevelstart = 6
         vim.o.foldenable = true
 
 
@@ -44,11 +44,14 @@ return {
             -- Global handler
             -- fold_virt_text_handler = fold_virt_text_handler,
             provider_selector = get_customized_selector,
+            open_fold_hl_timeout = 200,
         })
 
         -- buffer scope handler
         -- will override global handler if it is existed
         local bufnr = vim.api.nvim_get_current_buf()
         ufo.setFoldVirtTextHandler(bufnr, fold_virt_text_handler)
+
+        require('ds_omega.config.Ui.ufo.fold_on_file_open')
     end,
 }

@@ -3,7 +3,7 @@
 local home = vim.fn.getenv('HOME')
 local user_config = home .. '/.config'
 
-local namespace = 'ds_omega'
+local namespace_name = 'ds_omega'
 
 -- Resolves to `~/.local/share/nvim`.
 local nvim_data = vim.fn.stdpath('data')
@@ -15,19 +15,22 @@ local nvim_data = vim.fn.stdpath('data')
 local IS_NIX_BASED_CONFIG = false
 
 local nvim_config = IS_NIX_BASED_CONFIG and '~/.bookmarks/shared_configs/NeoVim_config' or vim.fn.stdpath('config')
+local gui_settings = nvim_config .. '/ginit.vim'
 local nvim_lua = nvim_config .. '/lua'
+local nvim_lua_namespace = nvim_lua .. '/' .. namespace_name
 local nvim_general_settings = nvim_lua .. '/general_settings.lua'
 local nvim_plugins = nvim_lua .. '/plugins.lua'
 local nvim_layers_specification = nvim_lua .. '/layers_specification.lua'
-local nvim_autocommands = nvim_lua .. '/autocommands'
-local nvim_constants = nvim_lua .. '/constants' -- Separate and move to config / layer system?
-local nvim_lua_config = nvim_lua .. '/ds_omega/config'
-local nvim_keymappings = nvim_lua_config .. '/keymappings'
-local nvim_commands = nvim_lua_config .. '/commands'
 
-local nvim_layers = nvim_lua .. '/' .. namespace .. '/layers'
 local nvim_after = nvim_config .. '/after'
 local nvim_queries = nvim_after .. '/queries'
+
+local nvim_autocommands = nvim_lua_namespace .. '/autocommands'
+local nvim_constants = nvim_lua_namespace .. '/constants' -- TODO: Separate and move to config / layer system?
+local nvim_lua_config = nvim_lua_namespace .. '/config'
+local nvim_keymappings = nvim_lua_namespace .. '/keymappings'
+local nvim_commands = nvim_lua_namespace .. '/commands'
+local nvim_layers = nvim_lua_namespace .. '/layers'
 
 local goneovim_settings = user_config .. '/goneovim/settings.toml'
 
@@ -42,15 +45,17 @@ return {
   HOME = home,
   USER_CONFIG = user_config,
 
-  NAMESPACE = namespace,
+  NAMESPACE_NAME = namespace_name,
 
   -- Directory where all supplementary data files are stored, such as: undo
   -- history, spell files, sessions...
   NVIM_DATA = nvim_data,
+  GUI_SETTINGS = gui_settings,
 
   NVIM_CONFIG = nvim_config,
   NVIM_GENERAL_SETTINGS = nvim_general_settings,
   NVIM_LUA = nvim_lua,
+  NVIM_LUA_NAMESPACE = nvim_lua_namespace,
   NVIM_PLUGINS = nvim_plugins,
   NVIM_LAYERS_SPECIFICATION = nvim_layers_specification,
   NVIM_AUTOCOMMANDS = nvim_autocommands,
