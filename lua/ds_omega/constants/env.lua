@@ -8,7 +8,13 @@ local namespace = 'ds_omega'
 -- Resolves to `~/.local/share/nvim`.
 local nvim_data = vim.fn.stdpath('data')
 
-local nvim_config = vim.fn.stdpath('config')
+--   Configs symlinked by nix are not writable so we have to edit
+-- symlink target directly. 
+-- TODO: Set it via ansible.
+-- FIX: Doesn't work properly with file selector...
+local IS_NIX_BASED_CONFIG = false
+
+local nvim_config = IS_NIX_BASED_CONFIG and '~/.bookmarks/shared_configs/NeoVim_config' or vim.fn.stdpath('config')
 local nvim_lua = nvim_config .. '/lua'
 local nvim_general_settings = nvim_lua .. '/general_settings.lua'
 local nvim_plugins = nvim_lua .. '/plugins.lua'
