@@ -17,6 +17,7 @@ return {
         scope = {
             highlight = "IndentBlanklineScope",
         },
+        exclude = { filetypes = require('ds_omega.constants.filetypes').start_screens }
     }
   end,
 
@@ -41,7 +42,7 @@ return {
     --   notify([[Please, enable `list` option!
     -- Also `space` and `eol` characters should be set in `listchars`!]], vim.log.levels.WARN, { title = PLUGIN_NAME })
     -- end
-
+    vim.g.indent_blankline_filetype_exclude = {'dashboard'}
     indent_blankline.setup(opts)
   end
 }

@@ -83,7 +83,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
             {
                 i = { lsp_buf.hover, 'Hover' },
                 d = {
-                    cmd 'spsaga show_line_diagnostics',
+                    cmd 'Lspsaga show_line_diagnostics',
                     'Investigate line diagnostics',
                 },
                 r = {
@@ -104,7 +104,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
         -- Editing.
         ['<Leader>rs'] = { lsp_buf.rename, 'Rename Symbol' },
         ['<Leader>aa'] = { code_action, 'Code Action' },
-        ['<Leader>q'] = {
+        ['<Leader>qd'] = {
             function()
                 vim.diagnostic.setqflist({ open = true })
             end,
@@ -127,13 +127,13 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
 
         ['[e'] = {
             function()
-                lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.ERROR })
+                lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.ERROR, popup_opts = { border = "single" } })
             end,
             'Go to previous error',
         },
         [']e'] = {
             function()
-                lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.ERROR })
+                lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.ERROR, popup_opts = { border = "single" } })
             end,
             'Go to next error',
         },

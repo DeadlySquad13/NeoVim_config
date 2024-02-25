@@ -1,4 +1,5 @@
 if exists('g:fvim_loaded') || exists('g:neovide_loaded') || exists('g:nvy')
+  " FIX: made path generic.
   source ~\AppData\Local\nvim\ginit.vim
 endif
 
@@ -65,17 +66,6 @@ autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 " * Wordmotion.
 " let g:wordmotion_prefix = ','
 let g:wordmotion_nomap = 1
-
-" # Formatting.
-" * Easy Align.
-" - Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-" * Copy all file into system register (*).
-nnoremap f% gg"*yG
 
 " * Matching braces.
 packadd! matchit
@@ -180,13 +170,6 @@ vnoremap <leader>de :!python3 -c 'import sys; from urllib import parse; print(pa
 "  (jumping nicely, but only inside []).
 nnoremap ]b :call searchpair('\[','','\]')<cr>
 nnoremap [b :call searchpair('\[','','\]','b')<cr>
-
-" Mappings.
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
 
 " Abbreviations
 runtime abbreviations.vim

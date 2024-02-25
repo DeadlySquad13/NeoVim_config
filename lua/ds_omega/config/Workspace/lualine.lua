@@ -1,68 +1,102 @@
 return {
-  'nvim-lualine/lualine.nvim',
-  dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
-  event = 'VimEnter',
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
+    event = 'VimEnter',
 
-  opts = function()
-    local prequire = require('ds_omega.utils').prequire
+    opts = function()
+        local prequire = require('ds_omega.utils').prequire
 
-    local recorder_is_available, recorder = prequire('recorder')
+        local recorder_is_available, recorder = prequire('recorder')
 
-    local format_buf_name = require('ds_omega.config.utils').format_buf_name;
+        local format_buf_name = require('ds_omega.config.utils').format_buf_name;
 
-    -- Returns window number.
-    --   Really useful for jumping between windows with `<win_number> c-w w`.
-    local function get_window_number()
-      return vim.api.nvim_win_get_number(0);
-    end
+        -- Returns window number.
+        --   Really useful for jumping between windows with `<win_number> c-w w`.
+        local function get_window_number()
+            return vim.api.nvim_win_get_number(0);
+        end
 
-    -- Returns current working directory.
-    local function get_current_working_directory()
-      return format_buf_name({ buf_name = vim.fn.getcwd() });
-    end
-    local globalstatus = vim.o.laststatus == 3
+        -- Returns current working directory.
+        local function get_current_working_directory()
+            return format_buf_name({ buf_name = vim.fn.getcwd() });
+        end
+        local globalstatus = vim.o.laststatus == 3
 
-    local git_blame_is_available, git_blame = prequire('gitblame')
+        local git_blame_is_available, git_blame = prequire('gitblame')
+        
+        --- "C:\\Program Files\\app\\some_file" to "C:\Program Files\app"
+        ---@param str 
+        ---@return 
+        local function get_path_parent(str)
+            return str:match("(.*[/\\])"):sub(1, -2) -- Sub to remove trailing slash.
+        end
 
-    return {
-      options = {
-        icons_enabled = true,
-        theme = 'gruvbox',
-        -- It's a combination of gruvbox_light and gruvbox_dark. It loads either of
-        --   them based you your background option.
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = {},
-        always_divide_middle = true,
-        globalstatus = globalstatus,
-      },
-      sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff' },
-        lualine_c = { {
-          get_current_working_directory,
-        } },
+        -- TODO: Create custom lualine component in case it lags.
+        local function in_project_with_activated_venv()
+            local project_is_available, project = prequire('project_nvim.project')
+            local swenv_api_is_available, swenv_api = prequire('swenv.api')
 
-        lualine_x = {
-            not git_blame_is_available and 'diagnostics' or { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
-            'progress',
-        },
-        lualine_y = { 'diff' },
+            if not (project_is_available and project and swenv_api_is_available and swenv_api) then
+              return
+            end
 
-        lualine_z = { recorder_is_available and recorder.displaySlots or nil }
-      },
-      inactive_sections = not globalstatus and {
-        lualine_a = { get_window_number },
-        lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = {},
-        lualine_y = { 'location' },
-        lualine_z = {},
-      } or nil,
-      tabline = {},
-      extensions = {}
-    }
-  end,
+            local current_venv = swenv_api.get_current_venv()
+            if not current_venv or vim.tbl_isempty(current_venv) then
+                return
+            end
 
-  config = true,
+            -- get_current_venv sometimes path returns wrong string. For example,
+            -- 't5-2-/MachineLearning' will be 't5-2-MachineLearning'
+            return (project.get_project_root() or vim.fn.getcwd()) == get_path_parent(current_venv.path)
+        end
+
+        return {
+            options = {
+                icons_enabled = true,
+                theme = 'gruvbox',
+                -- It's a combination of gruvbox_light and gruvbox_dark. It loads either of
+                --   them based you your background option.
+                component_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
+                disabled_filetypes = {},
+                always_divide_middle = true,
+                globalstatus = globalstatus,
+            },
+            sections = {
+                lualine_a = { recorder_is_available and recorder.displaySlots or nil },
+                lualine_b = { 'branch' },
+                lualine_c = {
+                    { get_current_working_directory, icon = in_project_with_activated_venv() and '🐍' or nil },
+                    {
+                        "swenv",
+                        icon = '',
+                        color = { fg = "green" },
+                        cond = function()
+                            return vim.bo.filetype == "python"
+                        end,
+                    },
+                    'rest' -- Show .env file in http files if it exists (rest.nvim).
+                },
+
+                lualine_x = {
+                    not git_blame_is_available and 'diagnostics' or
+                    { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
+                },
+                lualine_y = {},
+                lualine_z = { 'diff' },
+            },
+            inactive_sections = not globalstatus and {
+                lualine_a = { get_window_number },
+                lualine_b = {},
+                lualine_c = { 'filename' },
+                lualine_x = {},
+                lualine_y = { 'location' },
+                lualine_z = {},
+            } or nil,
+            tabline = {},
+            extensions = {}
+        }
+    end,
+
+    config = true,
 }

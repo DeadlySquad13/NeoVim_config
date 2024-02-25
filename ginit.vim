@@ -1,9 +1,10 @@
 " Settings: https://neovide.dev/configuration.html
 if exists('g:neovide')
-    set guifont=Iosevka:h10
+    set guifont=Iosevka:h14
 
-    let g:neovide_fullscreen = v:true
+    let g:neovide_fullscreen = v:false
     let g:neovide_remember_window_size = v:true
+    let g:neovide_floating_shadow=v:false
 
     let g:neovide_cursor_animation_length=0.05
     let g:neovide_cursor_trail_size = 0.1

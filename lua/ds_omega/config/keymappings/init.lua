@@ -5,6 +5,9 @@
 -- - default `m` and `M` should be remapped as something more valuable can be
 -- assigned to it.
 
+local utils = require('ds_omega.config.keymappings._common.utils')
+local merge, cmd = utils.merge, utils.cmd
+
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
 local around = CONSTANTS.keymappings.around
@@ -27,29 +30,29 @@ local comment_mappings = {
         'Uncomment semantically',
     },
     ['>>'] = {
-        '<Cmd>lua ___comment_semantically_current_line()<Cr>',
+        cmd 'lua ___comment_semantically_current_line()',
         'Comment semantically current line',
     },
     ['<<'] = {
-        '<Cmd>lua ___uncomment_semantically_current_line()<Cr>',
+        cmd 'lua ___uncomment_semantically_current_line()',
         'Uncomment semantically current line',
     },
 }
 
 local e_mappings = {
     name = 'Edit',
-    e = { ':ChooseAndEditConfigs<cr>', 'Choose and Edit configs' },
+    e = { cmd 'ChooseAndEditConfigs', 'Choose and Edit configs' },
     -- Open vimrc in vertical split.
-    v = { '<cmd>vsplit $MYVIMRC<cr>', 'Vimrc' },
+    v = { cmd 'vsplit $MYVIMRC', 'Vimrc' },
     h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head', silent = false },
     -- * Snippets.
     -- Relevant snippet engine command will be called to edit snippets
     --   definitions.
     -- TODO: better pass here a function where it's decides how to edit.
     -- - Appropriate for current file.
-    s = { '<cmd>SnippetsEdit<cr>', 'Snippets definitions' },
+    s = { cmd 'SnippetsEdit', 'Snippets definitions' },
     -- - Choose from all available sources for current file.
-    S = { '<cmd>ChooseSnippetsEdit<cr>', 'Choose Snippets definitions' },
+    S = { cmd 'ChooseSnippetsEdit', 'Choose Snippets definitions' },
 }
 
 -- # File.
@@ -133,7 +136,8 @@ local toggle_mappings = {
         'Incline (winbar)',
     },
     m = { ':FocusMaxOrEqual<cr>', 'Between Maximize and Equal' },
-    q = { ':QuickScopeToggle<cr>', 'QuickScope' },
+    -- q = { ':QuickScopeToggle<cr>', 'QuickScope' },
+    q = { cmd 'BqfAutoToggle', 'Toggle better quickfix auto toggle' }, -- TODO: Add 'BqfToggle' to quickfix buffer-local keymappings.
 }
 
 local telescope_extensions = require('telescope').extensions
@@ -151,6 +155,14 @@ local open_mappings = {
 
 local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 
+local q_leader_mappings = {
+    name = "Quickfix list",
+
+    q = { require("ds_omega.utils.quickfix_list").toggle_quickfix, "Toggle quickfix list" },
+
+    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list'):activate() end, 'Activate quickfix list mode' },
+}
+
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
 
@@ -165,7 +177,7 @@ local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 --  "EOF
 --
 
-local execute_mappings = { '<Cmd>JupyniumExecuteSelectedCells<Cr>', 'Execute selected cells' }
+local execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute selected cells' }
 
 local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
 -- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
@@ -174,8 +186,8 @@ local z_mappings = {
     h = {
         [CONSTANTS.transitive_catalizator] = { 'Horizontal Scroll Mode' },
     },
-    ['-'] = { '<Cmd>set foldlevel-=1<Cr>', 'Decrease foldlevel' },
-    ['+'] = { '<Cmd>set foldlevel+=1<Cr>', 'Increase foldlevel' },
+    ['-'] = { cmd 'set foldlevel-=1', 'Decrease foldlevel' },
+    ['+'] = { cmd 'set foldlevel+=1', 'Increase foldlevel' },
     ['<Up>'] = { 'zkzxzz', 'Traverse folds and open current' },
     ['<Down>'] = { 'zjzxzz', 'Traverse folds and open current' },
 }
@@ -184,11 +196,11 @@ local z_mappings = {
 local settings_mappings = {
     name = 'Settings',
     -- Colors.
-    C = { '<cmd>highlight<cr>', 'Show highlight groups Colors' },
+    C = { cmd 'highlight', 'Show highlight groups Colors' },
     --['*'] = { function() vim.fn['SynStack']() end, 'Show highlight groups under the cursor' }
     ['*'] = {
         -- ':TSHighlightCapturesUnderCursor<cr>',
-        '<cmd>Inspect<cr>',
+        cmd 'Inspect',
         'Show highlight groups under the cursor',
     },
     ['h'] = { ':noh<cr>', 'Turn off the highlight after search' },
@@ -216,7 +228,7 @@ local g_mappings = {
     -- I moved comment mappings to <Leader>c as it seems more ergonomic.
 
     -- Similar to gf.
-    F = { '<Cmd>e <cfile><Cr>', 'Edit file corresponding to a file / word under cursor' },
+    F = { cmd 'e <cfile>', 'Edit file corresponding to a file / word under cursor' },
     l = nil,
     y = nil,
     b = nil,
@@ -224,10 +236,10 @@ local g_mappings = {
 
 if not vim.tbl_isempty(telescope_extensions.agrolens) then
     g_mappings = vim.tbl_extend("force", g_mappings, {
-        m = { '<Cmd>Telescope agrolens query=functions buffers=all<Cr>', 'Go to function' },
-        M = { '<Cmd>Telescope agrolens query=functions<Cr>', 'Go to function (in current buffer)' },
-        c = { '<Cmd>Telescope agrolens query=callings buffers=all<Cr>', 'Go to function calling' },
-        C = { '<Cmd>Telescope agrolens query=callings<Cr>', 'Go to function calling (in current buffer)' },
+        m = { cmd 'Telescope agrolens query=functions buffers=all', 'Go to function' },
+        M = { cmd 'Telescope agrolens query=functions', 'Go to function (in current buffer)' },
+        c = { cmd 'Telescope agrolens query=callings buffers=all', 'Go to function calling' },
+        C = { cmd 'Telescope agrolens query=callings', 'Go to function calling (in current buffer)' },
     })
 end
 
@@ -280,7 +292,7 @@ local leader_mappings = {
     ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
     [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
     p = special_paste_mappings,
-    -- q = q_mappings,
+    q = q_leader_mappings,
     r = rename_mappings,
     s = session_mappings,
     t = toggle_mappings,
@@ -306,25 +318,25 @@ vim.keymap.set({ 'n', 'x', }, 'o', 'g', { remap = true })
 -- For textobjects.
 local oxmode_mappings = {
     a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
-    [','] = { '<Cmd>lua require("various-textobjs").restOfParagraph()<Cr>', 'Rest of Paragraph' },
-    ['B'] = { '<Cmd>lua require("various-textobjs").entireBuffer()<Cr>', 'Entire buffer' },
+    [','] = { cmd 'lua require("various-textobjs").restOfParagraph()', 'Rest of Paragraph' },
+    ['B'] = { cmd 'lua require("various-textobjs").entireBuffer()', 'Entire buffer' },
 
     [inside] = {
-        a = { '<Cmd>lua require("various-textobjs").subword("inner")<Cr>', 'Inside subword' },
+        a = { cmd 'lua require("various-textobjs").subword("inner")', 'Inside subword' },
         A = { 'iw', 'Inside word' },
 
-        v = { '<Cmd>lua require("various-textobjs").value("inner")<Cr>', 'Inside Value of a key: value pair' },
-        k = { '<Cmd>lua require("various-textobjs").key("inner")<Cr>', 'Inside Key of a key: value pair' },
+        v = { cmd 'lua require("various-textobjs").value("inner")', 'Inside Value of a key: value pair' },
+        k = { cmd 'lua require("various-textobjs").key("inner")', 'Inside Key of a key: value pair' },
 
         i = { '<Plug>(textobj-indent-same-i)', 'Inside block with the same indent' },
         I = { '<Plug>(textobj-indent-i)', 'Inside block with the same indent, ignoring outliers' },
     },
     [around] = {
-        a = { '<Cmd>lua require("various-textobjs").subword("outer")<Cr>', 'Around subword' },
+        a = { cmd 'lua require("various-textobjs").subword("outer")', 'Around subword' },
         A = { 'aw', 'Around word' },
 
-        v = { '<Cmd>lua require("various-textobjs").value("outer")<Cr>', 'Around Value of a key: value pair' },
-        k = { '<Cmd>lua require("various-textobjs").key("outer")<Cr>', 'Around Key of a key: value pair' },
+        v = { cmd 'lua require("various-textobjs").value("outer")', 'Around Value of a key: value pair' },
+        k = { cmd 'lua require("various-textobjs").key("outer")', 'Around Key of a key: value pair' },
 
         --   Indentation from various textobjects can't include whitespace.
         i = { '<Plug>(textobj-indent-same-a)', 'Around block with the same Indent' },
@@ -332,14 +344,14 @@ local oxmode_mappings = {
     },
 
     [inside_additional] = {
-        i = { '<Cmd>lua require("various-textobjs").greedyOuterIndentation("inner")<Cr>', 'Inside block with the same Indent' },
-        -- i = { '<Cmd>lua require("various-textobjs").indentation("inner", "inner")<Cr>', 'Inside block with the same Indent' },
+        i = { cmd 'lua require("various-textobjs").greedyOuterIndentation("inner")', 'Inside block with the same Indent' },
+        -- i = { cmd 'lua require("various-textobjs").indentation("inner", "inner")', 'Inside block with the same Indent' },
 
         p = { 'ip', 'Inside paragraph' },
     },
     [around_additional] = {
-        i = { '<Cmd>lua require("various-textobjs").greedyOuterIndentation("outer")<Cr>', 'Around block with the same Indent' },
-        -- I = { '<Cmd>lua require("various-textobjs").indentation("outer", "outer", "noBlank")<Cr>', 'Inside block with the same indent, ignoring blanklines' },
+        i = { cmd 'lua require("various-textobjs").greedyOuterIndentation("outer")', 'Around block with the same Indent' },
+        -- I = { cmd 'lua require("various-textobjs").indentation("outer", "outer", "noBlank")', 'Inside block with the same indent, ignoring blanklines' },
 
         p = { 'ap', 'Around Paragraph' },
     },
@@ -349,6 +361,8 @@ local nxmode_mappings = {
     a = { '<Plug>(smartword-w)', 'Smart next Word' }, -- Don't map it to omode because it will conflict with surround.
     ['<C-m>'] = { '3<C-y>', 'Scroll screen down (show top)' },
     ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
+    E = { 'A', 'Insert at the end of line (or selection)' },
+    Q = { 'I', 'Insert at the start of the line (or selection)' },
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
@@ -438,8 +452,6 @@ local tbl_recursive_extend = function(behavior, left, right)
 end
 
 
-local merge = require('ds_omega.config.keymappings._common.utils').merge
-
 local minifiles_toggle = function(...)
     if not MiniFiles.close() then MiniFiles.open(...) end
 end
@@ -450,7 +462,6 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- c = c_mappings,
     -- d = d_mappings,
     e = { 'a', 'Insert after' },
-    E = { 'A', 'Insert at the end of line' },
     -- f = f_mappings,
     g = g_mappings,
     -- h = h_mappings,
@@ -464,7 +475,6 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- p = paste_with_indent,
     -- P = paste_before_with_indent,
     q = { 'i', 'Insert' },
-    Q = { 'I', 'Insert at the start of the line' },
     -- r = r_mappings,
     -- s = s_mappings,
     -- t = t_mappings,
@@ -474,6 +484,12 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- x = x_mappings,
     -- y = y_mappings,
     z = z_mappings,
+
+    [')'] = {
+        name = 'Activate workspace modes',
+        t = { function() require('ds_omega.config.keymappings.tab'):activate() end, 'Activate tab mode' },
+        c = { function() require('ds_omega.config.keymappings.quickfix_list'):activate() end, 'Activate quickfix list mode' },
+    },
 
     ['<C-w>'] = require('ds_omega.config.keymappings.window'),
     ['<leader>'] = leader_mappings,
@@ -503,7 +519,7 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmod
         -- n = navigation_mappings,
         -- o = o_mappings,
         p = special_paste_mappings,
-        -- q = q_mappings,
+        q = q_leader_mappings,
         -- r = r_mappings,
         -- s = s_mappings,
         -- t = toggle_mappings,

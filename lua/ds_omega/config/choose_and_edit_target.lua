@@ -1,8 +1,9 @@
 local env = require('ds_omega.constants.env')
 
 local gui_settings_paths = {
+  general = env.GUI_SETTINGS,
   goneovim = env.GONEOVIM_SETTINGS,
-  fvim = env.GONEOVIM_SETTINGS,
+  -- fvim = env.GONEOVIM_SETTINGS,
 }
 
 local gui_settings_targets = {}

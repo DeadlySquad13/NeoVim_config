@@ -26,6 +26,8 @@ return {
       -- General.
       -- see [misspell](https://github.com/client9/misspell).
       -- diagnostics.misspell,
+      -- formatting.jq,
+      formatting.fixjson,
 
       -- Typescript.
       formatting.prettierd,

@@ -64,7 +64,8 @@ return {
       if entry.completion_item.insertTextFormat
           == types.lsp.InsertTextFormat.Snippet
       then
-        word = vim.lsp.util.parse_snippet(word)
+        -- TODO: Deprecated in Neovim 0.11, find replacement.
+        -- word = vim.lsp.util.parse_snippet(word)
       end
       word = str.oneline(word)
 

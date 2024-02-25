@@ -1,9 +1,11 @@
 --- Set global variables `g:<variable>`.
---Mainly for vim plugins.
+--Mainly for vim plugins. In most cases plugin settings have
+--prefix so all variables will be `g:<pluginPrefix>_<variable> `.
 ---@param variables (table)
-local function set_global_variables(variables)
+---@param prefix? (string) Is prepended with underscore to every variable.
+local function set_global_variables(variables, prefix)
   for name, value in pairs(variables) do
-    vim.g[name] = value;
+    vim.g[not prefix and name or string.format('%s_%s', prefix, name)] = value;
   end
 end
 
