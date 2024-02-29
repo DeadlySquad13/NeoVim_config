@@ -9,7 +9,9 @@ local function qf(command)
     return cmd('c' .. command)
 end
 
-local quicfix_list_hydra = Hydra({
+local QuicfixList = {}
+
+QuicfixList.hydra = Hydra({
     name = 'Quickfix list',
     config = {
         hint = {
@@ -26,4 +28,4 @@ local quicfix_list_hydra = Hydra({
     }
 })
 
-return quicfix_list_hydra
+return QuicfixList

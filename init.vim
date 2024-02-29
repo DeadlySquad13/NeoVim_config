@@ -88,10 +88,6 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " * Yanking.
 
-" * Open new file in vertical / horizontal split (similar to built-in <c-w>n).
-nnoremap <C-w>v :vnew<Cr>
-nnoremap <C-w>s :below new<Cr>
-
 " * Remaping line concatenation for use of j with modifier in non-vim apps.
 noremap <a-j> J
 

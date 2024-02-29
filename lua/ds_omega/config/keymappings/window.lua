@@ -3,6 +3,8 @@ local Hydra = require('hydra')
 local cmd = require('hydra.keymap-util').cmd
 local pcmd = require('hydra.keymap-util').pcmd
 
+local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
+
 local window_hint = [[
  ^^^^^^^^^^^^     Move      ^^    Size   ^^   ^^     Split
  ^^^^^^^^^^^^-------------  ^^-----------^^   ^^---------------
@@ -18,9 +20,10 @@ local window_hint = [[
 local function wincmd(key)
   return cmd('wincmd ' .. key)
 end
+local Window = {}
 
 -- TODO: Move keybindings to which-key to remove inconsistencies.
-local window_hydra = Hydra({
+Window.hydra = Hydra({
         name = 'Windows',
         -- hint = window_hint,
         config = {
@@ -32,12 +35,12 @@ local window_hydra = Hydra({
         mode = 'n',
         heads = {
             -- Navigaiton.
-            { 'h',     wincmd 'h' },
-            { 'j',     wincmd 'j' },
-            { 'k',     pcmd('wincmd k', 'E11', 'close') },
-            { 'l',     wincmd 'l' },
+            { 's',     wincmd 'h' },
+            { 'n',     wincmd 'j' },
+            { 'm',     pcmd('wincmd k', 'E11', 'close') },
+            { 't',     wincmd 'l' },
 
-            { 't',     wincmd 't',                      { desc = 'Move to top-left window' } },
+            { 'a',     wincmd 't',                      { desc = 'Move to top-left window' } },
             { 'b',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
 
             { 'p',     wincmd 'p',                      { desc = 'Go to previous window' } },
@@ -46,14 +49,14 @@ local window_hydra = Hydra({
             { 'R',     wincmd 'R',                      { desc = 'Rotate window upwards/leftwards' } },
 
             -- Moving.
-            { 'H',     cmd 'WinShift left' },
-            { 'J',     cmd 'WinShift down' },
-            { 'K',     cmd 'WinShift up' },
-            { 'L',     cmd 'WinShift right' },
+            { 'S',     cmd 'WinShift left' },
+            { 'N',     cmd 'WinShift down' },
+            { 'M',     cmd 'WinShift up' },
+            { 'T',     cmd 'WinShift right' },
 
             { 'x',     wincmd 'x',                      { desc = 'Exchange windows' } },
 
-            { 'T',     wincmd 'T',                      { desc = 'Move current window to a new tab page' } },
+            { 'V',     wincmd 'T',                      { desc = 'Move current window to a new tab page' } },
 
             -- Resizing.
             { '>',     wincmd '>',                      { desc = 'Increase width' } },
@@ -65,10 +68,10 @@ local window_hydra = Hydra({
             { '=',     wincmd '=',                      { desc = 'Make equally high and wide' } },
 
             -- Splitting.
-            { 's',     pcmd('below new', 'E36') },
-            { '<C-s>', pcmd('below new', 'E36'),        { desc = false } },
-            { 'v',     pcmd('vnew', 'E36') },
-            { '<C-v>', pcmd('vnew', 'E36'),             { desc = false } },
+            { 'l',     pcmd('below new', 'E36') },
+            { '<C-l>', pcmd('below new', 'E36'),        { desc = false } },
+            { 'h',     pcmd('vnew', 'E36') },
+            { '<C-h>', pcmd('vnew', 'E36'),             { desc = false } },
 
             { 'z',     wincmd 'o',                      { exit = true, desc = 'Remain only' } },
             { '<C-z>', wincmd 'o',                      { exit = true, desc = false } },
@@ -76,7 +79,7 @@ local window_hydra = Hydra({
             -- { 'o',     require('nvim-window').pick, { desc = 'Pick window' } },
             -- { '<C-o>', require('nvim-window').pick, { desc = 'Pick window' } },
 
-            { 'm',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
+            { 'e',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
             -- { 'b', choose_buffer, { exit = true, desc = 'choose buffer' } },
 
             { 'c',     pcmd('close', 'E444') },
@@ -90,10 +93,20 @@ local window_hydra = Hydra({
         }
     })
 
-local window_mappings = {
+Window.mappings = {
     name = 'Window',
     -- List of windows like in tmux?
     --w = {  },
+
+    s = { wincmd 'h', 'Move left' },
+    n = { wincmd 'j', 'Move down' },
+    m = { pcmd('wincmd k', 'E11', 'close'), 'Move up' },
+    t = { wincmd 'l', 'Move right' },
+
+    S = { cmd 'WinShift left', 'Swap left' },
+    N = { cmd 'WinShift down', 'Swap down' },
+    M = { cmd 'WinShift up', 'Swap up' },
+    T = { cmd 'WinShift right', 'Swap right' },
 
     -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
     -- such jump.
@@ -102,12 +115,14 @@ local window_mappings = {
     -- Overrides close preview window.
     z = { wincmd 'o', 'Remain only' },
     ['<C-z>'] = { wincmd 'o' },
-    s = { pcmd('split', 'E36') },
-    ['<C-s>'] = { pcmd('split', 'E36') },
-    v = { pcmd('vsplit', 'E36') },
-    ['<C-v>'] = { pcmd('vsplit', 'E36') },
-    m = { ':FocusMaximise<cr>', 'Maximise window' },
-    [require('ds_omega.config.keymappings._common.constants').transitive_catalizator] = { function() window_hydra:activate() end, 'Activate window mode' },
+
+    l = { cmd 'below new', 'Horizontal split new window below' },
+    ['<C-l>'] = { cmd 'below new', 'Horizontal split new window below' },
+    h = { cmd 'vnew', 'Vertical split new window' },
+    ['<C-h>'] = { cmd 'vnew', 'Vertical split new window' },
+
+    a = { cmd 'FocusMaximise', 'Maximise window' },
+    [CONSTANTS.transitive_catalizator] = { function() Window.hydra:activate() end, 'Activate window mode' },
 }
 
-return window_mappings
+return Window
