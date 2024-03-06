@@ -38,7 +38,7 @@ return {
     -- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
     --
     -- Requires you to have `sindrets/diffview.nvim` installed.
-    diffview = require('ds_omega.utils').exists('diffview.nvim'),
+    diffview = require('ds_omega.utils').is_loaded('diffview.nvim'),
   },
   -- Setting any section to `false` will make the section not render at all
   sections = {
