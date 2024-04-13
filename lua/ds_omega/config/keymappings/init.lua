@@ -438,6 +438,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     ['<Tab>'] = { 'n', 'Next' },
     ['<S-Tab>'] = { 'N', 'Next' },
     -- i = { 'm'}
+    ['<M-r>'] = { '<Nop>', 'App layer on system level' },
 })
 
 -- Extends table with selected behavior like `vim.tbl_extend` but
