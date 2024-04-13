@@ -12,7 +12,7 @@ return {
       return
     end
 
-    ds_omega_utils.apply_plugin_keymappings(require('ds_omega.config.Navigation.sj.keymappings'))
+    -- ds_omega_utils.apply_plugin_keymappings(require('ds_omega.config.Navigation.sj.keymappings'))
 
     require('sj').setup(opts)
   end,

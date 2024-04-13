@@ -9,7 +9,9 @@ local function tab(command)
     return cmd('tab' .. command)
 end
 
-local tab_hydra = Hydra({
+local Tab = {}
+
+Tab.hydra = Hydra({
     name = 'Tabs',
     config = {
         hint = {
@@ -26,4 +28,4 @@ local tab_hydra = Hydra({
     }
 })
 
-return tab_hydra
+return Tab

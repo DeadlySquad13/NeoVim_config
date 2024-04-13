@@ -6,7 +6,7 @@
 --   table via vim.inspect. Used log as console.log in js works pretty the same
 --   way.
 local function log(data)
-  vim.pretty_print(data)
+  vim.print(data)
 end
 
 --- Creates new function with default parameters.
@@ -63,7 +63,7 @@ local function exists(plugin_name)
     if CURRENT_PLUGIN_MANAGER == 'packer' then
         return exists_in_packer_spec(plugin_name)
     elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
-        print('Function exists is not implemented for lazy')
+        print("Function 'exists' is not implemented for lazy")
         return nil
     end
 end

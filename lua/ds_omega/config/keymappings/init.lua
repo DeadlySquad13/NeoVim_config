@@ -160,7 +160,7 @@ local q_leader_mappings = {
 
     q = { require("ds_omega.utils.quickfix_list").toggle_quickfix, "Toggle quickfix list" },
 
-    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list'):activate() end, 'Activate quickfix list mode' },
+    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list').hydra:activate() end, 'Activate quickfix list mode' },
 }
 
 -- * Rnvimr.
@@ -363,6 +363,7 @@ local nxmode_mappings = {
     ['<C-q>'] = { '3<C-e>', 'Scroll screen up (show bottom)' },
     E = { 'A', 'Insert at the end of line (or selection)' },
     Q = { 'I', 'Insert at the start of the line (or selection)' },
+    ['<C-w>'] = require('ds_omega.config.keymappings.window').mappings,
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
@@ -488,11 +489,11 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
 
     [')'] = {
         name = 'Activate workspace modes',
-        t = { function() require('ds_omega.config.keymappings.tab'):activate() end, 'Activate tab mode' },
-        c = { function() require('ds_omega.config.keymappings.quickfix_list'):activate() end, 'Activate quickfix list mode' },
+        t = { function() require('ds_omega.config.keymappings.tab').hydra:activate() end, 'Activate tab mode' },
+        c = { function() require('ds_omega.config.keymappings.quickfix_list').hydra:activate() end, 'Activate quickfix list mode' },
+        w = { function() require('ds_omega.config.keymappings.window').hydra:activate() end, 'Activate quickfix list mode' },
     },
 
-    ['<C-w>'] = require('ds_omega.config.keymappings.window'),
     ['<leader>'] = leader_mappings,
 
     ['-'] = { minifiles_toggle, 'Navigate through files' },

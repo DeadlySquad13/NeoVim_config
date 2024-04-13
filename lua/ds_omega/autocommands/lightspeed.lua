@@ -1,8 +1,8 @@
-local exists = require('ds_omega.utils').exists
+local is_loaded = require('ds_omega.utils').is_loaded
 local utils = require('ds_omega.utils')
 local create_augroup, create_autocmd = utils.create_augroup, utils.create_autocmd
 
-if not exists('quick-scope') then
+if not is_loaded('quick-scope') then
   return
 end
 
