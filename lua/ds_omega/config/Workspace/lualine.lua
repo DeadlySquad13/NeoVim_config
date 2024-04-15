@@ -23,10 +23,10 @@ return {
         local globalstatus = vim.o.laststatus == 3
 
         local git_blame_is_available, git_blame = prequire('gitblame')
-        
+
         --- "C:\\Program Files\\app\\some_file" to "C:\Program Files\app"
-        ---@param str 
-        ---@return 
+        ---@param str
+        ---@return
         local function get_path_parent(str)
             return str:match("(.*[/\\])"):sub(1, -2) -- Sub to remove trailing slash.
         end
@@ -37,7 +37,7 @@ return {
             local swenv_api_is_available, swenv_api = prequire('swenv.api')
 
             if not (project_is_available and project and swenv_api_is_available and swenv_api) then
-              return
+                return
             end
 
             local current_venv = swenv_api.get_current_venv()
@@ -48,6 +48,15 @@ return {
             -- get_current_venv sometimes path returns wrong string. For example,
             -- 't5-2-/MachineLearning' will be 't5-2-MachineLearning'
             return (project.get_project_root() or vim.fn.getcwd()) == get_path_parent(current_venv.path)
+        end
+
+        local empty = require('lualine.component'):extend()
+        function empty:draw(default_highlight)
+            self.status = ''
+            self.applied_separator = ''
+            self:apply_highlights(default_highlight)
+            self:apply_section_separators()
+            return self.status
         end
 
         return {
@@ -64,17 +73,27 @@ return {
             },
             sections = {
                 lualine_a = { recorder_is_available and recorder.displaySlots or nil },
-                lualine_b = { 'branch' },
-                lualine_c = {
-                    { get_current_working_directory, icon = in_project_with_activated_venv() and '🐍' or nil },
+                lualine_b = {
+                    'branch',
+                    {
+                        empty,
+                        color = "lualine_c_normal",
+                        separator = {
+                            left = "",
+                            right = "",
+                        },
+                    },
                     {
                         "swenv",
-                        icon = '',
+                        icon = ' ',
                         color = { fg = "green" },
                         cond = function()
                             return vim.bo.filetype == "python"
                         end,
                     },
+                },
+                lualine_c = {
+                    { get_current_working_directory, icon = in_project_with_activated_venv() and '🐍' or nil },
                     'rest' -- Show .env file in http files if it exists (rest.nvim).
                 },
 
