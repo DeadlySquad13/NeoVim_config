@@ -1,6 +1,7 @@
 return {
     "rest-nvim/rest.nvim",
-    dependencies = { { "nvim-lua/plenary.nvim", "vhyrro/luarocks.nvim" } },
+    ft = "http",
+    dependencies = { { "vhyrro/luarocks.nvim" } },
     
     config = function(_, opts)
         local prequire = require('ds_omega.utils').prequire
