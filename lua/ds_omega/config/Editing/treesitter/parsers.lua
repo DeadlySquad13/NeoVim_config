@@ -8,6 +8,9 @@ return {
   'yaml',
   'json', -- For configs files, programming and http testing (rest.nvim).
 
+  -- DevOps.
+  'dockerfile',
+
   -- Writing.
   'markdown',
   'markdown_inline',
