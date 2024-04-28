@@ -79,11 +79,13 @@ let g:surround_{char2nr('-')} = "\1start: \1\r\2end: \2"
 let g:surround_{char2nr('la')} = "function() \r end"
 
 " * Keep visual mode after indent.
+" TODO: `>` overlaps with put commands => delay is added.
 vnoremap > >gv
 vnoremap < <gv
 
 " * Select just pasted text in last used mode [if you used linewise selection
 " - V, if characterwise - v,..].
+" FIX: `[ marks get rewritten during autosave.
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " * Yanking.

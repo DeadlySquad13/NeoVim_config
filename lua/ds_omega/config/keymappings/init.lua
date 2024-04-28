@@ -93,15 +93,6 @@ local jump_mappings = {
     name = 'Jump',
 }
 
--- # Replace. Search and replace mappings.
--- Use    ['<Right>'] = { 'l', 'Right' }, as motion over range for substitute nvim.
-local rename_mappings = {
-    name = 'Replace',
-    -- vnoremap <leader>sw <esc>:%s;\<<c-r><c-w>\>;;g<left><left>
-    -- Don't really remember why I needed it...
-    t = { [[:%s;<\w*>\(<\\\w*>\)\?;;g<left><left>]], 'Tag' },
-}
-
 -- # Session. Everything related to sessions, saving, sourcing...
 -- Change from silent to vim.notify?
 local session_mappings = {
@@ -293,7 +284,7 @@ local leader_mappings = {
     [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
     p = special_paste_mappings,
     q = q_leader_mappings,
-    r = rename_mappings,
+    r = require("ds_omega.config.keymappings.replace"),
     s = session_mappings,
     t = toggle_mappings,
     -- u = u_mappings,

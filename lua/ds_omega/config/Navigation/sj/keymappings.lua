@@ -3,7 +3,7 @@ local prequire = require('ds_omega.utils').prequire
 local sj_is_available, sj = prequire('sj')
 
 if not sj_is_available then
-  return 
+  return
 end
 
 -- Keymappings used during the search are in settings.
