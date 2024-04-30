@@ -15,6 +15,12 @@ return {
   'markdown',
   'markdown_inline',
 
+  -- Visualization languages.
+  -- - Graphviz (and Quarto).
+  'dot',
+  'mermaid',
+
+
   -- System programming.
   'bash',
 

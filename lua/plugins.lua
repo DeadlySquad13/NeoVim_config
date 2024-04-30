@@ -3,12 +3,12 @@ local ENV = require('ds_omega.constants.env')
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "https://github.com/folke/lazy.nvim.git",
-      "--branch=stable", -- latest stable release
-      lazypath,
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",   -- latest stable release
+    lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
@@ -22,7 +22,7 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'Git' },
   { import = 'Highlighting' },
   { import = 'Integrations' },
-  { import = 'Jupyter' },
+  { import = 'Notebooks' },
   { import = 'Lsp' },
   { import = 'Snippets' },
   { import = 'Testing' },
