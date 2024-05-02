@@ -7,10 +7,20 @@ return {
   'lua',
   'yaml',
   'json', -- For configs files, programming and http testing (rest.nvim).
+  'make', -- Makefile.
+
+  -- DevOps.
+  'dockerfile',
 
   -- Writing.
   'markdown',
   'markdown_inline',
+
+  -- Visualization languages.
+  -- - Graphviz (and Quarto).
+  'dot',
+  'mermaid',
+
 
   -- System programming.
   'bash',
