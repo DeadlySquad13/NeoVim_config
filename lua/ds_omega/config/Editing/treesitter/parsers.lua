@@ -7,6 +7,7 @@ return {
   'lua',
   'yaml',
   'json', -- For configs files, programming and http testing (rest.nvim).
+  'make', -- Makefile.
 
   -- DevOps.
   'dockerfile',
