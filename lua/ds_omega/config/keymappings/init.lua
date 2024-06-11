@@ -10,6 +10,8 @@ local merge, cmd = utils.merge, utils.cmd
 
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
+local next = CONSTANTS.keymappings.next
+local previous = CONSTANTS.keymappings.previous
 local around = CONSTANTS.keymappings.around
 local inside = CONSTANTS.keymappings.inside
 local around_additional = CONSTANTS.keymappings.around_additional
@@ -151,7 +153,8 @@ local q_leader_mappings = {
 
     q = { require("ds_omega.utils.quickfix_list").toggle_quickfix, "Toggle quickfix list" },
 
-    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list').hydra:activate() end, 'Activate quickfix list mode' },
+    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list').hydra
+            :activate() end, 'Activate quickfix list mode' },
 }
 
 -- * Rnvimr.
@@ -277,7 +280,44 @@ local leader_mappings = {
     j = jump_mappings,
     -- k = k_mappings,
     -- l = l_mappings,
-    m = { 'm', 'Mark' },
+    m = {
+        '<Plug>(Marks-set)',
+        'Mark',
+
+        [','] = { '<Plug>(Marks-setnext)', 'Set next mark' },
+        d = {
+            '<Plug>(Marks-delete)',
+            'Delete mark',
+
+            ['-'] = { '<Plug>(Marks-deleteline)', 'Delete mark on current line' },
+        },
+
+        [next] = { '<Plug>(Marks-next)', 'Next mark' },
+        [previous] = { '<Plug>(Marks-prev)', 'Previous mark' },
+    },
+    M = {
+        -- '<Plug>(Marks-perview)',
+        -- 'Mark preview',
+
+        d = {
+            '<Plug>(Marks-delete-bookmark)',
+            'Delete bookmark',
+        },
+
+        ['a'] = { '<Plug>(Marks-set-bookmark0)', 'Set bookmark0' },
+        ['e'] = { '<Plug>(Marks-set-bookmark1)', 'Set bookmark1' },
+        ['i'] = { '<Plug>(Marks-set-bookmark2)', 'Set bookmark2' },
+        ['h'] = { '<Plug>(Marks-set-bookmark3)', 'Set bookmark3' },
+        ['u'] = { '<Plug>(Marks-set-bookmark4)', 'Set bookmark4' },
+        ['o'] = { '<Plug>(Marks-set-bookmark5)', 'Set bookmark5' },
+        ['y'] = { '<Plug>(Marks-set-bookmark6)', 'Set bookmark6' },
+        ['k'] = { '<Plug>(Marks-set-bookmark7)', 'Set bookmark7' },
+        ['.'] = { '<Plug>(Marks-set-bookmark8)', 'Set bookmark8' },
+        ['q'] = { '<Plug>(Marks-set-bookmark9)', 'Set bookmark9' },
+
+        [next] = { '<Plug>(Marks-next-bookmark)', 'Next bookmark' },
+        [previous] = { '<Plug>(Marks-prev-bookmark)', 'Previous bookmark' },
+    },
     -- Navigation. Helps find things, used as lookup table (navigation panel).
     n = require('ds_omega.config.keymappings.navigation'),
     ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },

@@ -24,7 +24,7 @@ return {
     -- Can be either a table with all/none of the keys, or a single number, in which case
     --   the priority applies to all marks.
     -- Default 10.
-    sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+    sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
     -- Disables mark tracking for specific filetypes. default {}.
     excluded_filetypes = {
       '', -- Hover popups such as Treesitter syntax investigation popup, lsp popups...
@@ -36,10 +36,45 @@ return {
     -- Across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and.
     -- Default virt_text is ""..
     bookmark_0 = {
-      sign = "⚑",
+      sign = "⚑a",
+      virt_text = "started refactoring"
+    },
+    bookmark_1 = {
+      sign = "⚑e",
+      virt_text = "definitions research"
+    },
+    bookmark_2 = {
+      sign = "⚑i",
+      virt_text = "moving"
+    },
+    bookmark_3 = {
+      sign = "⚑h",
+      virt_text = "help"
+    },
+    bookmark_4 = {
+      sign = "⚑u",
+      virt_text = "todo"
+    },
+    bookmark_5 = {
+      sign = "⚑o",
+      virt_text = "fix"
+    },
+    bookmark_6 = {
+      sign = "⚑y",
       virt_text = "hello world"
     },
-    mappings = {}
+    bookmark_7 = {
+      sign = "⚑k",
+      virt_text = "hello world"
+    },
+    bookmark_8 = {
+      sign = "⚑.",
+      virt_text = "hello world"
+    },
+    bookmark_9 = {
+      sign = "⚑q",
+      virt_text = "hello world"
+    },
   },
 
   config = true,
