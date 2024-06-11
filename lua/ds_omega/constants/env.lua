@@ -1,7 +1,12 @@
 -- PATH environment variables defined specifically for vim.
 --   Directory variables should end without trailing slash.
 local home = vim.fn.getenv('HOME')
+local bookmarks = home .. '/.bookmarks'
 local user_config = home .. '/.config'
+
+local projects = bookmarks .. '/projects'
+local ephemeral_projects = projects .. '/ephemeral-'
+local interim_projects = projects .. '/interim-'
 
 local namespace_name = 'ds_omega'
 
@@ -43,7 +48,12 @@ LOG_INTO = require('ds_omega.utils.set').Set({
 
 return {
   HOME = home,
+  BOOKMARKS = bookmarks,
   USER_CONFIG = user_config,
+
+  PROJECTS = projects,
+  EPHEMERAL_PROJECTS = ephemeral_projects,
+  INTERIM_PROJECTS = interim_projects,
 
   NAMESPACE_NAME = namespace_name,
 
