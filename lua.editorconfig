@@ -159,3 +159,5 @@ ignore_space_after_colon = false
 remove_call_expression_list_finish_comma = false
 # keep / always / same_line / replace_with_newline / never
 end_statement_with_semicolon = keep
+
+# vi:ft=editorconfig
