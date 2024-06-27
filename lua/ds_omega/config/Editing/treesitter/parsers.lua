@@ -5,8 +5,12 @@ return {
   'python',
   'rst', -- ReStructuredText (docstrings for python).
   'lua',
+  -- For proper syntax highlighting in docs.
+  'vim',
+  'vimdoc',
   'yaml',
   'json', -- For configs files, programming and http testing (rest.nvim).
+  'toml', -- For configs files (mostly Python world).
   'make', -- Makefile.
 
   -- DevOps.
@@ -20,7 +24,6 @@ return {
   -- - Graphviz (and Quarto).
   'dot',
   'mermaid',
-
 
   -- System programming.
   'bash',
