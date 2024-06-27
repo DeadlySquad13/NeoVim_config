@@ -63,7 +63,7 @@ local function applyFoldsAndThenCloseAllFolds(bufnr, providerName)
         -- getFolds return Promise if providerName == 'lsp'
         local ok, ranges = pcall(await, ufo.getFolds(bufnr, providerName))
         if ok and ranges then
-            P(ranges)
+            -- P(ranges)
             local import_ranges = get_import_ranges(ranges)
 
             local imports_were_folded = ufo.applyFolds(

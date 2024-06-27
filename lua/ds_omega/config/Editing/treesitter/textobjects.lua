@@ -26,7 +26,6 @@ local move_objects = {
     ['<C-Left>'] = { query = { "@assignment.lhs", "@attribute.inner", }, desc = "Left hand side of assignment start" },
     ['<Right>'] = { query = { "@assignment.rhs", "@attribute.outer" }, desc = "Right hand side of assignment start" },
 
-    -- ? May need to remap it as it conflicts with 
     p = { query = "@parameter.outer", desc = "Parameter start" },
 
     ['/'] = { query = "@comment.outer", desc = "Comment start" },

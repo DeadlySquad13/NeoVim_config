@@ -444,10 +444,10 @@ local tbl_recursive_extend = function(behavior, left, right)
     end
 end
 
-
 local minifiles_toggle = function(...)
     if not MiniFiles.close() then MiniFiles.open(...) end
 end
+
 local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     name = 'Main',
     -- a = a_mappings,
@@ -478,8 +478,10 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
     -- y = y_mappings,
     z = z_mappings,
 
-    [')'] = {
+    -- TODO: Move sentence keymappings to some other key.
+    ['('] = {
         name = 'Activate workspace modes',
+
         t = { function() require('ds_omega.config.keymappings.tab').hydra:activate() end, 'Activate tab mode' },
         c = { function() require('ds_omega.config.keymappings.quickfix_list').hydra:activate() end, 'Activate quickfix list mode' },
         w = { function() require('ds_omega.config.keymappings.window').hydra:activate() end, 'Activate quickfix list mode' },
