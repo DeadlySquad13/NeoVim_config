@@ -140,4 +140,3 @@
   "winshift.nvim": { "branch": "main", "commit": "37468ed6f385dfb50402368669766504c0e15583" },
   "yanky.nvim": { "branch": "main", "commit": "73215b77d22ebb179cef98e7e1235825431d10e4" },
   "yop.nvim": { "branch": "main", "commit": "ec26d86cfa96783f6894babcc509e5287aef9a25" }
-}

@@ -98,6 +98,11 @@ return {
         -- contains global snippets:
         luasnip.filetype_extend('all', { '_' })
 
+        -- May also be interested in library/framework specific snippets.
+        -- https://github.com/L3MON4D3/LuaSnip/pull/906/files#:~:text=%23%23%23%20Snippet%2Dspecific%20filetypes
+
+        --   Define how filetype on left hand side inherits snippets from right
+        -- hand side filetypes.
         luasnip.filetype_extend('typescriptreact', { 'javascriptreact', 'typescript', 'javascript' })
         luasnip.filetype_extend('javascriptreact', { 'javascript' })
         luasnip.filetype_extend('typescript', { 'javascript' })
@@ -106,5 +111,8 @@ return {
         -- Reference <https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#loaders>
         -- 'Loaders section in LuaSnip docs'
         require('luasnip.loaders.from_lua').lazy_load()
+
+        -- Load project-local snippets from '.code-snippets` file.
+        require("luasnip.loaders.from_vscode").load_standalone({ path = ".code-snippets" })
     end,
 }
