@@ -34,7 +34,12 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'WindowManagement' },
   { import = 'Workspace' },
   { import = 'Markdown' },
-}))
+}), {
+  dev = {
+    ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
+    path = "~/.bookmarks/shared-projects/--personal/NeoVim__",
+  }
+})
 
 -- local startup = require('ds_omega.utils.core').startup
 
