@@ -1,25 +1,16 @@
-local prequire = require('ds_omega.utils').prequire
-
-local sj_is_available, sj = prequire('sj')
-
-if not sj_is_available then
-  return 
-end
-
--- Keymappings used during the search are in settings.
 return {
   n = {
-    ['/'] = { sj.run, 'Search and jump' },
-    ['?'] = { function() sj.run({ forward_search = false }) end, 'Search and jump backwards' },
-    -- ['<Leader>'] = {
-      -- Default bindings that we have overriden in case you just want to iterate over search results.
-      -- ['/'] = { '/', 'Search' },
-      -- ['?'] = { '?', 'Search backwards' },
-
-      -- Conflicts with substitute.
-      -- Like a leap but a little bit different.
-      -- s = { function() sj.run({ search_scope = 'visible_lines' }) end, 'Search and jump across visible lines' },
-      -- S = { function() sj.run({ search_scope = 'visible_lines', forward_search = false }) end, 'Search and jump across visible lines backwards' },
-    -- },
+    ['<Leader>'] = {
+      -- - Overriding default search that we remapped to <Leader>/ because sj search is good enough
+      -- and aerojump complements it good enough.
+      -- - AerojumpSpace is cool but sj.nvim seems more familiar and has marks.
+      ['/'] = { '<Plug>(AerojumpBolt)', 'Search across whole buffer folding irrelevant', silent = false },
+    },
+  },
+  -- For a list of keymappings see:
+  -- https://github.com/ripxorip/aerojump.nvim/blob/d0cda41cd33670179aa8cc67d9b9de35cb40ff63/rplugin/python3/aerojump/__init__.py#L37
+  search = {   -- Keymappings inside search are configured via vim.g so they're in separate table that is set differently.
+    ["<Tab>"] = "AerojumpSelNext",
+    ["<S-Tab>"] = "AerojumpSelPrev",
   },
 }

@@ -12,8 +12,10 @@ return {
     ['/'] = { sj.run, 'Search and jump' },
     ['?'] = { function() sj.run({ forward_search = false }) end, 'Search and jump backwards' },
     ['<Leader>'] = {
-      -- Default bindings that we have overriden in case you just want to iterate over search results.
-      ['/'] = { '/', 'Search' },
+      -- Default bindings that we have overridden in case you just want to iterate over search results.
+      -- TODO: Implement a `exists` util for lazy to remove this keymap only
+      -- when aerojump exists.
+      -- ['/'] = { '/', 'Search' },
       ['?'] = { '?', 'Search backwards' },
 
       -- Conflicts with substitute.

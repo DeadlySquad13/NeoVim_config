@@ -1,8 +1,5 @@
--- TODO: Make it work!
 return {
   'ripxorip/aerojump.nvim',
-
-  opts = require('ds_omega.config.Navigation.aerojump.settings'),
 
   build = ':UpdateRemotePlugins',
 
@@ -12,8 +9,16 @@ return {
       return
     end
 
-    -- ds_omega_utils.apply_plugin_keymappings(require('ds_omega.config.Navigation.sj.keymappings'))
+    local keymappings = require('ds_omega.config.Navigation.aerojump.keymappings')
+    -- `apply_plugin_keymappings` will not accept non-mode keys in a keymappings
+    -- table.
+    local search_keymappings = keymappings.search
+    keymappings.search = nil
 
-    require('sj').setup(opts)
+    ds_omega_utils.apply_plugin_keymappings(keymappings)
+
+    local setters = require('ds_omega.utils.setters')
+
+    setters.set_global_variables({ keymaps = search_keymappings }, 'aerojump')
   end,
 }
