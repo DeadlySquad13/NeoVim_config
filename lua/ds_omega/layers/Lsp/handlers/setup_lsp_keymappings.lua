@@ -1,4 +1,6 @@
 local which_key_utils = require('ds_omega.config.Ui.which_key.utils')
+local keymappings_utils = require('ds_omega.config.keymappings._common.utils')
+local cmd, merge = keymappings_utils.cmd, keymappings_utils.merge
 
 --- Apply all lsp related keymappings.
 ---@param bufnr (integer)
@@ -34,7 +36,6 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
     --nnoremap <silent> <leader>git <cmd>lua vim.lsp.buf.type_definition()<CR>
 
     -- * Searching.
-    --nnoremap <silent> <leader>gr <cmd>lua vim.lsp.buf.references()<CR>
     --nnoremap <silent> <leader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
     --nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
@@ -52,6 +53,10 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
         vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
         vim.api.nvim_command('cfirst')
     end
+
+    local glance_is_available = prequire('glance')
+    local actions_preview_is_available, actions_preview = prequire('actions-preview')
+    local code_action = actions_preview_is_available and actions_preview.code_actions or lsp_buf.code_action
 
     keymappings.n = {
         name = 'LSP',
@@ -74,20 +79,32 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
             lsp_buf.definition({ on_list = on_list })
         end, 'Jump to definition' },
         ['<c-k>'] = { lsp_buf.signature_help, 'Signature help' },
-        ['<Leader>i'] = {
-            i = { lsp_buf.hover, 'Hover' },
-            d = {
-                '<Cmd>Lspsaga show_line_diagnostics<Cr>',
-                'Investigate line diagnostics',
-            },
-            r = { function()
-                lsp_buf.references(nil, { on_list = on_list })
-            end, 'List References' },
-        },
+        ['<Leader>i'] = merge(
+            {
+                i = { lsp_buf.hover, 'Hover' },
+                d = {
+                    cmd 'Lspsaga show_line_diagnostics',
+                    'Investigate line diagnostics',
+                },
+                r = {
+                    function() lsp_buf.references(nil, { on_list = on_list }) end,
+                    'List References'
+                },
+            }, not glance_is_available and {} or {
+                D = {
+                    cmd 'Glance definitions',
+                    'Glance at definitions'
+                },
+                R = {
+                    cmd 'Glance references',
+                    'Glance at references'
+                },
+            }
+        ),
         -- Editing.
         ['<Leader>rs'] = { lsp_buf.rename, 'Rename Symbol' },
-        ['<Leader>ca'] = { lsp_buf.code_action, 'Code Action' }, -- Change from `c`.
-        ['<Leader>q'] = {
+        ['<Leader>aa'] = { code_action, 'Code Action' },
+        ['<Leader>qd'] = {
             function()
                 vim.diagnostic.setqflist({ open = true })
             end,
@@ -110,13 +127,13 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
 
         ['[e'] = {
             function()
-                lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.ERROR })
+                lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.ERROR, popup_opts = { border = "single" } })
             end,
             'Go to previous error',
         },
         [']e'] = {
             function()
-                lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.ERROR })
+                lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.ERROR, popup_opts = { border = "single" } })
             end,
             'Go to next error',
         },

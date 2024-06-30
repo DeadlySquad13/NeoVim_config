@@ -98,6 +98,6 @@ return {
 
     -- Needed for parser generator to work. TS will try compilers from left to
     --   right.
-    require('nvim-treesitter.install').compilers = { 'gcc', 'clang' }
+    require('nvim-treesitter.install').compilers = { 'gcc', 'clang', 'zig' }
   end,
 }

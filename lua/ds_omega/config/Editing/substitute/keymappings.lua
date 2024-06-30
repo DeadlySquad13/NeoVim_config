@@ -8,7 +8,7 @@ end
 
 local substitute_range = require('substitute.range')
 
--- Though of substitute as replacement so 'r'.
+-- I decided to call all operations as replace to minimize confusion.
 return {
   n = {
     s = { substitute.operator, 'Replace' },
@@ -21,30 +21,61 @@ return {
     ['<Leader>'] = {
       s = {
         function()
+          substitute.operator({
+            register = "+"
+          })
+        end,
+        'Replace from system register',
+      },
+      ss = {
+        function()
+          substitute.line({
+            register = "+"
+          })
+        end,
+        'Replace line from system register',
+      },
+      S = {
+        function()
+          substitute.eol({
+            register = "+"
+          })
+        end,
+        'Replace to end of line from system register',
+      },
+
+      --   Search and replace keymappings are grouped under <Leader>r (for replace), only
+      -- these plugin operators above (and in x mode) are exception (because used frequently
+      -- and `r` is reserved for ex-mode).
+      r = {
+        function()
           substitute_range.operator({
             group_substituted_text = true,
           })
         end,
         'Replace range',
+        silent = false,
       },
 
-      ss = {
+      rr = {
         function()
           substitute_range.word({
             group_substituted_text = true,
           })
         end,
         'Replace word under cursor',
+        silent = false,
       },
 
-      S = {
+      R = {
         function()
           substitute_range.operator({
             group_substituted_text = true,
             prefix = 'S',
           }) -- For abolish substituion.
         end,
-        'Replace range'
+        'Replace range with abolish',
+        silent = false,
       },
     },
   },

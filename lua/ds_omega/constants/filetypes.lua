@@ -11,6 +11,7 @@ local filetrees = {
 local unmodifiable = list_deep_extend({ 'qf' }, start_screens)
 
 return {
+  start_screens = start_screens,
   filetrees = filetrees,
   unmodifiable = unmodifiable,
 }

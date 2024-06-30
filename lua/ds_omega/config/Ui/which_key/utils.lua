@@ -88,7 +88,8 @@ local function format_mappings_names(mappings, group_mapping_key)
 end
 
 ---@class DefaultKeymapOptions
----@field buffer (number) Specify a buffer number for buffer local mappings.
+---@field buffer? (number) Specify a buffer number for buffer local mappings.
+---@field prefix? (string) Prefix for passed mappings.
 ---@see which_key documentation for all options.
 local default_keymap_options = {
   prefix = '',
@@ -179,8 +180,8 @@ M.apply_bufferlocal_keymappings = function(mode, keymappings, custom_options)
   )
 
   local options = vim.tbl_extend('force',
-    options,
-    { prefix = '<localleader>' }
+    { prefix = '<localleader>' },
+    options
   )
 
   M.apply_keymappings_once_ready(mode, keymappings, options)

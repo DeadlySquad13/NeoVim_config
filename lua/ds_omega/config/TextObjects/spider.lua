@@ -1,9 +1,9 @@
+-- TODO: Add separate mappings as smartword alternative.
 return {
-  'chaoren/vim-wordmotion',
+  'chrisgrieser/nvim-spider',
   -- event = 'VimEnter',
-  -- after = 'vim-textobj-user',
 
-  config = function()
+  --[[ config = function()
     local Hydra = require('hydra')
 
     -- Reference: [Hydra wiki](https://github.com/anuvyklack/hydra.nvim/wiki/Quick-words)
@@ -25,7 +25,7 @@ return {
 
           { '<Esc>', nil, { exit = true, mode = 'n' } }
        }
-    })
+    }) ]]
 
     --[[ Hydra({
        name = 'Quick words',
@@ -44,5 +44,5 @@ return {
           { '<Esc>', nil, { exit = true, mode = 'n' } }
        }
     }) ]]
-  end,
+  -- end,
 }

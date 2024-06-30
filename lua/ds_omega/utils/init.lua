@@ -6,7 +6,7 @@
 --   table via vim.inspect. Used log as console.log in js works pretty the same
 --   way.
 local function log(data)
-  vim.pretty_print(data)
+  vim.print(data)
 end
 
 --- Creates new function with default parameters.
@@ -35,19 +35,45 @@ local function fancyparams(arg_def, f)
   end
 end
 
-
 local function apply_global_variables(global_variables)
   for name, value in pairs(global_variables) do
     vim.g[name] = value
   end
 end
 
-local function exists(plugin_name)
+---@type 'packer' | 'lazy'
+local CURRENT_PLUGIN_MANAGER = 'lazy'
+
+local function exists_in_packer_spec(plugin_name)
   return packer_plugins and packer_plugins[plugin_name]
 end
 
-local function is_loaded(plugin_name)
+local function is_loaded_in_packer_spec(plugin_name)
   return exists(plugin_name) and packer_plugins[plugin_name].loaded
+end
+
+-- Not sure if it's lazy specific way.
+local function is_loaded_in_lazy_spec(plugin_name)
+  local plugin = package.loaded[plugin_name]
+
+  return plugin and not vim.tbl_isempty(plugin)
+end
+
+local function exists(plugin_name)
+    if CURRENT_PLUGIN_MANAGER == 'packer' then
+        return exists_in_packer_spec(plugin_name)
+    elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
+        print("Function 'exists' is not implemented for lazy")
+        return nil
+    end
+end
+
+local function is_loaded(plugin_name)
+    if CURRENT_PLUGIN_MANAGER == 'packer' then
+        return is_loaded_in_packer_spec(plugin_name)
+    elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
+        return is_loaded_in_lazy_spec(plugin_name)
+    end
 end
 
 --- Convert list to the table that you can use for fast find.

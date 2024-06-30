@@ -1,7 +1,9 @@
 ; extends
 
-(function
-  name: (identifier) @function)
+;   Adding more highlights to typescript. A lot of captures are already available
+; so we just need to assign highlight groups to them.
+(call_expression
+  function: (identifier) @function)
 (function_declaration
   name: (identifier) @function.declaration)
 (generator_function

@@ -1,8 +1,8 @@
 return {
   'glepnir/lspsaga.nvim',
-  branch = 'main',
+  -- branch = 'main',
 
-  opts = function(_, opts)
+  opts = function()
     -- change the lsp symbol kind
     -- local lspkind = require('lspsaga.lspkind')
 
@@ -80,7 +80,7 @@ return {
         win_position = 'left',
         -- set the special filetype in there which in left like nvimtree neotree defx
         left_with = '',
-        win_width = 40,
+        win_width = 140,
         auto_enter = true,
         auto_preview = true,
         virt_text = '┃',
@@ -99,7 +99,7 @@ return {
         -- This option only works in Neovim 0.9
         title = true,
         -- Border type can be single, double, rounded, solid, shadow.
-        border = 'solid',
+        border = 'rounded',
         winblend = 0,
         expand = '⮚ ',
         collapse = '⮛ ',
@@ -113,6 +113,4 @@ return {
       }
     }
   end,
-
-  config = true,
 }

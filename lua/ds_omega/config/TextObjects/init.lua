@@ -3,13 +3,6 @@ return {
       'kana/vim-textobj-user',
   },
   {
-      'coderifous/textobj-word-column.vim',
-      -- event = 'VimEnter',
-     dependencies = {
-       'vim-textobj-user',
-     },
-  },
-  {
       'pianohacker/vim-textobj-indented-paragraph',
       -- event = 'VimEnter',
       dependencies = {

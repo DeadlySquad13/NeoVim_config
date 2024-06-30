@@ -39,7 +39,7 @@ return {
       },
 
       extensions = {
-        file_browser = require('ds_omega.config.Navigation.telescope_file_browser').opts,
+        file_browser = require('ds_omega.config.Navigation.telescope_file_browser').opts(),
         undo = require('ds_omega.config.Editing.undo').opts(),
         --   Unfortunately, doesn't work. Should be set up in setup function of
         -- yanky.
