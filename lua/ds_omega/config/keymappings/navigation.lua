@@ -49,6 +49,11 @@ local navigation_mappings = {
         'Treesitter',
     },
 
+    m = {
+        telescope_builtin.marks,
+        'Marks',
+    },
+
     [KEY.forward_slash] = { ':Neotree<cr>', 'Filetree' },
 
     e = {

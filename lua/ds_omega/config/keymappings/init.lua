@@ -148,14 +148,9 @@ local open_mappings = {
 
 local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 
-local q_leader_mappings = {
-    name = "Quickfix list",
+local quickfix_list = require('ds_omega.config.keymappings.quickfix_list')
 
-    q = { require("ds_omega.utils.quickfix_list").toggle_quickfix, "Toggle quickfix list" },
-
-    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list').hydra
-            :activate() end, 'Activate quickfix list mode' },
-}
+local q_leader_mappings = quickfix_list.keymappings
 
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
@@ -266,6 +261,8 @@ local z_leader_mappings = {
 local buffer_mappings_module = require('ds_omega.config.keymappings.buffer')
 local buffer_mappings, change_buffer_mappings = buffer_mappings_module[1], buffer_mappings_module[2]
 
+local marks_keymappings = require("ds_omega.config.keymappings.marks")
+
 local leader_mappings = {
     name = 'Leader',
     -- a = a_mappings,
@@ -280,44 +277,8 @@ local leader_mappings = {
     j = jump_mappings,
     -- k = k_mappings,
     -- l = l_mappings,
-    m = {
-        '<Plug>(Marks-set)',
-        'Mark',
-
-        [','] = { '<Plug>(Marks-setnext)', 'Set next mark' },
-        d = {
-            '<Plug>(Marks-delete)',
-            'Delete mark',
-
-            ['-'] = { '<Plug>(Marks-deleteline)', 'Delete mark on current line' },
-        },
-
-        [next] = { '<Plug>(Marks-next)', 'Next mark' },
-        [previous] = { '<Plug>(Marks-prev)', 'Previous mark' },
-    },
-    M = {
-        -- '<Plug>(Marks-perview)',
-        -- 'Mark preview',
-
-        d = {
-            '<Plug>(Marks-delete-bookmark)',
-            'Delete bookmark',
-        },
-
-        ['a'] = { '<Plug>(Marks-set-bookmark0)', 'Set bookmark0' },
-        ['e'] = { '<Plug>(Marks-set-bookmark1)', 'Set bookmark1' },
-        ['i'] = { '<Plug>(Marks-set-bookmark2)', 'Set bookmark2' },
-        ['h'] = { '<Plug>(Marks-set-bookmark3)', 'Set bookmark3' },
-        ['u'] = { '<Plug>(Marks-set-bookmark4)', 'Set bookmark4' },
-        ['o'] = { '<Plug>(Marks-set-bookmark5)', 'Set bookmark5' },
-        ['y'] = { '<Plug>(Marks-set-bookmark6)', 'Set bookmark6' },
-        ['k'] = { '<Plug>(Marks-set-bookmark7)', 'Set bookmark7' },
-        ['.'] = { '<Plug>(Marks-set-bookmark8)', 'Set bookmark8' },
-        ['q'] = { '<Plug>(Marks-set-bookmark9)', 'Set bookmark9' },
-
-        [next] = { '<Plug>(Marks-next-bookmark)', 'Next bookmark' },
-        [previous] = { '<Plug>(Marks-prev-bookmark)', 'Previous bookmark' },
-    },
+    m = marks_keymappings.usual,
+    M = marks_keymappings.bookmarks,
     -- Navigation. Helps find things, used as lookup table (navigation panel).
     n = require('ds_omega.config.keymappings.navigation'),
     ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
@@ -523,7 +484,7 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
         name = 'Activate workspace modes',
 
         t = { function() require('ds_omega.config.keymappings.tab').hydra:activate() end, 'Activate tab mode' },
-        c = { function() require('ds_omega.config.keymappings.quickfix_list').hydra:activate() end, 'Activate quickfix list mode' },
+        c = { function() quickfix_list.hydra:activate() end, 'Activate quickfix list mode' },
         w = { function() require('ds_omega.config.keymappings.window').hydra:activate() end, 'Activate quickfix list mode' },
     },
 
@@ -609,6 +570,8 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmod
     -- y = y_mappings,
     -- z = z_mappings,
 
+    ['/'] = { '<Esc>/\\%V', 'Search within visual selection' },
+    ['?'] = { '<Esc>?\\%V', 'Search backwards within visual selection' },
     -- ['<c-w>'] = {
     -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
     -- }

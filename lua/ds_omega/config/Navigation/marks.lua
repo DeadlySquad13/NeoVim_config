@@ -1,3 +1,7 @@
+---@class Bookmark
+---@field sign string
+---@field virt_text string
+
 return {
   'chentoast/marks.nvim',
 
@@ -35,45 +39,65 @@ return {
     -- Sign/virttext. Bookmarks can be used to group together positions and quickly move.
     -- Across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and.
     -- Default virt_text is ""..
+    ---@type Bookmark
     bookmark_0 = {
       sign = "⚑a",
-      virt_text = "started refactoring"
+      -- Interrupted to refactor, to investigate, to document something.
+      virt_text = "interrupted"
     },
+    ---@type Bookmark
     bookmark_1 = {
       sign = "⚑e",
-      virt_text = "definitions research"
+      -- Need to pay attention to that part. Mainly just use it as a visual nugging indicator.
+      virt_text = "attention"
     },
+    ---@type Bookmark
     bookmark_2 = {
       sign = "⚑i",
-      virt_text = "moving"
+      -- Reminder to comeback and remove this part (was testing something, for
+      -- example).
+      virt_text = "remove"
     },
+    ---@type Bookmark
+    -- QUESTION: Separate into clarify and investigate?
     bookmark_3 = {
       sign = "⚑h",
-      virt_text = "help"
+      -- Need to clarify that part by looking into documentation or asking
+      -- someone. Sometimes even by investigating into source code and testing it yourself.
+      virt_text = "clarify"
     },
+    -- After that go my typical comment types. Marks duplicate them to make
+    -- process smoother: add mark and go on, once ready - come back and
+    -- complete them. Otherwise comment them now properly or even create tasks.
+    ---@type Bookmark
     bookmark_4 = {
       sign = "⚑u",
       virt_text = "todo"
     },
+    ---@type Bookmark
     bookmark_5 = {
       sign = "⚑o",
       virt_text = "fix"
     },
+    ---@type Bookmark
     bookmark_6 = {
       sign = "⚑y",
-      virt_text = "hello world"
+      virt_text = "style"
     },
+    ---@type Bookmark
     bookmark_7 = {
       sign = "⚑k",
-      virt_text = "hello world"
+      virt_text = "test"
     },
+    ---@type Bookmark
     bookmark_8 = {
       sign = "⚑.",
-      virt_text = "hello world"
+      virt_text = "refactor"
     },
+    ---@type Bookmark
     bookmark_9 = {
       sign = "⚑q",
-      virt_text = "hello world"
+      virt_text = "question"
     },
   },
 
