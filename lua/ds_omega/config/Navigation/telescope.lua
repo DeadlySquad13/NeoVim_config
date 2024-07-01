@@ -45,6 +45,7 @@ return {
         -- yanky.
         yank_history = pickers.telescope,
         agrolens = require('ds_omega.config.Navigation.agrolens').opts,
+        advanced_git_search = require('ds_omega.config.Git.advanced_git_search').opts,
       }
     }
   end,
