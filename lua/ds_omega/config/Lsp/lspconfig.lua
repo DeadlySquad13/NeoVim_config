@@ -23,6 +23,7 @@ return {
       'texlab',
       'gopls',
       'r_language_server',
+      'markdown_oxide',
       -- bashls,
 
       -- Conflicts with prettier formatting in TS files.
@@ -106,6 +107,7 @@ return {
       texlab = { 'tex' },
       gopls = { 'go' },
       r_language_server = { 'r' },
+      markdown_oxide = { 'markdown' },
     }
 
     local enabled_filetypes = get_module_enabled_filetypes()
