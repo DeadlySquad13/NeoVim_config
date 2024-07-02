@@ -29,6 +29,9 @@ return {
       -- formatting.jq,
       formatting.fixjson,
 
+      -- Markdown.
+      formatting.markdown_toc,
+
       -- Typescript.
       formatting.prettierd,
       -- - Frontend.
