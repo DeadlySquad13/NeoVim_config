@@ -7,7 +7,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",   -- latest stable release
+    "--branch=stable", -- latest stable release
     lazypath,
   })
 end
@@ -34,6 +34,7 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'WindowManagement' },
   { import = 'Workspace' },
   { import = 'Markdown' },
+  { import = 'Writing' },
 }), {
   dev = {
     ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects

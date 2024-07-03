@@ -23,8 +23,4 @@ return {   -- paste an image from the clipboard or drag-and-drop
       },
     },
   },
-  config = function(_, opts)
-    require('img-clip').setup(opts)
-    vim.keymap.set('n', '<leader>ii', ':PasteImage<cr>', { desc = 'insert [i]mage from clipboard' })
-  end,
 }
