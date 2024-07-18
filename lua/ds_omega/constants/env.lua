@@ -1,8 +1,13 @@
 -- PATH environment variables defined specifically for vim.
 --   Directory variables should end without trailing slash.
 local home = vim.fn.getenv('HOME')
-local bookmarks = home .. '/.bookmarks'
 local user_config = home .. '/.config'
+local bookmarks = home .. '/.bookmarks'
+
+local kbn = bookmarks .. '/kbd'
+-- local references = kbn .. '/InfoField__References'
+-- local references = kbn
+local references = home .. '/InfoField__References'
 
 local projects = bookmarks .. '/projects'
 local ephemeral_projects = projects .. '/ephemeral-'
@@ -14,7 +19,7 @@ local namespace_name = 'ds_omega'
 local nvim_data = vim.fn.stdpath('data')
 
 --   Configs symlinked by nix are not writable so we have to edit
--- symlink target directly. 
+-- symlink target directly.
 -- TODO: Set it via ansible.
 -- FIX: Doesn't work properly with file selector...
 local IS_NIX_BASED_CONFIG = false
@@ -48,8 +53,11 @@ LOG_INTO = require('ds_omega.utils.set').Set({
 
 return {
   HOME = home,
-  BOOKMARKS = bookmarks,
   USER_CONFIG = user_config,
+  BOOKMARKS = bookmarks,
+
+  KBN = kbn,
+  REFERENCES = references,
 
   PROJECTS = projects,
   EPHEMERAL_PROJECTS = ephemeral_projects,
