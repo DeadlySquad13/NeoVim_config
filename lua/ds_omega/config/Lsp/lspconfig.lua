@@ -24,6 +24,7 @@ return {
       'gopls',
       'r_language_server',
       'markdown_oxide',
+      'nil_ls',
       -- bashls,
 
       -- Conflicts with prettier formatting in TS files.
@@ -108,6 +109,7 @@ return {
       gopls = { 'go' },
       r_language_server = { 'r' },
       markdown_oxide = { 'markdown' },
+      nix = { 'nil_ls' },
     }
 
     local enabled_filetypes = get_module_enabled_filetypes()
