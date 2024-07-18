@@ -5,17 +5,17 @@
 local function with_preserved_position(type, mode, modifier)
   local yanky_wrappers = require('yanky.wrappers')
   local Type = {
-      PutAfter = 'p',
-      PutBefore = 'P',
-      GPutAfter = 'gp',
-      GPutBefore = 'gP',
-      PutIndentAfter = ']p',
-      PutIndentBefore = '[p',
+    PutAfter = 'p',
+    PutBefore = 'P',
+    GPutAfter = 'gp',
+    GPutBefore = 'gP',
+    PutIndentAfter = ']p',
+    PutIndentBefore = '[p',
   }
   local Modifier = {
-      ShiftRight = '>>',
-      ShiftLeft = '<<',
-      Filter = '==',
+    ShiftRight = '>>',
+    ShiftLeft = '<<',
+    Filter = '==',
   }
 
   return function()
@@ -56,55 +56,60 @@ local function get_put_keymappings(mode)
   -- 'z' and 'c' are both operators so their combination with another operator such
   -- as 'p' or 'P' don't exist. Only 'zp' and 'zP' are bound for some rare block pastes.
   return {
-      p = { '<Plug>(YankyPutAfter)', 'Put after' },
-      P = { '<Plug>(YankyPutBefore)', 'Put before' },
-      [']p'] = { '<Plug>(YankyGPutAfter)', 'Put after and leave the cursor after new text' },
-      [']P'] = { '<Plug>(YankyGPutBefore)', 'Put before and leave the cursor after new text' },
-      -- Adjust indent to the current line.
-      -- - Stay on pasted line.
+    p = { '<Plug>(YankyPutAfter)', 'Put after' },
+    P = { '<Plug>(YankyPutBefore)', 'Put before' },
+    [']p'] = { '<Plug>(YankyGPutAfter)', 'Put after and leave the cursor after new text' },
+    [']P'] = { '<Plug>(YankyGPutBefore)', 'Put before and leave the cursor after new text' },
+    -- Adjust indent to the current line.
+    -- - Stay on pasted line.
+    ['z'] = {
+      p = { '<Plug>(YankyPutIndentAfterLinewise)', 'Put after and adjust the indent to the current line' },
+      P = { '<Plug>(YankyPutIndentBeforeLinewise)', 'Put before and adjust the indent to the current line' },
+    },
+    -- - Stay on current line.
+    ['m'] = {
+      p = {
+        with_preserved_position('PutIndentAfter', mode),
+        'Put after (adjusted to current line) but stay on current line'
+      },
+      P = {
+        with_preserved_position('PutIndentBefore', mode),
+        'Put before (adjusted to current line) but stay on current line',
+      },
+    },
+    -- Indent right.
+    ['>'] = {
+      -- Stay on pasted line.
       ['z'] = {
-          p = { '<Plug>(YankyPutIndentAfterLinewise)', 'Put after and adjust the indent to the current line' },
-          P = { '<Plug>(YankyPutIndentBeforeLinewise)', 'Put before and adjust the indent to the current line' },
+        p = { '<Plug>(YankyPutIndentAfterShiftRight)', 'Put after and adjust the indent to the current line' },
+        P = { '<Plug>(YankyPutIndentBeforeShiftRight)', 'Put before and adjust the indent to the current line' },
       },
       -- - Stay on current line.
       ['m'] = {
-          p = {
-              with_preserved_position('PutIndentAfter', mode),
-              'Put after (adjusted to current line) but stay on current line'
-          },
-          P = {
-              with_preserved_position('PutIndentBefore', mode),
-              'Put before (adjusted to current line) but stay on current line',
-          },
+        p = {
+          with_preserved_position('PutIndentAfter', mode, 'ShiftRight'),
+          'Put after (adjusted to current line) but stay on current line',
+          noremap = false,
+        },
+        P = {
+          with_preserved_position('PutIndentBefore', mode, 'ShiftRight'),
+          'Put before (adjusted to current line) but stay on current line',
+          noremap = false,
+        },
       },
-      -- Indent right.
-      ['>'] = {
-          -- Stay on pasted line.
-          ['z'] = {
-              p = { '<Plug>(YankyPutIndentAfterShiftRight)', 'Put after and adjust the indent to the current line' },
-              P = { '<Plug>(YankyPutIndentBeforeShiftRight)', 'Put before and adjust the indent to the current line' },
-          },
-          -- - Stay on current line.
-          ['m'] = {
-              p = {
-                with_preserved_position('PutIndentAfter', mode, 'ShiftRight'),
-                'Put after (adjusted to current line) but stay on current line',
-                noremap = false,
-              },
-              P = {
-                with_preserved_position('PutIndentBefore', mode, 'ShiftRight'),
-                'Put before (adjusted to current line) but stay on current line',
-                noremap = false,
-              },
-          },
-      },
+    },
   }
 end
 
+local oxmode_keymappings = {
+  ['gp'] = { function() require('yanky.textobj').last_put() end, 'Select last put' },
+}
+
 return {
-    n = vim.tbl_extend('error', get_put_keymappings('n'), {
-        ['<C-n>'] = { '<Plug>(YankyCycleForward)', 'Cycle forward yank history' },
-        ['<C-p>'] = { '<Plug>(YankyCycleBackward)', 'Cycle backward yank history' },
-    }),
-    x = get_put_keymappings('x'),
+  n = vim.tbl_extend('error', get_put_keymappings('n'), {
+    ['<C-n>'] = { '<Plug>(YankyCycleForward)', 'Cycle forward yank history' },
+    ['<C-p>'] = { '<Plug>(YankyCycleBackward)', 'Cycle backward yank history' },
+  }),
+  x = vim.tbl_extend('error', get_put_keymappings('x'), oxmode_keymappings),
+  o = oxmode_keymappings,
 }
