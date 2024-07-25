@@ -20,9 +20,10 @@ return {
         --     "2024.bib",
         -- }),
         global_files = {
-            -- require('ds_omega.constants.env').REFERENCES .. "/Personal.bib"
-            require('ds_omega.constants.env').REFERENCES .. "/Zotero.bib"
+            require("ds_omega.constants.env").REFERENCES .. "/Personal.bib"
+            -- require('ds_omega.constants.env').REFERENCES .. "/Zotero.bib"
         },
+        search_keys = { "shorttitle", "title", "author", "year", "url" },
         citation_max_auth = 2,
         context = false,
         context_fallback = true,
