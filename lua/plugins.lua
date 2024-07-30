@@ -29,12 +29,20 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'Navigation' },
   { import = 'NeovimDevelopment' },
   { import = 'ProjectManagement' },
+  { import = 'TaskManagement' },
   { import = 'TextObjects' },
   { import = 'Ui' },
   { import = 'WindowManagement' },
   { import = 'Workspace' },
   { import = 'Markdown' },
+  { import = 'Orgmode' },
   { import = 'Writing' },
+
+  -- # Meta layers.
+  -- 'DataCenter' holds plugins and settings that help with realization of
+  -- a 'DataCenter' strategy. Similar to 'Integrations' layer but focuses on
+  -- goal of gathering information from multiple sources in one place.
+  { import = 'DataCenter' },
 }), {
   dev = {
     ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
