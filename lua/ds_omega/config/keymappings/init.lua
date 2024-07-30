@@ -166,7 +166,16 @@ local q_leader_mappings = quickfix_list.keymappings
 --  "EOF
 --
 
-local execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute selected cells' }
+local jupyter_execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute selected cells' }
+
+-- Sniprun <Plug> mappings don't work: they are made wihout `noremap`
+-- so `:` doesn't work because of our remaps.
+vim.api.nvim_set_keymap("v", "<Plug>SnipRun", ":lua require'sniprun'.run('v')<Cr>", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<Plug>SnipRun", ":lua require'sniprun'.run()<Cr>", { silent = true, noremap = true })
+
+vim.api.nvim_set_keymap("n", "<Plug>SnipRunOperator", ":set opfunc=SnipRunOperator<Cr>g@", { silent = true, noremap = true })
+
+local execute_mappings = { '<Plug>SnipRun', 'Run code' }
 
 local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
 -- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
@@ -291,7 +300,12 @@ local leader_mappings = {
     -- u = u_mappings,
     -- v = v_mappings,
     -- w = w_mappings,
-    x = execute_mappings,
+    x = {
+        '<Plug>SnipRunOperator',
+        'Run code (operator pending)',
+        x = execute_mappings,
+    },
+    X = { ':let b:caret=winsaveview() <CR> | :%SnipRun <CR>| :call winrestview(b:caret) <CR>', 'Run all' },
     -- y = y_mappings,
     z = z_leader_mappings,
     [','] = settings_mappings,
