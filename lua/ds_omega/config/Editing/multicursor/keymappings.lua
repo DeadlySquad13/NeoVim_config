@@ -11,6 +11,27 @@ local K = CONSTANTS.keymappings
 
 -- Keymappings used during the search are in settings.
 return {
+    add_layer_keymappings = function()
+        -- Mappings defined in a keymap layer only apply when there are
+        -- multiple cursors. This lets you have overlapping mappings.
+        mc.addKeymapLayer(function(layerSet)
+            -- Select a different cursor as the main one.
+            layerSet({ "n", "x" }, K.leader_left .. K.previous, mc.prevCursor)
+            layerSet({ "n", "x" }, K.leader_left .. K.next, mc.nextCursor)
+
+            -- Delete the main cursor.
+            layerSet({ "n", "x" }, K.leader_left .. "q", mc.deleteCursor)
+
+            -- Enable and clear cursors using escape.
+            layerSet("n", "<esc>", function()
+                if not mc.cursorsEnabled() then
+                    mc.enableCursors()
+                else
+                    mc.clearCursors()
+                end
+            end)
+        end)
+    end,
     n = {
         [K.leader_left] = {
             -- Add or skip cursor above/below the main cursor.
@@ -26,9 +47,9 @@ return {
         [K.leader_right] = {
             -- Add or skip adding a new cursor by matching word/selection
             n = { function() mc.matchAddCursor(1) end, 'Add cursor on next match' },
-            s = { function() mc.matchSkipCursor(1) end, 'Add cursor on next-next match' },
+            s = { function() mc.matchSkipCursor(1) end, 'Skip cursor on next match' },
             N = { function() mc.matchAddCursor(-1) end, 'Add cursor on previous match' },
-            S = { function() mc.matchSkipCursor(-1) end, 'Add cursor on previous-previous match' },
+            S = { function() mc.matchSkipCursor(-1) end, 'Skip cursor on previous match' },
         },
 
         -- Add and remove cursors with control + left click.
