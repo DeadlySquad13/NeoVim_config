@@ -18,13 +18,9 @@ local namespace_name = 'ds_omega'
 -- Resolves to `~/.local/share/nvim`.
 local nvim_data = vim.fn.stdpath('data')
 
---   Configs symlinked by nix are not writable so we have to edit
--- symlink target directly.
--- TODO: Set it via ansible.
--- FIX: Doesn't work properly with file selector...
-local IS_NIX_BASED_CONFIG = false
 
-local nvim_config = IS_NIX_BASED_CONFIG and '~/.bookmarks/shared_configs/NeoVim_config' or vim.fn.stdpath('config')
+-- Takes $NVIM_APPNAME into consideration.
+local nvim_config = vim.fn.stdpath('config')
 local gui_settings = nvim_config .. '/ginit.vim'
 local nvim_lua = nvim_config .. '/lua'
 local nvim_lua_namespace = nvim_lua .. '/' .. namespace_name
@@ -40,6 +36,7 @@ local nvim_constants = nvim_lua_namespace .. '/constants' -- TODO: Separate and 
 local nvim_lua_config = nvim_lua_namespace .. '/config'
 local nvim_keymappings = nvim_lua_namespace .. '/keymappings'
 local nvim_commands = nvim_lua_namespace .. '/commands'
+local nvim_modules = nvim_lua_namespace .. '/modules'
 local nvim_layers = nvim_lua_namespace .. '/layers'
 
 local goneovim_settings = user_config .. '/goneovim/settings.toml'
@@ -81,6 +78,8 @@ return {
   NVIM_LUA_CONFIG = nvim_lua_config,
   NVIM_KEYMAPPINGS = nvim_keymappings,
   NVIM_COMMANDS = nvim_commands,
+  -- Candidates to become plugins.
+  NVIM_MODULES = nvim_modules,
 
   NVIM_LAYERS = nvim_layers,
   NVIM_AFTER = nvim_after,

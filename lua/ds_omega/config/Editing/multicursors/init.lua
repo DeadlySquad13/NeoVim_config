@@ -1,12 +1,20 @@
 return {
     "smoka7/multicursors.nvim",
+    enabled = false,
     event = "VeryLazy",
     dependencies = {
-        'nvimtools/hydra.nvim',
+        -- "nvimtools/hydra.nvim",
+        -- Fork with fix: https://github.com/nvimtools/hydra.nvim/pull/4
+        "cathyprime/hydra.nvim",
     },
-    -- version = "v1.0.0",
     opts = {},
     cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
+    mode_keys = {
+        append = 'e',
+        change = 'm',
+        extend = 'l',
+        insert = 'q',
+    }, -- set bindings to start these modes
     keys = {
             {
                 mode = { 'v', 'n' },
