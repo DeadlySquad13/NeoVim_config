@@ -90,7 +90,10 @@ return {
             },
             -- format = 'zotero-select',
             global_files = {
-                require("ds_omega.constants.env").REFERENCES .. "/Personal.bib"
+                -- Linux
+                -- require("ds_omega.constants.env").REFERENCES .. "/Personal.bib"
+                -- Windows
+                "G:\\InfoField__References\\per Personal_system.bib"
                 -- require('ds_omega.constants.env').REFERENCES .. "/Zotero.bib"
             },
             search_keys = { "shorttitle", "title", "author", "year", "url" },

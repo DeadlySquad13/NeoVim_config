@@ -1,9 +1,15 @@
+-- To use this plugin you have to create a file `.gitlab.nvim` (place it in a root of
+-- repository or by path set in settings):
+--   auth_token=glpat-____________________
+--   gitlab_url=https://.../
 -- Get token by going to url:
 -- https://gitlab.example.com/-/user_settings/personal_access_tokens?name=Work__apakalo%40creamsoda%25Review_token&scopes=api,read_api,read_user,read_repository,write_repository
 -- Change `gitlab.example.com` to desired host, for example, to `gitlab.com` for default. It wiil prefil all necessary fields, you only need to change expiration
 -- date (leave it blank to get maximum date - ~1 year).
 return {
   "harrisoncramer/gitlab.nvim",
+
+  enabled = not require('ds_omega.utils.os').is("Windows_NT"),
 
   dependencies = {
     "MunifTanjim/nui.nvim",

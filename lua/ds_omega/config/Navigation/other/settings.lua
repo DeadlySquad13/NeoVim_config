@@ -20,7 +20,84 @@ return function()
     {
       pattern = "(.*).pcss$",
       target = "%1.tsx",
-    }
+    },
+  })
+
+  -- Rutube specific.
+  local sass_module = {
+    target = "%1.module.sass",
+    context = "sass",
+  }
+  local tsx = {
+    target = "%1.tsx",
+    context = "tsx",
+  }
+  local constants = {
+    target = "%1.constants.ts",
+    context = "constants",
+  }
+  local hooks = {
+    target = "%1.hooks.ts",
+    context = "hooks",
+  }
+
+  add_mappings({
+    {
+      pattern = "(.*).tsx$",
+      target = {
+        sass_module,
+        constants,
+        hooks,
+      },
+    },
+    {
+      pattern = "(.*).module.sass$",
+      target = {
+        tsx,
+      },
+    },
+
+    {
+      pattern = "(.*).constants.ts",
+      target = {
+        tsx,
+        hooks,
+      },
+    },
+    {
+      pattern = "(.*).hooks.ts",
+      target = {
+        tsx,
+        constants,
+      },
+    },
+  })
+
+  -- Ds-omega lua modules.
+  add_mappings({
+    {
+      pattern = 'init.lua$',
+      target = {
+        settings,
+        keymappings,
+      },
+    },
+
+    {
+      pattern = 'settings.lua$',
+      target = {
+        init,
+        keymappings,
+      },
+    },
+
+    {
+      pattern = 'keymappings.lua$',
+      target = {
+        init,
+        settings,
+      },
+    },
   })
 
   -- Go.
