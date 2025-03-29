@@ -69,15 +69,17 @@ local function get_put_keymappings(mode)
     -- - Stay on current line.
     ['m'] = {
       p = {
-        with_preserved_position('PutIndentAfter', mode),
-        'Put after (adjusted to current line) but stay on current line'
+        function() with_preserved_position('PutIndentAfter', mode) end,
+        'Put after (adjusted to current line) but stay on current line',
+        expr = true,
       },
       P = {
-        with_preserved_position('PutIndentBefore', mode),
+        function() with_preserved_position('PutIndentBefore', mode) end,
         'Put before (adjusted to current line) but stay on current line',
+        expr = true,
       },
     },
-    -- Indent right.
+    -- -- Indent right.
     ['>'] = {
       -- Stay on pasted line.
       ['z'] = {
@@ -87,14 +89,16 @@ local function get_put_keymappings(mode)
       -- - Stay on current line.
       ['m'] = {
         p = {
-          with_preserved_position('PutIndentAfter', mode, 'ShiftRight'),
+          function() with_preserved_position('PutIndentAfter', mode, 'ShiftRight') end,
           'Put after (adjusted to current line) but stay on current line',
           noremap = false,
+          expr = true,
         },
         P = {
-          with_preserved_position('PutIndentBefore', mode, 'ShiftRight'),
+          function() with_preserved_position('PutIndentBefore', mode, 'ShiftRight') end,
           'Put before (adjusted to current line) but stay on current line',
           noremap = false,
+          expr = true,
         },
       },
     },
