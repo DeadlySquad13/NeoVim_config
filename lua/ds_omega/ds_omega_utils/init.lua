@@ -48,7 +48,7 @@ return {
   prequire_plugin = require('ds_omega.ds_omega_utils.prequire_plugin'),
 
   get_plugin_config = require('ds_omega.ds_omega_utils.get_plugin_config'),
-  to_lazy_keymappings = require('ds_omega.ds_omega_utils.to_lazy_keymappings'),
+  to_lazy_keys = require('ds_omega.ds_omega_utils.to_lazy_keys'),
   apply_plugin_keymappings = require('ds_omega.ds_omega_utils.apply_plugin_keymappings'),
   simple_plugin_setup = require('ds_omega.ds_omega_utils.simple_plugin_setup'),
 

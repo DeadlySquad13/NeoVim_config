@@ -92,3 +92,4 @@ _G.log = function(name, hl, opts)
   end
 end
 
+_G.to_lazy_keys = require('ds_omega.ds_omega_utils.to_lazy_keys')
