@@ -2,6 +2,7 @@ return {
     -- For lsp features in code cells / embedded code
     'jmbuhr/otter.nvim',
     dev = false,
+    event = require("ds_omega.constants.events").jupyter_notebooks,
     dependencies = {
         {
             'neovim/nvim-lspconfig',
