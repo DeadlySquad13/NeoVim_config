@@ -13,6 +13,19 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local lazierPath = vim.fn.stdpath("data") .. "/lazier.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazierPath) then
+    local repo = "https://github.com/jake-stewart/lazier.nvim.git"
+    local out = vim.fn.system({
+        "git", "clone", "--branch=stable", repo, lazierPath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({{
+            "Failed to clone lazier.nvim:\n" .. out, "Error"
+        }}, true, {})
+    end
+end
+vim.opt.runtimepath:prepend(lazierPath)
+
 require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.config.' .. module.import } end, {
   { import = 'Assistance' },
   { import = 'Architecturing' },
