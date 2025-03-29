@@ -1,15 +1,17 @@
+local M = {}
+M.keymappings = require('ds_omega.config.Editing.yanky.keymappings')
+
 return {
     'gbprod/yanky.nvim',
 
     opts = require('ds_omega.config.Editing.yanky.settings'),
 
-    keys = to_lazy_keys(require('ds_omega.config.Editing.yanky.keymappings')),
+    keys = to_lazy_keys(M.keymappings),
 
     config = function(_, opts)
         require('yanky').setup(opts)
 
-        local keymappings = require('ds_omega.config.Editing.yanky.keymappings')
-        require('ds_omega.ds_omega_utils').apply_plugin_keymappings(keymappings)
+        require('ds_omega.ds_omega_utils').apply_plugin_keymappings(M.keymappings)
 
         local prequire = require('ds_omega.utils').prequire
 
