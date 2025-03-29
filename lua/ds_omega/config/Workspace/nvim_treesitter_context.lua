@@ -1,7 +1,7 @@
 return {
   'nvim-treesitter/nvim-treesitter-context',
 
-  event = "LazyFile",
+  event = require('ds_omega.constants.events').lazy_file,
 
   config = true,
 }
