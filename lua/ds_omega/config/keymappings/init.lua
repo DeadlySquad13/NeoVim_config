@@ -435,7 +435,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     [':'] = { 'O', 'New line above' },
 
     -- r = { 'f', 'Find' },
-    s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
+    s = replace_mappings,
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
     A = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next word' },
