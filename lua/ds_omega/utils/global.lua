@@ -36,7 +36,7 @@ end
 local function prequire(module_name)
   local module_loading_error_handler = function(error)
     notify(
-      'Error in loading module ' .. module_name .. '!',
+      'Error in loading module ' .. module_name .. '! ' .. error,
       vim.log.levels.ERROR
     )
   end

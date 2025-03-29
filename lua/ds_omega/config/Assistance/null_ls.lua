@@ -2,6 +2,8 @@ return {
   'jose-elias-alvarez/null-ls.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
 
+  event = require('ds_omega.constants.events').lazy_file,
+
   opts = function()
     local prequire = require('ds_omega.utils').prequire
 

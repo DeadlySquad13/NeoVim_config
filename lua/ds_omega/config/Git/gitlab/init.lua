@@ -9,6 +9,8 @@
 return {
   "harrisoncramer/gitlab.nvim",
 
+  enabled = not require('ds_omega.utils.os').is("Windows_NT"),
+
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-lua/plenary.nvim",

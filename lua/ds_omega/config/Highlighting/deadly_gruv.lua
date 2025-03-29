@@ -5,7 +5,7 @@ return {
   lazy = false,
 
   -- See `dev.path` in lazy.setup 2nd param.
-  dev = require("ds_omega.utils.os").is("Linux"),
+  -- dev = require("ds_omega.utils.os").is("Linux"),
 
   dependencies = 'rktjmp/lush.nvim',
 

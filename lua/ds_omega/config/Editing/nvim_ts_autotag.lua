@@ -1,6 +1,8 @@
 return {
     'windwp/nvim-ts-autotag',
 
+    event = require('ds_omega.constants.events').lazy_file,
+
     opts = {
         opts = {
             -- Defaults
