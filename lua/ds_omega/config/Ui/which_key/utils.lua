@@ -134,7 +134,7 @@ M.MODES = { 'n', 'v', 'i', 's', 'o', 'c', 't' }
 M.apply_keymappings = function(mode, keymappings, custom_options)
   local which_key_is_available, which_key = prequire('which-key')
 
-  if not which_key_is_available then
+  if not which_key_is_available or not which_key then
     return
   end
 
@@ -145,6 +145,31 @@ M.apply_keymappings = function(mode, keymappings, custom_options)
   return which_key.register(keymappings, options)
 end
 
+---@param mode (Mode)
+---@param keymappings
+---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
+M.to_lazy_keymappings = function(mode, keymappings, custom_options)
+  local which_key_mappings_is_available, which_key_mappings = prequire('which-key.mappings')
+
+  if not which_key_mappings_is_available or not which_key_mappings then
+    return
+  end
+
+  local options = options_with_defaults(custom_options)
+  options.mode = mode
+
+  -- PERFORMANCE: register is parse + some parsing for UI. We're doing it
+  -- twice when using both of these functions in the module. Most likely it's
+  -- negligable.
+  local flattened_keymappings = which_key_mappings.parse(keymappings, options)
+
+  return vim.tbl_map(function(keymapping)
+    keymapping.key = keymapping.key.key
+
+    return keymapping
+  end, flattened_keymappings)
+end
+
 local keymappings_group = require('ds_omega.utils').create_augroup('Keymappings', { clear = true })
 
 ---@param mode (Mode)
@@ -152,19 +177,19 @@ local keymappings_group = require('ds_omega.utils').create_augroup('Keymappings'
 ---@param custom_options (DefaultKeymapOptions?) Options to pass into mappings.
 M.apply_keymappings_once_ready = function(mode, keymappings, custom_options)
   require('ds_omega.utils').create_autocmd(
-      { 'BufWinEnter' },
-      {
-        group = keymappings_group,
-        desc = 'Apply keymappings once which_key is loaded.',
+    { 'BufWinEnter' },
+    {
+      group = keymappings_group,
+      desc = 'Apply keymappings once which_key is loaded.',
 
-        callback = function()
-          vim.schedule(function()
-            M.apply_keymappings(mode, keymappings, custom_options)
-          end)
-        end,
+      callback = function()
+        vim.schedule(function()
+          M.apply_keymappings(mode, keymappings, custom_options)
+        end)
+      end,
 
-        once = true,
-      }
+      once = true,
+    }
   );
 end
 
