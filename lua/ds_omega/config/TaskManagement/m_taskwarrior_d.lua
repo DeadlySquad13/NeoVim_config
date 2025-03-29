@@ -24,6 +24,7 @@ return {
     -- Required.
     require("m_taskwarrior_d").setup(opts)
 
+    -- REFACTOR: Use our utils.
     -- Optional.
     vim.api.nvim_set_keymap("n", "<leader>te", "<cmd>TWEditTask<cr>",
       { desc = "TaskWarrior Edit", noremap = true, silent = true })
