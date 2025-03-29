@@ -2,6 +2,9 @@ return {
   'luk400/vim-jukit',
   enabled = false,
 
+  -- May need tweaking, jukit can support different filetypes.
+  event = require("ds_omega.constants.events").jupyter_notebooks,
+
   opts = require('ds_omega.config.Notebooks.Jupyter.jukit.settings'),
   -- keys = require('ds_omega.config.Jupyter.jukit.keymappings'),
 
