@@ -1,5 +1,8 @@
 return {
   'glepnir/dashboard-nvim',
+
+  lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
+
   cond = function()
     return not vim.g.started_by_firenvim
   end,

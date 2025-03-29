@@ -7,6 +7,10 @@ return {
     'MunifTanjim/nui.nvim',
   },
 
+  lazy = false, -- neo-tree will lazily load itself
+
+  ---@module "neo-tree"
+  ---@type neotree.Config?
   opts = {
     use_default_mappings = true,
     -- If a user has a sources list it will replace this one.

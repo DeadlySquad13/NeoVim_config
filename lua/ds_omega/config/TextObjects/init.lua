@@ -4,32 +4,34 @@ return {
   },
   {
       'pianohacker/vim-textobj-indented-paragraph',
-      -- event = 'VimEnter',
+      event = require('ds_omega.constants.events').lazy_file,
       dependencies = {
         'vim-textobj-user'
       },
   },
   {
       'kana/vim-textobj-indent',
-      -- event = 'VimEnter',
+      event = require('ds_omega.constants.events').lazy_file,
       dependencies = {
         'vim-textobj-user'
       },
   },
   {
       'GCBallesteros/vim-textobj-hydrogen',
-      -- event = 'VimEnter',
+      event = require('ds_omega.constants.events').lazy_file,
       dependencies = {
         'vim-textobj-user'
       },
   },
   {
       'anuvyklack/vim-smartword',
-      -- event = 'VimEnter',
+      event = require('ds_omega.constants.events').lazy_file,
   },
   -- Has it's config in treesitter.
   {
       'nvim-treesitter/nvim-treesitter-textobjects',
+
+      event = require('ds_omega.constants.events').lazy_file,
 
       dependencies = {
         'nvim-treesitter'
