@@ -1,44 +1,49 @@
-local prequire = require('ds_omega.utils').prequire
-local utils_is_available, utils = prequire('ds_omega.config.keymappings._common.utils')
-local keymappings = require("ds_omega.config.keymappings._common.constants").keymappings
+local M = {}
 
-if not utils_is_available then
-    return
-end
+local function gitlab()
+    local gitlab_is_available, gitlab = prequire_plugin('gitlab')
+    if not gitlab_is_available or not gitlab then
+        return
+    end
 
-local gitlab_is_available, gitlab = require('ds_omega.ds_omega_utils').prequire_plugin('gitlab')
-if not gitlab_is_available or not gitlab then
-    return
+    return gitlab
 end
 
 local comment_key = { 'a', 'A' }
+
+local keymappings = require("ds_omega.config.keymappings._common.constants").keymappings
 
 return {
     n = {
         [keymappings.leader_right] = {
             g = {
                 s = {
-                    gitlab.summary,
+                    function() return gitlab().summary() end,
                     'Show summary for current branch',
+                    expr = true,
                 },
                 g = {
-                    gitlab.review,
+                    function() return gitlab().review() end,
                     'Review current branch',
+                    expr = true,
                 },
                 G = {
-                    gitlab.choose_merge_request,
+                    function() return gitlab().choose_merge_request() end,
                     'Choose merge request',
+                    expr = true,
                 },
                 [comment_key[1]] = {
-                    gitlab.create_comment,
-                    'Add comment on current line'
+                    function() return gitlab().create_comment() end,
+                    'Add comment on current line',
+                    expr = true,
                 },
             },
         },
         ['<Leader>i'] = {
             g = {
-                gitlab.move_to_discussion_tree_from_diagnostic,
-                'Merge request discussion'
+                function() return gitlab().move_to_discussion_tree_from_diagnostic() end,
+                'Merge request discussion',
+                expr = true,
             },
         },
     },
@@ -46,12 +51,14 @@ return {
         [keymappings.leader_right] = {
             g = {
                 [comment_key[1]] = {
-                    gitlab.create_multiline_comment,
-                    'Add multi-line comment on selection'
+                    function() return gitlab().create_multiline_comment() end,
+                    'Add multi-line comment on selection',
+                    expr = true,
                 },
                 [comment_key[2]] = {
-                    gitlab.create_comment_suggestion,
-                    'Add multi-line comment suggestion on selection'
+                    function() return gitlab().create_comment_suggestion() end,
+                    'Add multi-line comment suggestion on selection',
+                    expr = true,
                 },
             },
         },
