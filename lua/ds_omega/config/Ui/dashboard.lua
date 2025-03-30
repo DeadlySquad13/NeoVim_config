@@ -1,245 +1,243 @@
 return {
-  'glepnir/dashboard-nvim',
+    'glepnir/dashboard-nvim',
 
-  lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
+    lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
 
-  cond = function()
-    return not vim.g.started_by_firenvim
-  end,
+    cond = function()
+        return not vim.g.started_by_firenvim
+    end,
 
-  opts = function()
-    local prequire = require('ds_omega.utils').prequire;
+    opts = function()
+        local prequire = require('ds_omega.utils').prequire;
 
-    local choose_and_edit_configs = require('ds_omega.modules.choose_and_edit_configs').choose_and_edit_configs;
+        -- Possible extensions for dashboard:
+        -- - more find file utils,
+        -- - bookmarks, history, recents,
+        -- - load last session,
+        -- - new file, new project, new layer, etc...
+        -- - update plugins, rollback plugins, etc...
 
-    -- Possible extensions for dashboard:
-    -- - more find file utils,
-    -- - bookmarks, history, recents,
-    -- - load last session,
-    -- - new file, new project, new layer, etc...
-    -- - update plugins, rollback plugins, etc...
+        -- aniquote for footer.
+        -- db.key_icon = {
+        --     last_session = ' ',
+        --     find_history = ' ',
+        --     find_file = ' ',
+        --     new_file = ' ',
+        --     change_colorscheme = ' ',
+        --     find_word = ' ',
+        --     book_marks = ' '
+        -- }
 
-    -- aniquote for footer.
-    -- db.key_icon = {
-    --     last_session = ' ',
-    --     find_history = ' ',
-    --     find_file = ' ',
-    --     new_file = ' ',
-    --     change_colorscheme = ' ',
-    --     find_word = ' ',
-    --     book_marks = ' '
-    -- }
-
-    local leader = vim.g.mapleader;
-    if leader == ' ' then
-      leader = 'Space'
-    end
-
-    -- local localleader = '\\';
-
-    local desc_WIDTH = 36;
-    local function format_description(desc, desc_width)
-      desc_width = desc_width or desc_WIDTH;
-
-      local space_left = desc_width - #desc;
-      if space_left < 0 then
-        notify(
-          '"' .. desc .. '" is too long!\nMake it smaller by ' ..
-          -space_left .. ' characters or make desc_WIDTH value bigger.',
-          vim.log.levels.WARN,
-          { title = 'Dashboard' }
-        )
-      end
-
-      -- If space_left <= 0 it won't do anything.
-      return desc .. string.rep(' ', space_left);
-    end
-
-    local center_sections = {
-      {
-        icon = '',
-        desc = format_description('Edit config'),
-        key = leader .. ' e e',
-        action = choose_and_edit_configs,
-      },
-      {
-        icon = '',
-        desc = format_description('Jump to bookmarks'),
-        key = leader .. ' g b',
-        action = '',
-      },
-    }
-
-    local function add_sections(sections)
-      vim.list_extend(center_sections, sections)
-    end
-
-    local telescope_builtin_is_available, telescope_builtin = prequire('telescope.builtin');
-
-    if not telescope_builtin_is_available then
-      return;
-    end
-
-    if telescope_builtin_is_available then
-      add_sections({
-        {
-          icon = '',
-          desc = format_description('Recently opened files'),
-          key = leader .. ' o r',
-          action = telescope_builtin.oldfiles,
-        },
-        {
-          icon = '',
-          desc = format_description('Find files'),
-          key = leader .. ' n f',
-          action = telescope_builtin.find_files,
-        },
-        {
-          icon = '',
-          desc = format_description('Find files by grep'),
-          key = leader .. ' n g',
-          action = telescope_builtin.live_grep,
-        },
-      })
-    end
-
-
-    local telescope_is_available, telescope = pcall(require, 'telescope');
-
-    if telescope_is_available then
-      local pick_session = telescope.extensions.persisted.persisted;
-
-      if pick_session then
-        add_sections({ {
-          icon = '*',
-          desc = format_description('Pick session'),
-          key = leader .. ' o s',
-          action = pick_session,
-        } })
-      end
-    end
-
-    -- TODO: Get from lazy specs.
-    local gitlab_is_available = true
-
-    local function gitlab()
-        local gitlab_is_available, gitlab = pcall(require, 'gitlab');
-        if not gitlab_is_available then
-            return
+        local leader = vim.g.mapleader;
+        if leader == ' ' then
+            leader = 'Space'
         end
 
-        return gitlab
-    end
-    if gitlab_is_available then
-      -- TODO: I plan in the future to make an abstract handler that will
-      -- choose either gitlab or github review process depending on current
-      -- VCS.
-      -- REFACTOR: Use current keymappings from plugin, not just
-      -- hardcoded value.
-      add_sections({ {
-        icon = "🐙",
-        desc = format_description('Review current branch'),
-        key = 'hgg',
-        action = function() gitlab().review() end,
-      }, {
-        icon = "🐙",
-        desc = format_description('Review merge requests'),
-        key = 'hgG',
-        action = function() gitlab().choose_merge_request() end,
-      } })
-    end
+        -- local localleader = '\\';
 
-    add_sections({ {
-      icon = '🚪',
-      desc = format_description('Back to reality...'),
-      key = 'Z Q',
-      action = 'quit!'
-    } })
+        local desc_WIDTH = 36;
+        local function format_description(desc, desc_width)
+            desc_width = desc_width or desc_WIDTH;
 
-    local center = vim.tbl_map(function(item)
-      item.icon = item.icon .. ' '
+            local space_left = desc_width - #desc;
+            if space_left < 0 then
+                notify(
+                    '"' .. desc .. '" is too long!\nMake it smaller by ' ..
+                    -space_left .. ' characters or make desc_WIDTH value bigger.',
+                    vim.log.levels.WARN,
+                    { title = 'Dashboard' }
+                )
+            end
 
-      return vim.tbl_extend('error', item, {
-        desc_hl = 'DashboardCenter',
-        key_hl = 'DashboardShortcut',
-      })
-    end, center_sections)
+            -- If space_left <= 0 it won't do anything.
+            return desc .. string.rep(' ', space_left);
+        end
 
-    -- - Custom header.
-    local header = {
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                    ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣶⣶⣿⡟⠀                   ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣦⣄⠀⣀⣠⣤⣤⣶⣶⣶⣶⣶⣴⣾⣿⣿⣿⣿⣿⣿⡟⠁⠀                   ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡿⠯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⡟⠀⠀    ___  ___________]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⡀⢨⣿⣿⡃⠀⠀⠀⠀ / _ \\/ __< /_  /]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀/ // /\\ \\ //_ < ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀/____/___//_/____/ ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣇⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢇⣿⣿⣿⣿⡈⣻⡝⢿⣿⣿⢿⣟⣹⣁⢀⠘⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢙⠇⣿⣿⣿⠻⣿⣿⠢⠁⠉⠛⠛⠻⣿⣿⠿⠋⠓⠹⢋⡽⢹⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡎⢾⡏⢠⠍⢡⣳⡟⠀⠀⠀⠀⠀⠀⠁⠉⠀⠠⢆⠐⠍⠒⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⡘⠐⠁⠀⢁⡋⠄⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⡀⠂⠀⠀⢹⣿⣿⣿⣿⡿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡀⣻⣄⣣⡀⠻⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠡⠀⠀⠀⠀⣸⣿⣿⣿⣿⠃⠡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣄⠀⠀⠈⠳⣦⠉⠀⠀⠀⢀⠠⡰⠁⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⡀⠀⠓⠠⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⢸⣟⣀⡑⢄⠀⠀⢻⡇⣴⣶⣿⡆⡈⠀⠀⠀⠀⣰⣿⣿⣿⣿⡿⢀⡟⠁⠀⠀⠀⠐⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠁⠀⠀⠈⠙⣾⠀⣀⡼⢸⣿⣿⣿⣿⣿⡀⠀⠀⣸⣿⣿⣿⣿⡟⣠⡟⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡌⠀⠀⠀⠀⠀⠘⢸⠑⡁⢸⣿⣿⣿⣿⣿⠀⠉⠁⢸⣿⣿⣿⣿⣷⣿⠁⠀⠀⠀⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠶⠁⠀⠀⠀⠈⠀⡇⠀⠀⠁⠸⣹⣿⡿⡿⣿⠀⠀⠀⢸⣿⣿⣿⣿⠏⣿⠀⠀⠀⠀⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀⠇⠀⠀⠀⠀⢱⠀⠀⠀⠀⠆⢿⣣⡄⠀⣺⠀⠀⠀⠘⣿⣿⣿⡟⢰⡇⡇⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣆⢠⠀⠀⠀⣀⡜⠀⠀⠀⠀⢀⣆⣿⡶⠾⢻⠀⠀⠀⠀⢸⣿⣿⣧⣸⣧⡃⠀⢀⣀⣠⣤⣄⡀⡆⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⡷⣄⠀⠀⠇⠀⠀⠀⠀⢺⣿⡿⠀⠀⢀⠀⠀⠀⠀⠈⣿⣿⠛⣿⣯⠖⠊⠉⠀⠀⠀⣼⠙⠢⡀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⢠⣇⠈⠳⡼⠀⠀⠀⠀⠀⢸⣿⠃⡆⠀⢸⠀⠀⠀⠀⠀⢻⣿⣴⠟⠀⠀⠀⠀⠀⠀⣰⣿⠀⠀⡁⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⢿⠀⠀⠃⠀⠀⠀⠠⠄⢻⠇⢀⠁⠀⢸⠀⠀⠀⠀⠀⠘⣿⡇⠀⠀⠀⠀⠀⠀⠠⣸⢸⡤⠊⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠤⡈⠀⠀⠀⠀⠀⠀⢸⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢛⡟⠦⠤⠂⠀⠀⣠⠗⡏⠁⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠁⠀⠀⠀⠀⠀⠀⢸⡀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡌⠢⠀⠀⠀⣰⣿⣔⣀⣀⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⠀⠀⠀⠀⠀⠀⠀⢸⣷⣇⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⢘⠀⠀⠀⣰⣿⣏⢌⠀⠀⠀⠆             ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣦⣴⣿⡀⠀⠀⠀⠀⠀⠀⢸⡇⠀⣰⣿⣿⣷⣼⣀⡀⠜⠲⠀⠀⠀⠀⠀⠀⠀⠀     ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⠀⠀⠀⠀⠀⠠⠛⠛⠋⠙⠿⣿⣷⡀⠀⠀⠀⠀⠀⠘⢀⣼⣿⣿⣿⣿⡝⠃⠀⠀⣼⠀⠀    ⠀⠀   ⠀ ]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⣴⣶⣄⠀⠀⠀⣠⣷⣶⣶⣶⣶⣶⣶⣿⣷⡄⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋     ]],
-        [[⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀      ]],
-        [[⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉          ]],
-        [[                                                           ]],
-        '',
-    }
+        local center_sections = {
+            {
+                icon = '',
+                desc = format_description('Edit config'),
+                key = leader .. ' e e',
+                action = 'ChooseAndEditConfigs',
+            },
+            {
+                icon = '',
+                desc = format_description('Jump to bookmarks'),
+                key = leader .. ' g b',
+                action = '',
+            },
+        }
 
-    local footer = {
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      'Мой вим - мой лучший друг. Он - моя жизнь. Я должен научиться владеть им',
-      'так же, как я владею своей жизнью. Без меня мой вим бесполезен. Без моего',
-      'вима бесполезен я. Я должен кодить из моего вима метко. Я должен',
-      'кодить точнее, чем вскодер, который пытается обосрать меня. Я должен перекодить',
-      'его прежде, чем он переубедит меня перейти на вскод. Да будет так…',
-      '',
-      '',
-      '',
-      '',
-    }
+        local function add_sections(sections)
+            vim.list_extend(center_sections, sections)
+        end
 
-    return {
-      theme = 'doom',
-      config = {
-        header = header,
-        center = center,
-        footer = footer,
-      }
-    }
-  end,
+        local telescope_builtin_is_available, telescope_builtin = prequire('telescope.builtin');
 
-  config = true,
+        if not telescope_builtin_is_available then
+            return;
+        end
+
+        if telescope_builtin_is_available then
+            add_sections({
+                {
+                    icon = '',
+                    desc = format_description('Recently opened files'),
+                    key = leader .. ' o r',
+                    action = telescope_builtin.oldfiles,
+                },
+                {
+                    icon = '',
+                    desc = format_description('Find files'),
+                    key = leader .. ' n f',
+                    action = telescope_builtin.find_files,
+                },
+                {
+                    icon = '',
+                    desc = format_description('Find files by grep'),
+                    key = leader .. ' n g',
+                    action = telescope_builtin.live_grep,
+                },
+            })
+        end
+
+
+        local telescope_is_available, telescope = pcall(require, 'telescope');
+
+        if telescope_is_available then
+            local pick_session = telescope.extensions.persisted.persisted;
+
+            if pick_session then
+                add_sections({ {
+                    icon = '*',
+                    desc = format_description('Pick session'),
+                    key = leader .. ' o s',
+                    action = pick_session,
+                } })
+            end
+        end
+
+        -- TODO: Get from lazy specs.
+        local gitlab_is_available = true
+
+        local function gitlab()
+            local gitlab_is_available, gitlab = pcall(require, 'gitlab');
+            if not gitlab_is_available then
+                return
+            end
+
+            return gitlab
+        end
+        if gitlab_is_available then
+            -- TODO: I plan in the future to make an abstract handler that will
+            -- choose either gitlab or github review process depending on current
+            -- VCS.
+            -- REFACTOR: Use current keymappings from plugin, not just
+            -- hardcoded value.
+            add_sections({ {
+                icon = "🐙",
+                desc = format_description('Review current branch'),
+                key = 'hgg',
+                action = function() gitlab().review() end,
+            }, {
+                icon = "🐙",
+                desc = format_description('Review merge requests'),
+                key = 'hgG',
+                action = function() gitlab().choose_merge_request() end,
+            } })
+        end
+
+        add_sections({ {
+            icon = '🚪',
+            desc = format_description('Back to reality...'),
+            key = 'Z Q',
+            action = 'quit!'
+        } })
+
+        local center = vim.tbl_map(function(item)
+            item.icon = item.icon .. ' '
+
+            return vim.tbl_extend('error', item, {
+                desc_hl = 'DashboardCenter',
+                key_hl = 'DashboardShortcut',
+            })
+        end, center_sections)
+
+        -- - Custom header.
+        local header = {
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                    ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣶⣶⣿⡟⠀                   ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣦⣄⠀⣀⣠⣤⣤⣶⣶⣶⣶⣶⣴⣾⣿⣿⣿⣿⣿⣿⡟⠁⠀                   ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡿⠯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⡟⠀⠀    ___  ___________]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⡀⢨⣿⣿⡃⠀⠀⠀⠀ / _ \\/ __< /_  /]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀/ // /\\ \\ //_ < ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀/____/___//_/____/ ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣇⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢇⣿⣿⣿⣿⡈⣻⡝⢿⣿⣿⢿⣟⣹⣁⢀⠘⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢙⠇⣿⣿⣿⠻⣿⣿⠢⠁⠉⠛⠛⠻⣿⣿⠿⠋⠓⠹⢋⡽⢹⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡎⢾⡏⢠⠍⢡⣳⡟⠀⠀⠀⠀⠀⠀⠁⠉⠀⠠⢆⠐⠍⠒⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⡘⠐⠁⠀⢁⡋⠄⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⡀⠂⠀⠀⢹⣿⣿⣿⣿⡿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡀⣻⣄⣣⡀⠻⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠡⠀⠀⠀⠀⣸⣿⣿⣿⣿⠃⠡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣄⠀⠀⠈⠳⣦⠉⠀⠀⠀⢀⠠⡰⠁⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⡀⠀⠓⠠⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⢸⣟⣀⡑⢄⠀⠀⢻⡇⣴⣶⣿⡆⡈⠀⠀⠀⠀⣰⣿⣿⣿⣿⡿⢀⡟⠁⠀⠀⠀⠐⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠁⠀⠀⠈⠙⣾⠀⣀⡼⢸⣿⣿⣿⣿⣿⡀⠀⠀⣸⣿⣿⣿⣿⡟⣠⡟⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡌⠀⠀⠀⠀⠀⠘⢸⠑⡁⢸⣿⣿⣿⣿⣿⠀⠉⠁⢸⣿⣿⣿⣿⣷⣿⠁⠀⠀⠀⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠶⠁⠀⠀⠀⠈⠀⡇⠀⠀⠁⠸⣹⣿⡿⡿⣿⠀⠀⠀⢸⣿⣿⣿⣿⠏⣿⠀⠀⠀⠀⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀⠇⠀⠀⠀⠀⢱⠀⠀⠀⠀⠆⢿⣣⡄⠀⣺⠀⠀⠀⠘⣿⣿⣿⡟⢰⡇⡇⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣆⢠⠀⠀⠀⣀⡜⠀⠀⠀⠀⢀⣆⣿⡶⠾⢻⠀⠀⠀⠀⢸⣿⣿⣧⣸⣧⡃⠀⢀⣀⣠⣤⣄⡀⡆⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⡷⣄⠀⠀⠇⠀⠀⠀⠀⢺⣿⡿⠀⠀⢀⠀⠀⠀⠀⠈⣿⣿⠛⣿⣯⠖⠊⠉⠀⠀⠀⣼⠙⠢⡀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⢠⣇⠈⠳⡼⠀⠀⠀⠀⠀⢸⣿⠃⡆⠀⢸⠀⠀⠀⠀⠀⢻⣿⣴⠟⠀⠀⠀⠀⠀⠀⣰⣿⠀⠀⡁⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⢿⠀⠀⠃⠀⠀⠀⠠⠄⢻⠇⢀⠁⠀⢸⠀⠀⠀⠀⠀⠘⣿⡇⠀⠀⠀⠀⠀⠀⠠⣸⢸⡤⠊⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠤⡈⠀⠀⠀⠀⠀⠀⢸⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢛⡟⠦⠤⠂⠀⠀⣠⠗⡏⠁⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠁⠀⠀⠀⠀⠀⠀⢸⡀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡌⠢⠀⠀⠀⣰⣿⣔⣀⣀⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⠀⠀⠀⠀⠀⠀⠀⢸⣷⣇⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⢘⠀⠀⠀⣰⣿⣏⢌⠀⠀⠀⠆             ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣦⣴⣿⡀⠀⠀⠀⠀⠀⠀⢸⡇⠀⣰⣿⣿⣷⣼⣀⡀⠜⠲⠀⠀⠀⠀⠀⠀⠀⠀     ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⠀⠀⠀⠀⠀⠠⠛⠛⠋⠙⠿⣿⣷⡀⠀⠀⠀⠀⠀⠘⢀⣼⣿⣿⣿⣿⡝⠃⠀⠀⣼⠀⠀    ⠀⠀   ⠀ ]],
+            [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⣴⣶⣄⠀⠀⠀⣠⣷⣶⣶⣶⣶⣶⣶⣿⣷⡄⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋     ]],
+            [[⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀      ]],
+            [[⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉          ]],
+            [[                                                           ]],
+            '',
+        }
+
+        local footer = {
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            'Мой вим - мой лучший друг. Он - моя жизнь. Я должен научиться владеть им',
+            'так же, как я владею своей жизнью. Без меня мой вим бесполезен. Без моего',
+            'вима бесполезен я. Я должен кодить из моего вима метко. Я должен',
+            'кодить точнее, чем вскодер, который пытается обосрать меня. Я должен перекодить',
+            'его прежде, чем он переубедит меня перейти на вскод. Да будет так…',
+            '',
+            '',
+            '',
+            '',
+        }
+
+        return {
+            theme = 'doom',
+            config = {
+                header = header,
+                center = center,
+                footer = footer,
+            }
+        }
+    end,
+
+    config = true,
 }

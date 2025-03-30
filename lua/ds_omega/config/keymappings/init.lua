@@ -45,7 +45,6 @@ local comment_mappings = {
 
 local e_mappings = {
     name = 'Edit',
-    e = { cmd 'ChooseAndEditConfigs', 'Choose and Edit configs' },
     -- Open vimrc in vertical split.
     v = { cmd 'vsplit $MYVIMRC', 'Vimrc' },
     h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head', silent = false },

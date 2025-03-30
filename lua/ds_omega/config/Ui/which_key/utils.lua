@@ -103,7 +103,7 @@ local default_keymap_options = {
 ---  Merge passed options with default options ensuring that there's no mode in
 -- passed table.
 ---@params options (DefaultKeymapOptions?) Options to pass into mappings.
-local function options_with_defaults(options)
+M.options_with_defaults = function(options)
   options = options or {}
 
   ---@diagnostic disable-next-line: undefined-field
@@ -138,7 +138,7 @@ M.apply_keymappings = function(mode, keymappings, custom_options)
     return
   end
 
-  local options = options_with_defaults(custom_options)
+  local options = M.options_with_defaults(custom_options)
   options.mode = mode
 
   -- return which_key.register(format_mappings_names(keymappings, 'M'), options)
