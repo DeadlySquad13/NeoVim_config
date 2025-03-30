@@ -119,7 +119,17 @@ return {
       end
     end
 
-    local gitlab_is_available, gitlab = pcall(require, 'gitlab');
+    -- TODO: Get from lazy specs.
+    local gitlab_is_available = true
+
+    local function gitlab()
+        local gitlab_is_available, gitlab = pcall(require, 'gitlab');
+        if not gitlab_is_available then
+            return
+        end
+
+        return gitlab
+    end
     if gitlab_is_available then
       -- TODO: I plan in the future to make an abstract handler that will
       -- choose either gitlab or github review process depending on current
@@ -130,12 +140,12 @@ return {
         icon = "🐙",
         desc = format_description('Review current branch'),
         key = 'hgg',
-        action = gitlab.review,
+        action = function() gitlab().review() end,
       }, {
         icon = "🐙",
         desc = format_description('Review merge requests'),
         key = 'hgG',
-        action = gitlab.choose_merge_request,
+        action = function() gitlab().choose_merge_request() end,
       } })
     end
 
