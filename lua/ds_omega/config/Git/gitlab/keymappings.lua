@@ -33,6 +33,14 @@ return {
                     gitlab.create_comment,
                     'Add comment on current line'
                 },
+                o = {
+                    gitlab.approve,
+                    'Approve merge request (ok)',
+                },
+                O = {
+                    gitlab.revoke,
+                    'Revoke approval for merge request (not ok)',
+                },
             },
         },
         ['<Leader>i'] = {
