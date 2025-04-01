@@ -38,12 +38,14 @@ return {
                     expr = true,
                 },
                 o = {
-                    gitlab.approve,
+                    function() return gitlab().approve() end,
                     'Approve merge request (ok)',
+                    expr = true,
                 },
                 O = {
-                    gitlab.revoke,
+                    function() return gitlab().revoke() end,
                     'Revoke approval for merge request (not ok)',
+                    expr = true,
                 },
             },
         },
