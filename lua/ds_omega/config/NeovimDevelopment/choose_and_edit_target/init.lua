@@ -3,8 +3,10 @@ local M = {}
 M.keymappings = require('ds_omega.config.NeovimDevelopment.choose_and_edit_target.keymappings')
 
 return {
-    name = "choose_and_edit_configs",
-    dir = "ds_omega.modules.choose_and_edit_configs",
+    -- Doesn't work on Windows…
+    -- name = "choose_and_edit_configs",
+    -- dir = "ds_omega.modules.choose_and_edit_configs",
+    dir = require('ds_omega.constants.env').NVIM_MODULES .. "/choose_and_edit_configs",
 
     cmd = 'ChooseAndEditConfigs',
     keys = to_lazy_keys(M.keymappings),
