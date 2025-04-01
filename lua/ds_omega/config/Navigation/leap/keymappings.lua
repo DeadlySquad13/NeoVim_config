@@ -7,12 +7,14 @@ local leap_to_keymappings = {
 }
 
 local keymappings = vim.tbl_extend('error', leap_to_keymappings, {
+    g = {
         -- Inclusive (move to).
-        gi = { '<Plug>(leap-from-window)', 'Leap from window' },
+        i = { '<Plug>(leap-from-window)', 'Leap from window' },
         -- Exclusive.
         z = { '<Plug>(leap-forward-till)', 'Leap forward till' },
         Z = { '<Plug>(leap-backward-till)', 'Leap backward till' },
-    })
+    }
+})
 
 return {
     n = leap_to_keymappings,
