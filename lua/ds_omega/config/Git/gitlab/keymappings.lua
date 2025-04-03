@@ -35,7 +35,10 @@ return {
                 [comment_key[1]] = {
                     function() return gitlab().create_comment() end,
                     'Add comment on current line',
-                    expr = true,
+                    -- QUESTION: For some reason only here it doesn't work...
+                    -- It seems that something different is returned from
+                    -- comments functions.
+                    -- expr = true,
                 },
                 o = {
                     function() return gitlab().approve() end,
@@ -63,12 +66,12 @@ return {
                 [comment_key[1]] = {
                     function() return gitlab().create_multiline_comment() end,
                     'Add multi-line comment on selection',
-                    expr = true,
+                    -- expr = true,
                 },
                 [comment_key[2]] = {
                     function() return gitlab().create_comment_suggestion() end,
                     'Add multi-line comment suggestion on selection',
-                    expr = true,
+                    -- expr = true,
                 },
             },
         },
