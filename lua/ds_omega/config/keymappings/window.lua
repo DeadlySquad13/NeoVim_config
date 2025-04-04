@@ -18,87 +18,82 @@ local window_hint = [[
 
 ---@param key (string)
 local function wincmd(key)
-  return cmd('wincmd ' .. key)
+    return cmd('wincmd ' .. key)
 end
 local Window = {}
 
 -- TODO: Move keybindings to which-key to remove inconsistencies.
 Window.hydra = Hydra({
-        name = 'Windows',
-        -- hint = window_hint,
-        config = {
-            hint = {
-                float_opts = {
-                    style = 'rounded',
-                },
-                offset = -1
-            }
-        },
-        mode = 'n',
-        heads = {
-            -- Navigaiton.
-            { 's',     wincmd 'h' },
-            { 'n',     wincmd 'j' },
-            { 'm',     pcmd('wincmd k', 'E11', 'close') },
-            { 't',     wincmd 'l' },
-
-            { 'a',     wincmd 't',                      { desc = 'Move to top-left window' } },
-            { 'b',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
-
-            { 'p',     wincmd 'p',                      { desc = 'Go to previous window' } },
-
-            { 'r',     wincmd 'r',                      { desc = 'Rotate window downwards/rightwards' } },
-            { 'R',     wincmd 'R',                      { desc = 'Rotate window upwards/leftwards' } },
-
-            -- Moving.
-            { 'S',     cmd 'WinShift left' },
-            { 'N',     cmd 'WinShift down' },
-            { 'M',     cmd 'WinShift up' },
-            { 'T',     cmd 'WinShift right' },
-
-            { 'x',     wincmd 'x',                      { desc = 'Exchange windows' } },
-
-            { 'V',     wincmd 'T',                      { desc = 'Move current window to a new tab page' } },
-
-            -- Resizing.
-            { '>',     wincmd '>',                      { desc = 'Increase width' } },
-            { '<',     wincmd '<',                      { desc = 'Decrease width' } },
-
-            { '+',     wincmd '+',                      { desc = 'Increase height' } },
-            { '-',     wincmd '-',                      { desc = 'Decrease height' } },
-
-            { '=',     wincmd '=',                      { desc = 'Make equally high and wide' } },
-
-            -- Splitting.
-            { 'l',     pcmd('below new', 'E36') },
-            { '<C-l>', pcmd('below new', 'E36'),        { desc = false } },
-            { 'h',     pcmd('vnew', 'E36') },
-            { '<C-h>', pcmd('vnew', 'E36'),             { desc = false } },
-
-            { 'z',     wincmd 'o',                      { exit = true, desc = 'Remain only' } },
-            { '<C-z>', wincmd 'o',                      { exit = true, desc = false } },
-
-            -- { 'o',     require('nvim-window').pick, { desc = 'Pick window' } },
-            -- { '<C-o>', require('nvim-window').pick, { desc = 'Pick window' } },
-
-            { 'e',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
-            -- { 'b', choose_buffer, { exit = true, desc = 'choose buffer' } },
-
-            { 'c',     pcmd('close', 'E444') },
-            { 'q',     pcmd('close', 'E444'),           { desc = 'Close window' } },
-            { '<C-c>', pcmd('close', 'E444'),           { desc = false } },
-            { '<C-q>', pcmd('close', 'E444'),           { desc = false } },
-
-            { 'P',     pcmd('wincmd P', 'E441'),        { desc = 'Open preview window' } },
-
-            { '<Esc>', nil,                             { exit = true, desc = false } }
+    name = 'Windows',
+    -- hint = window_hint,
+    config = {
+        hint = {
+            float_opts = {
+                style = 'rounded',
+            },
+            offset = -1
         }
-    })
+    },
+    mode = 'n',
+    heads = {
+        -- Navigaiton.
+        { 's',     wincmd 'h' },
+        { 'n',     wincmd 'j' },
+        { 'm',     pcmd('wincmd k', 'E11', 'close') },
+        { 't',     wincmd 'l' },
+
+        { 'a',     wincmd 't',                      { desc = 'Move to top-left window' } },
+        { 'u',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
+
+        { 'p',     wincmd 'p',                      { desc = 'Go to previous window' } },
+
+        { 'r',     wincmd 'r',                      { desc = 'Rotate window downwards/rightwards' } },
+        { 'R',     wincmd 'R',                      { desc = 'Rotate window upwards/leftwards' } },
+
+        -- Moving.
+        { 'S',     cmd 'WinShift left' },
+        { 'N',     cmd 'WinShift down' },
+        { 'M',     cmd 'WinShift up' },
+        { 'T',     cmd 'WinShift right' },
+
+        { 'x',     wincmd 'x',                      { desc = 'Exchange windows' } },
+
+        { 'V',     wincmd 'T',                      { desc = 'Move current window to a new tab page' } },
+
+        -- Resizing.
+        { '>',     wincmd '>',                      { desc = 'Increase width' } },
+        { '<',     wincmd '<',                      { desc = 'Decrease width' } },
+
+        { '+',     wincmd '+',                      { desc = 'Increase height' } },
+        { '-',     wincmd '-',                      { desc = 'Decrease height' } },
+
+        { '=',     wincmd '=',                      { desc = 'Make equally high and wide' } },
+
+        -- Splitting.
+        { 'l',     pcmd('below new', 'E36') },
+        { '<C-l>', pcmd('below new', 'E36'),        { desc = false } },
+        { 'h',     pcmd('vnew', 'E36') },
+        { '<C-h>', pcmd('vnew', 'E36'),             { desc = false } },
+
+        { 'z',     wincmd 'o',                      { exit = true, desc = 'Remain only' } },
+        { '<C-z>', wincmd 'o',                      { exit = true, desc = false } },
+
+        { 'e',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
+        -- { 'b', choose_buffer, { exit = true, desc = 'choose buffer' } },
+
+        { 'c',     pcmd('close', 'E444') },
+        { 'q',     pcmd('close', 'E444'),           { desc = 'Close window' } },
+        { '<C-c>', pcmd('close', 'E444'),           { desc = false } },
+        { '<C-q>', pcmd('close', 'E444'),           { desc = false } },
+
+        { 'P',     pcmd('wincmd P', 'E441'),        { desc = 'Open preview window' } },
+
+        { '<Esc>', nil,                             { exit = true, desc = false } }
+    }
+})
 
 Window.mappings = {
     name = 'Window',
-    -- List of windows like in tmux?
-    --w = {  },
 
     s = { wincmd 'h', 'Move left' },
     n = { wincmd 'j', 'Move down' },
@@ -110,10 +105,8 @@ Window.mappings = {
     M = { cmd 'WinShift up', 'Swap up' },
     T = { cmd 'WinShift right', 'Swap right' },
 
-    -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
-    -- such jump.
-    o = { require('nvim-window').pick, 'Pick window' },
-    ['<c-o>'] = { require('nvim-window').pick, 'Pick window' },
+    a = { wincmd 't', 'Move to top-left window' },
+    u = { wincmd 'b', 'Move to bottom-right window' },
     -- Overrides close preview window.
     z = { wincmd 'o', 'Remain only' },
     ['<C-z>'] = { wincmd 'o' },
@@ -123,7 +116,9 @@ Window.mappings = {
     h = { cmd 'vnew', 'Vertical split new window' },
     ['<C-h>'] = { cmd 'vnew', 'Vertical split new window' },
 
-    a = { cmd 'FocusMaximise', 'Maximise window' },
+    -- This keymappings ruins hand position (shifts left from main home-row keys). But it's ok as this mapping is
+    -- usually last when interacting with windows (after maximizing you focus on content itself).
+    [','] = { cmd 'FocusMaximise', 'Maximise window' },
     [CONSTANTS.transitive_catalizator] = { function() Window.hydra:activate() end, 'Activate window mode' },
 }
 
