@@ -1,103 +1,124 @@
 return {
-  'nvim-treesitter/nvim-treesitter',
+    'nvim-treesitter/nvim-treesitter',
 
-  lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
-  cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-  -- build = ':TSUpdate',
+    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
+    cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    -- build = ':TSUpdate',
 
-  opts = function()
-    local TREESITTER_CONFIGURATION = 'ds_omega.config.Editing.treesitter'
+    opts = function()
+        local TREESITTER_CONFIGURATION = 'ds_omega.config.Editing.treesitter'
 
-    local function require_treesitter_configuration(configuration)
-      return require(TREESITTER_CONFIGURATION .. '.' .. configuration)
-    end
+        local function require_treesitter_configuration(configuration)
+            return require(TREESITTER_CONFIGURATION .. '.' .. configuration)
+        end
 
-    local parsers = require_treesitter_configuration('parsers')
-    local incremental_selection =
-    require_treesitter_configuration('incremental_selection')
-    local rainbow = require_treesitter_configuration('rainbow')
+        local parsers = require_treesitter_configuration('parsers')
+        local incremental_selection =
+            require_treesitter_configuration('incremental_selection')
+        local rainbow = require_treesitter_configuration('rainbow')
 
-    local textobjects = require_treesitter_configuration('textobjects')
+        local textobjects = require_treesitter_configuration('textobjects')
 
-    -- local yati_is_available, yati = prequire('ds_omega.config.Editing.yati')
+        local yati_is_available, yati = prequire('ds_omega.config.Editing.yati')
 
-    -- List of language that will be disabled
-    local DISABLED_HIGHLIGHT_FILETYPES = {
-      'css',
-    }
-    local MAX_HIGHLIGHT_LINE_SIZE = 50000
+        -- List of language that will be disabled
+        local DISABLED_HIGHLIGHT_FILETYPES = {
+            'css',
+        }
+        local MAX_HIGHLIGHT_LINE_SIZE = 50000
 
-    return {
-      ensure_installed = parsers,
-      ignore_install = {}, -- List of parsers to ignore installing
-      indent = {
-        disable = {
-          'yaml',
-          'python',
-        },
-      },
+        return {
+            ensure_installed = parsers,
+            ignore_install = {}, -- List of parsers to ignore installing
+            indent = {
+                enable = true,
+                disable = yati_is_available and {
+                    -- Was disabled for some reason. Maybe it was THAT bad...
+                    -- 'yaml',
+                    -- See yati supported languages:
+                    -- https://github.com/yioneko/nvim-yati/tree/cd0754f03819441af4e8b695f20bd7f1a797aff8/lua/nvim-yati/configs
+                    'c',
+                    'cpp',
+                    'css',
+                    'graphql',
+                    'html',
+                    'javascript',
+                    'jsdoc',
+                    'json',
+                    'json5',
+                    'lua',
+                    'python',
+                    'rust',
+                    'styled',
+                    'toml',
+                    'tsx',
+                    'typescript',
+                    'vue',
+                } or {},
+            },
 
-      -- yati = yati.opts,
+            yati = yati.opts,
 
-      incremental_selection = incremental_selection,
+            incremental_selection = incremental_selection,
 
-      highlight = {
-        enable = true, -- false will disable the whole extension
-        disable = function(lang, bufnr)
-          local current_file_type_is_disabled = require('ds_omega.utils').Set(DISABLED_HIGHLIGHT_FILETYPES)[lang]
-          local line_is_too_long = vim.api.nvim_buf_line_count(bufnr) > MAX_HIGHLIGHT_LINE_SIZE
+            highlight = {
+                enable = true, -- false will disable the whole extension
+                disable = function(lang, bufnr)
+                    local current_file_type_is_disabled = require('ds_omega.utils').Set(DISABLED_HIGHLIGHT_FILETYPES)
+                        [lang]
+                    local line_is_too_long = vim.api.nvim_buf_line_count(bufnr) > MAX_HIGHLIGHT_LINE_SIZE
 
-          return current_file_type_is_disabled
-              or line_is_too_long
-        end,
+                    return current_file_type_is_disabled
+                        or line_is_too_long
+                end,
 
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-      },
+                -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+                -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+                -- Using this option may slow down your editor, and you may see some duplicate highlights.
+                -- Instead of true it can also be a list of languages
+                additional_vim_regex_highlighting = false,
+            },
 
-      -- Brackets.
-      rainbow = rainbow,
+            -- Brackets.
+            rainbow = rainbow,
 
-      textobjects = textobjects,
+            textobjects = textobjects,
 
-      playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false, -- Whether the query persists across vim sessions
-        keybindings = {
-          toggle_query_editor = 'o',
-          toggle_hl_groups = 'i',
-          toggle_injected_languages = 't',
-          toggle_anonymous_nodes = 'a',
-          toggle_language_display = 'I',
-          focus_language = 'f',
-          unfocus_language = 'F',
-          update = 'R',
-          goto_node = '<cr>',
-          show_help = '?',
-        },
-      },
-    }
-  end,
+            playground = {
+                enable = true,
+                disable = {},
+                updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
+                persist_queries = false, -- Whether the query persists across vim sessions
+                keybindings = {
+                    toggle_query_editor = 'o',
+                    toggle_hl_groups = 'i',
+                    toggle_injected_languages = 't',
+                    toggle_anonymous_nodes = 'a',
+                    toggle_language_display = 'I',
+                    focus_language = 'f',
+                    unfocus_language = 'F',
+                    update = 'R',
+                    goto_node = '<cr>',
+                    show_help = '?',
+                },
+            },
+        }
+    end,
 
-  config = function(_, opts)
-    local prequire = require('ds_omega.utils').prequire
+    config = function(_, opts)
+        local prequire = require('ds_omega.utils').prequire
 
-    local tree_sitter_is_available, tree_sitter =
-      prequire('nvim-treesitter.configs')
+        local tree_sitter_is_available, tree_sitter =
+            prequire('nvim-treesitter.configs')
 
-    if not tree_sitter_is_available then
-      return
-    end
+        if not tree_sitter_is_available then
+            return
+        end
 
-    tree_sitter.setup(opts)
+        tree_sitter.setup(opts)
 
-    -- Needed for parser generator to work. TS will try compilers from left to
-    --   right.
-    require('nvim-treesitter.install').compilers = { 'gcc', 'clang', 'zig' }
-  end,
+        -- Needed for parser generator to work. TS will try compilers from left to
+        --   right.
+        require('nvim-treesitter.install').compilers = { 'gcc', 'clang', 'zig' }
+    end,
 }

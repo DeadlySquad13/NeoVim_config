@@ -1,11 +1,15 @@
 return {
     'mrjones2014/legendary.nvim',
+    lazy = false,
+    -- Since legendary.nvim handles all your keymaps/commands,
+    -- its recommended to load legendary.nvim before other plugins.
+    priority = 10000,
     opts = {
         keymaps = {
             {
                 '<leader>H',
                 function()
-                  print('hello world!')
+                    print('hello world!')
                 end,
                 description = 'Say hello',
             },

@@ -72,6 +72,23 @@ return {
             vim.list_extend(center_sections, sections)
         end
 
+        -- TODO: Get from lazy specs.
+        local gitlab_is_available = true
+        local projects_is_available = true
+
+        if projects_is_available then
+            add_sections({
+                {
+                    icon = 'P',
+                    desc = format_description('Open projects'),
+                    key = leader .. ' n p',
+                    action = 'Telescope projects',
+                },
+
+            })
+        end
+
+
         local telescope_builtin_is_available, telescope_builtin = prequire('telescope.builtin');
 
         if not telescope_builtin_is_available then
@@ -102,7 +119,7 @@ return {
         end
 
 
-        local telescope_is_available, telescope = pcall(require, 'telescope');
+        local telescope_is_available, telescope = prequire('telescope');
 
         if telescope_is_available then
             local pick_session = telescope.extensions.persisted.persisted;
@@ -116,9 +133,6 @@ return {
                 } })
             end
         end
-
-        -- TODO: Get from lazy specs.
-        local gitlab_is_available = true
 
         local function gitlab()
             local gitlab_is_available, gitlab = pcall(require, 'gitlab');

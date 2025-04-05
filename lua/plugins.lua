@@ -1,5 +1,19 @@
 local ENV = require('ds_omega.constants.env')
 
+local lazierPath = vim.fn.stdpath("data") .. "/lazier.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazierPath) then
+    local repo = "https://github.com/jake-stewart/lazier.nvim.git"
+    local out = vim.fn.system({
+        "git", "clone", "--branch=stable", repo, lazierPath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({{
+            "Failed to clone lazier.nvim:\n" .. out, "Error"
+        }}, true, {})
+    end
+end
+vim.opt.runtimepath:prepend(lazierPath)
+
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({

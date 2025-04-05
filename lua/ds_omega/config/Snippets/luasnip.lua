@@ -61,7 +61,7 @@ return {
             -- Autoexpand.
             enable_autosnippets = true,
             -- Use visual selections in snippets.
-            store_selection_keys = '<c-i>',
+            store_selection_keys = '<c-o>',
 
             -- for regular expansion and nvim-cmp.
             ft_func = function()
