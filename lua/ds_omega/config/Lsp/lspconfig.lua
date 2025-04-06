@@ -11,6 +11,7 @@ return {
     local servers = {
       'lua_ls',
       'pyright',
+      'ansiblels',
 
       -- * Web Development.
       -- 'tsserver',
@@ -134,6 +135,7 @@ return {
       r_language_server = { 'r' },
       markdown_oxide = { 'markdown' },
       nix = { 'nil_ls' },
+      yaml = { 'ansiblels' },
     }
 
     local enabled_filetypes = get_module_enabled_filetypes()
