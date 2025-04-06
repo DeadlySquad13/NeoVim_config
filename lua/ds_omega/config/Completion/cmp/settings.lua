@@ -30,6 +30,9 @@ return function()
       { name = 'otter', keyword_length = MIN_KEYWORD_LENGTH }, -- Language features in code cells.
       { name = 'nvim_lsp', keyword_length = MIN_KEYWORD_LENGTH, max_item_count = 30 }, -- Nvim-lsp.
       { name = 'nvim_lua', keyword_length = MIN_KEYWORD_LENGTH }, -- Nvim-lua functions.
+      --   Not sure about keyword_length here because it may not complete indices
+      -- of the footnotes.
+      { name = 'mkdnflow' }, -- https://github.com/jakewvincent/mkdnflow.nvim?tab=readme-ov-file#-completion-for-nvim-cmp
       { name = 'path', keyword_length = MIN_KEYWORD_LENGTH + 1, max_item_count = 30 }, -- Path completion.
       { name = 'luasnip', keyword_length = MIN_KEYWORD_LENGTH }, -- LuaSnip Snippets.
       --{ name = 'ultisnips' }, -- Ultisnips.

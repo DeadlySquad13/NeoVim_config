@@ -1,10 +1,11 @@
 return {
   'numToStr/Comment.nvim',
-  -- event = 'VimEnter',
+  event = 'VeryLazy',
 
   dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
-      --event = 'VimEnter',
+
+      lazy = true,
 
       dependencies = 'nvim-treesitter/nvim-treesitter',
   },

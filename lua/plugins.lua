@@ -7,7 +7,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",   -- latest stable release
+    "--branch=stable", -- latest stable release
     lazypath,
   })
 end
@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.config.' .. module.import } end, {
   { import = 'Assistance' },
+  { import = 'Architecturing' },
   { import = 'Commands' },
   { import = 'Completion' },
   { import = 'Editing' },
@@ -25,15 +26,25 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   { import = 'Notebooks' },
   { import = 'Lsp' },
   { import = 'Snippets' },
+  { import = 'SearchAndReplace' },
   { import = 'Testing' },
   { import = 'Navigation' },
   { import = 'NeovimDevelopment' },
   { import = 'ProjectManagement' },
+  { import = 'TaskManagement' },
   { import = 'TextObjects' },
   { import = 'Ui' },
   { import = 'WindowManagement' },
   { import = 'Workspace' },
   { import = 'Markdown' },
+  -- { import = 'Orgmode' },
+  { import = 'Writing' },
+
+  -- # Meta layers.
+  -- 'DataCenter' holds plugins and settings that help with realization of
+  -- a 'DataCenter' strategy. Similar to 'Integrations' layer but focuses on
+  -- goal of gathering information from multiple sources in one place.
+  { import = 'DataCenter' },
 }), {
   dev = {
     ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
@@ -45,19 +56,8 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 
 -- startup({
 --     function(use, use_plugin, use_rocks)
---       -- - It is recommened to put impatient.nvim before any other plugins.
---       use({ 'lewis6991/impatient.nvim' })
---       -- Make a pull request to it to allow depth.
---       --use({
---       --  'mrjones2014/load-all.nvim',
-
---       --  requires = 'nvim-lua/plenary.nvim',
---       --})
-
---       use({ 'wbthomason/packer.nvim', opt = true })
 
 --       -- General.
---       use({ 'nvim-lua/plenary.nvim' })
 --       -- use_rocks({ 'functional' })
 
 --       -- - Xonsh syntax file.
@@ -68,9 +68,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --       -- * Integration.
 --       -- - With system.
 --       -- use({ 'majkinetor/vim-omnipresence' })
-
---       -- - Open and write files with sudo.
---       use({ 'lambdalisue/suda.vim' })
 
 --       -- * Russian layout.
 --       --use({ 'powerman/vim-plugin-ruscmd' })
@@ -92,18 +89,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --           config = [[ require('ds_omega.config.emmet-vim') ]],
 --       })
 
---       -- - Python formatter.
---       use({ 'tell-k/vim-autopep8', ft = { 'python' } })
-
---       -- Editing.
---       use({
---           'echasnovski/mini.nvim',
---           config = function()
---             require('ds_omega.config.mini.ai')
---           end,
---           -- branch = 'stable'
---       })
-
 --       -- ! Doesn't support lazy loading! Normal vim groups are not mapped to TS
 --       --   groups.
 --       use({
@@ -111,12 +96,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --           -- - We recommend updating the parsers on update.
 --           run = ':TSUpdate',
 --           config = [[ require('ds_omega.config.treesitter') ]],
---       })
-
---       use({
---           'nvim-treesitter/playground',
---           cmd = { 'TSHighlightCapturesUnderCursor', 'TSPlaygroundToggle' },
---           requires = 'nvim-treesitter/nvim-treesitter',
 --       })
 
 --       use({
@@ -164,20 +143,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --           -- tag = "*",
 --       })
 
---       -- # Runners
---       -- - Sniprun. Works only on Unix systems.
---       -- use({
---       --   'michaelb/sniprun',
---       --   run = 'bash ./install.sh',
---       -- })
-
---       use({
---           'Olical/conjure',
---           config = function()
---             vim.g['conjure#mapping#doc_word'] = '<Leader>ii'
---           end,
---       })
-
 --       -- Python-related text object
 --       --use({ 'jeetsukumaran/vim-pythonsense', ft = { 'python' } })
 
@@ -206,15 +171,6 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
 --       ---- show file tags in vim window
 --       --use({'liuchengxu/vista.vim', cmd = 'Vista'})
 --       --end
-
---       -- Autosave files on certain events
---       --use({
---       --'Pocco81/AutoSave.nvim',
---       --event = 'VimEnter',
---       --config = function()
---       --vim.defer_fn(function() require('ds_omega.config.autosave') end, 1500)
---       --end
---       --})
 
 --       -- Handy unix command inside Vim (Rename, Move etc.)
 --       --use({'tpope/vim-eunuch', cmd = {'Rename', 'Delete'}})

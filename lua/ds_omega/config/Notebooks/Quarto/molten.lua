@@ -1,6 +1,7 @@
 return {
   'benlubas/molten-nvim',
-  enabled = false,
+  -- Works on Windows but I don't want to run code on Windows.
+  enabled = not require("ds_omega.utils.os").is("Windows_NT"),
   build = ':UpdateRemotePlugins',
   init = function()
     vim.g.molten_image_provider = 'image.nvim'

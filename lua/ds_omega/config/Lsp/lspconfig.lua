@@ -8,13 +8,16 @@ return {
   },
 
   opts = function()
-    local servers_with_custom_configurations = {
+    local servers = {
       'lua_ls',
       'pyright',
 
       -- * Web Development.
       -- 'tsserver',
       'vtsls',
+      'cssmodules_ls',
+      'somesass_ls',
+      'emmet_language_server',
       'cssls',
       'html',
       'eslint',
@@ -23,18 +26,20 @@ return {
       'texlab',
       'gopls',
       'r_language_server',
+      'markdown_oxide',
+      'nil_ls',
       -- bashls,
 
       -- Conflicts with prettier formatting in TS files.
       -- stylelint_lsp,
     }
 
-    local custom_server_configurations = {}
-    for _, server_name in ipairs(servers_with_custom_configurations) do
-      custom_server_configurations[server_name] = require('ds_omega.config.Lsp.server_configurations' .. '.' .. server_name)
+    local server_configurations = {}
+    for _, server_name in ipairs(servers) do
+      server_configurations[server_name] = require('ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name)
     end
 
-    return custom_server_configurations
+    return server_configurations
   end,
 
   config = function(_, opts)
@@ -48,7 +53,7 @@ return {
     local server_configurations = opts
 
     local default_server_configuration = require(
-      'ds_omega.config.Lsp.server_configurations.default'
+      'ds_omega.config.Lsp.core.server_configurations.default'
     )
 
     vim.diagnostic.config({
@@ -94,8 +99,29 @@ return {
     end
 
     local lsp_server_name_to_filetypes = {
+      cssmodules_ls = {
+        -- For postcss.
+        -- 'css',
+        'scss',
+        'sass',
+      },
+      somesass_ls = { 'sass' },
       cssls = { 'css', 'scss', 'less' },
       eslint = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+      emmet_language_server = {
+        'eruby',
+        'html',
+        'css',
+        'xsl',
+        -- Can be possibly used here but I don't.
+        -- 'javascript',
+        'javascriptreact',
+        'less',
+        'sass',
+        'scss',
+        'pug',
+        'typescriptreact',
+      },
       html = { 'html' },
       jsonls = { 'json' },
       pylsp = { 'python' },
@@ -106,6 +132,8 @@ return {
       texlab = { 'tex' },
       gopls = { 'go' },
       r_language_server = { 'r' },
+      markdown_oxide = { 'markdown' },
+      nix = { 'nil_ls' },
     }
 
     local enabled_filetypes = get_module_enabled_filetypes()
@@ -149,25 +177,25 @@ return {
     end
 
     local function setup_lsp_servers()
-      for server_name, custom_server_configuration in pairs(server_configurations) do
+      for server_name, server_configuration in pairs(server_configurations) do
         if is_lsp_server_enabled(server_name) then
-          local server_configuration = vim.deepcopy(default_server_configuration)
+          local final_server_configuration = vim.deepcopy(default_server_configuration)
 
           -- TODO: use classes.
           add_custom_server_settings(
-            server_configuration,
-            custom_server_configuration.settings
+            final_server_configuration,
+            server_configuration.settings
           )
           add_server_on_attach_addons(
-            server_configuration,
-            custom_server_configuration.on_attach
+            final_server_configuration,
+            server_configuration.on_attach
           )
 
-          if server_name == 'sumneko_lua' then
+          --[[ if server_name == 'sumneko_lua' then
             require('ds_omega.layers.Lsp.neodev')
-          end
+          end ]]
 
-          lspconfig[server_name].setup(server_configuration)
+          lspconfig[server_name].setup(final_server_configuration)
         end
       end
     end

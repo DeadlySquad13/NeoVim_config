@@ -1,39 +1,22 @@
 return {
   -- To enable lazy load @see{github plugin page @link{https://github.com/beauwilliams/focus.nvim}}
   'beauwilliams/focus.nvim',
-  enabled = false,
+  enabled = true,
 
   opts = function()
-    local ft = require('ds_omega.constants').filetypes
-
-    local is_focus_bugged = true
+    -- https://github.com/nvim-focus/focus.nvim/issues/82
+    local is_focus_bugged = false
 
     return {
       -- The focused window will no longer automatically resize. Other focus
       --   features are still available.
       autoresize = {
-          enable = not is_focus_bugged, -- Enable or disable auto-resizing of splits
-          width = 0, -- Force width for the focused window
-          height = 0, -- Force height for the focused window
-          minwidth = 0, -- Force minimum width for the unfocused window
-          minheight = 0, -- Force minimum height for the unfocused window
-          height_quickfix = 10, -- Set the height of quickfix panel
-      },
-      -- Prevents focus automatically resizing windows based on configured excluded
-      --   filetypes or buftypes Query filetypes using :lua print(vim.bo.ft) or
-      --   buftypes using :lua print(vim.bo.buftype).
-      excluded_filetypes = {
-        '', -- Hover popups such as Treesitter syntax investigation popup, lsp popups...
-        'TelescopePrompt',
-        'toggleterm',
-        'qf', -- Quickfix list.
-      },
-      excluded_buftypes = {
-        'nofile',
-        'help',
-        'prompt',
-        'popup',
-        'quickfix' -- Quickfix list.
+        enable = not is_focus_bugged, -- Enable or disable auto-resizing of splits
+        width = 0,                    -- Force width for the focused window
+        height = 0,                   -- Force height for the focused window
+        minwidth = 0,                 -- Force minimum width for the unfocused window
+        minheight = 0,                -- Force minimum height for the unfocused window
+        height_quickfix = 10,         -- Set the height of quickfix panel
       },
       -- Enable resizing for excluded filetypes using forced_filetypes.
       --forced_filetypes = { 'dan_repl' },
@@ -60,11 +43,6 @@ return {
       -- False: When a :Focus.. command creates a new split, retain a copy of the
       --   current window in the new window.
       --bufnew =  false,
-
-      -- Prevents focus automatically resizing windows based on configured file
-      -- trees. Query filetypes using `:lua print(vim.bo.ft)`.
-      -- Default: { 'nvimtree', 'nerdtree', 'chadtree', 'fern' }.
-      compatible_filetrees = ft.filetrees,
 
       -- Displays a cursorline in the focused window only.
       -- Not displayed in unfocused windows.
@@ -123,5 +101,58 @@ return {
     }
   end,
 
-  config = true,
+  config = function(_, opts)
+    local ft = require('ds_omega.constants').filetypes
+
+    -- Prevents focus automatically resizing windows based on configured excluded
+    --   filetypes or buftypes Query filetypes using :lua print(vim.bo.ft) or
+    --   buftypes using :lua print(vim.bo.buftype).
+    local excluded_filetypes = vim.list_extend({
+      '',   -- Hover popups such as Treesitter syntax investigation popup, lsp popups...
+      'TelescopePrompt',
+      'toggleterm',
+      'qf',   -- Quickfix list.
+    }, ft.filetrees)
+
+    local excluded_buftypes = {
+      'nofile',
+      'help',
+      'prompt',
+      'popup',
+      'quickfix' -- Quickfix list.
+    }
+
+    local augroup =
+        vim.api.nvim_create_augroup('FocusDisable', { clear = true })
+
+    vim.api.nvim_create_autocmd('WinEnter', {
+      group = augroup,
+      callback = function(_)
+        if vim.tbl_contains(excluded_buftypes, vim.bo.buftype) then
+          vim.b.focus_disable = true
+        end
+      end,
+      desc = 'Disable focus autoresize for BufType',
+    })
+
+    vim.api.nvim_create_autocmd('FileType', {
+      group = augroup,
+      callback = function(_)
+        if vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then
+          vim.b.focus_disable = true
+        end
+      end,
+      desc = 'Disable focus autoresize for FileType',
+    })
+
+    local prequire = require('ds_omega.utils').prequire
+
+    local focus_is_available, focus = prequire('focus')
+
+    if not focus_is_available or not focus then
+      return
+    end
+
+    focus.setup(opts)
+  end,
 }

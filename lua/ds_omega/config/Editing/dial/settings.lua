@@ -14,6 +14,7 @@ return function()
       augend.integer.alias.decimal,   -- nonnegative decimal number (0, 1, 2, 3, ...)
       augend.integer.alias.hex,       -- nonnegative hex number  (0x01, 0x1a1f, etc.)
       augend.date.alias["%Y/%m/%d"],  -- date (2022/02/19, etc.)
+      augend.misc.alias.markdown_header, -- increment/decrement header levels in markdown
     },
   }
 end

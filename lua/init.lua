@@ -12,9 +12,5 @@ require('general_settings')
 require('plugins')
 require('ds_omega.commands')
 require('ds_omega.autocommands')
-local colorschemas = require('ds_omega.config.theme')
-require('ds_omega.ds_omega_utils').load_coloscheme(
-    colorschemas.COLORSCHEME_NAME,
-    colorschemas.BACKUP_COLORSCHEME_NAME,
-    colorschemas.FALLBACK_COLORSCHEME_NAME
-)
+-- REFACTOR: Make them as small plugins and setup using Lazy.
+require('ds_omega.modules.choose_and_edit_configs').setup()

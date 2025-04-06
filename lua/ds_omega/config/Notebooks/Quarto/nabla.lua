@@ -1,6 +1,6 @@
 return { -- preview equations
   'jbyuki/nabla.nvim',
   keys = {
-    { '<leader>qm', ':lua require"nabla".toggle_virt()<cr>', desc = 'toggle [m]ath equations' },
+    { '<leader>tn', ':lua require"nabla".toggle_virt()<cr>', desc = 'toggle Nabla math equations' },
   },
 }

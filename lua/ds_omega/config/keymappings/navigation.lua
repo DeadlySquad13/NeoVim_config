@@ -31,7 +31,12 @@ local navigation_mappings = {
         'Buffers',
     },
 
-    -- s = {
+    s = {
+        telescope_builtin.git_status,
+        'Git Status (changed files)',
+    },
+
+    -- S = {
     --   require('session-lens').search_session()
     --   'Session search',
     -- },
@@ -44,9 +49,14 @@ local navigation_mappings = {
         telescope_builtin.help_tags,
         'Help tags',
     },
-    t = {
+    ['<S-t>'] = {
         telescope_builtin.treesitter,
         'Treesitter',
+    },
+
+    m = {
+        telescope_builtin.marks,
+        'Marks',
     },
 
     [KEY.forward_slash] = { ':Neotree<cr>', 'Filetree' },
@@ -88,6 +98,28 @@ if not vim.tbl_isempty(file_browser_extension) then
         ['-'] = {
             file_browser_extension.file_browser,
             'File browser',
+        },
+    })
+end
+
+local cabinet_extension = telescope_extensions.cabinet
+if not vim.tbl_isempty(cabinet_extension) then
+    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+        d = {
+            function()
+                cabinet_extension.cabinet({})
+            end,
+            'Cabinet Drawers',
+        },
+    })
+end
+
+local tabs_extension = telescope_extensions['telescope-tabs']
+if not vim.tbl_isempty(tabs_extension) then
+    navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
+        t = {
+            tabs_extension.list_tabs,
+            'Tabs',
         },
     })
 end

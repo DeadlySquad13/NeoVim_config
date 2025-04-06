@@ -11,11 +11,25 @@ end
 
 local Tab = {}
 
+Tab.mappings = {
+    [keymappings.next_global] = {
+        t = { tab 'next', 'Next Tab' },
+    },
+    [keymappings.previous_global] = {
+        t = { tab 'previous', 'Previous Tab' },
+    },
+    [keymappings.create] = {
+      t = { tab 'new', 'Create new Tab' }
+    }
+}
+
 Tab.hydra = Hydra({
     name = 'Tabs',
     config = {
         hint = {
-            border = 'rounded',
+            float_opts = {
+                style = 'rounded',
+            },
             offset = -1
         }
     },

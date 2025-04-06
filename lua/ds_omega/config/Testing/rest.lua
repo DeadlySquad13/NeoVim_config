@@ -5,7 +5,8 @@ return {
     -- luarocks plugin build script (easier to install it on system) and
     -- even after installing it, it will not found all packages but mimetypes.
     -- xml2lua and nvim-nio will not build, lua-curl won't find curl…
-    enabled = not require("ds_omega.utils.os").is("Windows_NT"),
+    -- enabled = not require("ds_omega.utils.os").is("Windows_NT"),
+    enabled = false,
     dependencies = {
         {
             "vhyrro/luarocks.nvim",

@@ -11,6 +11,7 @@ return {
       go_out      = '<Esc>',
       -- Go out and change main column to the new view.
       go_out_plus = '<S-Esc>',
+      mark_set    = '<Leader>m',
       reset       = '<BS>',
       reveal_cwd  = '@',
       show_help   = 'g?',

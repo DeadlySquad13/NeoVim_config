@@ -15,7 +15,6 @@ return {
         local function get_window_number()
             return vim.api.nvim_win_get_number(0);
         end
-
         -- Returns current working directory.
         local function get_current_working_directory()
             return format_buf_name({ buf_name = vim.fn.getcwd() });
@@ -59,6 +58,26 @@ return {
             return self.status
         end
 
+
+        local function is_cabinet_available()
+            local cabinet_is_available, cabinet = prequire('cabinet')
+
+            return cabinet_is_available
+        end
+
+        -- Return current cabinet drawer (https://github.com/smilhey/cabinet.nvim).
+        local function get_current_cabinet_drawer()
+            local cabinet_is_available, cabinet = prequire('cabinet')
+
+            if not cabinet then
+              return
+            end
+
+            local current_drawer_name = cabinet.drawer_current()
+            
+            return current_drawer_name
+        end
+
         return {
             options = {
                 icons_enabled = true,
@@ -75,6 +94,23 @@ return {
                 lualine_a = { recorder_is_available and recorder.displaySlots or nil },
                 lualine_b = {
                     'branch',
+                    --[[ {
+                        'mode',
+                        fmt = function(mode)
+                            if vim.b['visual_multi'] then
+                                return mode .. ' - MULTI'
+                            end
+                        end
+                    }, ]]
+                    -- Reference: https://github.com/nvim-lualine/lualine.nvim/issues/951#issuecomment-1513861877
+                    {
+                        function()
+                            if vim.b['visual_multi'] then
+                                local ret = vim.api.nvim_exec2('call b:VM_Selection.Funcs.infoline()', { output = true })
+                                return string.match(ret.output, 'M.*')
+                            end
+                        end
+                    },
                     {
                         empty,
                         color = "lualine_c_normal",
@@ -101,7 +137,7 @@ return {
                     not git_blame_is_available and 'diagnostics' or
                     { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
                 },
-                lualine_y = {},
+                lualine_y = { { get_current_cabinet_drawer, cond = is_cabinet__available } },
                 lualine_z = { 'diff' },
             },
             inactive_sections = not globalstatus and {

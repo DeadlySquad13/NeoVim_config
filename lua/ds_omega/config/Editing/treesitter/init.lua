@@ -1,7 +1,8 @@
 return {
   'nvim-treesitter/nvim-treesitter',
 
-  lazy = false,
+  lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
+  cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
   -- build = ':TSUpdate',
 
   opts = function()
@@ -30,7 +31,6 @@ return {
       ensure_installed = parsers,
       ignore_install = {}, -- List of parsers to ignore installing
       indent = {
-        -- enable = not yati_is_available,
         disable = {
           'yaml',
           'python',

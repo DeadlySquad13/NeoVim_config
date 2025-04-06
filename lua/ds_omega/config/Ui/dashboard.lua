@@ -1,5 +1,8 @@
 return {
   'glepnir/dashboard-nvim',
+
+  lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
+
   cond = function()
     return not vim.g.started_by_firenvim
   end,
@@ -7,7 +10,7 @@ return {
   opts = function()
     local prequire = require('ds_omega.utils').prequire;
 
-    local choose_and_edit_configs = require('ds_omega.commands.choose_and_edit_configs');
+    local choose_and_edit_configs = require('ds_omega.modules.choose_and_edit_configs').choose_and_edit_configs;
 
     -- Possible extensions for dashboard:
     -- - more find file utils,
@@ -41,10 +44,10 @@ return {
       local space_left = desc_width - #desc;
       if space_left < 0 then
         notify(
-            '"' .. desc .. '" is too long!\nMake it smaller by ' ..
-            -space_left .. ' characters or make desc_WIDTH value bigger.',
-            vim.log.levels.WARN,
-            { title = 'Dashboard' }
+          '"' .. desc .. '" is too long!\nMake it smaller by ' ..
+          -space_left .. ' characters or make desc_WIDTH value bigger.',
+          vim.log.levels.WARN,
+          { title = 'Dashboard' }
         )
       end
 
@@ -53,18 +56,18 @@ return {
     end
 
     local center_sections = {
-        {
-            icon = '',
-            desc = format_description('Edit config'),
-            key = leader .. ' e e',
-            action = choose_and_edit_configs,
-        },
-        {
-            icon = '',
-            desc = format_description('Jump to bookmarks'),
-            key = leader .. ' g b',
-            action = '',
-        },
+      {
+        icon = '',
+        desc = format_description('Edit config'),
+        key = leader .. ' e e',
+        action = choose_and_edit_configs,
+      },
+      {
+        icon = '',
+        desc = format_description('Jump to bookmarks'),
+        key = leader .. ' g b',
+        action = '',
+      },
     }
 
     local function add_sections(sections)
@@ -79,24 +82,24 @@ return {
 
     if telescope_builtin_is_available then
       add_sections({
-          {
-              icon = '',
-              desc = format_description('Recently opened files'),
-              key = leader .. ' o r',
-              action = telescope_builtin.oldfiles,
-          },
-          {
-              icon = '',
-              desc = format_description('Find files'),
-              key = leader .. ' n f',
-              action = telescope_builtin.find_files,
-          },
-          {
-              icon = '',
-              desc = format_description('Find files by grep'),
-              key = leader .. ' n g',
-              action = telescope_builtin.live_grep,
-          },
+        {
+          icon = '',
+          desc = format_description('Recently opened files'),
+          key = leader .. ' o r',
+          action = telescope_builtin.oldfiles,
+        },
+        {
+          icon = '',
+          desc = format_description('Find files'),
+          key = leader .. ' n f',
+          action = telescope_builtin.find_files,
+        },
+        {
+          icon = '',
+          desc = format_description('Find files by grep'),
+          key = leader .. ' n g',
+          action = telescope_builtin.live_grep,
+        },
       })
     end
 
@@ -107,30 +110,50 @@ return {
       local pick_session = telescope.extensions.persisted.persisted;
 
       if pick_session then
-        add_sections({{
-            icon = '*',
-            desc = format_description('Pick session'),
-            key = leader .. ' o s',
-            action = pick_session,
-        }})
+        add_sections({ {
+          icon = '*',
+          desc = format_description('Pick session'),
+          key = leader .. ' o s',
+          action = pick_session,
+        } })
       end
     end
 
-    add_sections({{
-        icon = '🚪',
-        desc = format_description('Back to reality...'),
-        key = 'Z Q',
-        action = 'quit!'
-    }})
+    local gitlab_is_available, gitlab = pcall(require, 'gitlab');
+    if gitlab_is_available then
+      -- TODO: I plan in the future to make an abstract handler that will
+      -- choose either gitlab or github review process depending on current
+      -- VCS.
+      -- REFACTOR: Use current keymappings from plugin, not just
+      -- hardcoded value.
+      add_sections({ {
+        icon = "🐙",
+        desc = format_description('Review current branch'),
+        key = 'hgg',
+        action = gitlab.review,
+      }, {
+        icon = "🐙",
+        desc = format_description('Review merge requests'),
+        key = 'hgG',
+        action = gitlab.choose_merge_request,
+      } })
+    end
+
+    add_sections({ {
+      icon = '🚪',
+      desc = format_description('Back to reality...'),
+      key = 'Z Q',
+      action = 'quit!'
+    } })
 
     local center = vim.tbl_map(function(item)
-          item.icon = item.icon .. ' '
+      item.icon = item.icon .. ' '
 
-          return vim.tbl_extend('error', item, {
-                  desc_hl = 'DashboardCenter',
-                  key_hl = 'DashboardShortcut',
-              })
-        end, center_sections)
+      return vim.tbl_extend('error', item, {
+        desc_hl = 'DashboardCenter',
+        key_hl = 'DashboardShortcut',
+      })
+    end, center_sections)
 
     -- - Custom header.
     local header = {
@@ -145,8 +168,8 @@ return {
         [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣶⣶⣿⡟⠀                   ]],
         [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣦⣄⠀⣀⣠⣤⣤⣶⣶⣶⣶⣶⣴⣾⣿⣿⣿⣿⣿⣿⡟⠁⠀                   ]],
         [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡿⠯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⡟⠀⠀    ___  ___________]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⡀⢨⣿⣿⡃⠀⠀⠀⠀ / _ \\/ __<  /_  /]],
-        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀/ // /\\ \\ / //_ < ]],
+        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⡀⢨⣿⣿⡃⠀⠀⠀⠀ / _ \\/ __< /_  /]],
+        [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀/ // /\\ \\ //_ < ]],
         [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀/____/___//_/____/ ]],
         [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
         [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ]],
@@ -180,31 +203,31 @@ return {
     }
 
     local footer = {
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        'Мой вим - мой лучший друг. Он - моя жизнь. Я должен научиться владеть им',
-        'так же, как я владею своей жизнью. Без меня мой вим бесполезен. Без моего',
-        'вима бесполезен я. Я должен кодить из моего вима метко. Я должен',
-        'кодить точнее, чем вскодер, который пытается обосрать меня. Я должен перекодить',
-        'его прежде, чем он переубедит меня перейти на вскод. Да будет так…',
-        '',
-        '',
-        '',
-        '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      'Мой вим - мой лучший друг. Он - моя жизнь. Я должен научиться владеть им',
+      'так же, как я владею своей жизнью. Без меня мой вим бесполезен. Без моего',
+      'вима бесполезен я. Я должен кодить из моего вима метко. Я должен',
+      'кодить точнее, чем вскодер, который пытается обосрать меня. Я должен перекодить',
+      'его прежде, чем он переубедит меня перейти на вскод. Да будет так…',
+      '',
+      '',
+      '',
+      '',
     }
 
     return {
-        theme = 'doom',
-        config = {
-            header = header,
-            center = center,
-            footer = footer,
-        }
+      theme = 'doom',
+      config = {
+        header = header,
+        center = center,
+        footer = footer,
+      }
     }
   end,
 

@@ -2,6 +2,7 @@ return {
     'L3MON4D3/LuaSnip',
     -- Breaks as cmp is loaded earlier. Make as a dep for cmp?
     --event = 'BufReadPre',
+    lazy = true,
 
     dependencies = {
         'molleweide/LuaSnip-snippets.nvim',

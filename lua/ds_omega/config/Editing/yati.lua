@@ -14,6 +14,7 @@ return {
     --   "cindent": see `:h cindent()`
     --   or a custom function return the final indent result.
     default_fallback = 'auto',
+        -- See "Supported Languages" https://github.com/yioneko/nvim-yati
   },
 
   config = function()

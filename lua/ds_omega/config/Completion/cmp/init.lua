@@ -15,6 +15,9 @@ return {
     'onsails/lspkind.nvim',
   },
 
+  version = false, -- last release is way too old
+  event = "InsertEnter",
+
   opts = require('ds_omega.config.Completion.cmp.settings'),
 
   config = function(_, opts)

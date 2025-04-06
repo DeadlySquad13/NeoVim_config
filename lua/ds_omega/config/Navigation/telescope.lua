@@ -2,6 +2,8 @@ return {
  'nvim-telescope/telescope.nvim',
   dependencies = 'nvim-lua/plenary.nvim',
 
+  cmd = "Telescope",
+
   opts = function()
 
     local actions = require('telescope.actions')
@@ -45,6 +47,8 @@ return {
         -- yanky.
         yank_history = pickers.telescope,
         agrolens = require('ds_omega.config.Navigation.agrolens').opts,
+        advanced_git_search = require('ds_omega.config.Git.advanced_git_search').opts,
+        bibtex = require('ds_omega.config.Navigation.telescope_bibtex').opts(),
       }
     }
   end,

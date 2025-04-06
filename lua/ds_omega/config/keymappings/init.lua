@@ -10,6 +10,8 @@ local merge, cmd = utils.merge, utils.cmd
 
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
+local leader_left = CONSTANTS.keymappings.leader_left
+local leader_right = CONSTANTS.keymappings.leader_right
 local next = CONSTANTS.keymappings.next
 local previous = CONSTANTS.keymappings.previous
 local around = CONSTANTS.keymappings.around
@@ -148,14 +150,9 @@ local open_mappings = {
 
 local special_paste_mappings = { '"+p', 'Paste from clipboard register' }
 
-local q_leader_mappings = {
-    name = "Quickfix list",
+local quickfix_list = require('ds_omega.config.keymappings.quickfix_list')
 
-    q = { require("ds_omega.utils.quickfix_list").toggle_quickfix, "Toggle quickfix list" },
-
-    [CONSTANTS.transitive_catalizator] = { function() require('ds_omega.config.keymappings.quickfix_list').hydra
-            :activate() end, 'Activate quickfix list mode' },
-}
+local q_leader_mappings = quickfix_list.keymappings
 
 -- * Rnvimr.
 -- nmap <leader><c-\> :RnvimrToggle<cr>
@@ -171,7 +168,16 @@ local q_leader_mappings = {
 --  "EOF
 --
 
-local execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute selected cells' }
+local jupyter_execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute selected cells' }
+
+-- Sniprun <Plug> mappings don't work: they are made wihout `noremap`
+-- so `:` doesn't work because of our remaps.
+vim.api.nvim_set_keymap("v", "<Plug>SnipRun", ":lua require'sniprun'.run('v')<Cr>", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<Plug>SnipRun", ":lua require'sniprun'.run()<Cr>", { silent = true, noremap = true })
+
+vim.api.nvim_set_keymap("n", "<Plug>SnipRunOperator", ":set opfunc=SnipRunOperator<Cr>g@", { silent = true, noremap = true })
+
+local execute_mappings = { '<Plug>SnipRun', 'Run code' }
 
 local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
 -- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
@@ -266,12 +272,17 @@ local z_leader_mappings = {
 local buffer_mappings_module = require('ds_omega.config.keymappings.buffer')
 local buffer_mappings, change_buffer_mappings = buffer_mappings_module[1], buffer_mappings_module[2]
 
+local marks_keymappings = require("ds_omega.config.keymappings.marks")
+
+local diff_keymappings = require("ds_omega.config.keymappings.diff")
+
 local leader_mappings = {
     name = 'Leader',
-    -- a = a_mappings,
-    b = buffer_mappings,
+    a = buffer_mappings,
+    -- Was inconvenient to press.
+    -- b = buffer_mappings,
     c = comment_mappings,
-    -- d = d_mappings,
+    d = diff_keymappings.keymappings.n,
     e = e_mappings,
     f = vim.tbl_extend('error', file_mappings, special_yank_mappings),
     g = go_mappings,
@@ -280,57 +291,26 @@ local leader_mappings = {
     j = jump_mappings,
     -- k = k_mappings,
     -- l = l_mappings,
-    m = {
-        '<Plug>(Marks-set)',
-        'Mark',
-
-        [','] = { '<Plug>(Marks-setnext)', 'Set next mark' },
-        d = {
-            '<Plug>(Marks-delete)',
-            'Delete mark',
-
-            ['-'] = { '<Plug>(Marks-deleteline)', 'Delete mark on current line' },
-        },
-
-        [next] = { '<Plug>(Marks-next)', 'Next mark' },
-        [previous] = { '<Plug>(Marks-prev)', 'Previous mark' },
-    },
-    M = {
-        -- '<Plug>(Marks-perview)',
-        -- 'Mark preview',
-
-        d = {
-            '<Plug>(Marks-delete-bookmark)',
-            'Delete bookmark',
-        },
-
-        ['a'] = { '<Plug>(Marks-set-bookmark0)', 'Set bookmark0' },
-        ['e'] = { '<Plug>(Marks-set-bookmark1)', 'Set bookmark1' },
-        ['i'] = { '<Plug>(Marks-set-bookmark2)', 'Set bookmark2' },
-        ['h'] = { '<Plug>(Marks-set-bookmark3)', 'Set bookmark3' },
-        ['u'] = { '<Plug>(Marks-set-bookmark4)', 'Set bookmark4' },
-        ['o'] = { '<Plug>(Marks-set-bookmark5)', 'Set bookmark5' },
-        ['y'] = { '<Plug>(Marks-set-bookmark6)', 'Set bookmark6' },
-        ['k'] = { '<Plug>(Marks-set-bookmark7)', 'Set bookmark7' },
-        ['.'] = { '<Plug>(Marks-set-bookmark8)', 'Set bookmark8' },
-        ['q'] = { '<Plug>(Marks-set-bookmark9)', 'Set bookmark9' },
-
-        [next] = { '<Plug>(Marks-next-bookmark)', 'Next bookmark' },
-        [previous] = { '<Plug>(Marks-prev-bookmark)', 'Previous bookmark' },
-    },
+    m = marks_keymappings.usual,
+    M = marks_keymappings.bookmarks,
     -- Navigation. Helps find things, used as lookup table (navigation panel).
     n = require('ds_omega.config.keymappings.navigation'),
     ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
     [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
     p = special_paste_mappings,
     q = q_leader_mappings,
-    r = require("ds_omega.config.keymappings.replace"),
+    rr = require("ds_omega.config.keymappings.replace"),
     s = session_mappings,
     t = toggle_mappings,
     -- u = u_mappings,
     -- v = v_mappings,
     -- w = w_mappings,
-    x = execute_mappings,
+    x = {
+        '<Plug>SnipRunOperator',
+        'Run code (operator pending)',
+        x = execute_mappings,
+    },
+    X = { ':let b:caret=winsaveview() <CR> | :%SnipRun <CR>| :call winrestview(b:caret) <CR>', 'Run all' },
     -- y = y_mappings,
     z = z_leader_mappings,
     [','] = settings_mappings,
@@ -399,17 +379,29 @@ local nxmode_mappings = {
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
 local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
-    w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
-    W = { "<Plug>(smartword-w)", 'Smart next Word' },
+    -- w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
+    -- W = { "<Plug>(smartword-w)", 'Smart next Word' },
     -- b = { '<Plug>(smartword-b)', 'b' },
     -- e = { '<Plug>(smartword-e)', 'e' },
-    gd = { '<Plug>(smartword-ge)', 'Smart ge' },
+    
+    b = { '<Plug>(smartword-b)', 'Smart b (word backward)' },
+    ['<S-b>'] = { "<Cmd>lua require('spider').motion('b')<Cr>", 'CamelCase word backward' },
 
+    -- 'o' is `g` in our layout
+    -- 'd' is `e` in our layout
+    -- So it's like `ge` default keymapping.
+    o = {
+        d = { '<Plug>(smartword-ge)', 'Smart ge (backward to the End of the word)' },
+        ['<S-d>'] = { "<Cmd>lua require('spider').motion('ge')<Cr>", 'CamelCase backward to the End of word' },
+    },
+
+    -- TODO: Make these mappings work on notebooks.
     -- Make default layout more ergonomic.
     -- H = { '^', 'Go to the beginning of the line' },
     -- J = { '}', 'Go one paragraph down' },
     -- K = { '{', 'Go one paragraph up' },
     -- L = { '$', 'Go to the end of the line' },
+    -- TODO: Make as a fallback to TreeSJ
     -- ['}'] = { 'J', 'Join lines' },
 
     ['^'] = { 'H', 'Move cursor to the top of the screen' },
@@ -421,7 +413,8 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- [':'] = {
     --     name = 'Alternate',
     -- },
-    ['r'] = { ':', 'Enter command line mode' },
+    ['rr'] = { ':', 'Enter command line mode' },
+    ['rh'] = { ':', 'Enter command line mode' },
     -- Swap mark jumps.
     ["'"] = { '`', 'Jump to position' },
     ['`'] = { "'", 'Jump to position linewise' },
@@ -445,8 +438,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
-    -- A = { '<Plug>(smartword-w)', 'Smart next Word' }, -- May be swapped with A as smartword is like extended version of W motion.
-    -- A = { 'W', 'Next Word' }, -- TODO: VACANT!
+    A = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next word' },
     -- i = { 'm', 'Mark' },
     -- h = { 'f', 'Find' },
     -- j = { 'q', 'Record macro' },
@@ -488,7 +480,7 @@ local minifiles_toggle = function(...)
     if not MiniFiles.close() then MiniFiles.open(...) end
 end
 
-local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
+local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge (require('ds_omega.config.keymappings.tab').mappings, {
     name = 'Main',
     -- a = a_mappings,
     -- b = b_mappings,
@@ -523,14 +515,14 @@ local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, {
         name = 'Activate workspace modes',
 
         t = { function() require('ds_omega.config.keymappings.tab').hydra:activate() end, 'Activate tab mode' },
-        c = { function() require('ds_omega.config.keymappings.quickfix_list').hydra:activate() end, 'Activate quickfix list mode' },
+        c = { function() quickfix_list.hydra:activate() end, 'Activate quickfix list mode' },
         w = { function() require('ds_omega.config.keymappings.window').hydra:activate() end, 'Activate quickfix list mode' },
     },
 
     ['<leader>'] = leader_mappings,
 
     ['-'] = { minifiles_toggle, 'Navigate through files' },
-}))
+})))
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
@@ -541,7 +533,7 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmod
         -- a = a_mappings,
         -- b = buffer_mappings,
         c = comment_mappings,
-        -- d = d_mappings,
+        d = diff_keymappings.keymappings.x,
         -- e = e_mappings,
         f = special_yank_mappings,
         -- g = go_mappings,
@@ -609,6 +601,8 @@ local xmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge(oxmod
     -- y = y_mappings,
     -- z = z_mappings,
 
+    ['/'] = { '<Esc>/\\%V', 'Search within visual selection' },
+    ['?'] = { '<Esc>?\\%V', 'Search backwards within visual selection' },
     -- ['<c-w>'] = {
     -- [CONSTANTS.transitive_catalizator] = { 'Window Mode' },
     -- }
