@@ -14,6 +14,4 @@ return {
     auto_session_use_git_branch = true,
     bypass_session_save_file_types = nil
   },
-
-  config = true,
 }

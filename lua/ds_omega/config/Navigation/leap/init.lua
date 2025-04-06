@@ -1,8 +1,14 @@
+local M = {}
+
+M.keymappings = require('ds_omega.config.Navigation.leap.keymappings')
+
 return {
   'ggandor/leap.nvim',
 
+  event = require('ds_omega.constants.events').lazy_file,
+  keys = to_lazy_keys(M.keymappings),
+
   opts = require('ds_omega.config.Navigation.leap.settings'),
-  -- keys = require('ds_omega.config.Navigation.leap.keymappings'),
 
   config = function (_, opts)
     local leap_is_available, leap = require('ds_omega.ds_omega_utils').prequire_plugin('leap')
@@ -20,7 +26,11 @@ return {
     leap.add_default_mappings()
 
     local ds_omega_utils_is_available, ds_omega_utils = prequire('ds_omega.ds_omega_utils')
-    ds_omega_utils.apply_plugin_keymappings(require('ds_omega.config.Navigation.leap.keymappings'))
+    if not ds_omega_utils_is_available or not ds_omega_utils then
+        return
+    end
+
+    ds_omega_utils.apply_plugin_keymappings(M.keymappings)
   end
 
   -- -- commands = {

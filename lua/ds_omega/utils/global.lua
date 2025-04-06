@@ -92,3 +92,7 @@ _G.log = function(name, hl, opts)
   end
 end
 
+-- REFACTOR: Not sure we should do these assigns here. Maybe we should move global out of
+-- ds_omega.utils to unravel cyclic connection between ds_omega.utils and ds_omega.ds_omega_utils.
+_G.to_lazy_keys = require('ds_omega.ds_omega_utils.to_lazy_keys')
+_G.prequire_plugin = require('ds_omega.ds_omega_utils.prequire_plugin')

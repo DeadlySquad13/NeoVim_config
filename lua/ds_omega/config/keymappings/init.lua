@@ -45,7 +45,6 @@ local comment_mappings = {
 
 local e_mappings = {
     name = 'Edit',
-    e = { cmd 'ChooseAndEditConfigs', 'Choose and Edit configs' },
     -- Open vimrc in vertical split.
     v = { cmd 'vsplit $MYVIMRC', 'Vimrc' },
     h = { ':e <c-r>=expand("%:h")<cr>', 'Relative to current file Head', silent = false },
@@ -435,7 +434,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     [':'] = { 'O', 'New line above' },
 
     -- r = { 'f', 'Find' },
-    s = vim.tbl_extend('error', replace_mappings, { 'r', 'Replace' }),
+    s = replace_mappings,
     -- n = { 'x', 'Cut' },
     -- t = { 's', 'Surround' },
     A = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next word' },
