@@ -10,7 +10,7 @@ return {
   dependencies = 'rktjmp/lush.nvim',
 
   config = function()
-    local colorschemas = require('ds_omega.config.theme')
+    local colorschemas = require('ds_omega.config.theme').default
 
     require('ds_omega.ds_omega_utils').load_coloscheme(
       colorschemas.COLORSCHEME_NAME,

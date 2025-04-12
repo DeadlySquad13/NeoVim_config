@@ -150,7 +150,9 @@ local toggle_mappings = {
     q = { cmd 'BqfAutoToggle', 'Toggle better quickfix auto toggle' }, -- TODO: Add 'BqfToggle' to quickfix buffer-local keymappings.
 }
 
-local telescope_extensions = require('telescope').extensions
+local _, telescope = pcall(require, 'telescope')
+
+local telescope_extensions = telescope.extensions
 
 -- TODO: Move to some other mapping.
 -- Open something.
@@ -249,7 +251,7 @@ local g_mappings = {
     b = nil,
 }
 
-if not vim.tbl_isempty(telescope_extensions.agrolens) then
+if telescope_extensions and not vim.tbl_isempty(telescope_extensions.agrolens) then
     g_mappings = vim.tbl_extend("force", g_mappings, {
         m = { cmd 'Telescope agrolens query=functions buffers=all', 'Go to function' },
         M = { cmd 'Telescope agrolens query=functions', 'Go to function (in current buffer)' },
@@ -285,7 +287,6 @@ local z_leader_mappings = {
 }
 
 local buffer_mappings_module = require('ds_omega.config.keymappings.buffer')
-local buffer_mappings, change_buffer_mappings = buffer_mappings_module[1], buffer_mappings_module[2]
 
 local marks_keymappings = require("ds_omega.config.keymappings.marks")
 
@@ -293,7 +294,7 @@ local diff_keymappings = require("ds_omega.config.keymappings.diff")
 
 local leader_mappings = {
     name = 'Leader',
-    a = buffer_mappings,
+    a = buffer_mappings_module.buffer_keymappings,
     -- Was inconvenient to press.
     -- b = buffer_mappings,
     c = comment_mappings,
@@ -395,7 +396,7 @@ local nxmode_mappings = {
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
-local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
+local common_mappings = vim.tbl_extend('error', buffer_mappings_module.buffer_change_keymappings, {
     -- w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
     -- W = { "<Plug>(smartword-w)", 'Smart next Word' },
     -- b = { '<Plug>(smartword-b)', 'b' },

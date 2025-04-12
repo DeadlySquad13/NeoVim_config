@@ -46,6 +46,12 @@ require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.c
   -- goal of gathering information from multiple sources in one place.
   { import = 'DataCenter' },
 }), {
+  defaults = {
+    cond = not vim.g.started_by_firenvim,
+  },
+  diff = {
+    cmd = "diffview.nvim",
+  },
   dev = {
     ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
     path = "~/.bookmarks/shared-projects/--personal/NeoVim__",

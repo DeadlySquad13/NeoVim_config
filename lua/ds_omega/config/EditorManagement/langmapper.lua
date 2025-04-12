@@ -2,6 +2,7 @@ return {
     'Wansmer/langmapper.nvim',
     lazy = false,
     priority = 1, -- High priority is needed if you will use `autoremap()`.
+    cond = true,
     opts = function()
       local im_select_get_current_layout_id = function()
         local cmd = 'im-select'

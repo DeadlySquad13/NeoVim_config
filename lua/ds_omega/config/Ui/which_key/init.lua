@@ -1,6 +1,6 @@
 return {
     'folke/which-key.nvim',
-    enabled = true,
+    cond = true,
     version = "2.x",
     lazy = false,
     -- Since which-key handles all your keymaps,
