@@ -1,6 +1,6 @@
 return {
     'folke/which-key.nvim',
-    enabled = true,
+    cond = true,
     version = "2.x",
     lazy = false,
     -- Since which-key handles all your keymaps,
@@ -14,18 +14,23 @@ return {
 
     opts = require('ds_omega.config.Ui.which_key.settings'),
     config = function(_, opts)
-        local lmu = require('langmapper.utils')
-        local view = require('which-key.view')
-        local execute = view.execute
+        local prequire = require('ds_omega.utils').prequire
 
-        -- wrap `execute()` and translate sequence back
-        view.execute = function(prefix_i, mode, buf)
-            -- Translate back to English characters
-            local ru_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru')
-            execute(ru_prefix_i, mode, buf)
+        local langmapper_utils_is_available, langmapper_utils = prequire('langmapper.utils')
 
-            -- local hdn_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'hdn')
-            -- execute(hdn_prefix_i, mode, buf)
+        if langmapper_utils_is_available then
+            local view = require('which-key.view')
+            local execute = view.execute
+
+            -- wrap `execute()` and translate sequence back
+            view.execute = function(prefix_i, mode, buf)
+                -- Translate back to English characters
+                local ru_prefix_i = langmapper_utils.translate_keycode(prefix_i, 'default', 'ru')
+                execute(ru_prefix_i, mode, buf)
+
+                -- local hdn_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'hdn')
+                -- execute(hdn_prefix_i, mode, buf)
+            end
         end
 
         require('which-key').setup(opts)

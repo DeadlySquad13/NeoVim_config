@@ -1,7 +1,5 @@
-local Hydra = require('hydra')
-
-local cmd = require('hydra.keymap-util').cmd
-local pcmd = require('hydra.keymap-util').pcmd
+local utils = require("ds_omega.config.keymappings._common.utils")
+local cmd = utils.cmd
 
 local Diff = {}
 

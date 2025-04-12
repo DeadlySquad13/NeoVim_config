@@ -242,6 +242,8 @@ set_global_variables({
     maplocalleader = '\\',
     -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
     fugitive_no_maps = 1,
+    -- For testing.
+    -- started_by_firenvim = true,
 })
 
 local langmap = require('langmap').langmap.to_hands_down_neu
