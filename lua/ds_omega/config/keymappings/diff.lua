@@ -62,13 +62,13 @@ Diff.keymappings = {
         s = { cmd 'DiffviewOpen', 'Repo diff (aka git Status)' },
         l = {
             l = { cmd('DiffviewOpen ' .. get_default_branch_name()), 'Diff local main' },
-            L = { cmd('DiffviewOpen HEAD..origin/' .. get_default_branch_name()), 'Diff against remote origin/main' },
+            L = { cmd('DiffviewOpen origin/' .. get_default_branch_name() .. '..HEAD'), 'Diff against remote origin/main' },
 
             f = { cmd('DiffviewOpen ' .. get_feature_branch_name()), 'Diff local feature branch' },
-            F = { cmd('DiffviewOpen HEAD..origin/' .. get_feature_branch_name()), 'Diff against remote feature branch' },
+            F = { cmd('DiffviewOpen origin/' .. get_feature_branch_name()..'..HEAD'), 'Diff against remote feature branch' },
 
             e = { cmd('DiffviewOpen ' .. get_epic_branch_name()), 'Diff local epic branch' },
-            E = { cmd('DiffviewOpen HEAD..origin/' .. get_epic_branch_name()), 'Diff against remote epic branch' },
+            E = { cmd('DiffviewOpen origin/' .. get_epic_branch_name() .. '..HEAD'), 'Diff against remote epic branch' },
 
             -- Very similar to simple `DiffviewOpen`. Made just for
             -- completeness sake.
@@ -83,7 +83,7 @@ Diff.keymappings = {
                 -- Some autocompletion exists on Diffview but it doesn't list
                 -- everything for some reason.
                 vim.ui.input({ prompt = 'Enter remote branch' }, function(input)
-                    vim.cmd.DiffviewOpen({ args = { 'HEAD..origin/' .. input } })
+                    vim.cmd.DiffviewOpen({ args = { 'origin/' .. input .. '..HEAD' } })
                 end)
             end, 'Input and Diff against remote branch' }
         },
