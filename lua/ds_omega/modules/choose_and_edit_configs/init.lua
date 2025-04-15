@@ -8,12 +8,23 @@ M.choose_and_edit_configs = function(opts)
     end
 end
 
-M.setup = function(opts)
+M.setup_neovim = function(opts)
     local create_user_command = require('ds_omega.utils.commands').create_user_command
 
     -- See `:h user-commands` and `:h nvim_create_user_command()`.
     create_user_command(
         'ChooseAndEditConfigs',
+        M.choose_and_edit_configs(opts),
+        { nargs = 0 }
+    )
+end
+
+M.setup_unix_dotfiles = function(opts)
+    local create_user_command = require('ds_omega.utils.commands').create_user_command
+
+    -- See `:h user-commands` and `:h nvim_create_user_command()`.
+    create_user_command(
+        'ChooseAndEditUnixDotfiles',
         M.choose_and_edit_configs(opts),
         { nargs = 0 }
     )
