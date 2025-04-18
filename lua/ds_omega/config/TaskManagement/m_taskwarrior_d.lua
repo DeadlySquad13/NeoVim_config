@@ -17,7 +17,9 @@ return {
     -- This is extremely useful for viewing the note in any Makrdown previewers (i.e. Obsidian app) if you set
     comment_prefix = "<!--",
     comment_suffix = "-->",
-    -- More configurations will be added in the future
+    -- Be caution: it may be slow to open large files, because it scans the whole buffer.
+    -- https://github.com/huantrinh1802/m_taskwarrior_d.nvim/issues/87
+    display_due_or_scheduled = false,
   },
 
   config = function(_, opts)
