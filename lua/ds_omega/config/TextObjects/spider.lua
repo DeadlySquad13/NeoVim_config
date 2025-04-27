@@ -1,6 +1,7 @@
 -- TODO: Add separate mappings as smartword alternative.
 return {
   'chrisgrieser/nvim-spider',
+   cond = true,
   -- event = 'VimEnter',
 
   --[[ config = function()
