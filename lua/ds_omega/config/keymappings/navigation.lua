@@ -1,6 +1,14 @@
 local prequire = require('ds_omega.utils').prequire
 
-local telescope_builtin = require('telescope.builtin')
+local function telescope_builtin()
+    local telescope_builtin = require('telescope.builtin')
+    if not telescope_builtin then
+        return
+    end
+
+    return telescope_builtin
+end
+
 local telescope_extensions = require('telescope').extensions
 
 local KEY = require('ds_omega.config.keymappings._common.constants').KEY
