@@ -177,6 +177,8 @@ local global_local = {
 
     -- Program that will be used when asking for help by pressing K.
     keywordprg     = ':help',
+
+    exrc = true,
 }
 
 
