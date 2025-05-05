@@ -400,8 +400,7 @@ local common_mappings = vim.tbl_extend('error', change_buffer_mappings, {
     -- J = { '}', 'Go one paragraph down' },
     -- K = { '{', 'Go one paragraph up' },
     -- L = { '$', 'Go to the end of the line' },
-    -- TODO: Make as a fallback to TreeSJ
-    -- ['}'] = { 'J', 'Join lines' },
+    [leader_right .. 'fj'] = { 'J', 'Join lines' },
 
     ['^'] = { 'H', 'Move cursor to the top of the screen' },
     ['$'] = { 'L', 'Move cursor to the bottom of the screen' },
