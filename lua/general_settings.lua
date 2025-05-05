@@ -233,11 +233,11 @@ local bw_local = {
     cursorline     = IS_ENVIRONMENT_FAST,
     guicursor      = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20',
 }
+
 local utils_setters = require('ds_omega.utils.setters')
 local set_settings, set_global_variables = utils_setters.set_settings, utils_setters.set_global_variables
 
 set_global_variables({
-    -- python3_host_prog = [[J:\ds13\Soft\-scoop\shims\python3.exe]],
     mapleader = ' ',
     maplocalleader = '\\',
     -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
