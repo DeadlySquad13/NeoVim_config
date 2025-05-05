@@ -17,7 +17,8 @@ local IS_ENVIRONMENT_FAST = false
 
 -- Motions that are allowed to cross line boundaries.
 --   Go the end of the previous line / start of the next line easier.
-set.whichwrap:append('hl')
+-- < - Left, > - Right.
+set.whichwrap:append('hl<>')
 
 -- Better to use 0 with tpipeline.
 -- local function get_laststatus()
