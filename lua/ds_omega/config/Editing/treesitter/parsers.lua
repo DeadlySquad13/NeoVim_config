@@ -46,5 +46,11 @@ return {
 
   'http', -- For http testing (rest.nvim).
   
+  -- Nix.
   'nix',
+
+  -- Go.
+  'go',
+  'gosum',
+  'gomod',
 }

@@ -70,6 +70,10 @@ return {
       diagnostics.statix,
       formatting.alejandra,
 
+      -- Go.
+      diagnostics.golangci_lint,
+      formatting.gofmt,
+
       -- Other.
       -- diagnostics.ansiblelint, -- Was causing vim-illuminate errors. Also
       -- I don't find any purpose of it: it seems as embedded into ansiblels.
