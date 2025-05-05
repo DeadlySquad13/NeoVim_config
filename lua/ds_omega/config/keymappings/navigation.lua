@@ -1,6 +1,14 @@
 local prequire = require('ds_omega.utils').prequire
 
-local telescope_builtin = require('telescope.builtin')
+local function telescope_builtin()
+    local telescope_builtin = require('telescope.builtin')
+    if not telescope_builtin then
+        return
+    end
+
+    return telescope_builtin
+end
+
 local telescope_extensions = require('telescope').extensions
 
 local KEY = require('ds_omega.config.keymappings._common.constants').KEY
@@ -9,12 +17,12 @@ local navigation_mappings = {
     name = 'Navigation',
     -- * Telescope.
     n = {
-        telescope_builtin.resume,
-        'Resume'
+        function() return telescope_builtin().resume() end,
+        'Resume',
     },
 
     f = {
-        telescope_builtin.find_files,
+        function() telescope_builtin().find_files() end,
         'Files in current directory',
     },
     F = {
@@ -22,17 +30,17 @@ local navigation_mappings = {
         'Files via Rnvimr',
     },
     o = {
-        telescope_builtin.oldfiles,
+        function() return telescope_builtin().oldfiles() end,
         'Old files',
     },
 
     b = {
-        telescope_builtin.buffers,
+        function() return telescope_builtin().buffers() end,
         'Buffers',
     },
 
     s = {
-        telescope_builtin.git_status,
+        function() return telescope_builtin().git_status() end,
         'Git Status (changed files)',
     },
 
@@ -41,21 +49,21 @@ local navigation_mappings = {
     --   'Session search',
     -- },
     g = {
-        telescope_builtin.live_grep,
+        function() return telescope_builtin().live_grep() end,
         'Live grep',
     },
 
     h = {
-        telescope_builtin.help_tags,
+        function() return telescope_builtin().help_tags() end,
         'Help tags',
     },
     ['<S-t>'] = {
-        telescope_builtin.treesitter,
+        function() return telescope_builtin().treesitter() end,
         'Treesitter',
     },
 
     m = {
-        telescope_builtin.marks,
+        function() return telescope_builtin().marks() end,
         'Marks',
     },
 
@@ -67,20 +75,6 @@ local navigation_mappings = {
         silent = false,
     },
 }
-
-local scope_extension = telescope_extensions.scope
-if not vim.tbl_isempty(scope_extension) then
-    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
-        b = {
-            telescope_builtin.buffers,
-            'Tab-local Buffers',
-        },
-        B = {
-            scope_extension.buffers,
-            'Global Buffers',
-        },
-    })
-end
 
 local projects_extension = telescope_extensions.projects
 if not vim.tbl_isempty(projects_extension) then
@@ -114,6 +108,20 @@ if not vim.tbl_isempty(cabinet_extension) then
     })
 end
 
+local scope_extension = telescope_extensions.scope
+if not vim.tbl_isempty(scope_extension) then
+    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+        b = {
+            function() return telescope_builtin().buffers() end,
+            'Tab-local Buffers',
+        },
+        B = {
+            scope_extension.buffers,
+            'Global Buffers',
+        },
+    })
+end
+
 local tabs_extension = telescope_extensions['telescope-tabs']
 if not vim.tbl_isempty(tabs_extension) then
     navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
@@ -130,30 +138,35 @@ local search_tabs_is_available, search_tabs = prequire('search')
 if search_tabs_is_available then
     navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
         b = {
-            function() search_tabs.open({ collection = 'buffers', tab_name = 'Tab-local' }) end,
+            function() return search_tabs.open({ collection = 'buffers', tab_name = 'Tab-local' }) end,
             'Tab-local Buffers (tab)',
         },
         B = {
-            function() search_tabs.open({ collection = 'buffers', tab_name = 'Global' }) end,
+            function() return search_tabs.open({ collection = 'buffers', tab_name = 'Global' }) end,
             'Global Buffers (tab)',
         },
 
-        --[[ f = {
-            function() search_tabs.open({ collection = 'files', tab_name = 'Files in current directory' }) end,
+        g = {
+            function() return search_tabs.open({ collection = 'grep' }) end,
+            'Live grep'
+        },
+
+        f = {
+            function() return search_tabs.open({ collection = 'files', tab_name = 'Cwd' }) end,
             'Files in current directory (tab)'
         },
         r = { -- ? Add non-tab version to navigation? It kinda useful: you don't swap cwd during this command. But it sucks to have so much file command variants :D
-            function() search_tabs.open({ collection = 'files', tab_name = 'Files in current directory' }) end,
+            function() return search_tabs.open({ collection = 'files', tab_name = 'Recent project' }) end,
             'Recent project files (tab)'
         },
         ['-'] = {
-            function() search_tabs.open({ collection = 'files', tab_name = 'File browser' }) end,
+            function() return search_tabs.open({ collection = 'files', tab_name = 'File browser' }) end,
             'File browser (tab)'
         },
         o = {
-            function() search_tabs.open({ collection = 'files', tab_name = 'Old files' }) end,
+            function() return search_tabs.open({ collection = 'files', tab_name = 'Old' }) end,
             'Old files (tab)'
-        }, ]]
+        },
     })
 end
 

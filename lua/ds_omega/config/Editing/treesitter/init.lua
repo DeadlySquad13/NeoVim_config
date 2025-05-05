@@ -29,7 +29,11 @@ return {
 
         return {
             ensure_installed = parsers,
-            ignore_install = {}, -- List of parsers to ignore installing
+            -- List of parsers to ignore installing
+            ignore_install = {
+                -- Orgmode is installed via plugin nvim-orgmode.
+                'org',
+            },
             indent = {
                 enable = true,
                 disable = yati_is_available and {

@@ -10,7 +10,7 @@ return {
         local project_nvim_is_available, project_nvim = prequire('project_nvim')
 
         if not project_nvim_is_available then
-          return
+            return
         end
 
         return {
@@ -22,7 +22,7 @@ return {
 
                     tabs = {
                         { name = 'Tab-local', tele_func = builtin.buffers },
-                        { name = 'Global', tele_func = extensions.scope.buffers },
+                        { name = 'Global',    tele_func = extensions.scope.buffers },
                     },
                 },
 
@@ -31,12 +31,26 @@ return {
                     initial_tab = 1, -- Files in current directory.
 
                     tabs = {
-                        { name = 'Files in current directory', tele_func = builtin.files },
-                        { name = 'Recent project files', tele_func = function()
-                            builtin.files({ cwd = project_nvim.get_recent_projects()[1] })
-                        end},
+                        { name = 'Cwd',    tele_func = builtin.find_files },
+                        { name = 'Hidden', tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
+                        {
+                            name = 'Recent project',
+                            tele_func = function(_opts)
+                                return builtin.find_files({ cwd = project_nvim.get_recent_projects()[1] })
+                            end
+                        },
                         { name = 'File browser', tele_func = extensions.file_browser.file_browser },
-                        { name = 'Old files', tele_func = builtin.oldfiles },
+                        { name = 'Old',          tele_func = builtin.oldfiles },
+                    },
+                },
+
+                grep = {
+                    initial_tab = 1,
+
+                    tabs = {
+                        { name = 'Grep',   tele_func = builtin.live_grep },
+                        { name = 'Hidden', tele_func = builtin.live_grep, tele_opts = { additional_args = { '--hidden' } } },
+                        { name = 'In open files', tele_func = builtin.live_grep, tele_opts = { grep_open_files = true } },
                     },
                 },
             }
