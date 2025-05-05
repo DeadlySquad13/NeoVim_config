@@ -24,7 +24,8 @@ local inside_additional = CONSTANTS.keymappings.inside_additional
 --   '<,'>s;^\(-- \w\)\(.*\);\U\1\e\2.;
 
 local comment_mappings = {
-    D = { ':Neogen<cr>', 'Create Documentation comment' },
+    -- Moved to Neogen.
+    -- D = { ':Neogen<cr>', 'Create Documentation comment' },
     ['>'] = {
         '<Cmd>set operatorfunc=v:lua.___comment_semantically<Cr>g@',
         'Comment semantically',
