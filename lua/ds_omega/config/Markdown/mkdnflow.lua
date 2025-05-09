@@ -11,8 +11,7 @@ return {
       root_tell = "index.md",
     }, ]]
     bib = {
-      default_path = require('ds_omega.constants.env').REFERENCES .. "/Personal.bib"
-      -- default_path = require('ds_omega.constants.env').REFERENCES .. "/Zotero.bib"
+      default_path = require("ds_omega.constants.env").PERSONAL_SYSTEM_REFERENCES[require('ds_omega.utils.os').system_name()],
     },
     mappings = {
       MkdnEnter = { { 'i', 'n', 'v' }, '<CR>' }, -- This monolithic command has the aforementioned
