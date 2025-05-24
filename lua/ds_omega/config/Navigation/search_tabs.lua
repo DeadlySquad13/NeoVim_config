@@ -49,6 +49,7 @@ return {
 
                     tabs = {
                         { name = 'Grep',   tele_func = builtin.live_grep },
+                        { name = 'With args',   tele_func = extensions.live_grep_args.live_grep_args },
                         { name = 'Hidden', tele_func = builtin.live_grep, tele_opts = { additional_args = { '--hidden' } } },
                         { name = 'In open files', tele_func = builtin.live_grep, tele_opts = { grep_open_files = true } },
                     },
