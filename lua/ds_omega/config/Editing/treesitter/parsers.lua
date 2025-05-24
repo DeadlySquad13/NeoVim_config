@@ -36,6 +36,8 @@ return {
   'javascript',
   -- - React.
   'tsx',
+  -- - Styled components.
+  'styled',
 
   -- C family.
   'cmake',
