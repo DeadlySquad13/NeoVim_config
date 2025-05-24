@@ -131,6 +131,15 @@ local function list_deep_extend(initial_list, ...)
   return result
 end
 
+--- Set mode.
+---@param mode ('x') Mode to set. Currently only x mode is supported.
+local function set_mode(mode)
+  if mode == 'x' then
+    return vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("v", true, false, true), 'x!', true)
+  end
+  print(string.format('set_mode: This mode (%s) is not supported yet', mode))
+end
+
 local M = {
   -- # Core
   -- Just reuses global prequire, left here for clarity in old modules.
@@ -173,6 +182,8 @@ local M = {
   Set = require('ds_omega.utils.set').Set,
 
   SetIntersection = require('ds_omega.utils.set').SetIntersection,
+
+  set_mode = set_mode, 
 }
 
 return M
