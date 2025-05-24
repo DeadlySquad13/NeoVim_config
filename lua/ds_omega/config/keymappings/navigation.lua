@@ -127,6 +127,34 @@ if not vim.tbl_isempty(scope_extension) then
     })
 end
 
+local bibtex_extension = telescope_extensions.bibtex
+if not vim.tbl_isempty(bibtex_extension) then
+    navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
+        r = {
+            bibtex_extension.bibtex,
+            'Reference item',
+        },
+    })
+end
+
+-- Set live_grep_args instead of builtin live_grep.
+local live_grep_args_extension = telescope_extensions.live_grep_args
+if not vim.tbl_isempty(live_grep_args_extension) then
+    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+        g = {
+            live_grep_args_extension.live_grep_args,
+            'Live grep with args',
+        },
+    })
+    navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
+        G = {
+            function() return telescope_builtin().live_grep() end,
+            'Live grep',
+            expr = true,
+        },
+    })
+end
+
 local tabs_extension = telescope_extensions['telescope-tabs']
 if not vim.tbl_isempty(tabs_extension) then
     navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
@@ -153,7 +181,7 @@ if search_tabs_is_available then
 
         g = {
             function() return search_tabs.open({ collection = 'grep' }) end,
-            'Live grep'
+            'Live grep (tab)',
         },
         w = {
             function() return search_tabs.open({ collection = 'grep_string' }) end,
@@ -164,7 +192,7 @@ if search_tabs_is_available then
             function() return search_tabs.open({ collection = 'files', tab_name = 'Cwd' }) end,
             'Files in current directory (tab)'
         },
-        r = { -- ? Add non-tab version to navigation? It kinda useful: you don't swap cwd during this command. But it sucks to have so much file command variants :D
+        p = { -- ? Add non-tab version to navigation? It kinda useful: you don't swap cwd during this command. But it sucks to have so much file command variants :D
             function() return search_tabs.open({ collection = 'files', tab_name = 'Recent project' }) end,
             'Recent project files (tab)'
         },
@@ -177,6 +205,20 @@ if search_tabs_is_available then
             'Old files (tab)'
         },
     })
+
+    -- Set live_grep_args instead of builtin live_grep.
+    if not vim.tbl_isempty(live_grep_args_extension) then
+        navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+            g = {
+                function() return search_tabs.open({ collection = 'grep', tab_name = 'With args' }) end,
+                'Live grep with args (tab)',
+            },
+            G = {
+                function() return search_tabs.open({ collection = 'grep' }) end,
+                'Live grep (tab)',
+            },
+        })
+    end
 end
 
 return navigation_mappings

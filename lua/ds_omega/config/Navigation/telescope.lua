@@ -49,6 +49,7 @@ return {
         agrolens = require('ds_omega.config.Navigation.agrolens').opts,
         advanced_git_search = require('ds_omega.config.Git.advanced_git_search').opts,
         bibtex = require('ds_omega.config.Navigation.telescope_bibtex').opts(),
+        live_grep_args = require('ds_omega.config.Navigation.telescope_live_grep_args').opts,
       }
     }
   end,
