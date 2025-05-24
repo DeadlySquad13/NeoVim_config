@@ -200,6 +200,7 @@ if search_tabs_is_available then
         },
     })
 
+    local live_grep_args_extension = require('telescope').extensions.live_grep_args
     -- Set live_grep_args instead of builtin live_grep.
     if not vim.tbl_isempty(live_grep_args_extension) then
         navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
