@@ -336,8 +336,9 @@ local oxmode_mappings = {
         a = { cmd 'lua require("various-textobjs").subword("inner")', 'Inside subword' },
         A = { 'iw', 'Inside word' },
 
-        v = { cmd 'lua require("various-textobjs").value("inner")', 'Inside Value of a key: value pair' },
-        k = { cmd 'lua require("various-textobjs").key("inner")', 'Inside Key of a key: value pair' },
+        -- Moved to mini-ai.
+        -- v = { cmd 'lua require("various-textobjs").value("inner")', 'Inside Value of a key: value pair' },
+        -- k = { cmd 'lua require("various-textobjs").key("inner")', 'Inside Key of a key: value pair' },
 
         i = { '<Plug>(textobj-indent-same-i)', 'Inside block with the same indent' },
         I = { '<Plug>(textobj-indent-i)', 'Inside block with the same indent, ignoring outliers' },
@@ -346,8 +347,9 @@ local oxmode_mappings = {
         a = { cmd 'lua require("various-textobjs").subword("outer")', 'Around subword' },
         A = { 'aw', 'Around word' },
 
-        v = { cmd 'lua require("various-textobjs").value("outer")', 'Around Value of a key: value pair' },
-        k = { cmd 'lua require("various-textobjs").key("outer")', 'Around Key of a key: value pair' },
+        -- Moved to mini-ai.
+        -- v = { cmd 'lua require("various-textobjs").value("outer")', 'Around Value of a key: value pair' },
+        -- k = { cmd 'lua require("various-textobjs").key("outer")', 'Around Key of a key: value pair' },
 
         --   Indentation from various textobjects can't include whitespace.
         i = { '<Plug>(textobj-indent-same-a)', 'Around block with the same Indent' },
