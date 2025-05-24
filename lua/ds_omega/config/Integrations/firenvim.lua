@@ -6,6 +6,19 @@ return {
         -- Set 'never' and use [keyboard shortcut](https://github.com/glacambre/firenvim#manually-triggering-firenvim) inside browser to start editing input in firenvim.
         -- Or you can set 'always' and run it like described in [this issue](https://github.com/brookhong/Surfingkeys/issues/1064).
         ['.*'] = { takeover = 'always' },
+
+        -- Doesn't work properly in docs, not very well suited for
+        -- spreadsheets.
+        -- Handles https://docs.google.com/spreadsheets/ too.
+        ['https://docs.google.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
+        -- Doesn't work: when you save text it's not updated in the comment field.
+        ['https://www.reddit.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
       },
     }
   },
