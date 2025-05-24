@@ -53,6 +53,17 @@ return {
                         { name = 'In open files', tele_func = builtin.live_grep, tele_opts = { grep_open_files = true } },
                     },
                 },
+
+                grep_string = {
+                    initial_tab = 1,
+
+                    -- Doesn't show word in a name like Telescope does because of search tabs `name`.
+                    tabs = {
+                        { name = 'Grep string',   tele_func = builtin.grep_string },
+                        { name = 'Hidden', tele_func = builtin.grep_string, tele_opts = { additional_args = { '--hidden' } } },
+                        { name = 'In open files', tele_func = builtin.grep_string, tele_opts = { grep_open_files = true } },
+                    },
+                },
             }
         }
     end,

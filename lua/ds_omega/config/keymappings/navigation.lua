@@ -53,6 +53,11 @@ local navigation_mappings = {
         'Live grep',
     },
 
+    w = {
+        function() return telescope_builtin().grep_string() end,
+        'Grep string (word)',
+    },
+
     h = {
         function() return telescope_builtin().help_tags() end,
         'Help tags',
@@ -149,6 +154,10 @@ if search_tabs_is_available then
         g = {
             function() return search_tabs.open({ collection = 'grep' }) end,
             'Live grep'
+        },
+        w = {
+            function() return search_tabs.open({ collection = 'grep_string' }) end,
+            'Grep string (word)'
         },
 
         f = {
