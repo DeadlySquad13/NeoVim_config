@@ -38,6 +38,7 @@ local move_objects = {
     O = { query = "@loop.*", desc = "Loop end" },
 
     ['<Left>'] = { query = { "@assignment.lhs", "@attribute.inner", }, desc = "Left hand side of assignment end" },
+    -- TODO: Conflicts with macos switching spaces.
     ['<C-Right>'] = { query = { "@assignment.rhs", "@attribute.outer" }, desc = "Right hand side of assignment end" },
 
     P = { query = "@parameter.outer", desc = "Parameter end" },
