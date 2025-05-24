@@ -124,8 +124,3 @@
 (("protected" @type.qualifier) (#set! conceal "⛨")) ;; Black cross on Shield (U+26E8).
 (("public" @type.qualifier) (#set! conceal "🍂")) ;; Fallen Leaf (U+1F342)
 (("readonly" @type.qualifier) (#set! conceal "r"))
-
-;; TODO: Move to ecma.
-(("const" @keyword.declaration) (#set! conceal "c"))
-(("let" @keyword.declaration) (#set! conceal "l"))
-(("var" @keyword.declaration) (#set! conceal "v"))
