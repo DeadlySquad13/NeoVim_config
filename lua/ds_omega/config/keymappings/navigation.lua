@@ -6,8 +6,6 @@ local function telescope_builtin()
     return telescope_builtin
 end
 
-local telescope_extensions = require('telescope').extensions
-
 local KEY = require('ds_omega.config.keymappings._common.constants').KEY
 
 local navigation_mappings = {
@@ -90,7 +88,7 @@ local navigation_mappings = {
 local telescope_is_available, telescope = prequire('telescope')
 
 if telescope_is_available and telescope then
-    local telescope_extensions = telescope.extensions
+    local telescope_extensions = require('telescope').extensions
 
 
     local scope_extension = telescope_extensions.scope
@@ -107,58 +105,58 @@ if telescope_is_available and telescope then
             },
         })
     end
-end
 
-local scope_extension = telescope_extensions.scope
-if not vim.tbl_isempty(scope_extension) then
-    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
-        b = {
-            function() return telescope_builtin().buffers() end,
-            'Tab-local Buffers',
-        },
-        B = {
-            scope_extension.buffers,
-            'Global Buffers',
-        },
-    })
-end
+    local scope_extension = telescope_extensions.scope
+    if not vim.tbl_isempty(scope_extension) then
+        navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+            b = {
+                function() return telescope_builtin().buffers() end,
+                'Tab-local Buffers',
+            },
+            B = {
+                scope_extension.buffers,
+                'Global Buffers',
+            },
+        })
+    end
 
-local bibtex_extension = telescope_extensions.bibtex
-if not vim.tbl_isempty(bibtex_extension) then
-    navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
-        r = {
-            bibtex_extension.bibtex,
-            'Reference item',
-        },
-    })
-end
+    local bibtex_extension = telescope_extensions.bibtex
+    if not vim.tbl_isempty(bibtex_extension) then
+        navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
+            r = {
+                bibtex_extension.bibtex,
+                'Reference item',
+            },
+        })
+    end
 
--- Set live_grep_args instead of builtin live_grep.
-local live_grep_args_extension = telescope_extensions.live_grep_args
-if not vim.tbl_isempty(live_grep_args_extension) then
-    navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
-        g = {
-            live_grep_args_extension.live_grep_args,
-            'Live grep with args',
-        },
-    })
-    navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
-        G = {
-            function() return telescope_builtin().live_grep() end,
-            'Live grep',
-            expr = true,
-        },
-    })
-end
+    -- Set live_grep_args instead of builtin live_grep.
+    local live_grep_args_extension = telescope_extensions.live_grep_args
+    if not vim.tbl_isempty(live_grep_args_extension) then
+        navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+            g = {
+                live_grep_args_extension.live_grep_args,
+                'Live grep with args',
+            },
+        })
+        navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
+            G = {
+                function() return telescope_builtin().live_grep() end,
+                'Live grep',
+                expr = true,
+            },
+        })
+    end
 
-local tabs_extension = telescope_extensions['telescope-tabs']
-if not vim.tbl_isempty(tabs_extension) then
-    navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
-        t = {
-            tabs_extension.list_tabs,
-            'Tabs',
-        },
-    })
+    local tabs_extension = telescope_extensions['telescope-tabs']
+    if not vim.tbl_isempty(tabs_extension) then
+        navigation_mappings = vim.tbl_extend("error", navigation_mappings, {
+            t = {
+                tabs_extension.list_tabs,
+                'Tabs',
+            },
+        })
+    end
 end
 
 -- Must be last to overwrite everything!
