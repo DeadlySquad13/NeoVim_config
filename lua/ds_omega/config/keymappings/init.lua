@@ -19,9 +19,24 @@ local inside = CONSTANTS.keymappings.inside
 local around_additional = CONSTANTS.keymappings.around_additional
 local inside_additional = CONSTANTS.keymappings.inside_additional
 
--- Split line by delimiter: '<,'>s;\(delimiter\) ;\1\r;g
--- Uppercase all comments and add dot at the end:
---   '<,'>s;^\(-- \w\)\(.*\);\U\1\e\2.;
+--[[
+Useful search and replace.
+- Split line by delimiter:
+    - '<,'>s;\(delimiter\) ;\1\r;g
+    - Transform list:
+        Markdown, Rust, TypeScript, JavaScript, Python, Go, C, C++, Ruby, C#, TOML, Lua, Java
+      to:
+        'markdown',
+        'rust',
+        …
+        'java',
+
+      s;\s*\(.\{-}\)[\(, \)\n] \?;'\L\1',\r;g
+      # Ignores indent. Matches any combination of characters followed by ', ' or newline. Uses greedy search \{-}.
+
+- Uppercase all comments and add dot at the end:
+      '<,'>s;^\(-- \w\)\(.*\);\U\1\e\2.;
+]]
 
 local comment_mappings = {
     -- Moved to Neogen.

@@ -3,6 +3,15 @@ local cmd = utils.cmd
 
 local Diff = {}
 
+local function get_current_branch_name()
+    local res = vim
+        .system({ 'git', 'branch', '--show-current' }, { capture_output = true })
+        :wait()
+
+    -- Stdout has \n at the end.
+    return string.sub(res.stdout, 1, -2)
+end
+
 local function get_default_branch_name()
     local res = vim
         .system({ 'git', 'rev-parse', '--verify', 'main' }, { capture_output = true })
@@ -11,15 +20,9 @@ local function get_default_branch_name()
 end
 
 local function get_feature_branch_name()
-    local res = vim
-        .system({ 'git', 'branch', '--show-current' }, { capture_output = true })
-        :wait()
-
-    -- Stdout has \n at the end.
-    local current_branch_name = string.sub(res.stdout, 1, -2)
-
-    return 'feature/' .. current_branch_name
+    return 'feature/' .. get_current_branch_name()
 end
+
 -- REFACTOR: 100% we already have this function implemented in other modules.
 -- For instance, in lsp.
 local function get_git_cwd()
@@ -59,6 +62,9 @@ Diff.keymappings = {
 
         s = { cmd 'DiffviewOpen', 'Repo diff (aka git Status)' },
         l = {
+            r = { cmd('DiffviewOpen'), 'Diff against index' },
+            R = { cmd('DiffviewOpen origin/' .. get_current_branch_name() .. '..HEAD'), 'Diff against remote version of the current branch' },
+
             l = { cmd('DiffviewOpen ' .. get_default_branch_name()), 'Diff local main' },
             L = { cmd('DiffviewOpen origin/' .. get_default_branch_name() .. '..HEAD'), 'Diff against remote origin/main' },
 

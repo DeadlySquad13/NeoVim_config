@@ -1,31 +1,32 @@
-local prequire = require('ds_omega.utils').prequire
-
 local ufo_is_available, ufo = prequire('ufo')
 
 if not ufo_is_available then
     return
 end
 
-local function provider_selector(bufnr)
-    local function handle_fallback_exception(err, providerName)
-        if type(err) == 'string' and err:match('UfoFallbackException') then
-            return ufo.getFolds(providerName, bufnr)
-        else
-            return require('promise').reject(err)
-        end
-    end
+local M = {}
 
-    return ufo.getFolds('lsp', bufnr):catch(function(err)
-        return handle_fallback_exception(err, 'treesitter')
+--- Lsp -> Treesitter -> Indent.
+M.provider_selector = function(bufnr)
+    local handle_fallback_exception = require('ds_omega.config.Ui.ufo.handle_fallback_exception')
+
+    return ufo.getFolds(bufnr, 'lsp'):catch(function(err)
+        -- FIX: For some reason it errors on treesitter throwing error in ufo.
+        -- It's handled nicely using this construction but still...
+        return handle_fallback_exception(err, bufnr, 'treesitter')
     end):catch(function(err)
-        return handle_fallback_exception(err, 'indent')
+        return handle_fallback_exception(err, bufnr, 'indent')
     end)
 end
 
 
--- Lsp -> Treesitter -> Indent.
-local function get_customized_selector(bufnr, filetype, buftype)
-    return provider_selector
+--- Lsp -> Treesitter -> Indent.
+---@param _bufnr number Change selector depending on bufnr. Not used.
+---@param _filetype string Change selector depending on filetype. Not used.
+---@param _buftype  string Change selector depending on buftype. Not used.
+---@return function
+M.get_customized_selector = function(_bufnr, _filetype, _buftype)
+    return M.provider_selector
 end
 
-return get_customized_selector
+return M
