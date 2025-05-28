@@ -37,7 +37,7 @@ return {
             ['<C-j>'] = { ufo.peekFoldedLinesUnderCursor, 'Peek lines' },
         })
 
-        local get_customized_selector = require('ds_omega.config.Ui.ufo.get_customized_selector')
+        local get_customized_selector = require('ds_omega.config.Ui.ufo.get_customized_selector').get_customized_selector
         local fold_virt_text_handler = require('ds_omega.config.Ui.ufo.fold_virt_text_handler')
 
         ufo.setup({
@@ -52,6 +52,6 @@ return {
         local bufnr = vim.api.nvim_get_current_buf()
         ufo.setFoldVirtTextHandler(bufnr, fold_virt_text_handler)
 
-        require('ds_omega.config.Ui.ufo.fold_on_file_open')
+        require('ds_omega.config.Ui.ufo.fold_on_file_open').setup_autocmds()
     end,
 }

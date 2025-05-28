@@ -23,11 +23,5 @@ return {
         disabling = nil,
         -- Run before checking `condition`.
         before_asserting_save = nil,
-        before_saving = function()
-            print('before'); vim.cmd.mkview()
-        end,
-        after_saving = function()
-            print('after'); vim.cmd.loadview()
-        end,
     },
 }
