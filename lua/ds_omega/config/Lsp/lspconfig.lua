@@ -9,6 +9,9 @@ return {
 
   opts = function()
     local servers = {
+      -- Spell.
+      'harper_ls',
+
       'lua_ls',
       'pyright',
       'ansiblels',
@@ -100,6 +103,34 @@ return {
     end
 
     local lsp_server_name_to_filetypes = {
+      -- List constantly evolves:
+      -- https://writewithharper.com/docs/faq#What-Programming-Languages-Do-You-Support-
+      -- https://github.com/Automattic/harper/issues/79#issuecomment-2699311915
+      harper_ls = {
+        'markdown',
+        'rust',
+        'typescript',
+        'javascript',
+        'typescriptreact',
+        'javascriptreact',
+        'html',
+        'python',
+        'go',
+        'c',
+        'cpp',
+        'ruby',
+        'cs',
+        'toml',
+        'lua',
+        'java',
+        'nix',
+        'shellscript',
+        'typst',
+        'text',
+        'gitcommit',
+        'mail',
+        'cmake',
+      },
       cssmodules_ls = {
         -- For postcss.
         -- 'css',
