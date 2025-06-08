@@ -14,6 +14,12 @@ return {
           priority = 1,
           takeover = 'never'
         },
+        -- Excel embedded into yandex cloud, has same problems as google spreadsheets.
+        -- Not sure if this url takes only excel tables or other forms too.
+        ['https://disk.yandex.ru/edit/d/'] = {
+          priority = 1,
+          takeover = 'never'
+        },
         -- Doesn't work: when you save text it's not updated in the comment field.
         ['https://www.reddit.com'] = {
           priority = 1,
