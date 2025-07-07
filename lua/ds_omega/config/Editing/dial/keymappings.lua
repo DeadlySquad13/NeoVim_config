@@ -12,13 +12,13 @@ end
 
 return {
     n = {
-        ["<C-a>"] = { function() return dial_map().inc_normal() end, 'Increment', expr = true },
-        ["<C-x>"] = { function() return dial_map().dec_normal() end, 'Decrement', expr = true },
+        ["<C-a>"] = { function() dial_map().manipulate('increment', 'normal') end, 'Increment', expr = false },
+        ["<C-x>"] = { function() dial_map().manipulate('decrement', 'normal') end, 'Decrement', expr = false },
     },
     v = {
-        ["<C-a>"] = { function() return dial_map().inc_visual() end, 'Increment', expr = true },
-        ["<C-x>"] = { function() return dial_map().dec_visual() end, 'Decrement', expr = true },
-        ["g<C-a>"] = { function() return dial_map().inc_gvisual() end, 'Increment dynamically', expr = true },
-        ["g<C-x>"] = { function() return dial_map().dec_gvisual() end, 'Decrement dynamically', expr = true },
+        ["<C-a>"] = { function() return dial_map().manipulate('increment', 'visual') end, 'Increment', expr = false },
+        ["<C-x>"] = { function() return dial_map().manipulate('decrement', 'visual') end, 'Decrement', expr = false },
+        ["g<C-a>"] = { function() return dial_map().manipulate('increment', 'gvisual') end, 'Increment dynamically', expr = false },
+        ["g<C-x>"] = { function() return dial_map().manipulate('decrement', 'gvisual') end, 'Decrement dynamically', expr = false },
     },
 }
