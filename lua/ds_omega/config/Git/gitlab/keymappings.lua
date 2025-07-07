@@ -35,10 +35,10 @@ return {
                 [comment_key[1]] = {
                     function() return gitlab().create_comment() end,
                     'Add comment on current line',
-                    -- QUESTION: For some reason only here it doesn't work...
+                    -- QUESTION: For some reason in some places `expr = true` doesn't work...
                     -- It seems that something different is returned from
                     -- comments functions.
-                    -- expr = true,
+                    expr = false,
                 },
                 o = {
                     function() return gitlab().approve() end,
@@ -56,7 +56,7 @@ return {
             g = {
                 function() return gitlab().move_to_discussion_tree_from_diagnostic() end,
                 'Merge request discussion',
-                expr = true,
+                expr = false,
             },
         },
     },
@@ -66,12 +66,12 @@ return {
                 [comment_key[1]] = {
                     function() return gitlab().create_multiline_comment() end,
                     'Add multi-line comment on selection',
-                    -- expr = true,
+                    expr = false,
                 },
                 [comment_key[2]] = {
                     function() return gitlab().create_comment_suggestion() end,
                     'Add multi-line comment suggestion on selection',
-                    -- expr = true,
+                    expr = false,
                 },
             },
         },
