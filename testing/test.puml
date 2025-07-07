@@ -1,0 +1,6 @@
+@startuml
+User -> Application : request
+activate Application
+Application --> User : response
+deactivate Application
+@enduml
