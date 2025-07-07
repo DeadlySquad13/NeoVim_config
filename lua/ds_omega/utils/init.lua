@@ -177,6 +177,8 @@ local M = {
 
   os = require('ds_omega.utils.os'),
 
+  git = require('ds_omega.utils.git'),
+
   exec = require('ds_omega.utils.exec'),
 
   Set = require('ds_omega.utils.set').Set,
