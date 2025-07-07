@@ -1,40 +1,42 @@
 return {
   {
-      'kana/vim-textobj-user',
+    'kana/vim-textobj-user',
+    cond = true,
   },
   {
-      'pianohacker/vim-textobj-indented-paragraph',
-      event = require('ds_omega.constants.events').lazy_file,
-      dependencies = {
-        'vim-textobj-user'
-      },
+    'pianohacker/vim-textobj-indented-paragraph',
+    event = require('ds_omega.constants.events').lazy_file,
+    dependencies = {
+      'vim-textobj-user'
+    },
   },
   {
-      'kana/vim-textobj-indent',
-      event = require('ds_omega.constants.events').lazy_file,
-      dependencies = {
-        'vim-textobj-user'
-      },
+    'kana/vim-textobj-indent',
+    event = require('ds_omega.constants.events').lazy_file,
+    dependencies = {
+      'vim-textobj-user'
+    },
   },
   {
-      'GCBallesteros/vim-textobj-hydrogen',
-      event = require('ds_omega.constants.events').lazy_file,
-      dependencies = {
-        'vim-textobj-user'
-      },
+    'GCBallesteros/vim-textobj-hydrogen',
+    event = require('ds_omega.constants.events').lazy_file,
+    dependencies = {
+      'vim-textobj-user'
+    },
   },
   {
-      'anuvyklack/vim-smartword',
-      event = require('ds_omega.constants.events').lazy_file,
+    'anuvyklack/vim-smartword',
+    event = require('ds_omega.constants.events').lazy_file,
+    cond = true,
   },
   -- Has it's config in treesitter.
   {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+    'nvim-treesitter/nvim-treesitter-textobjects',
 
-      event = require('ds_omega.constants.events').lazy_file,
+    event = require('ds_omega.constants.events').lazy_file,
 
-      dependencies = {
-        'nvim-treesitter'
-      },
+    dependencies = {
+      'nvim-treesitter'
+    },
   }
 }

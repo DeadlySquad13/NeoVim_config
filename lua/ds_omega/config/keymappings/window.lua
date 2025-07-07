@@ -1,7 +1,7 @@
-local Hydra = require('hydra')
+local prequire = require('ds_omega.utils').prequire
 
-local cmd = require('hydra.keymap-util').cmd
-local pcmd = require('hydra.keymap-util').pcmd
+local utils = require("ds_omega.config.keymappings._common.utils")
+local cmd, pcmd = utils.cmd, utils.pcmd
 
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 
@@ -22,75 +22,79 @@ local function wincmd(key)
 end
 local Window = {}
 
--- TODO: Move keybindings to which-key to remove inconsistencies.
-Window.hydra = Hydra({
-    name = 'Windows',
-    -- hint = window_hint,
-    config = {
-        hint = {
-            float_opts = {
-                style = 'rounded',
-            },
-            offset = -1
+local hydra_is_available, Hydra = prequire('hydra')
+
+if hydra_is_available and Hydra then
+    -- TODO: Move keybindings to which-key to remove inconsistencies.
+    Window.hydra = Hydra({
+        name = 'Windows',
+        -- hint = window_hint,
+        config = {
+            hint = {
+                float_opts = {
+                    style = 'rounded',
+                },
+                offset = -1
+            }
+        },
+        mode = 'n',
+        heads = {
+            -- Navigaiton.
+            { 's',     wincmd 'h' },
+            { 'n',     wincmd 'j' },
+            { 'm',     pcmd('wincmd k', 'E11', 'close') },
+            { 't',     wincmd 'l' },
+
+            { 'a',     wincmd 't',                      { desc = 'Move to top-left window' } },
+            { 'u',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
+
+            { 'p',     wincmd 'p',                      { desc = 'Go to previous window' } },
+
+            { 'r',     wincmd 'r',                      { desc = 'Rotate window downwards/rightwards' } },
+            { 'R',     wincmd 'R',                      { desc = 'Rotate window upwards/leftwards' } },
+
+            -- Moving.
+            { 'S',     cmd 'WinShift left' },
+            { 'N',     cmd 'WinShift down' },
+            { 'M',     cmd 'WinShift up' },
+            { 'T',     cmd 'WinShift right' },
+
+            { 'x',     wincmd 'x',                      { desc = 'Exchange windows' } },
+
+            { 'V',     wincmd 'T',                      { desc = 'Move current window to a new tab page' } },
+
+            -- Resizing.
+            { '>',     wincmd '>',                      { desc = 'Increase width' } },
+            { '<',     wincmd '<',                      { desc = 'Decrease width' } },
+
+            { '+',     wincmd '+',                      { desc = 'Increase height' } },
+            { '-',     wincmd '-',                      { desc = 'Decrease height' } },
+
+            { '=',     wincmd '=',                      { desc = 'Make equally high and wide' } },
+
+            -- Splitting.
+            { 'l',     pcmd('below new', 'E36') },
+            { '<C-l>', pcmd('below new', 'E36'),        { desc = false } },
+            { 'h',     pcmd('vnew', 'E36') },
+            { '<C-h>', pcmd('vnew', 'E36'),             { desc = false } },
+
+            { 'z',     wincmd 'o',                      { exit = true, desc = 'Remain only' } },
+            { '<C-z>', wincmd 'o',                      { exit = true, desc = false } },
+
+            { 'e',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
+            -- { 'b', choose_buffer, { exit = true, desc = 'choose buffer' } },
+
+            { 'c',     pcmd('close', 'E444') },
+            { 'q',     pcmd('close', 'E444'),           { desc = 'Close window' } },
+            { '<C-c>', pcmd('close', 'E444'),           { desc = false } },
+            { '<C-q>', pcmd('close', 'E444'),           { desc = false } },
+
+            { 'P',     pcmd('wincmd P', 'E441'),        { desc = 'Open preview window' } },
+
+            { '<Esc>', nil,                             { exit = true, desc = false } }
         }
-    },
-    mode = 'n',
-    heads = {
-        -- Navigaiton.
-        { 's',     wincmd 'h' },
-        { 'n',     wincmd 'j' },
-        { 'm',     pcmd('wincmd k', 'E11', 'close') },
-        { 't',     wincmd 'l' },
-
-        { 'a',     wincmd 't',                      { desc = 'Move to top-left window' } },
-        { 'u',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
-
-        { 'p',     wincmd 'p',                      { desc = 'Go to previous window' } },
-
-        { 'r',     wincmd 'r',                      { desc = 'Rotate window downwards/rightwards' } },
-        { 'R',     wincmd 'R',                      { desc = 'Rotate window upwards/leftwards' } },
-
-        -- Moving.
-        { 'S',     cmd 'WinShift left' },
-        { 'N',     cmd 'WinShift down' },
-        { 'M',     cmd 'WinShift up' },
-        { 'T',     cmd 'WinShift right' },
-
-        { 'x',     wincmd 'x',                      { desc = 'Exchange windows' } },
-
-        { 'V',     wincmd 'T',                      { desc = 'Move current window to a new tab page' } },
-
-        -- Resizing.
-        { '>',     wincmd '>',                      { desc = 'Increase width' } },
-        { '<',     wincmd '<',                      { desc = 'Decrease width' } },
-
-        { '+',     wincmd '+',                      { desc = 'Increase height' } },
-        { '-',     wincmd '-',                      { desc = 'Decrease height' } },
-
-        { '=',     wincmd '=',                      { desc = 'Make equally high and wide' } },
-
-        -- Splitting.
-        { 'l',     pcmd('below new', 'E36') },
-        { '<C-l>', pcmd('below new', 'E36'),        { desc = false } },
-        { 'h',     pcmd('vnew', 'E36') },
-        { '<C-h>', pcmd('vnew', 'E36'),             { desc = false } },
-
-        { 'z',     wincmd 'o',                      { exit = true, desc = 'Remain only' } },
-        { '<C-z>', wincmd 'o',                      { exit = true, desc = false } },
-
-        { 'e',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
-        -- { 'b', choose_buffer, { exit = true, desc = 'choose buffer' } },
-
-        { 'c',     pcmd('close', 'E444') },
-        { 'q',     pcmd('close', 'E444'),           { desc = 'Close window' } },
-        { '<C-c>', pcmd('close', 'E444'),           { desc = false } },
-        { '<C-q>', pcmd('close', 'E444'),           { desc = false } },
-
-        { 'P',     pcmd('wincmd P', 'E441'),        { desc = 'Open preview window' } },
-
-        { '<Esc>', nil,                             { exit = true, desc = false } }
-    }
-})
+    })
+end
 
 Window.mappings = {
     name = 'Window',

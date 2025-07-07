@@ -1,5 +1,5 @@
 local utils = require("ds_omega.config.keymappings._common.utils")
-local git = require("ds_omega.utils").git
+
 local cmd = utils.cmd
 
 local Diff = {}

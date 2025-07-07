@@ -3,12 +3,33 @@ return {
   opts = {
     config = {
       localSettings = {
-        -- Use [keyboard shortcut](https://github.com/glacambre/firenvim#manually-triggering-firenvim) inside browser to start editing input in firenvim.
-        ['.*'] = { takeover = 'never' },
+        -- Set 'never' and use [keyboard shortcut](https://github.com/glacambre/firenvim#manually-triggering-firenvim) inside browser to start editing input in firenvim.
+        -- Or you can set 'always' and run it like described in [this issue](https://github.com/brookhong/Surfingkeys/issues/1064).
+        ['.*'] = { takeover = 'always' },
+
+        -- Doesn't work properly in docs, not very well suited for
+        -- spreadsheets.
+        -- Handles https://docs.google.com/spreadsheets/ too.
+        ['https://docs.google.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
+        -- Excel embedded into yandex cloud, has same problems as google spreadsheets.
+        -- Not sure if this url takes only excel tables or other forms too.
+        ['https://disk.yandex.ru/edit/d/'] = {
+          priority = 1,
+          takeover = 'never'
+        },
+        -- Doesn't work: when you save text it's not updated in the comment field.
+        ['https://www.reddit.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
       },
     }
   },
 
+  cond = true,
 
   -- Lazy load firenvim
   -- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
@@ -40,6 +61,15 @@ return {
     autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
   augroup end
 ]])
+    if vim.g.started_by_firenvim then
+      local colorschemas = require('ds_omega.config.theme').default
+
+      require('ds_omega.ds_omega_utils').load_coloscheme(
+        colorschemas.COLORSCHEME_NAME,
+        colorschemas.BACKUP_COLORSCHEME_NAME,
+        colorschemas.FALLBACK_COLORSCHEME_NAME
+      )
+    end
 
     local prequire = require('ds_omega.utils').prequire
 
