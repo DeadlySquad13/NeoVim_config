@@ -25,6 +25,11 @@ return {
           priority = 1,
           takeover = 'never'
         },
+        -- Rich input.
+        ['https://www.desmos.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
       },
     }
   },
