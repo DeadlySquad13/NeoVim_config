@@ -31,7 +31,6 @@ return {
             ensure_installed = parsers,
             -- List of parsers to ignore installing
             ignore_install = {
-                -- Orgmode is installed via plugin nvim-orgmode.
                 'org',
             },
             indent = {
