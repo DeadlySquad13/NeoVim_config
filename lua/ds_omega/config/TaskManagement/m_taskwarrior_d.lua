@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   enabled = false, -- We need it only as a part of meta-layer so disabling it locally.
   "huantrinh1802/m_taskwarrior_d.nvim",

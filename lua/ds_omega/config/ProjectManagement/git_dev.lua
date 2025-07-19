@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   "moyiz/git-dev.nvim",
   event = "VeryLazy",

@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     "cshuaimin/ssr.nvim",
     -- Calling setup is optional.

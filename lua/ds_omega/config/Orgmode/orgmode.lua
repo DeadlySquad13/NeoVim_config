@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'nvim-orgmode/orgmode',
   event = 'VeryLazy',

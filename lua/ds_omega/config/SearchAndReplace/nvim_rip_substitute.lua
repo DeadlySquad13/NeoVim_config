@@ -1,6 +1,7 @@
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local leader_right = CONSTANTS.keymappings.leader_right
 
+---@type LazySpec
 return {
 	"chrisgrieser/nvim-rip-substitute",
 	cmd = "RipSubstitute",

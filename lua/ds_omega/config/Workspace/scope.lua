@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'tiagovla/scope.nvim',
 

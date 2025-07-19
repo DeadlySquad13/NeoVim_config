@@ -113,6 +113,7 @@
 --return win_map[resp]
 --end
 
+---@type LazySpec
 return {
   'sindrets/winshift.nvim',
   opts = {

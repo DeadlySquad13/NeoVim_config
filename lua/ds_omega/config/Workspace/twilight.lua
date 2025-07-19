@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   -- See [issue about background](https://github.com/folke/twilight.nvim/issues/15)
   'benstockil/twilight.nvim',

@@ -1,8 +1,10 @@
+---@type LazySpec
 return {
   'kiyoon/jupynium.nvim',
 
   event = require("ds_omega.constants.events").jupyter_notebooks,
 
+  ---@type Jupynium.UserConfig
   opts = {
     python_host = { "pixi", "run", "python" },
   },

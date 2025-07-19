@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   "nixenjoyer/markmap.nvim",
   branch = "feat/markmap_cmd-in-config",

@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'L3MON4D3/LuaSnip',
     -- Breaks as cmp is loaded earlier. Make as a dep for cmp?

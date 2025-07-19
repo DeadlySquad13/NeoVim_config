@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'mistweaverco/kulala.nvim',
     -- Can't be omitted.

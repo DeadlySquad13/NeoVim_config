@@ -1,4 +1,5 @@
 -- TODO: Add separate mappings as smartword alternative.
+---@type LazySpec
 return {
   'chrisgrieser/nvim-spider',
    cond = true,

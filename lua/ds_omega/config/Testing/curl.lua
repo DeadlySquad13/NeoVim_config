@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     "oysandvik94/curl.nvim",
     cmd = { "CurlOpen" },

@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'neovim/nvim-lspconfig',
 
@@ -106,6 +107,7 @@ return {
       -- List constantly evolves:
       -- https://writewithharper.com/docs/faq#What-Programming-Languages-Do-You-Support-
       -- https://github.com/Automattic/harper/issues/79#issuecomment-2699311915
+      -- TODO: Get it from lspconfig `filetypes`: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#harper_ls
       harper_ls = {
         'markdown',
         'rust',

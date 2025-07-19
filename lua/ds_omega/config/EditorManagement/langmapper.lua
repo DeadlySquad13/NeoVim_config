@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'Wansmer/langmapper.nvim',
     lazy = false,

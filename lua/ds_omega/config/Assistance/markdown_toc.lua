@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     -- "hedyhli/markdown-toc.nvim",
     "DeadlySquad13/markdown-toc.nvim",

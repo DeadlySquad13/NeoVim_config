@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   -- Doesn't work on Windows and I don't want to run code on Windows anyway.
   enabled = not require("ds_omega.utils.os").is("Windows_NT"),

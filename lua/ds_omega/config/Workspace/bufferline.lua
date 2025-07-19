@@ -2,6 +2,7 @@
 -- local icons_available, _ = require('nvim-web-devicons');
 
 -- For styling see `:h bufferline-styling`.
+---@type LazySpec
 return {
   'akinsho/bufferline.nvim',
   dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },

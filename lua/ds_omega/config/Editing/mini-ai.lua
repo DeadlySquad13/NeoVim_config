@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'echasnovski/mini.ai',
   dependencies = 'nvim-treesitter/nvim-treesitter-textobjects', -- For queries.

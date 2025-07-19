@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'glepnir/dashboard-nvim',
 
@@ -142,6 +143,7 @@ return {
 
             return gitlab
         end
+
         if gitlab_is_available then
             -- TODO: I plan in the future to make an abstract handler that will
             -- choose either gitlab or github review process depending on current
