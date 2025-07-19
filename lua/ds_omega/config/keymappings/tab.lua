@@ -25,6 +25,7 @@ Tab.mappings = {
     ['<Leader>7'] = { '1gt', 'Choose tabpage #1' },
     ['<Leader>8'] = { '2gt', 'Choose tabpage #2' },
     ['<Leader>9'] = { '3gt', 'Choose tabpage #3' },
+    ['<Leader>0'] = { '4gt', 'Choose tabpage #4' },
 }
 
 if hydra_is_available and Hydra then

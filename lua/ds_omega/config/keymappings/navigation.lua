@@ -61,7 +61,7 @@ local navigation_mappings = {
     h = {
         function() return telescope_builtin().help_tags() end,
         'Help tags',
-        expr = true,
+        expr = false,
     },
     ['<S-t>'] = {
         function() return telescope_builtin().treesitter() end,
