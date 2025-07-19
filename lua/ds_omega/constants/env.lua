@@ -15,8 +15,7 @@ local references = {
 -- TODO: Add Darwin.
 ---@type table<SystemName, string>
 local personal_system_references = {
-  -- TODO: Rename to be like Windows.
-  Linux = references.Linux .. '/Personal.bib',
+  Linux = references.Linux .. '/per Personal_system.bib',
   Windows_NT = references.Windows_NT .. '/per Personal_system.bib',
 }
 
