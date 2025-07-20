@@ -140,6 +140,36 @@ local function set_mode(mode)
   print(string.format('set_mode: This mode (%s) is not supported yet', mode))
 end
 
+---@param msg string
+---@param opts? LazyNotifyOpts
+local function warn(msg, opts)
+  opts = opts or {}
+  opts.level = vim.log.levels.WARN
+  notify(msg, opts)
+end
+--- Gets a path to a package in the Mason registry.
+--- Prefer this to `get_package`, since the package might not always be
+--- available yet and trigger errors.
+---@param pkg string
+---@param path? string
+---@param opts? { warn?: boolean }
+-- Reference: LazyVim
+local function get_pkg_path(pkg, path, opts)
+  pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+  local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+  opts = opts or {}
+  opts.warn = opts.warn == nil and true or opts.warn
+  path = path or ""
+  local ret = root .. "/packages/" .. pkg .. "/" .. path
+  if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
+    warn(
+      ("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(pkg, path)
+    )
+  end
+  return ret
+end
+
+
 local M = {
   -- # Core
   -- Just reuses global prequire, left here for clarity in old modules.
@@ -185,7 +215,9 @@ local M = {
 
   SetIntersection = require('ds_omega.utils.set').SetIntersection,
 
-  set_mode = set_mode, 
+  set_mode = set_mode,
+
+  get_pkg_path = get_pkg_path,
 }
 
 return M
