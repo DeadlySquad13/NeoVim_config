@@ -30,16 +30,24 @@ _G.notify = function(message, level, opts)
   notify(message, level, opts)
 end
 
---- Protected require of the module.
 ---@param module_name (string)
----@return (boolean), module|nil)
-local function prequire(module_name)
-  local module_loading_error_handler = function(error)
+local function get_module_loading_error_handler(module_name)
+  local function module_loading_error_handler(error)
     notify(
       'Error in loading module ' .. module_name .. '! ' .. error,
       vim.log.levels.ERROR
     )
   end
+
+  return module_loading_error_handler
+end
+
+--- Protected require of the module.
+---@generic Module
+---@param module_name (string)
+---@return (boolean), (Module|nil)
+local function prequire(module_name)
+  local module_loading_error_handler = get_module_loading_error_handler(module_name)
 
   local status_ok, module = xpcall(
     require,
@@ -54,9 +62,26 @@ local function prequire(module_name)
   return status_ok, module
 end
 
-_G.prequire = prequire
+--- Test for protected require of the module.
+---@generic Module
+---@param module_name (string)
+---@return (boolean) status_ok is successful
+local function test_prequire(module_name)
+  local module_loading_error_handler = get_module_loading_error_handler(module_name)
 
-local outfile = string.format("%s/debug.log", vim.api.nvim_call_function("stdpath", {"data"}))
+  local status_ok, _ = xpcall(
+    require,
+    module_loading_error_handler,
+    module_name
+  )
+
+  return status_ok
+end
+
+_G.prequire = prequire
+_G.test_prequire = test_prequire
+
+local outfile = string.format("%s/debug.log", vim.api.nvim_call_function("stdpath", { "data" }))
 
 -- See [debuglog source](https://github.com/smartpde/debuglog/blob/main/lua/debuglog.lua).
 _G.log = function(name, hl, opts)
@@ -74,8 +99,8 @@ _G.log = function(name, hl, opts)
     if LOG_INTO.messages then
       local message = string.format(...)
       vim.api.nvim_echo({
-        {os.date("%H:%M:%S:")}, {" "}, {name},
-        {": "}, {message}
+        { os.date("%H:%M:%S:") }, { " " }, { name },
+        { ": " }, { message }
       }, true, {})
     end
     if LOG_INTO.file then
