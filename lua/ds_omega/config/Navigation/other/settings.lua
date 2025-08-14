@@ -41,6 +41,7 @@ return function()
     context = "hooks",
   }
 
+  -- - React component.
   add_mappings({
     {
       pattern = "(.*).tsx$",
@@ -70,6 +71,19 @@ return function()
         tsx,
         constants,
       },
+    },
+  })
+
+  -- - Simple module.
+  add_mappings({
+    {
+      -- QUESTION: Add tsx too?
+      pattern = '(.*).ts$',
+      target = '%1.jest.ts',
+    },
+    {
+      pattern = '(.*).jest.ts$',
+      target = '%1.ts',
     },
   })
 
