@@ -53,6 +53,15 @@ local navigation_mappings = {
         expr = true,
     },
 
+    i = {
+        function()
+            vim.ui.input({ prompt = 'Query workspace symbol' }, function(input)
+                telescope_builtin().lsp_workspace_symbols({ query = input, show_line = true })
+            end)
+        end,
+        "Workspace symbols",
+    },
+
     w = {
         function() return telescope_builtin().grep_string() end,
         'Grep string (word)',
