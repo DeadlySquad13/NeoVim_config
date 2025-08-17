@@ -11,6 +11,8 @@ return {
   on_attach = {
     -- lsp_handlers.disable_formatting,
     lsp_handlers.auto_format_on_save,
+    -- TODO: Uncomment if it doesn't lag in huge workspaces.
+    -- lsp_handlers.populate_workspace_diagnostics,
     setup_vtscs_keymappings,
   },
 }
