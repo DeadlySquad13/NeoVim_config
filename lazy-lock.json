@@ -120,7 +120,7 @@
   "nvim-web-devicons": { "branch": "master", "commit": "1c9136332840edee0c593f2f4f89598c8ed97f5f" },
   "nvim-window": { "branch": "main", "commit": "d85cbffc5e5b6b6cc2926ef69a8f9fa2b28cef56" },
   "nvim-yati": { "branch": "main", "commit": "df3dc06076c6fe20a1dcd8643e712af5c252d042" },
-  "orgmode": { "branch": "master", "commit": "9ec211c2a1245b61955fad7c1a5057745b5b05a7" },
+  "orgmode": { "branch": "master", "commit": "e3500add486b17da58ce8e42a0f799161e5761c9" },
   "other.nvim": { "branch": "create-file", "commit": "0a38468742df068c2e940992cf849895009a022f" },
   "otter.nvim": { "branch": "main", "commit": "3ff6c154d55528fbde475b2a722f91389421e873" },
   "persisted.nvim": { "branch": "main", "commit": "8a25e7028d44645616a503b07b84be62da2fee86" },
@@ -172,6 +172,7 @@
   "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },
   "which-key.nvim": { "branch": "main", "commit": "0539da005b98b02cf730c1d9da82b8e8edb1c2d2" },
   "winshift.nvim": { "branch": "main", "commit": "37468ed6f385dfb50402368669766504c0e15583" },
+  "workspace-diagnostics.nvim": { "branch": "main", "commit": "60f9175b2501ae3f8b1aba9719c0df8827610c8e" },
   "yanky.nvim": { "branch": "main", "commit": "d2696b30e389dced94d5acab728f524a25f308d2" },
   "yop.nvim": { "branch": "main", "commit": "ec26d86cfa96783f6894babcc509e5287aef9a25" },
   "zoxide.vim": { "branch": "master", "commit": "b1e70b6fc1682a83929aee63680d2b43456fe9a5" }
