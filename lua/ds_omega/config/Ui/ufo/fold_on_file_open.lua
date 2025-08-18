@@ -136,7 +136,10 @@ M.setup_autocmds = function()
                 -- It's quite fragile in cases where multiple lsps are used.
                 -- TODO: How to delete only for current buffer / separate
                 -- LspAttach per lsp instance?
-                vim.api.nvim_del_autocmd(M.autocmds.lsp)
+                if not M.autocmds.lsp_deleted then
+                    vim.api.nvim_del_autocmd(M.autocmds.lsp)
+                    M.autocmds.lsp_deleted = true
+                end
 
                 return
             end
@@ -159,6 +162,7 @@ M.setup_autocmds = function()
             applyFoldsAndThenCloseAllFolds(bufnr, "lsp")
         end,
     })
+    M.autocmds.lsp_deleted = false
 end
 
 return M
