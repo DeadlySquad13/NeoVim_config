@@ -1,13 +1,13 @@
 local M = {}
 
-M.keymappings = require('ds_omega.config.Workspace.replacer.keymappings')
+M.keymappings = require('ds_omega.config.Workspace__QuickfixList.replacer.keymappings')
 
 return {
     'gabrielpoca/replacer.nvim',
 
     keys = to_lazy_keys(M.keymappings),
 
-    opts = require('ds_omega.config.Workspace.replacer.settings'),
+    opts = require('ds_omega.config.Workspace__QuickfixList.replacer.settings'),
 
     config = function (_, opts)
         local prequire = require('ds_omega.utils').prequire

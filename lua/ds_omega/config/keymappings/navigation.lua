@@ -99,34 +99,23 @@ local telescope_is_available, telescope = prequire('telescope')
 if telescope_is_available and telescope then
     local telescope_extensions = require('telescope').extensions
 
+    local scope_is_available = prequire('scope')
 
-    local scope_extension = telescope_extensions.scope
-    if not vim.tbl_isempty(scope_extension) then
-        navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
-            b = {
-                function() return telescope_builtin().buffers end,
-                'Tab-local Buffers',
-                expr = true,
-            },
-            B = {
-                scope_extension.buffers,
-                'Global Buffers',
-            },
-        })
-    end
-
-    local scope_extension = telescope_extensions.scope
-    if not vim.tbl_isempty(scope_extension) then
-        navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
-            b = {
-                function() return telescope_builtin().buffers() end,
-                'Tab-local Buffers',
-            },
-            B = {
-                scope_extension.buffers,
-                'Global Buffers',
-            },
-        })
+    if scope_is_available then
+        local scope_extension = telescope_extensions.scope
+        if scope_extension ~= nil and not vim.tbl_isempty(scope_extension) then
+            navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
+                b = {
+                    function() return telescope_builtin().buffers end,
+                    'Tab-local Buffers',
+                    expr = true,
+                },
+                B = {
+                    scope_extension.buffers,
+                    'Global Buffers',
+                },
+            })
+        end
     end
 
     local bibtex_extension = telescope_extensions.bibtex
@@ -168,10 +157,12 @@ if telescope_is_available and telescope then
     end
 end
 
--- Must be last to overwrite everything!
-local search_tabs_is_available, search_tabs = prequire('search')
+local search_tabs_is_available = prequire('search')
 
+-- Must be last to overwrite everything!
 if search_tabs_is_available then
+    local search_tabs = require('search')
+
     navigation_mappings = vim.tbl_extend("force", navigation_mappings, {
         b = {
             function() return search_tabs.open({ collection = 'buffers', tab_name = 'Tab-local' }) end,

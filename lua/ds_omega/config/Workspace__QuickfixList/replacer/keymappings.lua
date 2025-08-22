@@ -1,4 +1,4 @@
-local opts = require('ds_omega.config.Workspace.replacer.settings')
+local opts = require('ds_omega.config.Workspace__QuickfixList.replacer.settings')
 
 return {
   n = {
