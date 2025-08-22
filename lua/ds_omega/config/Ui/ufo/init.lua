@@ -7,17 +7,24 @@ return {
     config = function(_, opts)
         ---@class Ufo
         local ufo = require('ufo')
+        local setters_is_available = prequire('ds_omega.utils.setters')
 
-        -- Pretty fold column ([even prettier one](https://github.com/kevinhwang91/nvim-ufo/issues/4)):
-        -- Arrows are U+2B9{B,A}
-        vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+        local setters = require('ds_omega.utils.setters')
 
-        vim.o.foldcolumn = '1'
+        if setters_is_available then
+            setters.set_settings({
+                -- Pretty fold column ([even prettier one](https://github.com/kevinhwang91/nvim-ufo/issues/4)):
+                -- Arrows are U+2B9{B,A}
+                fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
 
-        vim.o.foldlevel = 99         -- Using ufo provider need a large value, feel free to decrease the value
-        vim.o.foldlevelstart = 99
-        -- vim.o.foldlevelstart = 6
-        vim.o.foldenable = true
+                foldcolumn = vim.g.started_by_firenvim and '0' or '1',
+
+                foldlevel = 99, -- Using ufo provider need a large value, feel free to decrease the value
+                foldlevelstart = 99,
+                -- foldlevelstart = 6
+                foldenable = true,
+            })
+        end
 
 
         -- It seems to be overriden by setup_lsp_keymappings. Use amend keymappings plugin for that?
@@ -39,7 +46,8 @@ return {
             ['<C-j>'] = { ufo.peekFoldedLinesUnderCursor, 'Peek lines' },
         })
 
-        local get_customized_selector = require('ds_omega.config.Ui.ufo.get_customized_selector').get_customized_selector
+        local get_customized_selector = require('ds_omega.config.Ui.ufo.get_customized_selector')
+            .get_customized_selector
         local fold_virt_text_handler = require('ds_omega.config.Ui.ufo.fold_virt_text_handler')
 
         ufo.setup({

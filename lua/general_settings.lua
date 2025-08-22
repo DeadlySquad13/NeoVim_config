@@ -243,7 +243,7 @@ set_global_variables({
     -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
     fugitive_no_maps = 1,
     -- For testing.
-    -- started_by_firenvim = true,
+    started_by_firenvim = vim.g.started_by_firenvim or vim.fn.getenv('FIRENVIM') == 'true',
 })
 
 local langmap = require('langmap').langmap.to_hands_down_neu
@@ -257,5 +257,5 @@ set_settings(
         shell_settings,
         indentation,
         { langmap = langmap }
-        )
+    )
 )

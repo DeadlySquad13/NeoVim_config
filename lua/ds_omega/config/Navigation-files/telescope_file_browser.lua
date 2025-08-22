@@ -57,7 +57,7 @@ return {
       local telescope_is_available, telescope = prequire('telescope')
 
       if not telescope_is_available then
-        return 
+        return
       end
 
       telescope.load_extension('file_browser')

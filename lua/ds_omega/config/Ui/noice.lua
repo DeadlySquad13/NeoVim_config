@@ -1,7 +1,7 @@
 ---@type LazySpec
 return {
   'folke/noice.nvim',
-  enabled = true,
+  cond = not vim.g.started_by_firenvim,
 
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries.

@@ -2,61 +2,94 @@ local ENV = require('ds_omega.constants.env')
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup(vim.tbl_map(function(module) return { import = 'ds_omega.config.' .. module.import } end, {
-  { import = 'Assistance' },
-  { import = 'Architecturing' },
-  { import = 'Commands' },
-  { import = 'Completion' },
-  { import = 'Editing' },
-  { import = 'EditorManagement' },
-  { import = 'Git' },
-  { import = 'Highlighting' },
-  { import = 'Integrations' },
-  { import = 'Notebooks' },
-  { import = 'Lsp' },
-  { import = 'Snippets' },
-  { import = 'SearchAndReplace' },
-  { import = 'Testing' },
-  { import = 'Navigation' },
-  { import = 'NeovimDevelopment' },
-  { import = 'ProjectManagement' },
-  { import = 'TaskManagement' },
-  { import = 'TextObjects' },
-  { import = 'Ui' },
-  { import = 'WindowManagement' },
-  { import = 'Workspace' },
-  { import = 'Markdown' },
-  { import = 'Orgmode' },
-  { import = 'Writing' },
+local normal_mode_specs = {
+    { import = 'Assistance' },
+    { import = 'Architecturing' },
+    { import = 'Commands' },
+    { import = 'Completion' },
+    { import = 'Editing' },
+    { import = 'EditorManagement' },
+    { import = 'Git' },
+    { import = 'Highlighting' },
+    { import = 'Integrations' },
+    { import = 'Notebooks' },
+    { import = 'Lsp', },
+    { import = 'Snippets' },
+    { import = 'SearchAndReplace' },
+    { import = 'Testing' },
+    { import = 'Navigation' },
+    { import = 'Navigation-files' },
+    { import = 'NeovimDevelopment' },
+    { import = 'ProjectManagement' },
+    { import = 'TaskManagement' },
+    { import = 'TextObjects' },
+    { import = 'Ui' },
+    { import = 'WindowManagement' },
+    { import = 'Workspace' },
+    { import = 'Workspace__QuickfixList' },
+    { import = 'Markdown' },
+    { import = 'Orgmode' },
+    { import = 'Writing' },
 
-  -- # Meta layers.
-  -- 'DataCenter' holds plugins and settings that help with realization of
-  -- a 'DataCenter' strategy. Similar to 'Integrations' layer but focuses on
-  -- goal of gathering information from multiple sources in one place.
-  { import = 'DataCenter' },
-}), {
-  defaults = {
-    cond = not vim.g.started_by_firenvim,
-  },
-  diff = {
-    cmd = "diffview.nvim",
-  },
-  dev = {
-    ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
-    path = "~/.bookmarks/shared-projects/--personal/NeoVim__",
-  }
-})
+    -- # Meta layers.
+    -- 'DataCenter' holds plugins and settings that help with realization of
+    -- a 'DataCenter' strategy. Similar to 'Integrations' layer but focuses on
+    -- goal of gathering information from multiple sources in one place.
+    { import = 'DataCenter' },
+    -- { import = 'FirenvimPython' },
+}
+
+local firenvim_mode_specs = {
+    { import = 'Assistance' },
+    { import = 'Architecturing' },
+    { import = 'Commands' },
+    { import = 'Completion' },
+    { import = 'Editing' },
+    { import = 'EditorManagement' },
+    { import = 'Highlighting' },
+    { import = 'Integrations.firenvim' },
+    { import = 'Lsp', },
+    { import = 'Snippets' },
+    { import = 'SearchAndReplace' },
+    { import = 'Navigation' },
+    { import = 'NeovimDevelopment.debuglog' },
+    { import = 'TextObjects' },
+    { import = 'Ui' }, -- TODO: Need to filter.
+    { import = 'Workspace__QuickfixList' },
+    { import = 'Markdown' },
+    { import = 'Orgmode' },
+    { import = 'Writing' },
+}
+
+require('lazy').setup(
+    vim.tbl_map(
+        function(module_specs)
+            return vim.tbl_extend("force", module_specs,
+                { import = 'ds_omega.config.' .. module_specs.import })
+        end,
+        not vim.g.started_by_firenvim and normal_mode_specs or firenvim_mode_specs
+    ),
+    {
+        diff = {
+            cmd = "diffview.nvim",
+        },
+        dev = {
+            ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
+            path = "~/.bookmarks/shared-projects/--personal/NeoVim__",
+        }
+    }
+)
 
 -- local startup = require('ds_omega.utils.core').startup
 

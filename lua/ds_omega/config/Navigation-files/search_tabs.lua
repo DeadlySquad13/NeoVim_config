@@ -6,13 +6,7 @@ return {
         local builtin = require("telescope.builtin")
         local extensions = require("telescope").extensions
 
-        local prequire = require('ds_omega.utils').prequire
-
-        local project_nvim_is_available, project_nvim = prequire('project_nvim')
-
-        if not project_nvim_is_available then
-            return
-        end
+        local project_nvim_is_available = prequire('project_nvim')
 
         return {
             -- TODO: Add choose_target config.
@@ -34,9 +28,11 @@ return {
                     tabs = {
                         { name = 'Cwd',    tele_func = builtin.find_files },
                         { name = 'Hidden', tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
-                        {
+                        not project_nvim_is_available and nil or {
                             name = 'Recent project',
                             tele_func = function(_opts)
+                                local project_nvim = require('project_nvim')
+
                                 return builtin.find_files({ cwd = project_nvim.get_recent_projects()[1] })
                             end
                         },
@@ -49,10 +45,10 @@ return {
                     initial_tab = 1,
 
                     tabs = {
-                        { name = 'Grep',   tele_func = builtin.live_grep },
-                        { name = 'With args',   tele_func = extensions.live_grep_args.live_grep_args },
-                        { name = 'Hidden', tele_func = builtin.live_grep, tele_opts = { additional_args = { '--hidden' } } },
-                        { name = 'In open files', tele_func = builtin.live_grep, tele_opts = { grep_open_files = true } },
+                        { name = 'Grep',          tele_func = builtin.live_grep },
+                        { name = 'With args',     tele_func = extensions.live_grep_args.live_grep_args },
+                        { name = 'Hidden',        tele_func = builtin.live_grep,                       tele_opts = { additional_args = { '--hidden' } } },
+                        { name = 'In open files', tele_func = builtin.live_grep,                       tele_opts = { grep_open_files = true } },
                     },
                 },
 
@@ -62,7 +58,7 @@ return {
                     -- Doesn't show word in a name like Telescope does because of search tabs `name`.
                     tabs = {
                         { name = 'Grep string',   tele_func = builtin.grep_string },
-                        { name = 'Hidden', tele_func = builtin.grep_string, tele_opts = { additional_args = { '--hidden' } } },
+                        { name = 'Hidden',        tele_func = builtin.grep_string, tele_opts = { additional_args = { '--hidden' } } },
                         { name = 'In open files', tele_func = builtin.grep_string, tele_opts = { grep_open_files = true } },
                     },
                 },

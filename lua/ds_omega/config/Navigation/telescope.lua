@@ -17,6 +17,10 @@ return {
 
     local pickers = require('ds_omega.config.Editing.yanky.picker')()
 
+    -- local file_browser_spec_is_available = prequire('ds_omega.config.Navigation-files.telescope_file_browser')
+
+    -- local file_browser_spec = require('ds_omega.config.Navigation-files.telescope_file_browser')
+
     return {
       defaults = {
         -- Default configuration for telescope.
@@ -43,7 +47,7 @@ return {
       },
 
       extensions = {
-        file_browser = require('ds_omega.config.Navigation.telescope_file_browser').opts(),
+        -- file_browser = not file_browser_spec_is_available and nil or file_browser_spec.opts(),
         undo = require('ds_omega.config.Editing.undo').opts(),
         --   Unfortunately, doesn't work. Should be set up in setup function of
         -- yanky.

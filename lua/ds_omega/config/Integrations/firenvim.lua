@@ -35,14 +35,13 @@ return {
     }
   },
 
-  cond = true,
-
   -- Lazy load firenvim
   -- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
   lazy = not vim.g.started_by_firenvim,
-  build = function()
-    vim.fn["firenvim#install"](0)
-  end,
+  -- build = function()
+  --   vim.fn["firenvim#install"](0)
+  -- end,
+  build = ":call firenvim#install(0)",
 
   config = function(_, opts)
     -- Extend text input up to 10 lines if it's small.
@@ -87,6 +86,14 @@ return {
 
     setters.set_global_variables(opts, 'firenvim')
 
+    setters.set_settings(
+      {
+        signcolumn = 'number',
+        foldcolumn = '0',
+      }
+    )
+
+
     -- Use different settings depending on the page being edited.
     local utils = require('ds_omega.utils')
     local create_augroup, create_autocmd = utils.create_augroup, utils.create_autocmd
@@ -94,10 +101,18 @@ return {
     local Firenvim = create_augroup('Firenvim', { clear = true })
 
     -- To check pattern use `:<C-r>%`
+    -- - GitHub.
     create_autocmd({ 'BufEnter' }, {
       group = Firenvim,
       pattern = 'github.com_*.txt',
       desc = 'Started editing GitHub text element',
+      callback = function() vim.bo.filetype = 'markdown' end
+    })
+    -- - GitLab
+    create_autocmd({ 'BufEnter' }, {
+      group = Firenvim,
+      pattern = 'gitlab.com_*.txt',
+      desc = 'Started editing GitLab text element',
       callback = function() vim.bo.filetype = 'markdown' end
     })
     -- - I mostly train in Javascript in leetcode.
