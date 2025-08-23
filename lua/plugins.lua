@@ -14,69 +14,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local normal_mode_specs = {
-    { import = 'Assistance' },
-    { import = 'Architecturing' },
-    { import = 'Commands' },
-    { import = 'Completion' },
-    { import = 'Editing' },
-    { import = 'EditorManagement' },
-    { import = 'Git' },
-    { import = 'Highlighting' },
-    { import = 'Integrations' },
-    { import = 'Notebooks' },
-    { import = 'Lsp', },
-    { import = 'Snippets' },
-    { import = 'SearchAndReplace' },
-    { import = 'Testing' },
-    { import = 'Navigation' },
-    { import = 'Navigation-files' },
-    { import = 'NeovimDevelopment' },
-    { import = 'ProjectManagement' },
-    { import = 'TaskManagement' },
-    { import = 'TextObjects' },
-    { import = 'Ui' },
-    { import = 'WindowManagement' },
-    { import = 'Workspace' },
-    { import = 'Workspace__QuickfixList' },
-    { import = 'Markdown' },
-    { import = 'Orgmode' },
-    { import = 'Writing' },
-
-    -- # Meta layers.
-    -- 'DataCenter' holds plugins and settings that help with realization of
-    -- a 'DataCenter' strategy. Similar to 'Integrations' layer but focuses on
-    -- goal of gathering information from multiple sources in one place.
-    { import = 'DataCenter' },
-    -- { import = 'FirenvimPython' },
+    { import = 'Full' },
 }
 
 local firenvim_mode_specs = {
-    { import = 'Assistance' },
-    { import = 'Architecturing' },
-    { import = 'Commands' },
-    { import = 'Completion' },
-    { import = 'Editing' },
-    { import = 'EditorManagement' },
-    { import = 'Highlighting' },
-    { import = 'Integrations.firenvim' },
-    { import = 'Lsp', },
-    { import = 'Snippets' },
-    { import = 'SearchAndReplace' },
-    { import = 'Navigation' },
-    { import = 'NeovimDevelopment.debuglog' },
-    { import = 'TextObjects' },
-    { import = 'Ui' }, -- TODO: Need to filter.
-    { import = 'Workspace__QuickfixList' },
-    { import = 'Markdown' },
-    { import = 'Orgmode' },
-    { import = 'Writing' },
+    { import = 'FirenvimCoding' },
 }
 
 require('lazy').setup(
     vim.tbl_map(
         function(module_specs)
             return vim.tbl_extend("force", module_specs,
-                { import = 'ds_omega.config.' .. module_specs.import })
+                { import = 'ds_omega.meta_layers.ds_omega_specs.' .. module_specs.import })
         end,
         not vim.g.started_by_firenvim and normal_mode_specs or firenvim_mode_specs
     ),
