@@ -1,9 +1,11 @@
+---@type LazySpec
 return {
     'kevinhwang91/nvim-ufo',
 
     dependencies = 'kevinhwang91/promise-async',
 
     config = function(_, opts)
+        ---@class Ufo
         local ufo = require('ufo')
 
         -- Pretty fold column ([even prettier one](https://github.com/kevinhwang91/nvim-ufo/issues/4)):

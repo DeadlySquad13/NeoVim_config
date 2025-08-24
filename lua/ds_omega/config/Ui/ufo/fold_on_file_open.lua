@@ -6,10 +6,14 @@ local M = {}
 
 local LINES_VISIBLE_ON_ONE_VIEWPORT = 100
 
+--- Get import ranges from a list of all folds.
+---@param ranges table
+---@return 
 local function get_import_ranges(ranges)
     return vim.tbl_filter(function(range) return range.kind == 'imports' end, ranges)
 end
 
+--- Count how many lines do import ranges occupy on screen when folded.
 ---@param import_ranges table
 ---@return number
 local function count_import_range_lines(import_ranges)
@@ -61,11 +65,14 @@ end
 ---or function that will return provider. See `provider_selector` for more
 ---details.
 local function applyFoldsAndThenCloseAllFolds(bufnr, provider)
-    local ufo_is_available, ufo = prequire('ufo')
+    local ufo_is_available = prequire('ufo')
 
-    if not ufo_is_available or not ufo then
+    if not ufo_is_available then
         return
     end
+
+    ---@class Ufo
+    local ufo = require('ufo')
 
     require("async")(function()
         -- make sure buffer is attached
@@ -81,8 +88,16 @@ local function applyFoldsAndThenCloseAllFolds(bufnr, provider)
 
         if not ok or not ranges then
             -- Default fold if something is wrong with `provider_selector`. Note that
-            -- our `provider_selector` can fallback to "indent" inside too.
-            local ranges = await(ufo.getFolds(bufnr, "indent"))
+            -- our `provider_selector` can fallback to "indent" inside too. So
+            -- we don't run this block if we got `ranges={}`
+            local ranges = ufo.getFolds(bufnr, "indent")
+            -- HACK: For some reason even `indent` can return nil while `getFolds`
+            -- signature doesn't have nil in signature at all. May be a ufo
+            -- bug.
+            if not ranges then
+                return
+            end
+
             local ok = ufo.applyFolds(bufnr, ranges)
             if ok then
                 ufo.closeAllFolds()
@@ -101,7 +116,6 @@ local function applyFoldsAndThenCloseAllFolds(bufnr, provider)
             ufo.closeAllFolds()
         end
 
-        -- How many lines do import ranges occupy on screen when folded.
         local import_ranges_lines = count_import_range_lines(import_ranges)
 
         if vim.api.nvim_buf_line_count(bufnr) - import_ranges_lines < LINES_VISIBLE_ON_ONE_VIEWPORT then

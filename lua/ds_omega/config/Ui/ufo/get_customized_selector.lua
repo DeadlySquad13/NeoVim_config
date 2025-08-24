@@ -1,8 +1,11 @@
-local ufo_is_available, ufo = prequire('ufo')
+local ufo_is_available = prequire('ufo')
 
 if not ufo_is_available then
     return
 end
+
+---@class Ufo
+local ufo = require('ufo')
 
 local M = {}
 
