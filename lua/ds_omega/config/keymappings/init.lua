@@ -197,7 +197,10 @@ vim.api.nvim_set_keymap("n", "<Plug>SnipRunOperator", ":set opfunc=SnipRunOperat
 
 local execute_mappings = { '<Plug>SnipRun', 'Run code' }
 
-local special_yank_mappings = { '"+y', 'Yank into clipboard register' }
+local special_yank_mappings = {
+    '"+y', 'Yank into clipboard register',
+    f = { '"+yy', 'Yank whole line into clipboard register' }
+}
 -- local special_yank_mappings = { '<Plug>YADefault', 'Native Yank' } -- Maybe move into localleader?
 
 local z_mappings = {

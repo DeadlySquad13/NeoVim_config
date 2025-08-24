@@ -110,7 +110,7 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
             end,
             'Send diagnostic to quickfix list',
         },
-        ['<Leader>ff'] = { lsp_buf.format, 'Format' },
+        ['<Leader>fn'] = { lsp_buf.format, 'Format' },
 
         -- Navigation.
         ['[d'] = {
