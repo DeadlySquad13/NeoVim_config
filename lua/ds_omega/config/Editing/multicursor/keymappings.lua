@@ -16,6 +16,9 @@ return {
         -- multiple cursors. This lets you have overlapping mappings.
         mc.addKeymapLayer(function(layerSet)
             -- Select a different cursor as the main one.
+            -- Same keys are also used for `repeat_next` and `repeat_previous`
+            -- but I don't yet see any conflicting situations with that. If
+            -- we'll need repeats in multicursor context, remap keys here.
             layerSet({ "n", "x" }, K.leader_left .. K.previous, mc.prevCursor)
             layerSet({ "n", "x" }, K.leader_left .. K.next, mc.nextCursor)
 
