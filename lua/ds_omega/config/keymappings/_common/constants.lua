@@ -18,7 +18,7 @@ CONSTANTS.keymappings = {
   inside = 'q',
   around = 'e',
 
-  inside_additiunal = 'Q',
+  inside_additional = 'Q',
   around_additional = 'E',
 
   -- Mostly used for local keymappings: 
@@ -47,5 +47,7 @@ CONSTANTS.keymappings = {
 -- mode - go to next will be local in this context.
 
 return CONSTANTS
+
+
 
 
