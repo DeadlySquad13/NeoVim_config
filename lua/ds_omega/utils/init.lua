@@ -115,6 +115,21 @@ local function tbl_remove_key(table, key)
   return element
 end
 
+--- Map keys of a table.
+---@param callback (function) function to transform keys of a table.
+---@param table (table) Dict-like table.
+---@return (any) element
+local function tbl_map_keys(callback, table)
+  local result = {}
+
+  for key, value in pairs(table) do
+    result[callback(key)] = value
+  end
+
+  return result
+end
+
+
 --- Extend list.
 --Doesn't modify the initial list and accepts variable number of parameters.
 ---@param initial_list (any[]) List to extend.
@@ -172,6 +187,7 @@ local M = {
   IndexedSet = IndexedSet,
 
   -- * Collection utils. @see also `:h vim.tbl_*`.
+  tbl_map_keys = tbl_map_keys,
   tbl_remove_key = tbl_remove_key,
   list_deep_extend = list_deep_extend,
 
@@ -185,7 +201,7 @@ local M = {
 
   SetIntersection = require('ds_omega.utils.set').SetIntersection,
 
-  set_mode = set_mode, 
+  set_mode = set_mode,
 }
 
 return M
