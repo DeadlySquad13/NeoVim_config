@@ -8,6 +8,7 @@ return require('ds_omega.ds_omega_utils.ds_omega_layer_specs').init(
         { import = 'EditorManagement' },
         { import = 'Git' },
         { import = 'Highlighting' },
+        { import = 'Highlighting__Themes' },
         { import = 'Integrations' },
         { import = 'Notebooks' },
         { import = 'Lsp', },
