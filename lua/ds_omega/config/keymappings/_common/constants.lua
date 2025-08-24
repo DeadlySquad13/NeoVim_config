@@ -18,7 +18,7 @@ CONSTANTS.keymappings = {
   inside = 'q',
   around = 'e',
 
-  inside_additional = 'Q',
+  inside_additiunal = 'Q',
   around_additional = 'E',
 
   -- Mostly used for local keymappings: 
@@ -27,10 +27,17 @@ CONSTANTS.keymappings = {
   next = 'y',
   previous = '"',
 
+  repeat_next = leader_left .. 'y',
+  repeat_previous = leader_left .. '"',
+
   -- For global traversals between, for example: tabs, buffers, sessions and so
   -- on.
   next_global = ']',
   previous_global = '[',
+
+  -- Not yet used.
+  -- repeat_next_global = leader_left .. ']',
+  -- repeat_previous_global = leader_left .. '[',
 
   create = leader_right..'c',
 }
@@ -40,3 +47,5 @@ CONSTANTS.keymappings = {
 -- mode - go to next will be local in this context.
 
 return CONSTANTS
+
+

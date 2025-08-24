@@ -192,7 +192,8 @@ local jupyter_execute_mappings = { cmd 'JupyniumExecuteSelectedCells', 'Execute 
 vim.api.nvim_set_keymap("v", "<Plug>SnipRun", ":lua require'sniprun'.run('v')<Cr>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<Plug>SnipRun", ":lua require'sniprun'.run()<Cr>", { silent = true, noremap = true })
 
-vim.api.nvim_set_keymap("n", "<Plug>SnipRunOperator", ":set opfunc=SnipRunOperator<Cr>g@", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<Plug>SnipRunOperator", ":set opfunc=SnipRunOperator<Cr>g@",
+    { silent = true, noremap = true })
 
 local execute_mappings = { '<Plug>SnipRun', 'Run code' }
 
@@ -396,12 +397,15 @@ local nxmode_mappings = {
 }
 
 -- Mostly jumps and textobjects that are usable in n, x and o modes.
-local common_mappings = vim.tbl_extend('error', buffer_mappings_module.buffer_change_keymappings, {
+local common_mappings = vim.tbl_extend('error',
+    buffer_mappings_module.buffer_change_keymappings,
+    require('ds_omega.config.keymappings.repeat').keymappings,
+    {
     -- w = { "<Cmd>lua require('spider').motion('w')<Cr>", 'CamelCase next Word' },
     -- W = { "<Plug>(smartword-w)", 'Smart next Word' },
     -- b = { '<Plug>(smartword-b)', 'b' },
     -- e = { '<Plug>(smartword-e)', 'e' },
-    
+
     b = { '<Plug>(smartword-b)', 'Smart b (word backward)' },
     ['<S-b>'] = { "<Cmd>lua require('spider').motion('b')<Cr>", 'CamelCase word backward' },
 
@@ -497,49 +501,50 @@ local minifiles_toggle = function(...)
     if not MiniFiles.close() then MiniFiles.open(...) end
 end
 
-local nmode_mappings = merge(common_mappings, merge(nxmode_mappings, merge (require('ds_omega.config.keymappings.tab').mappings, {
-    name = 'Main',
-    -- a = a_mappings,
-    -- b = b_mappings,
-    -- c = c_mappings,
-    -- d = d_mappings,
-    e = { 'a', 'Insert after' },
-    -- f = f_mappings,
-    g = g_mappings,
-    -- h = h_mappings,
-    -- i = i_mappings,
-    -- j = j_mappings,
-    -- k = k_mappings,
-    -- l = l_mappings,
-    -- m = change_mappings,
-    -- n = n_mappings,
-    -- o = o_mappings,
-    -- p = paste_with_indent,
-    -- P = paste_before_with_indent,
-    q = { 'i', 'Insert' },
-    -- r = r_mappings,
-    -- s = s_mappings,
-    -- t = t_mappings,
-    -- u = u_mappings,
-    -- v = v_mappings,
-    --w = w_mappings,
-    -- x = x_mappings,
-    -- y = y_mappings,
-    z = z_mappings,
+local nmode_mappings = merge(common_mappings,
+    merge(nxmode_mappings, merge(require('ds_omega.config.keymappings.tab').mappings, {
+        name = 'Main',
+        -- a = a_mappings,
+        -- b = b_mappings,
+        -- c = c_mappings,
+        -- d = d_mappings,
+        e = { 'a', 'Insert after' },
+        -- f = f_mappings,
+        g = g_mappings,
+        -- h = h_mappings,
+        -- i = i_mappings,
+        -- j = j_mappings,
+        -- k = k_mappings,
+        -- l = l_mappings,
+        -- m = change_mappings,
+        -- n = n_mappings,
+        -- o = o_mappings,
+        -- p = paste_with_indent,
+        -- P = paste_before_with_indent,
+        q = { 'i', 'Insert' },
+        -- r = r_mappings,
+        -- s = s_mappings,
+        -- t = t_mappings,
+        -- u = u_mappings,
+        -- v = v_mappings,
+        --w = w_mappings,
+        -- x = x_mappings,
+        -- y = y_mappings,
+        z = z_mappings,
 
-    -- TODO: Move sentence keymappings to some other key.
-    ['('] = {
-        name = 'Activate workspace modes',
+        -- TODO: Move sentence keymappings to some other key.
+        ['('] = {
+            name = 'Activate workspace modes',
 
-        t = { function() require('ds_omega.config.keymappings.tab').hydra:activate() end, 'Activate tab mode' },
-        c = { function() quickfix_list.hydra:activate() end, 'Activate quickfix list mode' },
-        w = { function() require('ds_omega.config.keymappings.window').hydra:activate() end, 'Activate quickfix list mode' },
-    },
+            t = { function() require('ds_omega.config.keymappings.tab').hydra:activate() end, 'Activate tab mode' },
+            c = { function() quickfix_list.hydra:activate() end, 'Activate quickfix list mode' },
+            w = { function() require('ds_omega.config.keymappings.window').hydra:activate() end, 'Activate quickfix list mode' },
+        },
 
-    ['<leader>'] = leader_mappings,
+        ['<leader>'] = leader_mappings,
 
-    ['-'] = { minifiles_toggle, 'Navigate through files' },
-})))
+        ['-'] = { minifiles_toggle, 'Navigate through files' },
+    })))
 
 -- vim.cmd([[:QuickScopeToggle<cr>:execute "normal \<Plug>Lightspeed_f"<cr>]])
 
