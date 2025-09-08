@@ -8,7 +8,23 @@ return {
 
         local project_nvim_is_available = prequire('project_nvim')
 
+        local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
+        local K = CONSTANTS.keymappings
+
         return {
+            mappings = {
+                next = {
+                    -- FIX: Currently there're a lot of normal mode mappings
+                    -- starting with [ or ] that apply in telescope too even
+                    -- though we don't need them in that context.
+                    { K.next_global, "n" },
+                    { "<Tab>",       "i" },
+                },
+                prev = {
+                    { K.previous_global, "n" },
+                    { "<S-Tab>",         "i" },
+                },
+            },
             -- TODO: Add choose_target config.
             -- FIX: Add checks on extensions.
             collections = {
