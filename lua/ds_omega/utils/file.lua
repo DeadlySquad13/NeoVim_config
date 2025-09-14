@@ -31,12 +31,12 @@ file.convert_to_runtimepath = function(path)
 end
 ---  Checks if the given path points to a lua module (folder with init.lua
 -- inside)
----@param path (string) Absolute path, for example: 
+---@param path (string) Absolute path, for example:
 -- `home/dubuntus/.config/nvim/lua/config/incline`
 ---@return (boolean)
 file.is_lua_module = function(path)
   local path_relative_to_runtimepath = file.convert_to_runtimepath(path)
-  local files_found = vim.api.nvim_get_runtime_file(path_relative_to_runtimepath..'/init.lua', false) -- Return when a first match found.
+  local files_found = vim.api.nvim_get_runtime_file(path_relative_to_runtimepath .. '/init.lua', false) -- Return when a first match found.
 
   return not vim.tbl_isempty(files_found)
 end
@@ -60,9 +60,23 @@ file.open_lua_module = function(path, opts)
     return file.edit_file(files[1])
   end
 
+  local telescope_picker_opts = vim.tbl_extend('force', { cwd = path }, opts)
+
+  local search_tabs_is_available = prequire('search')
+
+  if search_tabs_is_available then
+    local search_tabs = require('search')
+
+    return search_tabs.open({
+      collection = 'files_minimal',
+      tab_name = 'File browser',
+      collection_tele_opts = telescope_picker_opts,
+    })
+  end
+
   local picker = require('telescope.builtin').find_files
 
-  return picker(vim.tbl_extend('force', { cwd = path }, opts))
+  return picker(telescope_picker_opts)
 end
 
 ---  Depending on target uses appropriate callback.

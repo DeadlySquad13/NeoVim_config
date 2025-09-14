@@ -1,6 +1,9 @@
 ---@type LazySpec
 return {
-    "FabianWirth/search.nvim",
+    -- "FabianWirth/search.nvim",
+    "DeadlySquad13/search.nvim",
+
+    dev = false,
 
     opts = function()
         local builtin = require("telescope.builtin")
@@ -46,14 +49,29 @@ return {
                         { name = 'Hidden', tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
                         not project_nvim_is_available and nil or {
                             name = 'Recent project',
-                            tele_func = function(_opts)
+                            tele_func = function(_)
                                 local project_nvim = require('project_nvim')
 
                                 return builtin.find_files({ cwd = project_nvim.get_recent_projects()[1] })
-                            end
+                            end,
+                            available = function()
+                                local recent_projects = require('project_nvim').get_recent_projects()
+
+                                return recent_projects and not vim.tbl_isempty(recent_projects)
+                            end,
                         },
                         { name = 'File browser', tele_func = extensions.file_browser.file_browser },
                         { name = 'Old',          tele_func = builtin.oldfiles },
+                    },
+                },
+
+                files_minimal = {
+                    initial_tab = 1, -- Files in current directory.
+
+                    tabs = {
+                        { name = 'Cwd',    tele_func = builtin.find_files },
+                        { name = 'Hidden', tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
+                        { name = 'File browser', tele_func = extensions.file_browser.file_browser },
                     },
                 },
 

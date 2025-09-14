@@ -22,15 +22,10 @@ end
 
 ---@param items (Targets)
 local choose_and_edit_target = function(items)
+  -- Immediately execute if there's only one item to choose from.
   if vim.tbl_count(items) == 1 then
     return run_edit_callback_for_target(items[1])
   end
-
-  --[[ local target_names = vim.tbl_map(
-    function(value) return value.name end,
-    vim.tbl_values(items)
-  )
-]]
 
   vim.ui.select(vim.tbl_keys(items), {
     prompt = 'Choose target to edit',
