@@ -140,7 +140,14 @@ local target_groups = {
 
             -- TODO: Add 'create' action that will throw us into Ansible / UnixDotfiles.
             return {
-                { name = 'root', bookmarked_locations_root_path },
+                {
+                    name = 'root',
+                    bookmarked_locations_root_path,
+                    search_tabs_opts = {
+                        tab_name = 'File browser',
+                        -- tele_opts =
+                    },
+                },
             }
         end,
     },

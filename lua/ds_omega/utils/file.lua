@@ -47,8 +47,9 @@ end
 -- open directory in file_browser.
 ---@param path (string) Absolute path.
 ---@param opts (table | nil) Telescope picker options.
+---@param search_tabs_opts (table | nil) Search.nvim specific options (will be applied only if search.nvim is available).
 ---@return unknown
-file.open_lua_module = function(path, opts)
+file.open_lua_module = function(path, opts, search_tabs_opts)
   local path_relative_to_runtimepath = file.convert_to_runtimepath(path)
   local files = vim.api.nvim_get_runtime_file(
     path_relative_to_runtimepath .. '/*.lua',
@@ -67,11 +68,15 @@ file.open_lua_module = function(path, opts)
   if search_tabs_is_available then
     local search_tabs = require('search')
 
-    return search_tabs.open({
+    local default_search_tabs_opts = {
       collection = 'files_minimal',
-      tab_name = 'File browser',
+      tab_name = 'Files',
       collection_tele_opts = telescope_picker_opts,
-    })
+    }
+
+    return search_tabs.open(
+      vim.tbl_extend('force', default_search_tabs_opts, search_tabs_opts)
+    )
   end
 
   local picker = require('telescope.builtin').find_files
@@ -83,13 +88,14 @@ end
 -- If it's file - opens it, if it's directory - opens file_browser.
 ---@param path (string) Absolute path.
 ---@param opts (table | nil) Telescope picker options.
+---@param search_tabs_opts (table | nil) Search.nvim specific options (will be applied only if search.nvim is available).
 ---@return unknown
-file.open = function(path, opts)
+file.open = function(path, opts, search_tabs_opts)
   if vim.fn.isdirectory(path) == 0 then
     return file.edit_file(path)
   end
 
-  return file.open_lua_module(path, opts)
+  return file.open_lua_module(path, opts, search_tabs_opts)
 end
 
 return file

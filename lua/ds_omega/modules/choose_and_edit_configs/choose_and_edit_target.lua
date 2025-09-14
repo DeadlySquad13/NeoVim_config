@@ -2,6 +2,7 @@
 ---@field name (string) Name of the entry.
 ---@field path (string) Path (can be at first index).
 ---@field opts (table | nil) Telescope picker options.
+---@param search_tabs_opts (table | nil) Search.nvim specific options (will be applied only if search.nvim is available).
 
 ---@alias Target Item|function
 
@@ -15,9 +16,10 @@ local function run_edit_callback_for_target(selected_target)
   end
 
   local path = selected_target[1] or selected_target.path
-  local opts = selected_target.opts
+  local opts = selected_target.opts or {}
+  local search_tabs_opts = selected_target.search_tabs_opts or {}
 
-  require('ds_omega.utils.file').open(path, opts or {})
+  require('ds_omega.utils.file').open(path, opts, search_tabs_opts)
 end
 
 ---@param items (Targets)

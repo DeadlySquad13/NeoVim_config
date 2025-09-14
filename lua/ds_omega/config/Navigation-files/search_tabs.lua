@@ -69,7 +69,7 @@ return {
                     initial_tab = 1, -- Files in current directory.
 
                     tabs = {
-                        { name = 'Cwd',    tele_func = builtin.find_files },
+                        { name = 'Files',    tele_func = builtin.find_files },
                         { name = 'Hidden', tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
                         { name = 'File browser', tele_func = extensions.file_browser.file_browser },
                     },
