@@ -13,7 +13,7 @@ M.setup_neovim = function(opts)
 
     -- See `:h user-commands` and `:h nvim_create_user_command()`.
     create_user_command(
-        'ChooseAndEditConfigs',
+        'ChooseAndEditNeoVimConfigs',
         M.choose_and_edit_configs(opts),
         { nargs = 0 }
     )
@@ -44,6 +44,16 @@ M.setup_bookmarked_locations = function(opts)
 
     create_user_command(
         'ChooseAndEditBookmarkedLocations',
+        M.choose_and_edit_configs(opts),
+        { nargs = 0 }
+    )
+end
+
+M.setup_all = function(opts)
+    local create_user_command = require('ds_omega.utils.commands').create_user_command
+
+    create_user_command(
+        'ChooseAndEditAll',
         M.choose_and_edit_configs(opts),
         { nargs = 0 }
     )

@@ -137,4 +137,37 @@ return {
             }
         }
     end,
+    all = function()
+        local targets = {
+            neovim = { cmd = 'ChooseAndEditNeoVimConfigs', text = 'Choose and Edit NeoVim configs' },
+            unix_dotfiles = { cmd = 'ChooseAndEditUnixDotfiles', text = 'Choose and Edit Unix Dotfiles' },
+            scripts = { cmd = 'ChooseAndEditScripts', text = 'Choose and Edit Scripts' },
+            bookmarked_locations = { cmd = 'ChooseAndEditBookmarkedLocations', text = 'Choose and Edit Bookmarked Locations' },
+        }
+
+        -- TODO: Generalize choose_and_edit_targets and use it instead of this
+        -- function.
+        local choose_and_edit_all = function()
+            vim.ui.select(vim.tbl_keys(targets), {
+                prompt = 'Choose group of targets',
+                telescope = require('telescope.themes').get_dropdown(),
+                format_item = function(item)
+                    return targets[item].text
+                end,
+            }, function(selected)
+                if not selected then
+                    return
+                end
+
+                vim.cmd(targets[selected].cmd)
+            end)
+        end
+
+        return {
+            ---@type Targets
+            items = {
+                { name = 'all', choose_and_edit_all },
+            }
+        }
+    end,
 }
