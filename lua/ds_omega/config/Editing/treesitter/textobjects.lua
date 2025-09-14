@@ -39,7 +39,7 @@ local move_objects = {
   ['end'] = vim.tbl_extend('error',
     -- Prefix all "move to end" objects with this key.
     require('ds_omega.utils').tbl_map_keys(
-      function(key) return K.leader_left .. key end,
+      function(_, key) return K.leader_left .. key end,
       symmetric_objects
     ),
     {

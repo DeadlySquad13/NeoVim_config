@@ -17,6 +17,7 @@ return {
         m = spec_treesitter({ a = '@function.outer', i = '@function.inner' }),
         M = spec_treesitter({ a = '@class.outer', i = '@class.inner' }),
 
+        -- TODO: Add to treesitter/textobjects too.
         c = spec.function_call(),
 
         o = spec_treesitter({ a = '@loop.outer', i = '@loop.inner' }),

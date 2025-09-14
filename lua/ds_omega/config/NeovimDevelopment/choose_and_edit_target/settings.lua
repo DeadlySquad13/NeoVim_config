@@ -31,23 +31,23 @@ return {
 
             return {
                 -- TODO: Add 'create' action that will trigger create file via template for selected item.
-                ---@type Items
+                ---@type Targets
                 items = {
-                    keymappings = { env.NVIM_LUA, opts = { default_text = 'keymappings' } },
-                    -- plugins = { env.NVIM_PLUGINS },
-                    utils = { env.NVIM_LUA, opts = { default_text = 'ds_omegautils' } },
-                    server_configuaritions = { env.NVIM_LUA_CONFIG, opts = { default_text = 'server_configurations' } },
-                    layers_specification = { env.NVIM_LAYERS_SPECIFICATION },
-                    -- vimrc = { '$MYVIMRC' },
-                    config = { env.NVIM_LUA_CONFIG },
-                    modules = { env.NVIM_MODULES },
-                    general_settings = { env.NVIM_GENERAL_SETTINGS },
-                    layers = { env.NVIM_LAYERS },
-                    autocommands = { env.NVIM_AUTOCOMMANDS },
-                    constants = { env.NVIM_CONSTANTS },
-                    gui = choose_and_edit_gui_settings,
-                    after = { env.NVIM_AFTER },
-                    commands = { env.NVIM_LUA, opts = { default_text = 'commands' } }
+                    { name = 'config',                 env.NVIM_LUA_CONFIG },
+                    { name = 'keymappings',            env.NVIM_LUA,                 opts = { default_text = 'keymappings' } },
+                    -- { name = 'plugins', env.NVIM_PLUGINS },
+                    { name = 'utils',                  env.NVIM_LUA,                 opts = { default_text = 'ds_omegautils' } },
+                    { name = 'layers_specification',   env.NVIM_LAYERS_SPECIFICATION },
+                    -- { name = 'vimrc', '$MYVIMRC' },
+                    { name = 'commands',               env.NVIM_LUA,                 opts = { default_text = 'commands' } },
+                    { name = 'modules',                env.NVIM_MODULES },
+                    { name = 'general_settings',       env.NVIM_GENERAL_SETTINGS },
+                    { name = 'layers',                 env.NVIM_LAYERS },
+                    { name = 'autocommands',           env.NVIM_AUTOCOMMANDS },
+                    { name = 'constants',              env.NVIM_CONSTANTS },
+                    { name = 'server_configuaritions', env.NVIM_LUA_CONFIG,          opts = { default_text = 'server_configurations' } },
+                    { name = 'after',                  env.NVIM_AFTER },
+                    { name = 'gui',                    choose_and_edit_gui_settings },
                 }
             }
         end,
@@ -57,7 +57,7 @@ return {
 
         local unix_dotfiles = env.BOOKMARKS .. '/Unix_dotfiles'
 
-        --- Hosts with their 
+        --- Hosts with their
         ---@type table<string, table>
         local hosts = {
             ["@creamsoda"] = {},
@@ -83,24 +83,58 @@ return {
         for host, opts in pairs(hosts) do
             local default_host_opts = get_find_hosts_target(host)
 
-            host_items[host] = vim.tbl_deep_extend('force', default_host_opts, opts)
+            table.insert(
+                host_items,
+                vim.tbl_deep_extend('error',
+                    { name = host, },
+                    vim.tbl_deep_extend('force', default_host_opts, opts)
+                )
+            )
         end
-
 
         return {
             -- TODO: Add 'create' action that will trigger create file via template for selected item.
-            ---@type Items
-            items = vim.tbl_extend('error', host_items, {
-                root = { unix_dotfiles },
-                homes = { unix_dotfiles .. '/homes' },
-                lib = { unix_dotfiles .. '/lib' },
-                modules = { unix_dotfiles .. '/modules' },
-                overlays = { unix_dotfiles .. '/overlays' },
-                packages = { unix_dotfiles .. '/packages' },
-                -- TODO: Add `make edit-vault $entry` to picker.
-                secrets = { unix_dotfiles .. '/secrets' },
-                systems = { unix_dotfiles .. '/systems' },
-            })
+            ---@type Targets
+            items = vim.list_extend(
+                host_items,
+                {
+                    { name = 'root',     unix_dotfiles },
+                    { name = 'homes',    unix_dotfiles .. '/homes' },
+                    { name = 'lib',      unix_dotfiles .. '/lib' },
+                    { name = 'modules',  unix_dotfiles .. '/modules' },
+                    { name = 'overlays', unix_dotfiles .. '/overlays' },
+                    { name = 'packages', unix_dotfiles .. '/packages' },
+                    -- TODO: Add `make edit-vault $entry` to picker.
+                    { name = 'secrets',  unix_dotfiles .. '/secrets' },
+                    { name = 'systems',  unix_dotfiles .. '/systems' },
+                })
         }
-    end
+    end,
+    scripts = function()
+        local env = require('ds_omega.constants.env')
+
+        local scripts_root_path = env.BOOKMARKS .. '/Scripts'
+
+        return {
+            -- TODO: Add 'create' action that will trigger create file via template for selected item.
+            ---@type Targets
+            items = {
+                { name = 'root',        scripts_root_path },
+                { name = 'keymappings', scripts_root_path .. '/Keymappings__' },
+            }
+        }
+    end,
+    bookmarked_locations = function()
+        local env = require('ds_omega.constants.env')
+
+        local bookmarked_locations_root_path = env.BOOKMARKS
+
+        return {
+            -- TODO: Add 'create' action that will trigger create file via template for selected item.
+            ---@type Targets
+            items = {
+                { name = 'root', bookmarked_locations_root_path },
+            }
+        }
+    end,
 }

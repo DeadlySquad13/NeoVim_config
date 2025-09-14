@@ -60,20 +60,20 @@ local function is_loaded_in_lazy_spec(plugin_name)
 end
 
 local function exists(plugin_name)
-    if CURRENT_PLUGIN_MANAGER == 'packer' then
-        return exists_in_packer_spec(plugin_name)
-    elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
-        print("Function 'exists' is not implemented for lazy")
-        return nil
-    end
+  if CURRENT_PLUGIN_MANAGER == 'packer' then
+    return exists_in_packer_spec(plugin_name)
+  elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
+    print("Function 'exists' is not implemented for lazy")
+    return nil
+  end
 end
 
 local function is_loaded(plugin_name)
-    if CURRENT_PLUGIN_MANAGER == 'packer' then
-        return is_loaded_in_packer_spec(plugin_name)
-    elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
-        return is_loaded_in_lazy_spec(plugin_name)
-    end
+  if CURRENT_PLUGIN_MANAGER == 'packer' then
+    return is_loaded_in_packer_spec(plugin_name)
+  elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
+    return is_loaded_in_lazy_spec(plugin_name)
+  end
 end
 
 --- Convert list to the table that you can use for fast find.
@@ -116,14 +116,28 @@ local function tbl_remove_key(table, key)
 end
 
 --- Map keys of a table.
----@param callback (function) function to transform keys of a table.
+---@param iteratee (fun(value: any, key: string, table: table): string) function to transform keys of a table.
 ---@param table (table) Dict-like table.
 ---@return (any) element
-local function tbl_map_keys(callback, table)
+local function tbl_map_keys(iteratee, table)
   local result = {}
 
   for key, value in pairs(table) do
-    result[callback(key)] = value
+    result[iteratee(value, key, table)] = value
+  end
+
+  return result
+end
+
+--- Map values of a table.
+---@param iteratee (fun(value: any, key: string, table: table): any) function to transform values of a table.
+---@param table (table) Dict-like table.
+---@return (any) element
+local function tbl_map_values(iteratee, table)
+  local result = {}
+
+  for key, value in pairs(table) do
+    result[key] = iteratee(value, key, table)
   end
 
   return result
@@ -187,7 +201,10 @@ local M = {
   IndexedSet = IndexedSet,
 
   -- * Collection utils. @see also `:h vim.tbl_*`.
+  -- TODO: Remove any
   tbl_map_keys = tbl_map_keys,
+  -- TODO: Remove any
+  tbl_map_values = tbl_map_values,
   tbl_remove_key = tbl_remove_key,
   list_deep_extend = list_deep_extend,
 
