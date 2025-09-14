@@ -1,38 +1,41 @@
-return {
-    neovim =
-        function()
-            local env = require('ds_omega.constants.env')
+---@module 'ds_omega.modules.choose_and_edit_configs'
+---@type ChooseAndEditSetupOpts
+local target_groups = {
+    {
+        name = 'NeoVimConfigs',
+        desc = 'Choose and Edit NeoVim configs',
+        items =
+            function()
+                local env = require('ds_omega.constants.env')
 
-            local gui_settings_paths = {
-                general = env.GUI_SETTINGS,
-                goneovim = env.GONEOVIM_SETTINGS,
-                -- fvim = env.GONEOVIM_SETTINGS,
-            }
+                local gui_settings_paths = {
+                    general = env.GUI_SETTINGS,
+                    goneovim = env.GONEOVIM_SETTINGS,
+                    -- fvim = env.GONEOVIM_SETTINGS,
+                }
 
-            local gui_settings_targets = {}
+                local gui_settings_targets = {}
 
-            for gui_settings_target, _ in pairs(gui_settings_paths) do
-                table.insert(gui_settings_targets, gui_settings_target)
-            end
+                for gui_settings_target, _ in pairs(gui_settings_paths) do
+                    table.insert(gui_settings_targets, gui_settings_target)
+                end
 
-            -- TODO: Generalize choose_and_edit_targets and use it instead of this
-            -- function.
-            local choose_and_edit_gui_settings = function()
-                vim.ui.select(gui_settings_targets, {
-                    prompt = 'Choose gui settings to edit',
-                    telescope = require('telescope.themes').get_dropdown(),
-                }, function(selected)
-                    if not selected then
-                        return
-                    end
-                    require('ds_omega.utils.file').edit_file(gui_settings_paths[selected])
-                end)
-            end
+                -- TODO: Generalize choose_and_edit_targets and use it instead of this
+                -- function.
+                local choose_and_edit_gui_settings = function()
+                    vim.ui.select(gui_settings_targets, {
+                        prompt = 'Choose gui settings to edit',
+                        telescope = require('telescope.themes').get_dropdown(),
+                    }, function(selected)
+                        if not selected then
+                            return
+                        end
+                        require('ds_omega.utils.file').edit_file(gui_settings_paths[selected])
+                    end)
+                end
 
-            return {
-                -- TODO: Add 'create' action that will trigger create file via template for selected item.
-                ---@type Targets
-                items = {
+                return {
+                    -- TODO: Add 'create' action that will trigger create file via template for selected item.
                     { name = 'config',                 env.NVIM_LUA_CONFIG },
                     { name = 'keymappings',            env.NVIM_LUA,                 opts = { default_text = 'keymappings' } },
                     -- { name = 'plugins', env.NVIM_PLUGINS },
@@ -49,53 +52,54 @@ return {
                     { name = 'after',                  env.NVIM_AFTER },
                     { name = 'gui',                    choose_and_edit_gui_settings },
                 }
+            end,
+    },
+    {
+        name = 'UnixDotfiles',
+        desc = 'Choose and Edit Unix Dotfiles',
+        items = function()
+            local env = require('ds_omega.constants.env')
+
+            local unix_dotfiles = env.BOOKMARKS .. '/Unix_dotfiles'
+
+            --- Hosts with their
+            ---@type table<string, table>
+            local hosts = {
+                ["@creamsoda"] = {},
+                ["@salt"] = {},
+                ["@pepper"] = {},
             }
-        end,
 
-    unix_dotfiles = function()
-        local env = require('ds_omega.constants.env')
+            ---
+            ---@param host string
+            local function get_find_hosts_target(host)
+                return {
+                    unix_dotfiles,
+                    opts = {
+                        default_text = host,
+                        -- Match full word.
+                        -- FIX: It doesn't work on salt, for example...
+                        word_match = '-w',
+                    },
+                }
+            end
 
-        local unix_dotfiles = env.BOOKMARKS .. '/Unix_dotfiles'
+            local host_items = {}
+            for host, opts in pairs(hosts) do
+                local default_host_opts = get_find_hosts_target(host)
 
-        --- Hosts with their
-        ---@type table<string, table>
-        local hosts = {
-            ["@creamsoda"] = {},
-            ["@salt"] = {},
-            ["@pepper"] = {},
-        }
-
-        ---
-        ---@param host string
-        local function get_find_hosts_target(host)
-            return {
-                unix_dotfiles,
-                opts = {
-                    default_text = host,
-                    -- Match full word.
-                    -- FIX: It doesn't work on salt, for example...
-                    word_match = '-w',
-                },
-            }
-        end
-
-        local host_items = {}
-        for host, opts in pairs(hosts) do
-            local default_host_opts = get_find_hosts_target(host)
-
-            table.insert(
-                host_items,
-                vim.tbl_deep_extend('error',
-                    { name = host, },
-                    vim.tbl_deep_extend('force', default_host_opts, opts)
+                table.insert(
+                    host_items,
+                    vim.tbl_deep_extend('error',
+                        { name = host, },
+                        vim.tbl_deep_extend('force', default_host_opts, opts)
+                    )
                 )
-            )
-        end
+            end
 
-        return {
             -- TODO: Add 'create' action that will trigger create file via template for selected item.
             ---@type Targets
-            items = vim.list_extend(
+            return vim.list_extend(
                 host_items,
                 {
                     { name = 'root',     unix_dotfiles },
@@ -108,66 +112,74 @@ return {
                     { name = 'secrets',  unix_dotfiles .. '/secrets' },
                     { name = 'systems',  unix_dotfiles .. '/systems' },
                 })
-        }
-    end,
-    scripts = function()
-        local env = require('ds_omega.constants.env')
+        end,
+    },
+    {
+        name = 'Scripts',
+        desc = 'Choose and Edit Scripts',
+        items = function()
+            local env = require('ds_omega.constants.env')
 
-        local scripts_root_path = env.BOOKMARKS .. '/Scripts'
+            local scripts_root_path = env.BOOKMARKS .. '/Scripts'
 
-        return {
             -- TODO: Add 'create' action that will trigger create file via template for selected item.
             ---@type Targets
-            items = {
+            return {
                 { name = 'root',        scripts_root_path },
                 { name = 'keymappings', scripts_root_path .. '/Keymappings__' },
             }
-        }
-    end,
-    bookmarked_locations = function()
-        local env = require('ds_omega.constants.env')
+        end,
+    },
+    {
+        name = "BookmarkedLocations",
+        desc = 'Choose and Edit Bookmarked Locations',
+        items = function()
+            local env = require('ds_omega.constants.env')
 
-        local bookmarked_locations_root_path = env.BOOKMARKS
+            local bookmarked_locations_root_path = env.BOOKMARKS
 
-        return {
-            -- TODO: Add 'create' action that will trigger create file via template for selected item.
-            ---@type Targets
-            items = {
+            -- TODO: Add 'create' action that will throw us into Ansible / UnixDotfiles.
+            return {
                 { name = 'root', bookmarked_locations_root_path },
             }
-        }
-    end,
-    all = function()
-        local targets = {
-            neovim = { cmd = 'ChooseAndEditNeoVimConfigs', text = 'Choose and Edit NeoVim configs' },
-            unix_dotfiles = { cmd = 'ChooseAndEditUnixDotfiles', text = 'Choose and Edit Unix Dotfiles' },
-            scripts = { cmd = 'ChooseAndEditScripts', text = 'Choose and Edit Scripts' },
-            bookmarked_locations = { cmd = 'ChooseAndEditBookmarkedLocations', text = 'Choose and Edit Bookmarked Locations' },
-        }
+        end,
+    },
+}
 
-        -- TODO: Generalize choose_and_edit_targets and use it instead of this
-        -- function.
-        local choose_and_edit_all = function()
-            vim.ui.select(vim.tbl_keys(targets), {
-                prompt = 'Choose group of targets',
-                telescope = require('telescope.themes').get_dropdown(),
-                format_item = function(item)
-                    return targets[item].text
-                end,
-            }, function(selected)
-                if not selected then
-                    return
-                end
+---@type ChooseAndEditSetupOpts
+return vim.list_extend(target_groups, {
+    {
+        name = 'All',
+        desc = 'Choose and Edit Target Groups (all)',
+        items = function()
+            -- TODO: Generalize choose_and_edit_targets and use it instead of this
+            -- function.
+            local choose_and_edit_all = function()
+                vim.ui.select(vim.tbl_keys(target_groups), {
+                    prompt = 'Choose group of targets',
+                    telescope = require('telescope.themes').get_dropdown(),
+                    format_item = function(item)
+                        return target_groups[item].name
+                    end,
+                }, function(selected)
+                    if not selected then
+                        return
+                    end
 
-                vim.cmd(targets[selected].cmd)
-            end)
-        end
+                    local choose_and_edit_configs_is_available = prequire('ds_omega.modules.choose_and_edit_configs')
 
-        return {
-            ---@type Targets
-            items = {
+                    if not choose_and_edit_configs_is_available then
+                        return
+                    end
+                    local choose_and_edit_configs = require('ds_omega.modules.choose_and_edit_configs')
+
+                    vim.cmd(choose_and_edit_configs.generate_command_name(target_groups[selected]))
+                end)
+            end
+
+            return {
                 { name = 'all', choose_and_edit_all },
             }
-        }
-    end,
-}
+        end,
+    }
+})

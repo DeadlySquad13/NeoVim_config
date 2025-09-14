@@ -27,11 +27,7 @@ return {
 
         -- REFACTOR: Into separate modules. NeoVim is in NeovimDevelopment
         -- layer, other - in Integrations.
-        choose_and_edit_configs.setup_neovim(opts.neovim())
-        choose_and_edit_configs.setup_unix_dotfiles(opts.unix_dotfiles())
-        choose_and_edit_configs.setup_scripts(opts.scripts())
-        choose_and_edit_configs.setup_bookmarked_locations(opts.bookmarked_locations())
-        choose_and_edit_configs.setup_all(opts.all())
+        choose_and_edit_configs.setup(opts)
 
         local ds_omega_utils_is_available = prequire('ds_omega.ds_omega_utils')
         if not ds_omega_utils_is_available then
