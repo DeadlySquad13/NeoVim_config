@@ -32,8 +32,9 @@ M.pcmd = function(try_cmd, catch, catch_cmd)
     return M.cmd(M.get_pcmd(try_cmd, catch, catch_cmd))
 end
 
--- @param prefix (string)
--- @param keymappings (table)
+--- For cases when keymappings need to be defined in a flat table.
+---@param prefix (string)
+---@param keymappings (table)
 M.add_prefix = function(prefix, keymappings)
     local result = {}
 

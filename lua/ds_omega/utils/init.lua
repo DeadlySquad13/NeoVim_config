@@ -25,9 +25,13 @@ end
 ---@return (function) # New function with default parameters.
 local function fancyparams(arg_def, f)
   return function(args)
+    -- If function was called without params at all.
+    args = args or {}
+
     local params = {}
     for i = 1, #arg_def do
-      local paramname = arg_def[i][1] --the name of the first parameter to the function
+      -- The name of the first parameter to the function
+      local paramname = arg_def[i][1]
       local default_value = arg_def[i][2]
       params[i] = args[i] or args[paramname] or default_value
     end
