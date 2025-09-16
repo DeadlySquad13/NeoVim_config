@@ -21,6 +21,8 @@ return {
     aliases = {
         q = { '"', "'", "`" },
         t = { "}", "]", ")", ">", '"', "'", "`" },
+        -- We have text-objects for function mapped to `m` as in "method".
+        m = "f",
     }
   },
 
