@@ -140,6 +140,8 @@ local target_groups = {
 
             -- TODO: Add 'create' action that will throw us into Ansible / UnixDotfiles.
             return {
+                -- TODO: Filter bookmarks that are useless when inside NeoVim
+                -- such as Music playlists, videos…
                 {
                     name = 'root',
                     bookmarked_locations_root_path,

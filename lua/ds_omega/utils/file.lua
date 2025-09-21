@@ -42,6 +42,7 @@ file.is_lua_module = function(path)
 end
 
 -- TODO: Make default_text as regex.
+-- TODO: Expand lua_module to other modules as well.
 
 --- Open lua module: if only one file exists, jump to it immediately, otherwise
 -- open directory in file_browser.
