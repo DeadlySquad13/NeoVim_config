@@ -68,6 +68,7 @@ local target_groups = {
                 ["@creamsoda"] = {},
                 ["@salt"] = {},
                 ["@pepper"] = {},
+                ["@cake"] = {},
             }
 
             ---
