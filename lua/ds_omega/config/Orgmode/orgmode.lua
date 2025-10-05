@@ -14,6 +14,10 @@ return {
       org_hide_leading_stars = true,
       org_hide_emphasis_markers = true,
 
+      org_startup_folded = 'inherit',
+
+      -- Reference to:
+      -- https://github.com/nvim-orgmode/orgmode/blob/03777caca5c2df4c5b2067734b7829e9df07a423/lua/orgmode/config/mappings/init.lua
       mappings = {
         text_objects = {
           inner_heading = K.inside .. 'h',
@@ -31,6 +35,9 @@ return {
           -- Folding.
           org_cycle = 'z<Tab>',
           org_global_cycle = 'Z<Tab>',
+
+          org_next_visible_heading = K.next_global .. K.next_global,
+          org_previous_visible_heading = K.previous_global .. K.previous_global,
         }
       },
     }
@@ -52,5 +59,6 @@ return {
     table.insert(config.sources, { name = 'orgmode' })
 
     cmp.setup(config)
+
   end,
 }

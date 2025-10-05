@@ -16,6 +16,7 @@ local PATTERNS_ON_WHICH_TO_PRESERVE_OPTIONS = {
   '*.ts',
   '*.jsx',
   '*.tsx',
+  '*.org',
 }
 
 M.autocmds = {}
