@@ -1,6 +1,13 @@
 local M = {}
 
 M.keymappings = require('ds_omega.config.NeovimDevelopment.choose_and_edit_target.keymappings')
+M.settings = require('ds_omega.config.NeovimDevelopment.choose_and_edit_target.settings')
+
+local choose_and_edit_configs = require('ds_omega.modules.choose_and_edit_configs')
+
+M.cmds = vim.tbl_map(function(target_group)
+    return choose_and_edit_configs.generate_command_name(target_group)
+end, M.settings)
 
 return {
     -- Doesn't work on Windows…
@@ -8,12 +15,12 @@ return {
     -- dir = "ds_omega.modules.choose_and_edit_configs",
     dir = require('ds_omega.constants.env').NVIM_MODULES .. "/choose_and_edit_configs",
 
-    cmd = { 'ChooseAndEditConfigs', 'ChooseAndEditUnixDotfiles' },
+    cmd = M.cmds,
     keys = to_lazy_keys(M.keymappings),
 
     dependencies = { 'stevearc/dressing.nvim' },
 
-    opts = require('ds_omega.config.NeovimDevelopment.choose_and_edit_target.settings'),
+    opts = M.settings,
 
     config = function(_, opts)
         local prequire = require('ds_omega.utils').prequire
@@ -21,7 +28,7 @@ return {
         local choose_and_edit_configs_is_available = prequire('ds_omega.modules.choose_and_edit_configs')
 
         if not choose_and_edit_configs_is_available then
-          return
+            return
         end
         local choose_and_edit_configs = require('ds_omega.modules.choose_and_edit_configs')
 

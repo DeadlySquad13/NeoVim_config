@@ -57,9 +57,15 @@ return {
         local center_sections = {
             {
                 icon = '',
-                desc = format_description('Edit config'),
+                desc = format_description('Edit NeoVim config'),
                 key = leader .. ' e e',
-                action = 'ChooseAndEditConfigs',
+                action = 'ChooseAndEditNeoVimConfigs',
+            },
+            {
+                icon = '',
+                desc = format_description('Edit configs'),
+                key = leader .. ' e a',
+                action = 'ChooseAndEditAll',
             },
             {
                 icon = '',
