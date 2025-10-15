@@ -1,3 +1,7 @@
+local M = {}
+
+M.keymappings = require('ds_omega.config.Git.gitlab.keymappings')
+
 -- To use this plugin you have to create a file `.gitlab.nvim` (place it in a root of
 -- repository or by path set in settings):
 --   auth_token=glpat-____________________
@@ -22,15 +26,7 @@ return {
 
   opts = require('ds_omega.config.Git.gitlab.settings'),
 
-  init = function()
-    local ds_omega_utils_is_available, ds_omega_utils = prequire('ds_omega.ds_omega_utils')
-
-    if not ds_omega_utils_is_available then
-      return
-    end
-
-    ds_omega_utils.apply_plugin_keymappings(require('ds_omega.config.Git.gitlab.keymappings'))
-  end,
+  keys = to_lazy_keys(M.keymappings),
 
   config = function(_, opts)
     local gitlab_is_available, gitlab = require('ds_omega.ds_omega_utils').prequire_plugin('gitlab')
@@ -39,5 +35,13 @@ return {
     end
 
     gitlab.setup(opts)
+
+    local ds_omega_utils_is_available, ds_omega_utils = prequire('ds_omega.ds_omega_utils')
+
+    if not ds_omega_utils_is_available then
+      return
+    end
+
+    ds_omega_utils.apply_plugin_keymappings(M.keymappings)
   end,
 }

@@ -1,21 +1,47 @@
+---@type LazySpec
 return {
   'glacambre/firenvim',
   opts = {
     config = {
       localSettings = {
-        -- Use [keyboard shortcut](https://github.com/glacambre/firenvim#manually-triggering-firenvim) inside browser to start editing input in firenvim.
-        ['.*'] = { takeover = 'never' },
+        -- Set 'never' and use [keyboard shortcut](https://github.com/glacambre/firenvim#manually-triggering-firenvim) inside browser to start editing input in firenvim.
+        -- Or you can set 'always' and run it like described in [this issue](https://github.com/brookhong/Surfingkeys/issues/1064).
+        ['.*'] = { takeover = 'always' },
+
+        -- Doesn't work properly in docs, not very well suited for
+        -- spreadsheets.
+        -- Handles https://docs.google.com/spreadsheets/ too.
+        ['https://docs.google.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
+        -- Excel embedded into yandex cloud, has same problems as google spreadsheets.
+        -- Not sure if this url takes only excel tables or other forms too.
+        ['https://disk.yandex.ru/edit/d/'] = {
+          priority = 1,
+          takeover = 'never'
+        },
+        -- Doesn't work: when you save text it's not updated in the comment field.
+        ['https://www.reddit.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
+        -- Rich input.
+        ['https://www.desmos.com'] = {
+          priority = 1,
+          takeover = 'never'
+        },
       },
     }
   },
 
-
   -- Lazy load firenvim
   -- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
   lazy = not vim.g.started_by_firenvim,
-  build = function()
-    vim.fn["firenvim#install"](0)
-  end,
+  -- build = function()
+  --   vim.fn["firenvim#install"](0)
+  -- end,
+  build = ":call firenvim#install(0)",
 
   config = function(_, opts)
     -- Extend text input up to 10 lines if it's small.
@@ -40,6 +66,15 @@ return {
     autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
   augroup end
 ]])
+    if vim.g.started_by_firenvim then
+      local colorschemas = require('ds_omega.config.theme').default
+
+      require('ds_omega.ds_omega_utils').load_coloscheme(
+        colorschemas.COLORSCHEME_NAME,
+        colorschemas.BACKUP_COLORSCHEME_NAME,
+        colorschemas.FALLBACK_COLORSCHEME_NAME
+      )
+    end
 
     local prequire = require('ds_omega.utils').prequire
 
@@ -51,6 +86,14 @@ return {
 
     setters.set_global_variables(opts, 'firenvim')
 
+    setters.set_settings(
+      {
+        signcolumn = 'number',
+        foldcolumn = '0',
+      }
+    )
+
+
     -- Use different settings depending on the page being edited.
     local utils = require('ds_omega.utils')
     local create_augroup, create_autocmd = utils.create_augroup, utils.create_autocmd
@@ -58,10 +101,18 @@ return {
     local Firenvim = create_augroup('Firenvim', { clear = true })
 
     -- To check pattern use `:<C-r>%`
+    -- - GitHub.
     create_autocmd({ 'BufEnter' }, {
       group = Firenvim,
       pattern = 'github.com_*.txt',
       desc = 'Started editing GitHub text element',
+      callback = function() vim.bo.filetype = 'markdown' end
+    })
+    -- - GitLab
+    create_autocmd({ 'BufEnter' }, {
+      group = Firenvim,
+      pattern = 'gitlab.com_*.txt',
+      desc = 'Started editing GitLab text element',
       callback = function() vim.bo.filetype = 'markdown' end
     })
     -- - I mostly train in Javascript in leetcode.

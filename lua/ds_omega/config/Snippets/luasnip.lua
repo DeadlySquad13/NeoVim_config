@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'L3MON4D3/LuaSnip',
     -- Breaks as cmp is loaded earlier. Make as a dep for cmp?
@@ -61,7 +62,7 @@ return {
             -- Autoexpand.
             enable_autosnippets = true,
             -- Use visual selections in snippets.
-            store_selection_keys = '<c-i>',
+            store_selection_keys = '<c-o>',
 
             -- for regular expansion and nvim-cmp.
             ft_func = function()

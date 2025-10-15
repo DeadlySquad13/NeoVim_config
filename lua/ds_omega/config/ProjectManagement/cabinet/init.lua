@@ -1,6 +1,9 @@
 return {
   "DeadlySquad13/cabinet.nvim",
 
+  -- Currently private repo.
+  url = "git@github.com:DeadlySquad13/cabinet.nvim.git",
+
   config = function()
     local cabinet = require("cabinet")
     cabinet:setup()

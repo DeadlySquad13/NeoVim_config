@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'glepnir/lspsaga.nvim',
   -- branch = 'main',
@@ -6,6 +7,7 @@ return {
     -- change the lsp symbol kind
     -- local lspkind = require('lspsaga.lspkind')
 
+    -- See config structure: https://github.com/nvimdev/lspsaga.nvim/blob/main/lua/lspsaga/init.lua
     return {
       -- ???
       -- lspkind[type_number][2] = icon -- see lua/lspsaga/lspkind.lua
@@ -38,11 +40,21 @@ return {
       -- if true can press number to execute the codeaction in codeaction window
       code_action_num_shortcut = true,
       -- same as nvim-lightbulb but async
-      code_action_lightbulb = {
+      lightbulb = {
         enable = true,
-        sign = true,
+        sign = false,
         sign_priority = 20,
         virtual_text = true,
+        ignore = {
+          ft = {
+            -- Vtsls has a code action that can be applied for every line:
+            -- "move code to another file". No need in lightbulb if this action
+            -- is not sorted somehow. I don't think it's specific to vtsls: as
+            -- far as I remember other typescript lsps had the same action.
+            'typescript',
+            'typescriptreact',
+          }
+        }
       },
       -- finder icons
       finder_icons = {

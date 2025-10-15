@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'phaazon/mind.nvim',
     branch = 'v2',

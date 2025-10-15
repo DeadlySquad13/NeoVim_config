@@ -1,7 +1,9 @@
+---@type LazySpec
 return {
     'Wansmer/langmapper.nvim',
     lazy = false,
     priority = 1, -- High priority is needed if you will use `autoremap()`.
+    cond = true,
     opts = function()
       local im_select_get_current_layout_id = function()
         local cmd = 'im-select'
@@ -14,9 +16,14 @@ return {
 
       return {
           ---@type boolean Wrap all keymap's functions (nvim_set_keymap etc)
-          hack_keymap = false,
-          ---@type string Standart English layout (on Mac, It may be different in your case.)
-          default_layout = layouts.en .. layouts.en_shift,
+          hack_keymap = true,
+          ---@type string Standart layout which you use to make keymappings. In
+          ---my case I've mapped everything as if it was hdn, not en layout.
+          --- If you want to be sure other people understand your config, it's
+          --- better to map as if you're in en layout, set here en layout and
+          --- just translate it to another layout. It makes easier to
+          --- change to another layout too.
+          default_layout = layouts.hands_down_neu .. layouts.hands_down_neu_shift,
           ---@type string[] Names of layouts. If empty, will handle all configured layouts.
           use_layouts = { 'ru' },
           layouts = {
@@ -28,8 +35,6 @@ return {
               hdn = {
                   id = '1033',
                   layout = layouts.hands_down_neu .. layouts.hands_down_neu_shift,
-                  -- layout = [[wfmpv/.q"'z(rsntg,aeihj)xcldb-uoykWFMPV*:Q[]Z{RSNTG;AEIHJ}XCLDB+UOYK]],
-                  -- default_layout = [[qwertyuiop[]asdfghjkl;'\zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:"|ZXCVBNM<>?]],
                   default_layout = nil,
               },
           },
@@ -49,12 +54,5 @@ return {
               },
           },
       }
-    end,
-    config = function(_, opts)
-      require('langmapper').setup(opts)
-
-      local map = require('langmapper').map
-
-      map('n', '<Leader>nb', '<Cmd>Telescope buffers<Cr>')
     end,
 }

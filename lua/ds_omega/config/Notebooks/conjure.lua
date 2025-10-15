@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   {
     "Olical/conjure",
@@ -7,7 +8,6 @@ return {
     -- Optional cmp-conjure integration
     dependencies = { "PaterJason/cmp-conjure" },
 
-    'Olical/conjure',
     config = function()
       vim.g['conjure#mapping#doc_word'] = '<Leader>ii'
     end,
@@ -19,7 +19,8 @@ return {
       local cmp = require("cmp")
       local config = cmp.get_config()
       table.insert(config.sources, { name = "conjure" })
-      return cmp.setup(config)
+
+      cmp.setup(config)
     end,
   },
 }

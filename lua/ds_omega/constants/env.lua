@@ -5,9 +5,19 @@ local user_config = home .. '/.config'
 local bookmarks = home .. '/.bookmarks'
 
 local kbn = bookmarks .. '/kbd'
--- local references = kbn .. '/InfoField__References'
--- local references = kbn
-local references = home .. '/InfoField__References'
+
+-- TODO: Add Darwin.
+---@type table<SystemName, string>
+local references = {
+  Linux = home .. '/InfoField__References',
+  Windows_NT = "G:\\InfoField__References",
+}
+-- TODO: Add Darwin.
+---@type table<SystemName, string>
+local personal_system_references = {
+  Linux = references.Linux .. '/per Personal_system.bib',
+  Windows_NT = references.Windows_NT .. '/per Personal_system.bib',
+}
 
 local projects = bookmarks .. '/projects'
 local ephemeral_projects = projects .. '/ephemeral-'
@@ -55,6 +65,7 @@ return {
 
   KBN = kbn,
   REFERENCES = references,
+  PERSONAL_SYSTEM_REFERENCES = personal_system_references,
 
   PROJECTS = projects,
   EPHEMERAL_PROJECTS = ephemeral_projects,

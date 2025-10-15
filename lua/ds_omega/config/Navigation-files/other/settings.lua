@@ -1,0 +1,196 @@
+return function()
+  local mappings = {}
+
+  local function add_mappings(new_mappings)
+    if require('ds_omega.utils.os').is('Windows_NT') then
+      for _, mapping in ipairs(new_mappings) do
+        mapping.pattern = string.gsub(mapping.pattern, '/', '\\')
+      end
+    end
+
+    vim.list_extend(mappings, new_mappings)
+  end
+
+  -- React.
+  add_mappings({
+    {
+      pattern = "(.*).tsx$",
+      target = "%1.pcss",
+    },
+    {
+      pattern = "(.*).pcss$",
+      target = "%1.tsx",
+    },
+  })
+
+  -- Rutube specific.
+  local sass_module = {
+    target = "%1.module.sass",
+    context = "sass",
+  }
+  local tsx = {
+    target = "%1.tsx",
+    context = "tsx",
+  }
+  local constants = {
+    target = "%1.constants.ts",
+    context = "constants",
+  }
+  local hooks = {
+    target = "%1.hooks.ts",
+    context = "hooks",
+  }
+
+  -- - React component.
+  add_mappings({
+    {
+      pattern = "(.*).tsx$",
+      target = {
+        sass_module,
+        constants,
+        hooks,
+      },
+    },
+    {
+      pattern = "(.*).module.sass$",
+      target = {
+        tsx,
+      },
+    },
+
+    {
+      pattern = "(.*).constants.ts",
+      target = {
+        tsx,
+        hooks,
+      },
+    },
+    {
+      pattern = "(.*).hooks.ts",
+      target = {
+        tsx,
+        constants,
+      },
+    },
+  })
+
+  -- - Simple module.
+  add_mappings({
+    {
+      -- QUESTION: Add tsx too?
+      pattern = '(.*).ts$',
+      target = '%1.jest.ts',
+    },
+    {
+      pattern = '(.*).jest.ts$',
+      target = '%1.ts',
+    },
+  })
+
+  -- Ds-omega lua modules.
+  add_mappings({
+    {
+      pattern = 'init.lua$',
+      target = {
+        settings,
+        keymappings,
+      },
+    },
+
+    {
+      pattern = 'settings.lua$',
+      target = {
+        init,
+        keymappings,
+      },
+    },
+
+    {
+      pattern = 'keymappings.lua$',
+      target = {
+        init,
+        settings,
+      },
+    },
+  })
+
+  -- Go.
+  add_mappings({
+    {
+      pattern = '(.*).go$',
+      target = '%1_test.go',
+    },
+    {
+      pattern = '(.*)_test.go$',
+      target = '%1.go',
+    },
+  })
+
+  -- # Lua.
+  -- Between config and layer.
+  add_mappings({
+    {
+      pattern = 'config/(.*)/(.*).lua$',
+      target = 'ds_omega/layers/%1/%2.lua',
+      context = 'layer',
+    },
+    {
+      pattern = 'ds_omega/layers/(.*)/(.*).lua$',
+      target = 'config/%1/%2.lua',
+      context = 'config',
+    },
+    -- From config with nested folder (Like Navigation/auto-save/settings.lua).
+    {
+      pattern = 'config/(.*)/(.*)/(.*).lua$',
+      target = 'ds_omega/layers/%1/%2.lua',
+      context = 'layer',
+    },
+  })
+
+  -- Between init, settings and keymappings.
+  local init = {
+    target = 'init.lua',
+    context = 'init',
+  }
+
+  local settings = {
+    target = 'settings.lua',
+    context = 'settings',
+  }
+
+  local keymappings = {
+    target = 'keymappings.lua',
+    context = 'keymappings',
+  }
+
+  add_mappings({
+    {
+      pattern = 'init.lua$',
+      target = {
+        settings,
+        keymappings,
+      },
+    },
+
+    {
+      pattern = 'settings.lua$',
+      target = {
+        init,
+        keymappings,
+      },
+    },
+
+    {
+      pattern = 'keymappings.lua$',
+      target = {
+        init,
+        settings,
+      },
+    },
+  })
+
+  return {
+    create_file_if_missing = false,
+    mappings = mappings,
+  }
+end

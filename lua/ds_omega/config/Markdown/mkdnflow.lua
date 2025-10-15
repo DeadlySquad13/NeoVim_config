@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'jakewvincent/mkdnflow.nvim',
 
@@ -11,8 +12,8 @@ return {
       root_tell = "index.md",
     }, ]]
     bib = {
-      default_path = require('ds_omega.constants.env').REFERENCES .. "/Personal.bib"
-      -- default_path = require('ds_omega.constants.env').REFERENCES .. "/Zotero.bib"
+      default_path = require("ds_omega.constants.env").PERSONAL_SYSTEM_REFERENCES
+      [require('ds_omega.utils.os').system_name()],
     },
     mappings = {
       MkdnEnter = { { 'i', 'n', 'v' }, '<CR>' }, -- This monolithic command has the aforementioned
@@ -22,19 +23,23 @@ return {
       -- insert mode to add a new list item (and behave as usual outside of lists).
       MkdnTab = false,
       MkdnSTab = false,
-      MkdnNextLink = { 'n', '<Tab>' },
-      MkdnPrevLink = { 'n', '<S-Tab>' },
+      -- MkdnNextLink = { 'n', '<Tab>' },
+      -- MkdnPrevLink = { 'n', '<S-Tab>' },
+      -- TODO: Create proper keymappings:
+      MkdnNextLink = false,
+      MkdnPrevLink = false,
       MkdnNextHeading = { 'n', ']]' },
       MkdnPrevHeading = { 'n', '[[' },
       -- - Buffer history (seems like a good idea overall. Especially for a lot
       -- of jumps through Zettelkasten).
       MkdnGoBack = { 'n', '<BS>' },
-      MkdnGoForward = { 'n', '<Del>' }, -- Conflicts with my `x` mapping.
+      MkdnGoForward = { 'n', '<Del>' },                             -- Conflicts with my `x` mapping.
       MkdnCreateLink = false,                                       -- see MkdnEnter
       MkdnCreateLinkFromClipboard = { { 'n', 'v' }, '<leader>lp' }, -- see MkdnEnter
       MkdnFollowLink = false,                                       -- see MkdnEnter
       MkdnNewListItemBelowInsert = { 'n', '.' },
       MkdnNewListItemAboveInsert = { 'n', ':' },
+      -- Ideally should be similar to MkdnNextLink.
       MkdnTableNextCell = { 'i', '<Tab>' },
       MkdnTablePrevCell = { 'i', '<S-Tab>' },
       -- TODO: Create proper keymappings:

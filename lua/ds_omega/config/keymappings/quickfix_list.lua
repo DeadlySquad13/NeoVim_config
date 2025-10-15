@@ -1,11 +1,9 @@
-local Hydra = require('hydra')
-
 local prequire = require('ds_omega.utils').prequire
 
 local utils_is_available, utils = prequire('ds_omega.config.keymappings._common.utils')
 
 if not utils_is_available then
-  return
+    return
 end
 
 local cmd = utils.cmd
@@ -20,24 +18,29 @@ end
 
 local QuickfixList = {}
 
-QuickfixList.hydra = Hydra({
-    name = 'Quickfix list',
-    config = {
-        hint = {
-            float_opts = {
-                style = 'rounded',
-            },
-            offset = -1
+
+local hydra_is_available, Hydra = prequire('hydra')
+
+if hydra_is_available and Hydra then
+    QuickfixList.hydra = Hydra({
+        name = 'Quickfix list',
+        config = {
+            hint = {
+                float_opts = {
+                    style = 'rounded',
+                },
+                offset = -1
+            }
+        },
+        mode = 'n',
+        heads = {
+            { keymappings.next,     qf 'next' },
+            { keymappings.previous, qf 'previous' },
+            { '[',                  qf 'old' },
+            { ']',                  qf 'newer' },
         }
-    },
-    mode = 'n',
-    heads = {
-        { keymappings.next,     qf 'next' },
-        { keymappings.previous, qf 'previous' },
-        { '[',                  qf 'old' },
-        { ']',                  qf 'newer' },
-    }
-})
+    })
+end
 
 QuickfixList.keymappings = {
     name = "Quickfix list",
@@ -47,8 +50,6 @@ QuickfixList.keymappings = {
             :activate()
     end, 'Activate quickfix list mode' },
 }
-
-local prequire = require('ds_omega.utils').prequire
 
 local quickfix_list_utils_is_available, quickfix_list_utils = prequire('ds_omega.utils.quickfix_list')
 

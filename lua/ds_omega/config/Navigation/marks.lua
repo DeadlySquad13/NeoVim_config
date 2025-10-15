@@ -2,6 +2,7 @@
 ---@field sign string
 ---@field virt_text string
 
+---@type LazySpec
 return {
   'chentoast/marks.nvim',
 

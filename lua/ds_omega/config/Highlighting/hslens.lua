@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'kevinhwang91/nvim-hlslens',
     branch = 'main',

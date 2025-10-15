@@ -36,6 +36,8 @@ return {
   'javascript',
   -- - React.
   'tsx',
+  -- - Styled components.
+  'styled',
 
   -- C family.
   'cmake',
@@ -46,5 +48,11 @@ return {
 
   'http', -- For http testing (rest.nvim).
   
+  -- Nix.
   'nix',
+
+  -- Go.
+  'go',
+  'gosum',
+  'gomod',
 }

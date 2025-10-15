@@ -1,10 +1,40 @@
 local M = {}
 
-M.cmd = require('hydra.keymap-util').cmd
-M.pcmd = require('hydra.keymap-util').pcmd
+---@param command string
+---@return string `<Cmd>..command..<CR>`
+M.cmd = function(command)
+    return table.concat({ '<Cmd>', command, '<CR>' })
+end
 
--- @param prefix (string)
--- @param keymappings (table)
+---@param try_cmd string
+---@param catch? string
+---@param catch_cmd? string
+M.get_pcmd = function(try_cmd, catch, catch_cmd)
+    local pcommand = { 'try', try_cmd }
+    if catch and catch:find('^E%d+$') then
+        table.insert(pcommand, table.concat {
+            'catch ', [[/^Vim\%((\a\+)\)\=:]], catch, [[:/]]
+        })
+    else
+        table.insert(pcommand, 'catch')
+    end
+    if catch_cmd and catch_cmd ~= '' then
+        table.insert(pcommand, catch_cmd)
+    end
+    table.insert(pcommand, 'endtry')
+    return table.concat(pcommand, ' | ')
+end
+
+---@param try_cmd string
+---@param catch? string
+---@param catch_cmd? string
+M.pcmd = function(try_cmd, catch, catch_cmd)
+    return M.cmd(M.get_pcmd(try_cmd, catch, catch_cmd))
+end
+
+--- For cases when keymappings need to be defined in a flat table.
+---@param prefix (string)
+---@param keymappings (table)
 M.add_prefix = function(prefix, keymappings)
     local result = {}
 
@@ -31,5 +61,18 @@ M.merge = function(a, b)
 
     return result
 end
+--- Transform to hydra keymappings
+---@param keymappings WhichKey-like keymappings
+---@return Hydra-like keymappings
+M.transform_to_hydra = function(keymappings)
+    return vim.tbl_map(
+        function(key)
+            local keymapping = keymappings[key]
+            return { key, keymapping[1], { desc = keymapping[2] } }
+        end,
+        vim.tbl_keys(keymappings)
+    )
+end
+
 
 return M

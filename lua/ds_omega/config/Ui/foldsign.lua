@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     "yaocccc/nvim-foldsign",
     -- FIX: Seems that it doesn't work with ufo because the latter overrides

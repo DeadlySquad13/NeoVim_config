@@ -1,6 +1,7 @@
 local utils_ls = require('ds_omega.utils.luasnip')
 local s = utils_ls.s
 local i = utils_ls.i
+local rep = utils_ls.rep
 local conds = utils_ls.conds
 local selected_text = utils_ls.selected_text
 local fmt = utils_ls.fmt
@@ -43,7 +44,40 @@ return {}, {
         last_after_dot(1),
         i(1),
         last_after_dot(1),
-        selected_text(),
+        selected_text(' %s'),
+      }
+    ),
+    {
+      condition = conds.line_begin,
+    }
+  ),
+  s(
+    {
+      trig = 'treq',
+      dscr = 'Test for protected require',
+    },
+    fmt(
+      [[
+        local {}_is_available = prequire('{}')
+
+        if not {}_is_available then
+          return{}
+        end
+
+        local {} = require('{}')
+        {}
+      ]],
+      {
+        last_after_dot(1),
+        rep(1),
+
+        last_after_dot(1),
+        selected_text(' %s'),
+
+        last_after_dot(1),
+        i(1),
+
+        i(),
       }
     ),
     {

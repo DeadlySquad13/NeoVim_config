@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'neovim/nvim-lspconfig',
 
@@ -9,8 +10,12 @@ return {
 
   opts = function()
     local servers = {
+      -- Spell.
+      'harper_ls',
+
       'lua_ls',
       'pyright',
+      'ansiblels',
 
       -- * Web Development.
       -- 'tsserver',
@@ -99,6 +104,35 @@ return {
     end
 
     local lsp_server_name_to_filetypes = {
+      -- List constantly evolves:
+      -- https://writewithharper.com/docs/faq#What-Programming-Languages-Do-You-Support-
+      -- https://github.com/Automattic/harper/issues/79#issuecomment-2699311915
+      -- TODO: Get it from lspconfig `filetypes`: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#harper_ls
+      harper_ls = {
+        'markdown',
+        'rust',
+        'typescript',
+        'javascript',
+        'typescriptreact',
+        'javascriptreact',
+        'html',
+        'python',
+        'go',
+        'c',
+        'cpp',
+        'ruby',
+        'cs',
+        'toml',
+        'lua',
+        'java',
+        'nix',
+        'shellscript',
+        'typst',
+        'text',
+        'gitcommit',
+        'mail',
+        'cmake',
+      },
       cssmodules_ls = {
         -- For postcss.
         -- 'css',
@@ -134,6 +168,7 @@ return {
       r_language_server = { 'r' },
       markdown_oxide = { 'markdown' },
       nix = { 'nil_ls' },
+      yaml = { 'ansiblels' },
     }
 
     local enabled_filetypes = get_module_enabled_filetypes()

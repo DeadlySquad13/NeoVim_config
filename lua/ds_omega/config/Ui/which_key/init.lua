@@ -1,37 +1,27 @@
 return {
-  'folke/which-key.nvim',
-  enabled = true,
-  version = "2.x",
+    'folke/which-key.nvim',
+    cond = true,
+    version = "2.x",
+    lazy = false,
+    -- Since which-key handles all your keymaps,
+    -- its recommended to load it before other plugins.
+    priority = 10000,
 
-  init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 600
-  end,
+    init = function()
+        vim.o.timeout = true
+        vim.o.timeoutlen = 600
+    end,
 
-  opts = require('ds_omega.config.Ui.which_key.settings'),
-  config = function(_, opts)
-    local lmu = require('langmapper.utils')
-    local view = require('which-key.view')
-    local execute = view.execute
+    opts = require('ds_omega.config.Ui.which_key.settings'),
+    config = function(_, opts)
+        require('which-key').setup(opts)
 
-    -- wrap `execute()` and translate sequence back
-    view.execute = function(prefix_i, mode, buf)
-      -- Translate back to English characters
-      local ru_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru')
-      execute(ru_prefix_i, mode, buf)
+        local apply_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_keymappings
 
-      -- local hdn_prefix_i = lmu.translate_keycode(prefix_i, 'default', 'hdn')
-      -- execute(hdn_prefix_i, mode, buf)
+        local mappings = require('ds_omega.config.keymappings')
+
+        for mode, mode_mappings in pairs(mappings) do
+            apply_keymappings(mode, mode_mappings)
+        end
     end
-
-    require('which-key').setup(opts)
-
-    local apply_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_keymappings
-
-    local mappings = require('ds_omega.config.keymappings')
-
-    for mode, mode_mappings in pairs(mappings) do
-        apply_keymappings(mode, mode_mappings)
-    end
-  end
 }

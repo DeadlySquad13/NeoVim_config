@@ -1,55 +1,8 @@
-local Hydra = require('hydra')
+local utils = require("ds_omega.config.keymappings._common.utils")
 
-local cmd = require('hydra.keymap-util').cmd
-local pcmd = require('hydra.keymap-util').pcmd
+local cmd = utils.cmd
 
 local Diff = {}
-
-local function get_default_branch_name()
-    local res = vim
-        .system({ 'git', 'rev-parse', '--verify', 'main' }, { capture_output = true })
-        :wait()
-    return res.code == 0 and 'main' or 'master'
-end
-
-local function get_feature_branch_name()
-    local res = vim
-        .system({ 'git', 'branch', '--show-current' }, { capture_output = true })
-        :wait()
-
-    -- Stdout has \n at the end.
-    local current_branch_name = string.sub(res.stdout, 1, -2)
-
-    return 'feature/' .. current_branch_name
-end
--- REFACTOR: 100% we already have this function implemented in other modules.
--- For instance, in lsp.
-local function get_git_cwd()
-    local res = vim
-        .system({ 'git', 'rev-parse', '--show-toplevel' }, { capture_output = true })
-        :wait()
-
-    -- Stdout has \n at the end.
-    local current_git_cwd = string.sub(res.stdout, 1, -2)
-
-    return current_git_cwd
-end
-
-local function get_epic_branch_name()
-    local current_worktree_path = get_git_cwd()
-
-    local epic_worktree_path = vim.fs.joinpath(current_worktree_path, '../Epic')
-
-    local res = vim
-        .system({ 'git', '-C', epic_worktree_path, 'rev-parse', '--abbrev-ref', 'HEAD' }, { capture_output = true })
-        :wait()
-    --    git -C /path/to/worktree rev-parse --abbrev-ref HEAD
-
-    -- Stdout has \n at the end.
-    local current_epic_branch_name = string.sub(res.stdout, 1, -2)
-
-    return current_epic_branch_name
-end
 
 Diff.keymappings = {
     -- Be careful not to overlap with diagnostics severity keymappings.
@@ -61,14 +14,17 @@ Diff.keymappings = {
 
         s = { cmd 'DiffviewOpen', 'Repo diff (aka git Status)' },
         l = {
-            l = { cmd('DiffviewOpen ' .. get_default_branch_name()), 'Diff local main' },
-            L = { cmd('DiffviewOpen HEAD..origin/' .. get_default_branch_name()), 'Diff against remote origin/main' },
+            r = { cmd('DiffviewOpen'), 'Diff against index' },
+            R = { cmd('DiffviewOpenDsOmega origin/CURRENT'), 'Diff against remote version of the current branch' },
 
-            f = { cmd('DiffviewOpen ' .. get_feature_branch_name()), 'Diff local feature branch' },
-            F = { cmd('DiffviewOpen HEAD..origin/' .. get_feature_branch_name()), 'Diff against remote feature branch' },
+            l = { cmd('DiffviewOpenDsOmega DEFAULT'), 'Diff local main' },
+            L = { cmd('DiffviewOpenDsOmega origin/DEFAULT'), 'Diff against remote origin/main' },
 
-            e = { cmd('DiffviewOpen ' .. get_epic_branch_name()), 'Diff local epic branch' },
-            E = { cmd('DiffviewOpen HEAD..origin/' .. get_epic_branch_name()), 'Diff against remote epic branch' },
+            f = { cmd('DiffviewOpenDsOmega FEATURE'), 'Diff local feature branch' },
+            F = { cmd('DiffviewOpenDsOmega origin/FEATURE'), 'Diff against remote feature branch' },
+
+            e = { cmd('DiffviewOpenDsOmega EPIC'), 'Diff local epic branch' },
+            E = { cmd('DiffviewOpenDsOmega origin/EPIC'), 'Diff against remote epic branch' },
 
             -- Very similar to simple `DiffviewOpen`. Made just for
             -- completeness sake.
@@ -83,7 +39,7 @@ Diff.keymappings = {
                 -- Some autocompletion exists on Diffview but it doesn't list
                 -- everything for some reason.
                 vim.ui.input({ prompt = 'Enter remote branch' }, function(input)
-                    vim.cmd.DiffviewOpen({ args = { 'HEAD..origin/' .. input } })
+                    vim.cmd.DiffviewOpen({ args = { 'origin/' .. input .. '..HEAD' } })
                 end)
             end, 'Input and Diff against remote branch' }
         },

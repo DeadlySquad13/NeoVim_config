@@ -17,7 +17,8 @@ local IS_ENVIRONMENT_FAST = false
 
 -- Motions that are allowed to cross line boundaries.
 --   Go the end of the previous line / start of the next line easier.
-set.whichwrap:append('hl')
+-- < - Left, > - Right.
+set.whichwrap:append('hl<>')
 
 -- Better to use 0 with tpipeline.
 -- local function get_laststatus()
@@ -176,6 +177,8 @@ local global_local = {
 
     -- Program that will be used when asking for help by pressing K.
     keywordprg     = ':help',
+
+    exrc = true,
 }
 
 
@@ -202,7 +205,7 @@ local indentation = {
     --autoindent
     --smartindent   -- Do smart autoindenting when starting a new line
     expandtab = true, -- When using <Tab>, put spaces instead of a <tab> character
-    tabstop = 4, -- Number of spaces that a <Tab> in the file counts for.
+    tabstop = 4, -- Number of spaces that a <Tab> in the file counts for. Overridden by editorconfig or guess-indent.
     shiftwidth = 0, -- Set number of spaces per auto indentation the same as the tabstop.
     softtabstop = -1, --  Number of spaces that a <Tab> in the file counts for while editing. Use number of shiftwidth.
     smarttab = true, -- At <Tab> at beginning line inserts spaces set in shiftwidth.
@@ -230,15 +233,17 @@ local bw_local = {
     cursorline     = IS_ENVIRONMENT_FAST,
     guicursor      = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20',
 }
+
 local utils_setters = require('ds_omega.utils.setters')
 local set_settings, set_global_variables = utils_setters.set_settings, utils_setters.set_global_variables
 
 set_global_variables({
-    -- python3_host_prog = [[J:\ds13\Soft\-scoop\shims\python3.exe]],
     mapleader = ' ',
     maplocalleader = '\\',
     -- Disable global mappings (`y<C-g>` was adding delay to `y` mapping).
     fugitive_no_maps = 1,
+    -- For testing.
+    started_by_firenvim = vim.g.started_by_firenvim or vim.fn.getenv('FIRENVIM') == 'true',
 })
 
 local langmap = require('langmap').langmap.to_hands_down_neu
@@ -252,5 +257,5 @@ set_settings(
         shell_settings,
         indentation,
         { langmap = langmap }
-        )
+    )
 )

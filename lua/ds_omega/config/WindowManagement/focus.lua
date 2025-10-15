@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   -- To enable lazy load @see{github plugin page @link{https://github.com/beauwilliams/focus.nvim}}
   'beauwilliams/focus.nvim',

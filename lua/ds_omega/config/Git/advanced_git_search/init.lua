@@ -1,3 +1,7 @@
+local M = {}
+
+M.keymappings = require('ds_omega.config.Git.advanced_git_search.keymappings')
+
 return {
     "aaronhallaert/advanced-git-search.nvim",
     dependencies = {
@@ -13,6 +17,7 @@ return {
         "linrongbin16/gitlinker.nvim",
     },
     cmd = { "AdvancedGitSearch" },
+    keys = to_lazy_keys(M.keymappings),
 
     -- Options for telescope extension. Loaded in Telescope, see
     -- 'ds_omega.config.Navigation.telescope'.
@@ -42,18 +47,16 @@ return {
         },
     },
 
-    init = function()
+    config = function()
+        local prequire = require('ds_omega.utils').prequire
+
         local ds_omega_utils_is_available, ds_omega_utils = prequire('ds_omega.ds_omega_utils')
 
         if not ds_omega_utils_is_available then
             return
         end
 
-        ds_omega_utils.apply_plugin_keymappings(require('ds_omega.config.Git.advanced_git_search.keymappings'))
-    end,
-
-    config = function()
-        local prequire = require('ds_omega.utils').prequire
+        ds_omega_utils.apply_plugin_keymappings(M.keymappings)
 
         local telescope_is_available, telescope = prequire('telescope')
 

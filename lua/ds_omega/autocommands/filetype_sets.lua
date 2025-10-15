@@ -18,6 +18,8 @@ local FILETYPE_SETS = {
   ['setup.cfg'] = { filetype = 'dosini' }, -- Python module config.
 
   ['*.pcss'] = { filetype = 'scss' }, -- PostCss files.
+
+  ['*.xspf'] = { filetype = 'xml' }, -- Playlist files.
 }
 
 for pattern, settings in pairs(FILETYPE_SETS) do

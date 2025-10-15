@@ -1,14 +1,18 @@
+---@type LazySpec
 return {
   'ggandor/flit.nvim',
   dependencies = 'leap.nvim',
+
+  event = require('ds_omega.constants.events').lazy_file,
+
+  -- Don't lazy-load it by keys as flit and leap lazy-loads it by itself.
+  -- https://github.com/ggandor/leap.nvim/issues/191
 
   opts = function()
     local leap_settings = require('ds_omega.config.Navigation.leap.settings')
 
     return {
       keys = {
-        -- Rationale: `f` in most cases used for movement so it won't be that
-        -- bad if it's on the same hand as actions.
         f = 'w', F = 'W',
         t = 'k', T = 'K',
       },
@@ -19,6 +23,4 @@ return {
       }
     }
   end,
-
-  config = true,
 }

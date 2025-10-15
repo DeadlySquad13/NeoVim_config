@@ -1,3 +1,5 @@
+---@module 'telescope'
+---@type LazySpec
 return {
  'nvim-telescope/telescope.nvim',
   dependencies = 'nvim-lua/plenary.nvim',
@@ -14,6 +16,10 @@ return {
     }
 
     local pickers = require('ds_omega.config.Editing.yanky.picker')()
+
+    -- local file_browser_spec_is_available = prequire('ds_omega.config.Navigation-files.telescope_file_browser')
+
+    -- local file_browser_spec = require('ds_omega.config.Navigation-files.telescope_file_browser')
 
     return {
       defaults = {
@@ -41,7 +47,7 @@ return {
       },
 
       extensions = {
-        file_browser = require('ds_omega.config.Navigation.telescope_file_browser').opts(),
+        -- file_browser = not file_browser_spec_is_available and nil or file_browser_spec.opts(),
         undo = require('ds_omega.config.Editing.undo').opts(),
         --   Unfortunately, doesn't work. Should be set up in setup function of
         -- yanky.
@@ -49,6 +55,7 @@ return {
         agrolens = require('ds_omega.config.Navigation.agrolens').opts,
         advanced_git_search = require('ds_omega.config.Git.advanced_git_search').opts,
         bibtex = require('ds_omega.config.Navigation.telescope_bibtex').opts(),
+        live_grep_args = require('ds_omega.config.Navigation.telescope_live_grep_args').opts,
       }
     }
   end,

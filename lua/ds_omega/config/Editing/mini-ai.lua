@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   'echasnovski/mini.ai',
   dependencies = 'nvim-treesitter/nvim-treesitter-textobjects', -- For queries.
@@ -16,6 +17,7 @@ return {
         m = spec_treesitter({ a = '@function.outer', i = '@function.inner' }),
         M = spec_treesitter({ a = '@class.outer', i = '@class.inner' }),
 
+        -- TODO: Add to treesitter/textobjects too.
         c = spec.function_call(),
 
         o = spec_treesitter({ a = '@loop.outer', i = '@loop.inner' }),
@@ -23,17 +25,60 @@ return {
         ['/'] = spec_treesitter({ a = '@comment.outer', i = '@comment.inner' }),
 
         p = spec_treesitter({ a = '@parameter.outer', i = '@parameter.inner' }),
+        P = spec_treesitter({ a = '@type.outer', i = '@type.inner' }),
 
-        -- Add attribute?
-        a = spec_treesitter({ a = '@assignment.outer', i = '@assignment.inner' }),
+        f = spec_treesitter({
+          -- - Custom for ecma (typescript and friends).
+          a = '@expression_statement.outer',
+          -- - Inner version is similar to @assignment.lhs so I decided to just
+          -- combine expression and assignment keymappings into one group.
+          i = '@assignment.outer',
+        }),
 
-        b = spec_treesitter({ a = '@block.outer', i = '@block.inner' }),
+        -- Didn't like it, too random in my opinion and in most cases too wide
+        -- (in typescript at least). It's also mostly covered by class and
+        -- method textobjects.
+        -- b = spec_treesitter({ a = '@block.outer', i = '@block.inner' }),
+        b = spec.pair('<', '>'),
 
         d = spec_treesitter({ a = '@conditional.outer', i = '@conditional.inner' }),
 
-        -- FIX: Doesn't work.
-        k = spec_treesitter({ a = '@key.outer', i = '@key.inner' }),
-        v = spec_treesitter({ a = '@value.outer', i = '@value.inner' }),
+        k = spec_treesitter({
+          -- - Custom for ecma (typescript and friends).
+          -- Triggers bigger area but looks not only for assignments but also
+          -- for this.something = new Cool()
+          --     ^ lhs            ^ rhs
+          a = '@expression_statement.lhs',
+          i = '@assignment.lhs',
+        }),
+        v = spec_treesitter({
+          -- - Custom for ecma (typescript and friends).
+          a = '@expression_statement.rhs',
+          i = '@assignment.rhs',
+        }),
+
+        ['<'] = spec_treesitter({
+          a = '@property.lhs',
+          -- TODO: Add something useful here.
+          i = '@property.lhs',
+        }),
+        ['>'] = spec_treesitter({
+          a = '@property.rhs',
+          -- TODO: Add something useful here.
+          i = '@property.rhs',
+        }),
+        [':'] = spec_treesitter({
+          a = {
+            -- - Custom for ecma (typescript and friends).
+            '@property.outer',
+            '@attribute.outer',
+          },
+          i = {
+            -- - Custom for ecma (typescript and friends).
+            '@property.inner',
+            '@attribute.inner',
+          },
+        })
       },
 
       -- Module mappings. Use `''` (empty string) to disable one.

@@ -25,9 +25,13 @@ end
 ---@return (function) # New function with default parameters.
 local function fancyparams(arg_def, f)
   return function(args)
+    -- If function was called without params at all.
+    args = args or {}
+
     local params = {}
     for i = 1, #arg_def do
-      local paramname = arg_def[i][1] --the name of the first parameter to the function
+      -- The name of the first parameter to the function
+      local paramname = arg_def[i][1]
       local default_value = arg_def[i][2]
       params[i] = args[i] or args[paramname] or default_value
     end
@@ -60,20 +64,20 @@ local function is_loaded_in_lazy_spec(plugin_name)
 end
 
 local function exists(plugin_name)
-    if CURRENT_PLUGIN_MANAGER == 'packer' then
-        return exists_in_packer_spec(plugin_name)
-    elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
-        print("Function 'exists' is not implemented for lazy")
-        return nil
-    end
+  if CURRENT_PLUGIN_MANAGER == 'packer' then
+    return exists_in_packer_spec(plugin_name)
+  elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
+    print("Function 'exists' is not implemented for lazy")
+    return nil
+  end
 end
 
 local function is_loaded(plugin_name)
-    if CURRENT_PLUGIN_MANAGER == 'packer' then
-        return is_loaded_in_packer_spec(plugin_name)
-    elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
-        return is_loaded_in_lazy_spec(plugin_name)
-    end
+  if CURRENT_PLUGIN_MANAGER == 'packer' then
+    return is_loaded_in_packer_spec(plugin_name)
+  elseif CURRENT_PLUGIN_MANAGER == 'lazy' then
+    return is_loaded_in_lazy_spec(plugin_name)
+  end
 end
 
 --- Convert list to the table that you can use for fast find.
@@ -115,6 +119,35 @@ local function tbl_remove_key(table, key)
   return element
 end
 
+--- Map keys of a table.
+---@param iteratee (fun(value: any, key: string, table: table): string) function to transform keys of a table.
+---@param table (table) Dict-like table.
+---@return (any) element
+local function tbl_map_keys(iteratee, table)
+  local result = {}
+
+  for key, value in pairs(table) do
+    result[iteratee(value, key, table)] = value
+  end
+
+  return result
+end
+
+--- Map values of a table.
+---@param iteratee (fun(value: any, key: string, table: table): any) function to transform values of a table.
+---@param table (table) Dict-like table.
+---@return (any) element
+local function tbl_map_values(iteratee, table)
+  local result = {}
+
+  for key, value in pairs(table) do
+    result[key] = iteratee(value, key, table)
+  end
+
+  return result
+end
+
+
 --- Extend list.
 --Doesn't modify the initial list and accepts variable number of parameters.
 ---@param initial_list (any[]) List to extend.
@@ -129,6 +162,15 @@ local function list_deep_extend(initial_list, ...)
   end
 
   return result
+end
+
+--- Set mode.
+---@param mode ('x') Mode to set. Currently only x mode is supported.
+local function set_mode(mode)
+  if mode == 'x' then
+    return vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("v", true, false, true), 'x!', true)
+  end
+  print(string.format('set_mode: This mode (%s) is not supported yet', mode))
 end
 
 local M = {
@@ -163,16 +205,24 @@ local M = {
   IndexedSet = IndexedSet,
 
   -- * Collection utils. @see also `:h vim.tbl_*`.
+  -- TODO: Remove any
+  tbl_map_keys = tbl_map_keys,
+  -- TODO: Remove any
+  tbl_map_values = tbl_map_values,
   tbl_remove_key = tbl_remove_key,
   list_deep_extend = list_deep_extend,
 
   os = require('ds_omega.utils.os'),
+
+  git = require('ds_omega.utils.git'),
 
   exec = require('ds_omega.utils.exec'),
 
   Set = require('ds_omega.utils.set').Set,
 
   SetIntersection = require('ds_omega.utils.set').SetIntersection,
+
+  set_mode = set_mode,
 }
 
 return M

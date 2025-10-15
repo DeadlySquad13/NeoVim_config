@@ -1,7 +1,7 @@
-local Hydra = require('hydra')
+local prequire = require('ds_omega.utils').prequire
 
-local cmd = require('hydra.keymap-util').cmd
-local pcmd = require('hydra.keymap-util').pcmd
+local utils = require("ds_omega.config.keymappings._common.utils")
+local cmd, pcmd = utils.cmd, utils.pcmd
 
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 
@@ -18,12 +18,15 @@ local window_hint = [[
 
 ---@param key (string)
 local function wincmd(key)
-  return cmd('wincmd ' .. key)
+    return cmd('wincmd ' .. key)
 end
 local Window = {}
 
--- TODO: Move keybindings to which-key to remove inconsistencies.
-Window.hydra = Hydra({
+local hydra_is_available, Hydra = prequire('hydra')
+
+if hydra_is_available and Hydra then
+    -- TODO: Move keybindings to which-key to remove inconsistencies.
+    Window.hydra = Hydra({
         name = 'Windows',
         -- hint = window_hint,
         config = {
@@ -43,7 +46,7 @@ Window.hydra = Hydra({
             { 't',     wincmd 'l' },
 
             { 'a',     wincmd 't',                      { desc = 'Move to top-left window' } },
-            { 'b',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
+            { 'u',     wincmd 'b',                      { desc = 'Move to bottom-right window' } },
 
             { 'p',     wincmd 'p',                      { desc = 'Go to previous window' } },
 
@@ -78,9 +81,6 @@ Window.hydra = Hydra({
             { 'z',     wincmd 'o',                      { exit = true, desc = 'Remain only' } },
             { '<C-z>', wincmd 'o',                      { exit = true, desc = false } },
 
-            -- { 'o',     require('nvim-window').pick, { desc = 'Pick window' } },
-            -- { '<C-o>', require('nvim-window').pick, { desc = 'Pick window' } },
-
             { 'e',     cmd 'FocusMaximise',             { desc = 'Enable Maximise mode' } },
             -- { 'b', choose_buffer, { exit = true, desc = 'choose buffer' } },
 
@@ -94,11 +94,10 @@ Window.hydra = Hydra({
             { '<Esc>', nil,                             { exit = true, desc = false } }
         }
     })
+end
 
 Window.mappings = {
     name = 'Window',
-    -- List of windows like in tmux?
-    --w = {  },
 
     s = { wincmd 'h', 'Move left' },
     n = { wincmd 'j', 'Move down' },
@@ -110,10 +109,8 @@ Window.mappings = {
     M = { cmd 'WinShift up', 'Swap up' },
     T = { cmd 'WinShift right', 'Swap right' },
 
-    -- Made it similar to tmux, even though there's ctrl-w_w shortcut in vim for
-    -- such jump.
-    o = { require('nvim-window').pick, 'Pick window' },
-    ['<c-o>'] = { require('nvim-window').pick, 'Pick window' },
+    a = { wincmd 't', 'Move to top-left window' },
+    u = { wincmd 'b', 'Move to bottom-right window' },
     -- Overrides close preview window.
     z = { wincmd 'o', 'Remain only' },
     ['<C-z>'] = { wincmd 'o' },
@@ -123,7 +120,9 @@ Window.mappings = {
     h = { cmd 'vnew', 'Vertical split new window' },
     ['<C-h>'] = { cmd 'vnew', 'Vertical split new window' },
 
-    a = { cmd 'FocusMaximise', 'Maximise window' },
+    -- This keymappings ruins hand position (shifts left from main home-row keys). But it's ok as this mapping is
+    -- usually last when interacting with windows (after maximizing you focus on content itself).
+    [','] = { cmd 'FocusMaximise', 'Maximise window' },
     [CONSTANTS.transitive_catalizator] = { function() Window.hydra:activate() end, 'Activate window mode' },
 }
 

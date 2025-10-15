@@ -3,7 +3,7 @@ return {
   highlight_unlabeled_phase_one_targets = true,
   max_highlighted_traversal_targets = 10,
   case_sensitive = true,
-  equivalence_classes = { ' \t\r\n' },
+  equivalence_classes = { ' \t\r\n', '([{', ')]}', '\'"`' },
   substitute_chars = { ['\r'] = '¬' },
   safe_labels = {
     's', 'f', 'n', 'u', 't', '/',

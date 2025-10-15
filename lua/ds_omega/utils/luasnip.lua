@@ -83,11 +83,21 @@ local function optional_postifx(index)
   end, { index })
 end
 
-local function selected_text()
+---@param format? (string) Format-like string. For instance, ' %s' to prefix
+---with space.
+local function selected_text(format)
   return f(function(_, snip)
     -- TM_SELECTED_TEXT is a table to account for multiline-selections.
     -- In this case only the first line is inserted.
-    return snip.env.TM_SELECTED_TEXT[1] or {}
+    ---@type string
+    local text = snip.env.TM_SELECTED_TEXT[1]
+    print(snip.env.TM_SELECTED_TEXT)
+
+    if not text then
+      return {}
+    end
+
+    return string.format(format or '%s', text)
   end, {})
 end
 

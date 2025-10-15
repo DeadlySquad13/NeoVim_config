@@ -1,20 +1,24 @@
+local M = {}
+M.keymappings = require('ds_omega.config.Editing.yanky.keymappings')
+
 return {
-  'gbprod/yanky.nvim',
+    'gbprod/yanky.nvim',
 
-  opts = require('ds_omega.config.Editing.yanky.settings'),
+    opts = require('ds_omega.config.Editing.yanky.settings'),
 
-  config = function(_, opts)
-    require('yanky').setup(opts)
+    keys = to_lazy_keys(M.keymappings),
 
-    local keymappings = require('ds_omega.config.Editing.yanky.keymappings')
-    require('ds_omega.ds_omega_utils').apply_plugin_keymappings(keymappings)
+    config = function(_, opts)
+        require('yanky').setup(opts)
 
-    local prequire = require('ds_omega.utils').prequire
+        require('ds_omega.ds_omega_utils').apply_plugin_keymappings(M.keymappings)
 
-    local telescope_is_available, telescope = prequire('telescope')
+        local prequire = require('ds_omega.utils').prequire
 
-    if telescope_is_available then
-      telescope.load_extension('yank_history')
-    end
-  end,
+        local telescope_is_available, telescope = prequire('telescope')
+
+        if telescope_is_available then
+            telescope.load_extension('yank_history')
+        end
+    end,
 }

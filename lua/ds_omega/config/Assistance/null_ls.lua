@@ -1,6 +1,10 @@
+---@type LazySpec
 return {
-  'jose-elias-alvarez/null-ls.nvim',
-  dependencies = { 'nvim-lua/plenary.nvim' },
+  'nvimtools/none-ls.nvim',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    "nvimtools/none-ls-extras.nvim",
+  },
 
   event = require('ds_omega.constants.events').lazy_file,
 
@@ -16,6 +20,19 @@ return {
     local formatting = null_ls.builtins.formatting
     local diagnostics = null_ls.builtins.diagnostics
     local code_actions = null_ls.builtins.code_actions
+
+    local function extra_formatting(name)
+      return require('none-ls.formatting.'..name)
+    end
+
+    local function extra_code_actions(name)
+      return require('none-ls.code_actions.'..name)
+    end
+
+    local function extra_diagnostics(name)
+      return require('none-ls.diagnostics.'..name)
+    end
+
     --local completion = null_ls.builtins.completion;
 
     -- Unfortunately, null-ls uses log, not notify, for pretty notify we have to do
@@ -29,11 +46,13 @@ return {
       -- General.
       -- see [misspell](https://github.com/client9/misspell).
       -- diagnostics.misspell,
-      -- formatting.jq,
-      formatting.fixjson,
+      extra_formatting 'jq',
+      extra_formatting 'yq',
+      -- formatting.fixjson,
 
       -- Markdown.
-      formatting.markdown_toc,
+      formatting.markdownlint,
+      diagnostics.markdownlint,
 
       -- Typescript.
       formatting.prettierd,
@@ -44,13 +63,22 @@ return {
       -- Python.
       formatting.black,
       formatting.isort,
-      diagnostics.flake8,
+      extra_diagnostics 'flake8',
       diagnostics.mypy,
 
       -- Nix.
       code_actions.statix,
       diagnostics.statix,
       formatting.alejandra,
+
+      -- Go.
+      diagnostics.golangci_lint,
+      formatting.gofmt,
+
+      -- Other.
+      -- diagnostics.ansiblelint, -- Was causing vim-illuminate errors. Also
+      -- I don't find any purpose of it: it seems as embedded into ansiblels.
+      -- Reference: https://github.com/ansible/vscode-ansible
     }
   end,
 
@@ -68,7 +96,7 @@ return {
     local function notify_that_source_is_not_executable(source)
       local program_name = source._opts.command
 
-      local NullLs = require('ds_omega.utils').create_augroup('NullLs__'..program_name, { clear = true })
+      local NullLs = require('ds_omega.utils').create_augroup('NullLs__' .. program_name, { clear = true })
 
       require('ds_omega.utils').create_autocmd({ 'FileType' }, {
         group = NullLs,
@@ -77,13 +105,14 @@ return {
         pattern = source.filetypes,
 
         callback = function()
-          local message = 'Program "' .. program_name .. '" is not executable! Make sure it\'s installed and in your $PATH.'
+          local message = 'Program "' ..
+          program_name .. '" is not executable! Make sure it\'s installed and in your $PATH.'
 
           if LOG_INTO.notify then
             notify(message, {
-                title = 'NullLs',
-                timeout = 1000,
-              }
+              title = 'NullLs',
+              timeout = 1000,
+            }
             )
           end
 
@@ -96,8 +125,8 @@ return {
 
 
     ---  Adds a message to the unavailable sources.
-    ---@param sources 
-    ---@return 
+    ---@param sources
+    ---@return
     local function process_set_sources(sources)
       local available_sources = {}
 

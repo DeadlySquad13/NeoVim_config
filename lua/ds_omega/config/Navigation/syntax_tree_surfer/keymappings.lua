@@ -10,6 +10,14 @@ end
 
 return {
   n = {
+    [';'] = {
+      function()
+        require('ds_omega.utils').set_mode('x')
+        require('ds_omega.config.Navigation.syntax_tree_surfer.hydra'):activate()
+      end,
+      'Activate quickfix list mode',
+    },
+
     v = {
       -- Normal Mode Swapping.
       U = {
@@ -53,7 +61,7 @@ return {
     },
 
     -- Targeted jump.
-    ['<leader>'..'i'] = {
+    ['<leader>' .. 'i'] = {
       name = 'Jump',
 
       -- Good roll from i to h
@@ -106,6 +114,14 @@ return {
   },
 
   x = {
+    [';'] = {
+      function()
+        require('ds_omega.config.Navigation.syntax_tree_surfer.hydra'):activate()
+      end,
+      'Activate quickfix list mode'
+    },
+
+    -- TODO: Remap on something more ergonomic for hdn layout.
     -- Select Nodes in Visual Mode.
     ['<C-j>'] = { '<Cmd>STSSelectNextSiblingNode<Cr>', 'Select next sibling node' },
     ['<C-k>'] = { '<Cmd>STSSelectPrevSiblingNode<Cr>', 'Select previous sibling node' },

@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
     'zdcthomas/yop.nvim',
     config = function()

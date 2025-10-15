@@ -1,6 +1,7 @@
 local prequire = require('ds_omega.utils').prequire
 local _, utils = prequire('ds_omega.config.keymappings._common.utils')
 
+---@type LazySpec
 return {
   "HakonHarnes/img-clip.nvim",
   event = "VeryLazy",
