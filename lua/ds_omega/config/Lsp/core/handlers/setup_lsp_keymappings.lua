@@ -217,64 +217,64 @@ local setup_lsp_keymappings = function(bufnr, additional_keymappings)
         ['<Leader>fn'] = { lsp_buf.format, 'Format' },
 
         -- Navigation.
-        [K.next_global .. 'd'] = {
+        [K.previous_global .. 'd'] = {
             function()
                 lsp_diagnostic:goto_prev()
             end, 'Go to previous diagnostic'
         },
-        [K.previous_global .. 'd'] = {
+        [K.next_global .. 'd'] = {
             function()
                 lsp_diagnostic:goto_next()
             end,
             'Go to next diagnostic'
         },
 
-        [K.next_global .. 'e'] = {
+        [K.previous_global .. 'e'] = {
             function()
                 lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.ERROR, popup_opts = { border = "single" } })
             end,
             'Go to previous error',
         },
-        [K.previous_global .. 'e'] = {
+        [K.next_global .. 'e'] = {
             function()
                 lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.ERROR, popup_opts = { border = "single" } })
             end,
             'Go to next error',
         },
 
-        [K.next_global .. 'w'] = {
+        [K.previous_global .. 'w'] = {
             function()
                 lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.WARN })
             end,
             'Go to previous warning',
         },
-        [K.previous_global .. 'w'] = {
+        [K.next_global .. 'w'] = {
             function()
                 lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.WARN })
             end,
             'Go to next warning',
         },
 
-        [K.next_global .. 'i'] = {
+        [K.previous_global .. 'i'] = {
             function()
                 lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.INFO })
             end,
             'Go to previous info diagnostic',
         },
-        [K.previous_global .. 'i'] = {
+        [K.next_global .. 'i'] = {
             function()
                 lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.INFO })
             end,
             'Go to next info diagnostic',
         },
 
-        [K.next_global .. 'h'] = {
+        [K.previous_global .. 'h'] = {
             function()
                 lsp_diagnostic:goto_prev({ severity = vim.diagnostic.severity.HINT })
             end,
             'Go to previous hint',
         },
-        [K.previous_global .. 'h'] = {
+        [K.next_global .. 'h'] = {
             function()
                 lsp_diagnostic:goto_next({ severity = vim.diagnostic.severity.HINT })
             end,
