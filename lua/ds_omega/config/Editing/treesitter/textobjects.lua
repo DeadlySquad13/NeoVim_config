@@ -8,6 +8,8 @@ local symmetric_objects = {
 
   c = { query = "@class.outer", desc = "Class start" },
 
+  -- INFO: Doesn't work with JavaScript loops that don't have curly braces: be
+  -- it a one-liner or two-liner.
   o = { query = "@loop.*", desc = "Loop start" }, -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
 
   -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
