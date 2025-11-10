@@ -1,3 +1,5 @@
+local cmd = require('ds_omega.config.keymappings._common.utils').cmd
+
 local CONSTANTS = require('ds_omega.config.keymappings._common.constants')
 local KEY = CONSTANTS.KEY
 local leader_right = CONSTANTS.keymappings.leader_right
@@ -17,6 +19,11 @@ end
 return {
     n = {
         [terminal_leader] = {
+            -- TODO: Add count support. For now use open_mapping instead.
+            t = {
+                cmd 'ToggleTerm',
+                'Toggle terminal',
+            },
             -- TODO: Not very ergonomic…
             g = {
                 function()
@@ -32,10 +39,21 @@ return {
             },
             [KEY.forward_slash] = {
                 function()
-                    local broot = Terminal():new({
-                        cmd = "br",
-                        hidden = false,
-                    })
+                    local broot = Terminal():new(
+                        require("ds_omega.utils.os").is("Windows_NT") and {
+                            cmd = "br",
+                            hidden = false,
+                        } or {
+                            -- PERF: We have `br` set only in .bashrc that is
+                            -- sourced in interactive mode. Of course it also fetches other
+                            -- configs. `--login` bash flag maybe better but we
+                            -- don't have br here.
+                            -- cmd = "br",
+                            on_create = function(term)
+                                term:send("br")
+                            end,
+                            hidden = false,
+                        })
 
                     broot:toggle()
                 end,
@@ -54,6 +72,4 @@ return {
             },
         }
     },
-
-    terminal_leader = terminal_leader,
 }
