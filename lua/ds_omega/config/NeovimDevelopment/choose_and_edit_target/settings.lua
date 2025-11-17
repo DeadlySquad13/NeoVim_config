@@ -148,7 +148,10 @@ local target_groups = {
                     bookmarked_locations_root_path,
                     search_tabs_opts = {
                         tab_name = 'File browser',
-                        -- tele_opts =
+                        tele_opts = {
+                            -- Git lags (> 5s checking git status) on Windows in KnowledgeBase.
+                            git_status = not require('ds_omega.utils.os').is("Windows_NT"),
+                        }
                     },
                 },
             }
