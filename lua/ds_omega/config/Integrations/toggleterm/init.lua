@@ -1,11 +1,17 @@
 local M = {}
 
 M.keymappings = require('ds_omega.config.Integrations.toggleterm.keymappings')
-M.open_terminal_keymappings = {
-    -- Same physical key, just C-y is the only key on Darwin that is
-    -- not mapped properly to hdn.
-    require("ds_omega.utils.os").is("Darwin") and [[<C-y>]] or [[<C-/>]],
+
+---@type table<SystemName, table<string>>
+M.open_terminal_keymappings_map = {
+    -- Same physical key, just C-y is the only key on Darwin and Linux that is
+    -- not mapped properly to hdn (and different...).
+    Darwin = { [[<C-y>]] },
+    Windows_NT = {  [[<C-/>]] },
+    Linux = {  [[<C-_>]] },
 }
+
+M.open_terminal_keymappings = M.open_terminal_keymappings_map[require("ds_omega.utils.os").system_name()] or {}
 
 ---@type LazySpec
 return {
