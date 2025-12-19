@@ -23,6 +23,7 @@ return {
   },
 
   config = function(_, opts)
+    -- INFO: Registers MiniFiles global variable (api) on setup.
     require('mini.files').setup(opts)
 
     local utils = require('ds_omega.utils')
@@ -57,9 +58,13 @@ return {
         return
       end
 
+      local cwd = mini_files_get_current_dir()
+
+      MiniFiles.close()
+
       builtin.live_grep({
         prompt_title = 'Live Grep from MiniFiles',
-        cwd = mini_files_get_current_dir(),
+        cwd = cwd,
       })
     end
 
