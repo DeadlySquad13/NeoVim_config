@@ -200,6 +200,7 @@ local M = {
 
   -- # File System.
   file = require('ds_omega.utils.file'),
+  rename = require('ds_omega.utils.rename'),
 
   -- # Collections.
   IndexedSet = IndexedSet,
