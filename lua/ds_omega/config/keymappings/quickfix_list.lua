@@ -38,6 +38,8 @@ if hydra_is_available and Hydra then
             { keymappings.previous, qf 'previous' },
             { '[',                  qf 'old' },
             { ']',                  qf 'newer' },
+            { keymappings.leader_left .. keymappings.next,     qf 'nfile' },
+            { keymappings.leader_left .. keymappings.previous, qf 'pfile' },
         }
     })
 end
