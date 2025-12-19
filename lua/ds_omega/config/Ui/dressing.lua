@@ -4,13 +4,10 @@ return {
 
     lazy = true,
 
-    keys = {
-        -- FIX: Doesn't work.
-        {
-            mode = { "n" },
-            -- Lsp references.
-            '<Leader>rs',
-        }
+    -- Doesn't work for commands that you run in a vim where no buffers were
+    -- read. For instance, when run with `nvim -`.
+    event = {
+        'BufRead',
     },
 
     opts = {
