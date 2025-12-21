@@ -18,11 +18,11 @@ local enabled_methods = {
     -- ["-"] = "to_dash_case",
     -- ? = "to_title_dash_case",
     -- n = "to_constant_case",
-    d = "to_dot_case",
+    ['.'] = "to_dot_case",
     [","] = "to_comma_case",
     a = "to_phrase_case",
-    -- c = "to_camel_case", -- mixed case in abolish
-    -- p = "to_pascal_case",
+    -- c = "to_camel_case",
+    -- m = "to_pascal_case", -- mixed case in abolish
     t = "to_title_case",
     f = "to_path_case",
     -- ? = "to_upper_phrase_case",
@@ -30,29 +30,28 @@ local enabled_methods = {
 }
 
 local enabled_lsp_methods = {
+    -- In Abolish there's only 'SNAKE_UPPERCASE'.
     u = "to_upper_case",
     l = "to_lower_case",
     s = "to_snake_case",
+    ['_'] = "to_snake_case",
     ["-"] = "to_dash_case",
     -- ? = "to_title_dash_case",
+    -- In Abolish it's u and U. Decided to leave it different still.
     n = "to_constant_case",
-    d = "to_dot_case",
+    ['.'] = "to_dot_case",
     -- [","] = "to_comma_case",
     -- a = "to_phrase_case",
-    m = "to_camel_case", -- mixed case in abolish
-    p = "to_pascal_case",
+    c = "to_camel_case",
+    -- ? = "ToUpperPhraseCase",,
     -- t = "to_title_case",
     -- f = "to_path_case",
-    -- ? = "to_upper_phrase_case",
+    m = "to_pascal_case" -- mixed case in abolish
     -- ? = "to_lower_phrase_case",
 }
 
 return {
     n = {
-        -- [coerce] = {
-        --     ["/"] = { function() text_case().lsp_rename('to_path_case') end, 'Coerce to path case' },
-        -- },
-        -- [K.coerce]
         [K.coerce] = vim.tbl_map(function(method)
             -- STYLE: convert method name to phrase case (`method_name` -> "method name").
             return { function() text_case().current_word(method) end, 'Current word Coerce to '..method }

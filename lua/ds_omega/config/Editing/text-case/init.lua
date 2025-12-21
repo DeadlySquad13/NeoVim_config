@@ -12,10 +12,12 @@ return {
         -- substitude_command_name = 'S', -- Once it will be better then abolish (https://github.com/johmsalas/text-case.nvim/issues/160)
     },
 
-    -- keys = {
-    --     coerce, -- Default invocation prefix
-    --     { coerce .. ".", "<Cmd>TextCaseOpenTelescope<Cr>", mode = { "n", "v" }, desc = "Telescope" },
-    -- },
+    -- Didn't map them as used seldom and transitive_catalizator is already
+    -- taken by abolish.
+    cmd = {
+        "TextCaseOpenTelescopeQuickChange",
+        "TextCaseOpenTelescopeLSPChange",
+    },
     keys = to_lazy_keys(M.keymappings),
 
     config = function(_, opts)

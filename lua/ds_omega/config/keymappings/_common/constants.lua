@@ -30,7 +30,7 @@ CONSTANTS.keymappings = {
   repeat_next = leader_left .. 'y',
   repeat_previous = leader_left .. '"',
 
-  -- For global traversals between, for example: tabs, buffers, sessions and so
+  -- For global traversals between, for example: tabs, buffers, sessions, and so
   -- on.
   next_global = ']',
   previous_global = '[',
