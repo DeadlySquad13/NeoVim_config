@@ -43,17 +43,24 @@ return {
 
         d = spec_treesitter({ a = '@conditional.outer', i = '@conditional.inner' }),
 
+        -- See custom textobjects.scm in `after` directory.
         k = spec_treesitter({
           -- - Custom for ecma (typescript and friends).
-          -- Triggers bigger area but looks not only for assignments but also
-          -- for this.something = new Cool()
-          --     ^ lhs            ^ rhs
-          a = '@expression_statement.lhs',
-          i = '@assignment.lhs',
+          -- this.something = new Cool()`
+          -- ^
+          -- `const something = new Cool()`
+          --        ^
+          -- (must consume const too with @assignment_left.outer instead of @assignment.lhs but couldn't figure out query)
+          a = { '@expression_statement.lhs', '@assignment.lhs' },
+          -- this.something = new Cool()`
+          --      ^ 
+          -- `const something = new Cool()`
+          --        ^
+          i = { '@expression_statement_left.rhs', '@assignment.lhs' },
         }),
         v = spec_treesitter({
           -- - Custom for ecma (typescript and friends).
-          a = '@expression_statement.rhs',
+          a = { '@expression_statement.rhs', '@assignment.rhs' },
           i = '@assignment.rhs',
         }),
 
