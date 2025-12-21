@@ -40,6 +40,8 @@ CONSTANTS.keymappings = {
   -- repeat_previous_global = leader_left .. '[',
 
   create = leader_right..'c',
+
+  coerce = leader_left..'m',
 }
 
 -- About global and local keymappings: go to next buffer - global keymapping.
