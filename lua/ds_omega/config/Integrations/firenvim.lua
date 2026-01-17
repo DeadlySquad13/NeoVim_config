@@ -66,6 +66,24 @@ return {
     autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
   augroup end
 ]])
+
+
+    local create_autocmd = require('ds_omega.utils').create_autocmd
+
+    create_autocmd('BufEnter', {
+      pattern = "shikimori.one_*",
+      desc = "Make shikimori title comment input bigger for long review",
+      group = "FirenvimUser",
+      callback = function()
+        if not vim.g.started_by_firenvim then
+          return
+        end
+
+        vim.o.lines = math.max(vim.o.lines, 40)
+        vim.o.columns = math.max(vim.o.columns, 100)
+      end,
+    })
+
     if vim.g.started_by_firenvim then
       local colorschemas = require('ds_omega.config.theme').default
 
@@ -136,3 +154,4 @@ return {
     map('n', '<C-z>', ':call firenvim#hide_frame()<cr>')
   end,
 }
+
