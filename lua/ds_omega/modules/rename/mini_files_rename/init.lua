@@ -1,7 +1,6 @@
 local M = {}
 
 M.setup = function()
-    print('mini_files', MiniFiles)
     vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesActionRename",
         callback = function(event)
