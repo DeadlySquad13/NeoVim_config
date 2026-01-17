@@ -9,12 +9,23 @@ return {
     local K = CONSTANTS.keymappings
 
     return {
-      org_agenda_files = '~/orgfiles/**/*',
+      org_agenda_files = {
+        '~/.bookmarks/kbn/-incoming/**/*',
+        '~/.bookmarks/kbn/archive-/**/*',
+        '~/.bookmarks/kbn/Clippings/**/*',
+        '~/.bookmarks/kbn/logseq-/**/*',
+        '~/.bookmarks/kbn/orgzly-/**/*',
+        '~/.bookmarks/kbn/per Personal_system/**/*',
+        '~/.bookmarks/kbn/rut Rutube_system/**/*',
+        '~/.bookmarks/kbn/tasknotes-/**/*',
+        '~/.bookmarks/kbn/z zettelkasten-/**/*',
+      },
       org_default_notes_file = '~/orgfiles/refile.org',
       org_hide_leading_stars = true,
       org_hide_emphasis_markers = true,
 
       org_startup_folded = 'inherit',
+      org_todo_keywords = { 'TODO', 'DOING', '|', 'DONE' },
 
       -- Reference to:
       -- https://github.com/nvim-orgmode/orgmode/blob/03777caca5c2df4c5b2067734b7829e9df07a423/lua/orgmode/config/mappings/init.lua
@@ -38,6 +49,11 @@ return {
 
           org_next_visible_heading = K.next_global .. K.next_global,
           org_previous_visible_heading = K.previous_global .. K.previous_global,
+        },
+
+        agenda = {
+          org_agenda_goto_today = 'ha',
+          org_agenda_goto_date = 'gh',
         }
       },
     }
@@ -59,6 +75,5 @@ return {
     table.insert(config.sources, { name = 'orgmode' })
 
     cmp.setup(config)
-
   end,
 }
