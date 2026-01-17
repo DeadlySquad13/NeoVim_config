@@ -1,5 +1,8 @@
 return {
-  'Pocco81/TrueZen.nvim',
+  -- 'Pocco81/TrueZen.nvim',
+  -- https://github.com/pocco81/true-zen.nvim/pull/143
+  'emil-ke/true-zen.nvim',
+  branch = 'fix-boolean-vs-numeric',
   opts = require('ds_omega.config.Workspace.true_zen.settings'),
 
   config = function(_, opts)
