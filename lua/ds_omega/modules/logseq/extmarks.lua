@@ -1,4 +1,5 @@
 local M = {}
+M.log = log('Logseq__Extmarks')
 
 --- @class BlockDataBody
 --- @field children table[]
@@ -42,23 +43,24 @@ local M = {}
 ---@type table<string, BlockDataBody>
 M.references_for_current_session = {}
 
---- 
+---
 ---@param reference ReferenceLocation
-M.get_reference_from_cache = function (reference)
-    return M.references_for_current_session[reference.uuid]
-end
-
---- 
----@param reference ReferenceLocation
----@param block_data BlockDataBody
--- TODO: Add ttl for each entry to clear them and update from db from time to time.
-M.add_reference_to_cache = function (reference, block_data)
-    M.references_for_current_session[reference.uuid] = block_data
+M.get_reference_from_cache = function(reference)
+  return M.references_for_current_session[reference.uuid]
 end
 
 ---
----@param block_ref string
----@return
+---@param reference ReferenceLocation
+---@param block_data BlockDataBody
+-- TODO: Add ttl for each entry to clear them and update from db from time to time.
+M.add_reference_to_cache = function(reference, block_data)
+  M.references_for_current_session[reference.uuid] = block_data
+end
+
+---
+---@async
+---@param block_ref string,
+---@return table|nil response
 M.get_block_data = function(block_ref)
   local curl_is_available = prequire('plenary.curl')
 
@@ -72,60 +74,91 @@ M.get_block_data = function(block_ref)
     args = { block_ref },
   })
 
-  return curl.post("http://127.0.0.1:12315/api", {
+  local co = coroutine.running()
+
+  curl.post("http://127.0.0.1:12315/api", {
     body = json_body,
     headers = {
       ["Content-Type"] = "application/json; charset=utf-8",
       ["Accept"] = "application/json",
       ["Authorization"] = "Bearer D0F7360AE36881EB3FF8133BB04C9F8D",
     },
-    -- callback = function(response)
-    --     if response.status == 200 then
-    --         local data = vim.json.decode(response.body)
-    --         print("Success:", data)
-    --     else
-    --         print("Error:", response.status, response.body.error, response.body.message)
-    --     end
-    -- end,
+    on_error = function(err)
+      vim.schedule(function()
+        notify_throttled(err.message, vim.log.levels.ERROR)
+        M.log(block_ref, err)
+        coroutine.resume(co)
+      end)
+    end,
+    callback = function(response)
+      vim.schedule(function()
+        coroutine.resume(co, response)
+      end)
+    end,
   })
+
+  return coroutine.yield()
 end
 
 M.LogseqNamespace = vim.api.nvim_create_namespace('Logseq')
 
+
 ---@alias ReferenceLocation { uuid: string, line: number, column: number }
 
 ---
---- @param bufnr number Buffer number
+---@async
+---@param bufnr number Buffer number
 ---@param reference (ReferenceLocation)
 M.set_extmark = function(bufnr, reference)
+  local function set_extmark(block_data)
+    local virt_text_content = block_data.content
+
+    -- INFO: May render multiline in the future. Note that N last lines may be
+    -- proterties, for example:
+    -- { "TODO Research [[Nas]]", ":PROPERTIES:", ":id: 68dc49df-104f-47ce-b7b6-6c4117a6198c", ":END:" }
+    virt_text_content = vim.split(virt_text_content, "\n", { plain = true })[1]
+
+    return vim.api.nvim_buf_set_extmark(
+      bufnr,
+      M.LogseqNamespace,
+      reference.line,
+      reference.column,
+      {
+        virt_text = { { virt_text_content, "Visual" } },
+        virt_text_pos = "overlay",
+      }
+    )
+  end
+
   ---@type BlockDataBody
   local block_data = M.get_reference_from_cache(reference)
 
-  if not block_data then
-    local block_data_response = M.get_block_data(reference.uuid)
-
-    block_data = vim.json.decode(block_data_response.body)
-
-    M.add_reference_to_cache(reference, block_data)
+  if block_data then
+    set_extmark(block_data)
+    return
   end
 
-  local virt_text_content = block_data.content
+  local co = coroutine.create(function()
+    local block_data_response = M.get_block_data(reference.uuid)
 
-  -- INFO: May render multiline in the future. Note that N last lines may be
-  -- proterties, for example:
-  -- { "TODO Research [[Nas]]", ":PROPERTIES:", ":id: 68dc49df-104f-47ce-b7b6-6c4117a6198c", ":END:" }
-  virt_text_content = vim.split(virt_text_content, "\n", { plain = true })[1]
+    if not block_data_response then
+      M.log("Error: returned empty block_data_response. Something's wrong with fetch mechanism")
+      return
+    end
 
-  return vim.api.nvim_buf_set_extmark(
-    bufnr,
-    M.LogseqNamespace,
-    reference.line,
-    reference.column,
-    {
-      virt_text = { { virt_text_content, "Visual" } },
-      virt_text_pos = "overlay",
-    }
-  )
+    if block_data_response.status == 200 then
+      block_data = vim.json.decode(block_data_response.body)
+
+      M.add_reference_to_cache(reference, block_data)
+      set_extmark(block_data)
+    else
+      notify_throttled("Error:", block_data_response.status, block_data_response.body.error, block_data_response.body.message)
+      M.log("Error:", block_data_response.status, block_data_response.body.error, block_data_response.body.message)
+      return
+    end
+  end)
+
+  coroutine.resume(co)
 end
 
 -- Strict UUID pattern: 8-4-4-4-12 hex digits with hyphens
