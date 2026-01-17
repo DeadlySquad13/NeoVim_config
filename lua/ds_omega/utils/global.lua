@@ -30,6 +30,17 @@ _G.notify = function(message, level, opts)
   notify(message, level, opts)
 end
 
+_G.notify_once = vim.notify_once
+
+--- Notify user with nvim.notify. If it is not available, fallback to
+--vim.notify. Notifications are throttled on a leading edge with 5s time
+--window.
+---@param message (string) Message to display.
+---@param level #Level of notification (see `:h vim.log.levels`).
+---@param opts (table|nil) Additional options for nvim.notify visualization (see `:h
+--notify.O
+_G.notify_throttled = require('ds_omega.utils.defer').throttle_leading(_G.notify, 5000)
+
 ---@param module_name (string)
 local function get_module_loading_error_handler(module_name)
   local function module_loading_error_handler(error)

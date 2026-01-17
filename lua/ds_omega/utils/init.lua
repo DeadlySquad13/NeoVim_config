@@ -219,6 +219,8 @@ local M = {
 
   exec = require('ds_omega.utils.exec'),
 
+  defer = require('ds_omega.utils.defer'),
+
   Set = require('ds_omega.utils.set').Set,
 
   SetIntersection = require('ds_omega.utils.set').SetIntersection,
