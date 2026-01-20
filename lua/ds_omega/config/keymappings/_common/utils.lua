@@ -32,14 +32,30 @@ M.pcmd = function(try_cmd, catch, catch_cmd)
     return M.cmd(M.get_pcmd(try_cmd, catch, catch_cmd))
 end
 
---- For cases when keymappings need to be defined in a flat table.
+--- For cases when keymappings need to be defined in a flat table in a format:
+--- { keymapping = action }
 ---@param prefix (string)
----@param keymappings (table)
+---@param keymappings (table) In a format: { <prefix>keymapping = action }
 M.add_prefix = function(prefix, keymappings)
     local result = {}
 
     for key, keymapping in pairs(keymappings) do
         result[prefix .. key] = keymapping
+    end
+
+    return result
+end
+
+--- For cases when keymappings need to be defined in a flat table in a format
+--- that is sometimes defined by some plugins:
+--- { action_name = keymapping }
+---@param prefix (string)
+---@param keymappings (table) In a format: { action_name = <prefix>keymapping }
+M.add_prefix_to_values = function(prefix, keymappings)
+    local result = {}
+
+    for key, keymapping in pairs(keymappings) do
+        result[key] = prefix..keymapping
     end
 
     return result
