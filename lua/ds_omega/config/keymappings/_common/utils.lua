@@ -1,9 +1,9 @@
 local M = {}
 
 ---@param command string
----@return string `<Cmd>..command..<CR>`
+---@return string `<Cmd>..command..<Cr>`
 M.cmd = function(command)
-    return table.concat({ '<Cmd>', command, '<CR>' })
+    return table.concat({ '<Cmd>', command, '<Cr>' })
 end
 
 ---@param try_cmd string
