@@ -44,6 +44,10 @@ return {
             preview_height = 0.6,
           },
         },
+        find_files = {
+          -- We usually use symlinks and want to see them in search results.
+          follow = true,
+        },
       },
 
       extensions = {
