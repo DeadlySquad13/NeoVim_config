@@ -198,6 +198,11 @@ if search_tabs_is_available then
             function() return search_tabs.open({ collection = 'files', tab_name = 'Old' }) end,
             'Old files (tab)'
         },
+
+        d = {
+            function() return search_tabs.open({ collection = 'devops_files' }) end,
+            'DevOps files'
+        },
     })
 
     local live_grep_args_extension = require('telescope').extensions.live_grep_args
