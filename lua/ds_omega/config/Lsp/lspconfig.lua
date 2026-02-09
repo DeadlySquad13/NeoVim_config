@@ -26,6 +26,7 @@ return {
       'cssls',
       'html',
       'eslint',
+      'biome',
       'jsonls',
 
       'texlab',
@@ -48,12 +49,7 @@ return {
   end,
 
   config = function(_, opts)
-    local prequire = require('ds_omega.utils').prequire
-
-    local lspconfig_is_available, lspconfig = prequire('lspconfig')
-    if not lspconfig_is_available then
-      return
-    end
+    local lspconfig = vim.lsp.config
 
     local server_configurations = opts
 
@@ -142,6 +138,7 @@ return {
       somesass_ls = { 'sass' },
       cssls = { 'css', 'scss', 'less' },
       eslint = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+      biome = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
       emmet_language_server = {
         'eruby',
         'html',
@@ -169,6 +166,8 @@ return {
       markdown_oxide = { 'markdown' },
       nix = { 'nil_ls' },
       yaml = { 'ansiblels' },
+      docker_language_server = { 'dockerfile', 'yaml.docker-compose' },
+      dockerls = { 'dockerfile', 'yaml.docker-compose' },
     }
 
     local enabled_filetypes = get_module_enabled_filetypes()
@@ -230,7 +229,8 @@ return {
             require('ds_omega.layers.Lsp.neodev')
           end ]]
 
-          lspconfig[server_name].setup(final_server_configuration)
+          lspconfig[server_name] = final_server_configuration
+          vim.lsp.enable(server_name)
         end
       end
     end
