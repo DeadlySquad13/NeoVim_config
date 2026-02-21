@@ -1,0 +1,3 @@
+# NeoVim config
+
+> Always WIP
