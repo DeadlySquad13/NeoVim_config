@@ -1,9 +1,10 @@
 local lsp_handlers = require('ds_omega.config.Lsp.core.handlers')
 
-local base = vim.lsp.config.eslint.on_attach
 
 -- STYLE: Wish for a more functional-style approach.
 local function base_on_attach(client, bufnr)
+  local base = vim.lsp.config.eslint.on_attach
+
   if not base then
     return
   end
@@ -13,6 +14,7 @@ end
 
 local function setup_eslint_server_keymappings(_, bufnr)
   local apply_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_keymappings
+  local base = vim.lsp.config.eslint.on_attach
 
   local mappings = {}
   if base then
