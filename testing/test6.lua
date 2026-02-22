@@ -44,6 +44,10 @@ create_autocmd({ 'BufReadPre' }, {
     print('loaded', ok)
 
     if ok then
+      local i = 5
+      while i < 10 do
+        i = i+1
+      end
       for _, autocmd in pairs(autocmds) do
         print(autocmd)
         vim.api.nvim_del_autocmd(autocmd.id)

@@ -203,8 +203,8 @@
 ((if_statement "end" @conditional) (#set! conceal "}"))
 
 (("do" @repeat) (#set! conceal "{"))
-(while_statement "end"  @repeat) (#set conceal "}")
-(for_statement "end"  @repeat) (#set conceal "}")
+((while_statement "end" @repeat) (#set! conceal "}"))
+((for_statement "end"  @repeat) (#set! conceal "}"))
 
 (("function" @keyword.function) (#set! conceal "f"))
 ((function_declaration "end" @keyword.function) (#set! conceal ""))
