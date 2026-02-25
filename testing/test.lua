@@ -47,6 +47,7 @@ create_autocmd({ 'BufReadPre' }, {
       for _, autocmd in pairs(autocmds) do
         print(autocmd)
         vim.api.nvim_del_autocmd(autocmd.id)
+        return 1
       end
     end
   end,
