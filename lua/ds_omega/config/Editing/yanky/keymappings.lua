@@ -69,19 +69,20 @@ local function get_put_keymappings(mode)
     -- - Stay on current line.
     ['m'] = {
       p = {
-        function() with_preserved_position('PutIndentAfter', mode) end,
+        function() with_preserved_position('PutIndentAfter', mode)() end,
         'Put after (adjusted to current line) but stay on current line',
-        expr = true,
       },
       P = {
-        function() with_preserved_position('PutIndentBefore', mode) end,
+        function() with_preserved_position('PutIndentBefore', mode)() end,
         'Put before (adjusted to current line) but stay on current line',
-        expr = true,
       },
     },
     -- -- Indent right.
     ['>'] = {
-      -- Stay on pasted line.
+      p = { '<Plug>(YankyPutIndentAfterShiftRight)', 'Put after and adjust the indent to the current line' },
+      P = { '<Plug>(YankyPutIndentBeforeShiftRight)', 'Put before and adjust the indent to the current line' },
+
+      -- Stay on pasted line (used by default so can be used in shorter keymappings: `>p` and `>P`).
       ['z'] = {
         p = { '<Plug>(YankyPutIndentAfterShiftRight)', 'Put after and adjust the indent to the current line' },
         P = { '<Plug>(YankyPutIndentBeforeShiftRight)', 'Put before and adjust the indent to the current line' },
@@ -89,23 +90,19 @@ local function get_put_keymappings(mode)
       -- - Stay on current line.
       ['m'] = {
         p = {
-          function() with_preserved_position('PutIndentAfter', mode, 'ShiftRight') end,
+          function() with_preserved_position('PutIndentAfter', mode, 'ShiftRight')() end,
           'Put after (adjusted to current line) but stay on current line',
-          noremap = false,
-          expr = true,
         },
         P = {
-          function() with_preserved_position('PutIndentBefore', mode, 'ShiftRight') end,
+          function() with_preserved_position('PutIndentBefore', mode, 'ShiftRight')() end,
           'Put before (adjusted to current line) but stay on current line',
-          noremap = false,
-          expr = true,
         },
       },
     },
   }
 end
 
-local oxmode_keymappings = {
+local onxmode_keymappings = {
   ['gp'] = { function() require('yanky.textobj').last_put() end, 'Select last put' },
 }
 
@@ -113,7 +110,7 @@ return {
   n = vim.tbl_extend('error', get_put_keymappings('n'), {
     ['<C-n>'] = { '<Plug>(YankyCycleForward)', 'Cycle forward yank history' },
     ['<C-p>'] = { '<Plug>(YankyCycleBackward)', 'Cycle backward yank history' },
-  }),
-  x = vim.tbl_extend('error', get_put_keymappings('x'), oxmode_keymappings),
-  o = oxmode_keymappings,
+  }, onxmode_keymappings),
+  x = vim.tbl_extend('error', get_put_keymappings('x'), onxmode_keymappings),
+  o = onxmode_keymappings,
 }

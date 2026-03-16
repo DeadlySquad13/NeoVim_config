@@ -85,7 +85,9 @@ vnoremap < <gv
 
 " * Select just pasted text in last used mode [if you used linewise selection
 " - V, if characterwise - v,..].
-" FIX: `[ marks get rewritten during autosave.
+" INFO: `[ marks get rewritten during autosave. Left this snippet only for
+" base configs when no plugins are loaded. In daily practice we instead use more
+" advanced lua solution via `require('yanky.textobj').last_put()`.
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " * Yanking.
