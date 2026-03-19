@@ -1,7 +1,7 @@
 local apply_bufferlocal_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_bufferlocal_keymappings
 
-local plantuml_cmd = [[<Cmd>:!plantuml % -tpng && plantuml % -tsvg<Cr>]]
-local kroki_cmd = [[<Cmd>:!kroki convert % --type plantuml && kroki convert % --type plantuml --format png<Cr>]]
+local plantuml_cmd = [[<Cmd>:!plantuml "%" -tpng && plantuml "%" -tsvg<Cr>]]
+local kroki_cmd = [[<Cmd>:!kroki convert "%" --type plantuml && kroki convert "%" --type plantuml --format png<Cr>]]
 
 apply_bufferlocal_keymappings('n', {
   ['<Cr>'] = {
