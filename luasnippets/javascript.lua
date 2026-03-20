@@ -81,4 +81,42 @@ return vim.list_extend({
             }
         )
     ),
+    -- ReleaseBuilder.
+    -- TODO: Move to a project nvimrc.
+    s(
+        {
+            trig = 'rberr',
+            dscr = 'Create new RBError from logsConfig',
+        },
+        fmt(
+            "const e = new RBError(...logsConfig['{}']());",
+            {
+                i(1),
+            }
+        )
+    ),
+    s(
+        {
+            trig = 'fromerr',
+            dscr = 'Create new RBError from existing error',
+        },
+        fmt(
+            "const e = fromError(error, logsConfig['{}']());",
+            {
+                i(1),
+            }
+        )
+    ),
+    s(
+        {
+            trig = 'rbresp',
+            dscr = 'Use rbResponse util to return an error in response',
+        },
+        fmt(
+            "return h.rbResponse(request, e).code({});",
+            {
+                i(1),
+            }
+        )
+    ),
 }, jest_snippets), {}
