@@ -7,12 +7,14 @@ create_user_command(
     vim.cmd.profile({ args = { 'func', '*' } })
     vim.cmd.profile({ args = { 'file', '*' } })
   end,
+  -- TODO: Make it optional with default value.
+  -- Name of the log file.
   { nargs = 1 }
 )
 
 create_user_command(
   'ProfilePause',
-  function(params)
+  function(_params)
     vim.cmd.profile({ args = { 'pause' } })
     vim.cmd.profile({ args = { 'dump' } })
   end,
