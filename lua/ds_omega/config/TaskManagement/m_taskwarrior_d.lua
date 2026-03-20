@@ -41,13 +41,15 @@ return {
       { silent = true }
     )
 
+    -- Didn't want to get every intermediate checkmark into taskwarrior.
+    -- Sometimes it's in the templates or some local things, for instance.
     -- Be caution: it may be slow to open large files, because it scans the whole buffer.
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-      group = vim.api.nvim_create_augroup("TWTask", { clear = true }),
-      pattern = "*.md,*.markdown",
-      callback = function()
-        vim.cmd('TWSyncTasks')
-      end,
-    })
+    -- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+    --   group = vim.api.nvim_create_augroup("TWTask", { clear = true }),
+    --   pattern = "*.md,*.markdown",
+    --   callback = function()
+    --     vim.cmd('TWSyncTasks')
+    --   end,
+    -- })
   end,
 }
