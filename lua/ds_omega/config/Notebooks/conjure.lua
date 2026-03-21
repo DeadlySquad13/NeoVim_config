@@ -2,6 +2,8 @@
 return {
   {
     "Olical/conjure",
+    branch = "main", -- was master before
+
     ft = { "clojure", "fennel", "python", "janet", "racket", "scheme", "lisp", "julia", "rust", "lua" },
     lazy = true,
 

@@ -33,8 +33,8 @@ return {
 
         -- TODO: Create custom lualine component in case it lags.
         local function in_project_with_activated_venv()
-            local project_is_available, project = prequire('project_nvim.project')
-            local swenv_api_is_available, swenv_api = prequire('swenv.api')
+            local project_is_available, project = pcall(require, 'project_nvim.project')
+            local swenv_api_is_available, swenv_api = pcall(require, 'swenv.api')
 
             if not (project_is_available and project and swenv_api_is_available and swenv_api) then
                 return
@@ -125,7 +125,9 @@ return {
                         icon = ' ',
                         color = { fg = "green" },
                         cond = function()
-                            return vim.bo.filetype == "python"
+                            local swenv_is_available, _ = pcall(require, 'swenv')
+
+                            return vim.bo.filetype == "python" and swenv_is_available
                         end,
                     },
                 },
