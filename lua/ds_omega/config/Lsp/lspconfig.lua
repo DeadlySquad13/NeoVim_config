@@ -15,6 +15,7 @@ return {
 
       'lua_ls',
       'pyright',
+      'basedpyright',
       'ansiblels',
 
       -- * Web Development.
@@ -157,6 +158,7 @@ return {
       jsonls = { 'json' },
       pylsp = { 'python' },
       pyright = { 'python' },
+      basedpyright = { 'python' },
       lua_ls = { 'lua' },
       tsserver = { 'typescript', 'typescriptreact' },
       vtsls = { 'typescript', 'typescriptreact' },
