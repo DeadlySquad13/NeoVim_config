@@ -72,6 +72,7 @@ file.open_lua_module = function(path, opts, search_tabs_opts)
     local default_search_tabs_opts = {
       collection = 'files_minimal',
       tab_name = 'Files',
+      -- Our custom field.
       collection_tele_opts = telescope_picker_opts,
     }
 

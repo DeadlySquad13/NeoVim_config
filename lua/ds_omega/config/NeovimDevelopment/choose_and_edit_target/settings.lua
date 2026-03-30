@@ -60,7 +60,7 @@ local target_groups = {
         items = function()
             local env = require('ds_omega.constants.env')
 
-            local unix_dotfiles = env.BOOKMARKS .. '/Unix_dotfiles'
+            local unix_dotfiles = env.BOOKMARKS .. '/shared-configs/Unix_dotfiles'
 
             --- Hosts with their
             ---@type table<string, table>
@@ -69,6 +69,9 @@ local target_groups = {
                 ["@salt"] = {},
                 ["@pepper"] = {},
                 ["@cake"] = {},
+                ["@NikolaiGogol"] = {},
+                ["@NikolaiGogol_inner"] = {},
+                ["@vpn"] = {},
             }
 
             ---
