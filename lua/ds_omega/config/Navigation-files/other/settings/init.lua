@@ -74,6 +74,9 @@ return function()
     },
   })
 
+  -- - Nest.js
+  add_mappings(require('ds_omega.config.Navigation-files.other.settings.nestjs'))
+
   -- - Simple module.
   add_mappings({
     {
@@ -192,5 +195,7 @@ return function()
   return {
     create_file_if_missing = false,
     mappings = mappings,
+    -- Remembers last selected variant.
+    rememberBuffers = false,
   }
 end
