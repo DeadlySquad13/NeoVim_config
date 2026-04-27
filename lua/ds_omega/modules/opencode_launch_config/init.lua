@@ -39,51 +39,74 @@ M.write_launch_config = function(mode)
     end
     f:write(mode)
     f:close()
-    vim.cmd.Opencode("open input")
 end
 
 M.create_user_command = function()
     local create_user_command = require('ds_omega.utils.commands').create_user_command
 
     local function complete(arg_lead, cmdline, cursor_pos)
-        local subcommands = { 'open' }
         local modes = { 'docker', 'os' }
 
         local cmd_parts = vim.split(cmdline, '%s+')
         local arg_num = #cmd_parts - 1
 
         if arg_num == 1 then
-            return subcommands
+            return { 'open', 'open_input', 'open_input_new_session', 'open_output'}
         end
 
-        if arg_num == 2 and cmd_parts[2] == 'open' then
-            return {'input'}
+        if arg_num == 2 then
+            if cmd_parts[2] == 'open' then
+                return { 'input', 'output' }
+            end
+            if cmd_parts[2] == 'open_input' then
+                return modes
+            end
+            if cmd_parts[2] == 'open_input_new_session' then
+                return modes
+            end
+            if cmd_parts[2] == 'open_output' then
+                return {}
+            end
         end
 
-        if arg_num == 3 and cmd_parts[2] == 'open' and cmd_parts[3] == 'input' then
-            return modes
+        if arg_num == 3 then
+            if cmd_parts[2] == 'open' and cmd_parts[3] == 'input' then
+                return modes
+            end
         end
 
         return {}
     end
 
     create_user_command('OpencodeDsOmega', function(args)
+        local function default_fallback()
+            vim.cmd.Opencode(unpack(args.fargs))
+        end
+
         if vim.tbl_isempty(args.fargs) then
-            return
+            return default_fallback()
         end
 
         local first_arg = args.fargs[1]
 
+        if first_arg == "open_input" or first_arg == "open_input_new_session" then
+            local mode = args.fargs[2]
+            if mode then
+                M.write_launch_config(mode)
+            end
+
+            return default_fallback()
+        end
+
         if first_arg ~= "open" then
-            return
+            return default_fallback()
         end
 
         local mode = args.fargs[3]
         if mode then
             M.write_launch_config(mode)
-        else
-            vim.cmd.Opencode(unpack(args.fargs))
         end
+        return default_fallback()
     end, {
         nargs = '*',
         desc = 'Opencode wrapper with launch mode support',
