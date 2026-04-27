@@ -1,5 +1,6 @@
 return require('ds_omega.ds_omega_utils.ds_omega_layer_specs').init(
     {
+        { import = 'AiAssistance' },
         { import = 'Assistance' },
         { import = 'Architecturing' },
         { import = 'Commands' },
