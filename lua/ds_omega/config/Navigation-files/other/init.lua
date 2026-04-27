@@ -1,8 +1,16 @@
+local M = {}
+
+M.opts = require('ds_omega.config.Navigation-files.other.settings')
+M.keymappings = require('ds_omega.config.Navigation-files.other.keymappings')
+
+---@type LazySpec
 return {
   'DeadlySquad13/other.nvim',
   branch = 'create-file',
 
-  opts = require('ds_omega.config.Navigation-files.other.settings'),
+  opts = M.opts,
+
+  keys = to_lazy_keys(M.keymappings),
 
   config = function(_, opts)
     require('other-nvim').setup(opts)
@@ -11,7 +19,7 @@ return {
     if not ds_omega_utils_is_available then
       return
     end
-    local keymappings = require('ds_omega.config.Navigation-files.other.keymappings')
-    ds_omega_utils.apply_plugin_keymappings(keymappings)
+
+    ds_omega_utils.apply_plugin_keymappings(M.keymappings)
   end,
 }
