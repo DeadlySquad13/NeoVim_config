@@ -58,35 +58,55 @@ M.create_user_command = function()
         ['open_output'] = {},
     }
 
-    --- Get compeltion results for current state. In final nodes we have a list
-    -- of results, for transitionary nodes it will be a table with 
+    --- Get compeltion variants for current state. In final nodes we have a list
+    -- of results, for transitionary nodes it will be a table with
     -- { key = next_node_completions }
-    ---@param graph_node (table)
-    ---@return table
-    local function get_completion_results(graph_node)
+    ---@param graph_node (table<string>|table<string, table>)
+    ---@return table<string> variants
+    local function get_completion_variants(graph_node)
         return vim.islist(graph_node) and graph_node or vim.tbl_keys(graph_node)
     end
 
-    local function complete(arg_lead, cmdline, cursor_pos)
-        local args = vim.split(cmdline, '%s+')
-        local arg_count = #args - 1
+    --- 
+    ---@param current_input (string)
+    ---@return fun(completion_results: table<string>): table<string> filter_function Filteres results matched for current input out of completion variants
+    local function filter_completions(current_input)
+        --- 
+        ---@param completion_variants (table<string>)
+        ---@return table<string> filtered results matched for current input
+        return function(completion_variants)
+            return vim.tbl_filter(
+                function(res) return string.find(res, current_input) end,
+                completion_variants)
+        end
+    end
 
-        if arg_count == 1 then
+    --- Get possible autocompletion variants from a list of command chains.
+    ---@param args (table<string>)
+    ---@return table<string>|table<string,table>
+    -- REFACTOR: Make generic for any completion graph and any #arg. Currently
+    -- we have to process each case of arg count manually in this function.
+    local function get_variants(args)
+        -- Number of args already completed. arg_lead is the arg we're
+        -- currently trying to complete.
+        local full_arg_count = #args - 1
+
+        if full_arg_count == 1 then
             -- No arguments yet, show first-level commands
             return _COMPLETION_GRAPH
         end
 
         -- Get the current command from first token
         local current_cmd = args[2]
-        if arg_count == 2 and current_cmd and _COMPLETION_GRAPH[current_cmd] then
+        if full_arg_count == 2 and current_cmd and _COMPLETION_GRAPH[current_cmd] then
             return _COMPLETION_GRAPH[current_cmd]
         end
 
         local current_children = _COMPLETION_GRAPH[current_cmd]
 
-        if arg_count >= 3 then
+        if full_arg_count >= 3 then
             local second_cmd = args[3]
-            
+
             -- Check if second command matches a known child
             if current_children[second_cmd] then
                 -- We have a valid second level, return its children
@@ -99,6 +119,17 @@ M.create_user_command = function()
 
         -- Only one non-empty arg: return all children at this level
         return current_children
+    end
+
+
+    local function complete(arg_lead, cmdline, cursor_pos)
+        local args = vim.split(cmdline, '%s+')
+
+        return require('ds_omega.utils').compose(
+            filter_completions(arg_lead),
+            get_completion_variants,
+            get_variants
+        )(args)
     end
 
     create_user_command('OpencodeDsOmega', function(args)
@@ -133,7 +164,7 @@ M.create_user_command = function()
     end, {
         nargs = '*',
         desc = 'Opencode wrapper with launch mode support',
-        complete = require('ds_omega.utils').compose(get_completion_results, complete),
+        complete = complete,
     })
 end
 
