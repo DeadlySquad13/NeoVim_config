@@ -44,38 +44,61 @@ end
 M.create_user_command = function()
     local create_user_command = require('ds_omega.utils.commands').create_user_command
 
+    local strategies = M.get_available_strategies()
+
+    -- Graph structure: each node contains its children
+    -- vim-lua completion calls this function during typing to get suggestions
+    local _COMPLETION_GRAPH = {
+        ['open'] = {
+            input = strategies,
+            output = {},
+        },
+        ['open_input'] = strategies,
+        ['open_input_new_session'] = strategies,
+        ['open_output'] = {},
+    }
+
+    --- Get compeltion results for current state. In final nodes we have a list
+    -- of results, for transitionary nodes it will be a table with 
+    -- { key = next_node_completions }
+    ---@param graph_node (table)
+    ---@return table
+    local function get_completion_results(graph_node)
+        return vim.islist(graph_node) and graph_node or vim.tbl_keys(graph_node)
+    end
+
     local function complete(arg_lead, cmdline, cursor_pos)
-        local modes = { 'docker', 'os' }
+        local args = vim.split(cmdline, '%s+')
+        local arg_count = #args - 1
 
-        local cmd_parts = vim.split(cmdline, '%s+')
-        local arg_num = #cmd_parts - 1
-
-        if arg_num == 1 then
-            return { 'open', 'open_input', 'open_input_new_session', 'open_output'}
+        if arg_count == 1 then
+            -- No arguments yet, show first-level commands
+            return _COMPLETION_GRAPH
         end
 
-        if arg_num == 2 then
-            if cmd_parts[2] == 'open' then
-                return { 'input', 'output' }
-            end
-            if cmd_parts[2] == 'open_input' then
-                return modes
-            end
-            if cmd_parts[2] == 'open_input_new_session' then
-                return modes
-            end
-            if cmd_parts[2] == 'open_output' then
-                return {}
-            end
+        -- Get the current command from first token
+        local current_cmd = args[2]
+        if arg_count == 2 and current_cmd and _COMPLETION_GRAPH[current_cmd] then
+            return _COMPLETION_GRAPH[current_cmd]
         end
 
-        if arg_num == 3 then
-            if cmd_parts[2] == 'open' and cmd_parts[3] == 'input' then
-                return modes
+        local current_children = _COMPLETION_GRAPH[current_cmd]
+
+        if arg_count >= 3 then
+            local second_cmd = args[3]
+            
+            -- Check if second command matches a known child
+            if current_children[second_cmd] then
+                -- We have a valid second level, return its children
+                return current_children[second_cmd]
             end
+
+            -- Second command doesn't match any child, return empty
+            return {}
         end
 
-        return {}
+        -- Only one non-empty arg: return all children at this level
+        return current_children
     end
 
     create_user_command('OpencodeDsOmega', function(args)
@@ -110,7 +133,7 @@ M.create_user_command = function()
     end, {
         nargs = '*',
         desc = 'Opencode wrapper with launch mode support',
-        complete = complete,
+        complete = require('ds_omega.utils').compose(get_completion_results, complete),
     })
 end
 
@@ -303,7 +326,7 @@ M.get_available_strategies = function()
     }
 
     return vim.tbl_map(function(strategy)
-        return { name = strategy.name }
+        return strategy.name
     end, strategies)
 end
 

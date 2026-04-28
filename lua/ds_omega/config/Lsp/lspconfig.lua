@@ -201,11 +201,11 @@ return {
       end
     end
 
-    local compose = require('ds_omega.utils').compose
+    local apply_all = require('ds_omega.utils').apply_all
 
     local function add_server_on_attach_addons(configuration, on_attach_addons)
       if on_attach_addons then
-        configuration.on_attach = compose(
+        configuration.on_attach = apply_all(
           configuration.on_attach,
           unpack(on_attach_addons)
         )

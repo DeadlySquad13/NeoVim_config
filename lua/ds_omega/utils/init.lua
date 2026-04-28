@@ -95,11 +95,11 @@ end
 
 ---Create a function that runs functions passed in the argument.
 --They will be called in the same order that they were passed in.
---Useful for composing multiple `on_attach` functions.
+--Useful for calling multiple `on_attach` functions.
 ---@vararg (function) variable number of functions
 ---@return (function) composed function that will run all functions (accepts
 --variable number of arguments).
-local function compose(...)
+local function apply_all(...)
   local fns = { ... }
 
   return function(...)
@@ -108,6 +108,34 @@ local function compose(...)
     end
   end
 end
+
+--- Composes functions from right to left.
+---compose(f1, f2, ..., fn) returns a function that, when called,
+---applies fn, then fn-1, ..., finally f1 to the arguments.
+---@vararg (function) variable number of functions
+---@return (function) composed Returns the composed function or identity function if no arguments are given.
+local function compose(...)
+    local funcs = { ... }
+    local n = #funcs
+
+    if n == 0 then
+        -- Identity function: returns whatever arguments it receives.
+        return function(...) return ... end
+    end
+
+    return function(...)
+        local result = { ... }
+        -- Apply functions from last to first
+        for i = n, 1, -1 do
+            local f = funcs[i]
+            -- Unpack the current result as arguments to f
+            result = { f(table.unpack(result)) }
+        end
+        -- Return the final result(s), unpacking the table
+        return table.unpack(result)
+    end
+end
+
 
 --- Pop element from table by key.
 ---@param table (table)
@@ -195,6 +223,7 @@ local M = {
   is_loaded = is_loaded,
 
   -- # Functional programming.
+  apply_all = apply_all,
   compose = compose,
   fp = fancyparams,
 
