@@ -9,6 +9,13 @@ local function log(data)
   vim.print(data)
 end
 
+--- Check type of a vule
+---@param value (unknown)
+---@return (boolean) is function
+local function is_function(value)
+  return type(value) == 'function'
+end
+
 --- Creates new function with default parameters.
 ---@ref https://gist.github.com/stuartpb/975399
 ---@usage:
@@ -80,17 +87,54 @@ local function is_loaded(plugin_name)
   end
 end
 
---- Convert list to the table that you can use for fast find.
+--- Convert list to the table that you can use for fast index find.
 -- It is indexed so you can easily get index of the item in initial list. If
 -- you work with large list, you may need `Set`.
 ---@param list (table) list of items { 'a', 'b', 'c' }.
 ---@return (table) table #table of items { 'a' = 1, 'b' = 2, 'c' = 3 }.
 local function IndexedSet(list)
   local set = {}
+
   for i, item in ipairs(list) do
     set[item] = i
   end
+
   return set
+end
+
+--- Convert list of table items to the index by certain iteratee 
+--- so that you can use for fast find.
+---@generic T : table
+---@param list (table<T>) list of complex items.
+---{
+---  { name = 'a', value = 1 },
+---  { name = 'b', value = 2 },
+---  { name = 'c', value = 3 }
+---}.
+---@param iteratee (string|(fun(value: T): string)) name of the field or a function to create a key for an element.
+---@return (table<string, T>) table #table of items indexed by the key derived by applying iteratee.
+---IndexBy(list, 'name') = {
+---  a = { name = 'a', value = 1 },
+---  b = { name = 'b', value = 2 },
+---  c = { name = 'c', value = 3 }
+---}
+---
+---IndexBy(list, function(t) return t.name .. t.value) = {
+---  a1 = { name = 'a', value = 1 },
+---  b2 = { name = 'b', value = 2 },
+---  c3 = { name = 'c', value = 3 }
+---}
+local function IndexBy(list, iteratee)
+  local index = {}
+
+  local iteratee_fn = is_function(iteratee) and iteratee or function(t) return t[iteratee] end
+
+  for item in pairs(list) do
+    local key = iteratee_fn(item)
+    index[key] = item
+  end
+
+  return index
 end
 
 ---Create a function that runs functions passed in the argument.
@@ -233,6 +277,7 @@ local M = {
 
   -- # Collections.
   IndexedSet = IndexedSet,
+  IndexBy = IndexBy,
 
   -- * Collection utils. @see also `:h vim.tbl_*`.
   -- TODO: Remove any
@@ -255,6 +300,8 @@ local M = {
   SetIntersection = require('ds_omega.utils.set').SetIntersection,
 
   set_mode = set_mode,
+
+  is_function = is_function,
 }
 
 return M
