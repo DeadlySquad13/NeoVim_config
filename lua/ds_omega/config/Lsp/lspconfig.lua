@@ -8,8 +8,8 @@ return {
     'mason-lspconfig.nvim'
   },
 
-  opts = function()
-    local servers = {
+  opts = {
+    enabled_servers = {
       -- Spell.
       'harper_ls',
 
@@ -34,73 +34,16 @@ return {
       'gopls',
       'r_language_server',
       'markdown_oxide',
+
+      -- Nix.
       'nil_ls',
+      'typenix',
       -- bashls,
 
       -- Conflicts with prettier formatting in TS files.
       -- stylelint_lsp,
-    }
-
-    local server_configurations = {}
-    for _, server_name in ipairs(servers) do
-      server_configurations[server_name] = require('ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name)
-    end
-
-    return server_configurations
-  end,
-
-  config = function(_, opts)
-    local lspconfig = vim.lsp.config
-
-    local server_configurations = opts
-
-    local default_server_configuration = require(
-      'ds_omega.config.Lsp.core.server_configurations.default'
-    )
-
-    vim.diagnostic.config({
-      virtual_text = {
-        prefix = '● ', -- Could be '■ ', '▎', 'x'
-      },
-    })
-
-    -- Should be Set.
-    _G.layer_specification_map = nil
-    local function get_module_specification(layer_specification, name)
-      if not _G.layer_specification_map then
-        _G.layer_specification_map = {}
-        for module_index, module in ipairs(layer_specification) do
-          local module_type = type(module)
-
-          if module_type == 'string' then
-            _G.layer_specification_map[module_index] = module
-          elseif module_type == 'table' then
-            _G.layer_specification_map[module[1]] = module
-          end
-        end
-      end
-
-      return _G.layer_specification_map[name]
-    end
-
-    local function get_module_enabled_filetypes()
-      local SetIntersection = require('ds_omega.utils').SetIntersection
-      local layer_specification = require('layers_specification')['Lsp']
-
-      if not layer_specification then
-        return nil
-      end
-
-
-      local module_specification = get_module_specification(layer_specification, 'lsp')
-      if not module_specification then
-        return layer_specification.ft
-      end
-
-      return SetIntersection(layer_specification.ft, module_specification.ft)
-    end
-
-    local lsp_server_name_to_filetypes = {
+    },
+    lsp_server_name_to_filetypes = {
       -- List constantly evolves:
       -- https://writewithharper.com/docs/faq#What-Programming-Languages-Do-You-Support-
       -- https://github.com/Automattic/harper/issues/79#issuecomment-2699311915
@@ -166,11 +109,71 @@ return {
       gopls = { 'go' },
       r_language_server = { 'r' },
       markdown_oxide = { 'markdown' },
-      nix = { 'nil_ls' },
+      nil_ls = { 'nix' },
+      typenix = { 'nix', 'nixts' },
       yaml = { 'ansiblels' },
       docker_language_server = { 'dockerfile', 'yaml.docker-compose' },
       dockerls = { 'dockerfile', 'yaml.docker-compose' },
     }
+  },
+
+  config = function(_, opts)
+    for _, server_name in ipairs(opts.enabled_servers) do
+      -- INFO: Starting from NeoVim v0.11 we're using `vim.lsp.config` mechanism. Now
+      -- confirugations are also merged from `<root>/lsp/` folder.
+      if not vim.lsp.config[server_name] then
+        -- Will notify with error if the config is not set using default
+        -- mechanism and it's not present in our custom legacy configs location.
+        vim.lsp.config[server_name] = prequire('ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name)
+      end
+    end
+
+    local default_server_configuration = require(
+      'ds_omega.config.Lsp.core.server_configurations.default'
+    )
+    vim.lsp.config('*', default_server_configuration)
+
+    vim.diagnostic.config({
+      virtual_text = {
+        prefix = '● ', -- Could be '■ ', '▎', 'x'
+      },
+    })
+
+    -- Should be Set.
+    _G.layer_specification_map = nil
+    local function get_module_specification(layer_specification, name)
+      if not _G.layer_specification_map then
+        _G.layer_specification_map = {}
+        for module_index, module in ipairs(layer_specification) do
+          local module_type = type(module)
+
+          if module_type == 'string' then
+            _G.layer_specification_map[module_index] = module
+          elseif module_type == 'table' then
+            _G.layer_specification_map[module[1]] = module
+          end
+        end
+      end
+
+      return _G.layer_specification_map[name]
+    end
+
+    local function get_module_enabled_filetypes()
+      local SetIntersection = require('ds_omega.utils').SetIntersection
+      local layer_specification = require('layers_specification')['Lsp']
+
+      if not layer_specification then
+        return nil
+      end
+
+
+      local module_specification = get_module_specification(layer_specification, 'lsp')
+      if not module_specification then
+        return layer_specification.ft
+      end
+
+      return SetIntersection(layer_specification.ft, module_specification.ft)
+    end
 
     local enabled_filetypes = get_module_enabled_filetypes()
     local function is_lsp_server_enabled(lsp_server_name)
@@ -178,7 +181,7 @@ return {
         return true
       end
 
-      local lsp_server_filetypes = lsp_server_name_to_filetypes[lsp_server_name]
+      local lsp_server_filetypes = opts.lsp_server_name_to_filetypes[lsp_server_name]
 
       local is_enabled = false
       for _, enabled_filetype in ipairs(enabled_filetypes) do
@@ -191,47 +194,9 @@ return {
       return is_enabled
     end
 
-    local function add_custom_server_settings(configuration, custom_settings)
-      if custom_settings then
-        configuration.settings = vim.tbl_extend(
-          'force',
-          {}, --[[ configuration.settings ]]
-          custom_settings
-        )
-      end
-    end
-
-    local apply_all = require('ds_omega.utils').apply_all
-
-    local function add_server_on_attach_addons(configuration, on_attach_addons)
-      if on_attach_addons then
-        configuration.on_attach = apply_all(
-          configuration.on_attach,
-          unpack(on_attach_addons)
-        )
-      end
-    end
-
     local function setup_lsp_servers()
-      for server_name, server_configuration in pairs(server_configurations) do
+      for _, server_name in ipairs(opts.enabled_servers) do
         if is_lsp_server_enabled(server_name) then
-          local final_server_configuration = vim.deepcopy(default_server_configuration)
-
-          -- TODO: use classes.
-          add_custom_server_settings(
-            final_server_configuration,
-            server_configuration.settings
-          )
-          add_server_on_attach_addons(
-            final_server_configuration,
-            server_configuration.on_attach
-          )
-
-          --[[ if server_name == 'sumneko_lua' then
-            require('ds_omega.layers.Lsp.neodev')
-          end ]]
-
-          lspconfig[server_name] = final_server_configuration
           vim.lsp.enable(server_name)
         end
       end
