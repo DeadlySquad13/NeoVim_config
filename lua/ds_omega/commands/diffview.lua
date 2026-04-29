@@ -11,7 +11,6 @@ local create_user_command = require('ds_omega.utils.commands').create_user_comma
 -- DiffviewOpenDsOmega origin/Feature~2
 -- See `:h DiffviewOpen` for more examples of what's possible.
 create_user_command('DiffviewOpenDsOmega', function(args)
-  P('custom')
   if vim.tbl_isempty(args.fargs) then
     return vim.cmd.DiffviewOpen()
   end
