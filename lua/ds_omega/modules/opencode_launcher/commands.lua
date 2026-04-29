@@ -3,7 +3,7 @@ local M = {}
 M.create_user_command = function()
     local create_user_command = require('ds_omega.utils.commands').create_user_command
 
-    local strategies = require('ds_omega.modules.opencode_launch_config.strategies.base').get_available_strategies()
+    local strategies = require('ds_omega.modules.opencode_launcher.strategies').get_available_strategies()
 
     -- Graph structure: each node contains its children
     -- vim-lua completion calls this function during typing to get suggestions
@@ -108,7 +108,7 @@ M.create_user_command = function()
         if first_arg == "open_input" or first_arg == "open_input_new_session" then
             local mode = args.fargs[2]
             if mode then
-                require('ds_omega.modules.opencode_launch_config.persistence').write_launch_config(mode)
+                require('ds_omega.modules.opencode_launcher.persistence').write_launch_config(mode)
             end
 
             return default_fallback()

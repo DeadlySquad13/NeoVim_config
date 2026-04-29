@@ -47,7 +47,7 @@ return {
         local opencode = require('opencode')
 
         opencode.setup(opts)
-        require('ds_omega.modules.opencode_launch_config').setup()
+        require('ds_omega.modules.opencode_launcher').setup()
 
 
         require('ds_omega.ds_omega_utils').apply_plugin_keymappings(M.keymappings)

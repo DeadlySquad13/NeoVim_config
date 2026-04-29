@@ -105,31 +105,31 @@ end
 --- Convert list of table items to the index by certain iteratee 
 --- so that you can use for fast find.
 ---@generic T : table
+---@param iteratee (string|(fun(value: T): string)) name of the field or a function to create a key for an element.
 ---@param list (table<T>) list of complex items.
 ---{
 ---  { name = 'a', value = 1 },
 ---  { name = 'b', value = 2 },
 ---  { name = 'c', value = 3 }
 ---}.
----@param iteratee (string|(fun(value: T): string)) name of the field or a function to create a key for an element.
 ---@return (table<string, T>) table #table of items indexed by the key derived by applying iteratee.
----IndexBy(list, 'name') = {
+---IndexBy('name', list) = {
 ---  a = { name = 'a', value = 1 },
 ---  b = { name = 'b', value = 2 },
 ---  c = { name = 'c', value = 3 }
 ---}
 ---
----IndexBy(list, function(t) return t.name .. t.value) = {
+---IndexBy(function(t) return t.name .. t.value end, list) = {
 ---  a1 = { name = 'a', value = 1 },
 ---  b2 = { name = 'b', value = 2 },
 ---  c3 = { name = 'c', value = 3 }
 ---}
-local function IndexBy(list, iteratee)
+local function IndexBy(iteratee, list)
   local index = {}
 
   local iteratee_fn = is_function(iteratee) and iteratee or function(t) return t[iteratee] end
 
-  for item in pairs(list) do
+  for _, item in ipairs(list) do
     local key = iteratee_fn(item)
     index[key] = item
   end

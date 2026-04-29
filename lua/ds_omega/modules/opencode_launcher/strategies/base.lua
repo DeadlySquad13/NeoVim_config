@@ -1,6 +1,6 @@
-local M = {}
+local logging = require('ds_omega.modules.opencode_launcher.logging')
 
-local logging = require('ds_omega.modules.opencode_launch_config.logging')
+local M = {}
 
 M.DEFAULT_PATH_MAP = function(self, host_path)
     return host_path
@@ -43,17 +43,17 @@ local function validate_config(config)
 
     if not config.spawn_command or not is_function(config.spawn_command) then
         logging.notify("spawn_command must be a function", vim.log.levels.ERROR)
-        config.spawn_command = DEFAULT_SPAWN_COMMAND
+        config.spawn_command = M.DEFAULT_SPAWN_COMMAND
     end
 
     if not config.path_map or not is_function(config.path_map) then
         logging.notify("path_map must be a function", vim.log.levels.ERROR)
-        config.path_map = DEFAULT_PATH_MAP
+        config.path_map = M.DEFAULT_PATH_MAP
     end
 
     if not config.kill_command or not is_function(config.kill_command) then
         logging.notify("kill_command must be a function", vim.log.levels.ERROR)
-        config.kill_command = DEFAULT_KILL_COMMAND
+        config.kill_command = M.DEFAULT_KILL_COMMAND
     end
 
     if config.name then
@@ -75,9 +75,9 @@ M.create_custom_strategy = function(config)
 
     return setmetatable({
         name = name,
-        spawn_command = config.spawn_command or DEFAULT_SPAWN_COMMAND,
-        path_map = config.path_map or DEFAULT_PATH_MAP,
-        kill_command = config.kill_command or DEFAULT_KILL_COMMAND
+        spawn_command = config.spawn_command or M.DEFAULT_SPAWN_COMMAND,
+        path_map = config.path_map or M.DEFAULT_PATH_MAP,
+        kill_command = config.kill_command or M.DEFAULT_KILL_COMMAND
     }, {
         __index = function(t, k)
             if k == "path_map" then
@@ -97,28 +97,34 @@ end
 ---
 ---@param mode string
 ---@return (OpencodeOpenStrategy) strategy
-M.create_strategy = function(mode)
-    local strategies_index = IndexBy(require('ds_omega.modules.opencode_launch_config.strategies.config').strategies, 'name')
+M.find_best_strategy = function(mode)
+    logging.notify_once("Searching for best strategy...", vim.log.levels.DEBUG)
+    local strategies_index = require('ds_omega.utils').IndexBy(
+        'name',
+        require('ds_omega.modules.opencode_launcher.strategies.config').strategies
+    )
 
     local strategy_for_current_mode = strategies_index[mode]
 
     if strategy_for_current_mode then
+        logging.notify_once("Found strategy", vim.log.levels.INFO)
         return strategy_for_current_mode
     end
 
+    logging.notify_once("Haven't found strategy from list of available", vim.log.levels.WARN)
     return M.create_custom_strategy {
-        name = require('ds_omega.modules.opencode_launch_config.config').DEFAULT_LAUNCH_MODE,
-        spawn_command = DEFAULT_SPAWN_COMMAND,
-        path_map = DEFAULT_PATH_MAP,
-        kill_command = DEFAULT_KILL_COMMAND
+        name = require('ds_omega.modules.opencode_launcher.config').DEFAULT_LAUNCH_MODE,
+        spawn_command = M.DEFAULT_SPAWN_COMMAND,
+        path_map = M.DEFAULT_PATH_MAP,
+        kill_command = M.DEFAULT_KILL_COMMAND
     }
 end
 
 M.get_strategy = function()
-    local mode = require('ds_omega.modules.opencode_launch_config.persistence').read_launch_config()
-    logging.notify_once(string.format("Using strategy corresponding to selected mode: %s", mode), vim.log.levels.INFO)
+    local mode = require('ds_omega.modules.opencode_launcher.persistence').read_launch_config()
+    logging.log(string.format("Looking for strategy corresponding to selected mode: %s", mode))
 
-    return M.create_strategy(mode)
+    return M.find_best_strategy(mode)
 end
 
 --- 
@@ -127,7 +133,7 @@ end
 M.get_available_strategies = function()
     return vim.tbl_map(function(strategy)
         return strategy.name
-    end, require('ds_omega.modules.opencode_launch_config.strategies.config').strategies)
+    end, require('ds_omega.modules.opencode_launcher.strategies.config').strategies)
 end
 
 return M
