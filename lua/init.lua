@@ -18,4 +18,5 @@ require('plugins')
 -- ## Modules that depend on plugins.
 -- TODO: Move to package manager specs as plugins with proper dependencies.
 require('ds_omega.commands')
+-- - REFACTOR: Also has filetype settings.
 require('ds_omega.autocommands')
