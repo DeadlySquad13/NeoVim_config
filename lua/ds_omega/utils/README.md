@@ -1,12 +1,15 @@
 # Utils
+
 ## Logging
 
 Usage:
 
 ```lua
---  Create logger instance using builder pattern. Defined log-group name "Logseq"
+--  Create logger instance using factory pattern. Defined log-group name "Logseq"
 -- will be used in all logs later on.
-local logger = get_logger("Logseq"):build()
+local logger = get_logger("Logseq")
+-- Optionally set options:
+logger:set_log_into({ file = true, messages = true, notify = false })
 logger:info("Test")
 logger:warning("Warning")
 logger:debug("Debug")
@@ -27,5 +30,36 @@ notifier:error(
     response,
     -- Any number of variables to log
 )
-
 ```
+
+There's also two extra variants for each notifier method:
+
+- throttled:
+
+    ```lua
+    -- Notifications are throttled on a leading edge with 5s time window.
+    -- Userful when you want to make many tries until sure that error is unavoidable.
+    notifier:warning_throttled("Repeated request error") -- Will show.
+    notifier:warning_throttled("Repeated request error") -- won't show, waiing for window end.
+    sleep(3000)
+    notifier:warning_throttled("Repeated request error") -- won't show, waiting for window end.
+    sleep(2000)
+    -- 5 seconds have passed, time window is over, will show message.
+
+    sleep(10000) -- Throttle has reset.
+
+    notifier:warning_throttled("Repeated request error") -- new throttle cycle....
+    sleep(2000)
+    notifier:warning_throttled("Repeated request error")
+    ```
+
+- one-shot:
+
+    ```lua
+    notifier:info_once("Repeated error") -- Will show.
+    notifier:info_once("Repeated error") -- Won't.
+    notifier:info_once("Repeated error") -- Won't.
+    notifier:info_once("Repeated error") -- Won't.
+
+    notifier:info_once("Repeated error 2") -- Something new, will show.
+    ```

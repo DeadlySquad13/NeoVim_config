@@ -113,6 +113,14 @@ logging.notify_throttled = require("ds_omega.utils.defer").throttle_leading(logg
 ---@field info fun(self: Notifier, msg: string, ...: any)
 ---@field warning fun(self: Notifier, msg: string, ...: any)
 ---@field error fun(self: Notifier, msg: string, ...: any)
+---@field debug_once fun(self: Notifier, msg: string, ...: any)
+---@field info_once fun(self: Notifier, msg: string, ...: any)
+---@field warning_once fun(self: Notifier, msg: string, ...: any)
+---@field error_once fun(self: Notifier, msg: string, ...: any)
+---@field debug_throttled fun(self: Notifier, msg: string, ...: any)
+---@field info_throttled fun(self: Notifier, msg: string, ...: any)
+---@field warning_throttled fun(self: Notifier, msg: string, ...: any)
+---@field error_throttled fun(self: Notifier, msg: string, ...: any)
 
 ---@class Logger
 ---@field name string
@@ -122,22 +130,20 @@ logging.notify_throttled = require("ds_omega.utils.defer").throttle_leading(logg
 ---@field info fun(self: Logger, msg: string, ...: any)
 ---@field warning fun(self: Logger, msg: string, ...: any)
 ---@field error fun(self: Logger, msg: string, ...: any)
----@field set_log_into fun(self: Logger, log_into: table)
+---@field set_log_into fun(self: Logger, log_into: TLogInto)
 ---@field get_notifier fun(self: Logger, opts?: table): Notifier
-
----@class LoggerBuilder
----@field private _name string
----@field private _log_into table|nil
----@field private _title string|nil
----@field private _default_notifier_opts table|nil
----@field set_log_into fun(self: LoggerBuilder, log_into: table): LoggerBuilder
----@field set_title fun(self: LoggerBuilder, title: string): LoggerBuilder
----@field set_default_notifier_opts fun(self: LoggerBuilder, opts: table): LoggerBuilder
----@field build fun(self: LoggerBuilder): Logger
----@field __call fun(self: LoggerBuilder, name: string): LoggerBuilder
 
 local Logger = {}
 Logger.__index = Logger
+
+function Logger.new(name, opts)
+  opts = opts or {}
+  return setmetatable({
+    name = name,
+    _log_into = opts.log_into or require("ds_omega.constants.env").LOG_INTO,
+    _default_notifier_opts = opts.default_notifier_opts,
+  }, Logger)
+end
 
 local function log_to_dlog(logger, level, msg, ...)
   -- TODO: Currently levels are not implemented in debuglog so we have to hack
@@ -174,87 +180,58 @@ end
 --- Returns a Notifier that shows messages to user and logs under the hood.
 function Logger:get_notifier(opts)
   local title = self.name
-  local notifier_opts = vim.tbl_deep_extend("force", self._default_notify_opts or {}, opts or {})
+  local notifier_opts = vim.tbl_deep_extend("force", self._default_notifier_opts or {}, opts or {})
   notifier_opts.title = notifier_opts.title or title
 
-  local function do_notify(level, msg, ...)
+  local function do_notify(level, notify_fn, msg, ...)
     log_to_dlog(self, level, msg, ...)
-
-    logging.notify(msg, level, notifier_opts)
+    notify_fn(msg, level, notifier_opts)
   end
 
   return setmetatable({}, {
     __index = {
       debug = function(_self, msg, ...)
-        do_notify(LEVELS.DEBUG, msg, ...)
+        do_notify(LEVELS.DEBUG, notify, msg, ...)
       end,
       info = function(_self, msg, ...)
-        do_notify(LEVELS.INFO, msg, ...)
+        do_notify(LEVELS.INFO, notify, msg, ...)
       end,
       warning = function(_self, msg, ...)
-        do_notify(LEVELS.WARN, msg, ...)
+        do_notify(LEVELS.WARN, notify, msg, ...)
       end,
       error = function(_self, msg, ...)
-        do_notify(LEVELS.ERROR, msg, ...)
+        do_notify(LEVELS.ERROR, notify, msg, ...)
+      end,
+      debug_once = function(_self, msg, ...)
+        do_notify(LEVELS.DEBUG, logging.notify_once, msg, ...)
+      end,
+      info_once = function(_self, msg, ...)
+        do_notify(LEVELS.INFO, logging.notify_once, msg, ...)
+      end,
+      warning_once = function(_self, msg, ...)
+        do_notify(LEVELS.WARN, logging.notify_once, msg, ...)
+      end,
+      error_once = function(_self, msg, ...)
+        do_notify(LEVELS.ERROR, logging.notify_once, msg, ...)
+      end,
+      debug_throttled = function(_self, msg, ...)
+        do_notify(LEVELS.DEBUG, logging.notify_throttled, msg, ...)
+      end,
+      info_throttled = function(_self, msg, ...)
+        do_notify(LEVELS.INFO, logging.notify_throttled, msg, ...)
+      end,
+      warning_throttled = function(_self, msg, ...)
+        do_notify(LEVELS.WARN, logging.notify_throttled, msg, ...)
+      end,
+      error_throttled = function(_self, msg, ...)
+        do_notify(LEVELS.ERROR, logging.notify_throttled, msg, ...)
       end,
     }
   })
 end
 
-local LoggerBuilder = {}
-LoggerBuilder.__index = LoggerBuilder
-setmetatable(LoggerBuilder, {
-  __call = function(_, name)
-    return LoggerBuilder.new(name)
-  end
-})
-
-function LoggerBuilder.new(name)
-  local self = setmetatable({}, LoggerBuilder)
-  self._name = name
-  self._log_into = nil
-  self._title = nil
-  self._default_notifier_opts = nil
-
-  return self
-end
-
----@return LoggerBuilder
-function LoggerBuilder:set_log_into(log_into)
-  self._log_into = log_into
-  return self
-end
-
----@return LoggerBuilder
-function LoggerBuilder:set_title(title)
-  self._title = title
-  return self
-end
-
----@return LoggerBuilder
-function LoggerBuilder:set_default_notifier_opts(opts)
-  self._default_notifier_opts = opts
-  return self
-end
-
----@return Logger
-function LoggerBuilder:build()
-  local LOG_INTO = self._log_into or require("ds_omega.constants.env").LOG_INTO
-
-  ---@type Logger
-  local logger = setmetatable({
-    name = self._name,
-    _log_into = LOG_INTO,
-    _default_notifier_opts = self._default_notifier_opts,
-  }, Logger)
-
-  return logger
-end
-
-logging.LoggerBuilder = LoggerBuilder
-
----@type fun(name: string): LoggerBuilder
-logging.get_logger = LoggerBuilder.new
+---@type fun(name: string, opts?: { log_into?: table, default_notifier_opts?: table }): Logger
+logging.get_logger = Logger.new
 
 logging.levels = LEVELS
 

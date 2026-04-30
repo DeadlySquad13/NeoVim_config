@@ -52,7 +52,8 @@ local nvim_layers = nvim_lua_namespace .. '/layers'
 
 local goneovim_settings = user_config .. '/goneovim/settings.toml'
 
----@type table<'file'|'messages'|'notify', boolean>
+---@alias TLogInto table<'file'|'messages'|'notify', boolean>
+---@type TLogInto
 local LOG_INTO = require('ds_omega.utils.set').Set({
   'file',
   'messages',

@@ -7,6 +7,7 @@ local M = {}
 
 M.Logseq = create_augroup('Logseq', { clear = true })
 
+M.logger = get_logger("Logseq")
 
 M.trusted_keys = {
     LOGSEQ_API_AUTHORIZATION_TOKEN = true,
@@ -15,11 +16,12 @@ M.trusted_keys = {
 M.prepare_env = function(env_filepath)
     local is_success = require('ds_omega.utils.exec').dotfile(env_filepath, M.trusted_keys)
 
+    local notifier = M.logger:get_notifier({ title = "Logseq. Authorization" })
+
     if not is_success then
-        notify(
+        notifier:info(
             "Set LOGSEQ_API_AUTHORIZATION_TOKEN in the " ..
-            env_filepath .. " to use Logseq module",
-            vim.log.levels.INFO)
+            env_filepath .. " to use Logseq module")
     end
 end
 

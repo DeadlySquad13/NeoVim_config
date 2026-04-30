@@ -91,29 +91,25 @@ end
 ---@param trusted_envs table<string,unknown> Hash table of trusted envs. Only names (keys) are relevant.
 ---@return (boolean) success Success flag.
 exec.dotfile = function(env_filepath, trusted_envs)
-  local dotfile_log = log("dotfile")
-  -- local dotfile_notify = log("dotfile")
+  local logger = get_logger("dotfile")
+  local notifier = logger:get_notifier()
 
   if not env_filepath then
     env_filepath = require('ds_omega.constants.env').NVIM_ENV_FILE
 
-    dotfile_log("env_filepath not set, using default filepath: " .. env_filepath)
+    logger:warning("env_filepath not set, using default filepath: " .. env_filepath)
   end
 
   local env_file = vim.secure.read(env_filepath)
 
   if not env_file then
-    notify(
-      "File is not found or not trusted, can't read variables",
-      vim.log.levels.WARN)
+    notifier:warning("File is not found or not trusted, can't read variables")
 
     return false
   end
 
   if type(env_file) ~= "string" then
-    notify(
-      env_filepath .. " is a directory, can't read env from it. Use dotfile with filepath please",
-      vim.log.levels.WARN)
+    notifier:warning(env_filepath .. " is a directory, can't read env from it. Use dotfile with filepath please")
 
     return false
   end
