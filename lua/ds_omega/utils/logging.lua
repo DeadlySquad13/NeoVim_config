@@ -12,13 +12,14 @@ local inspect_items = function(...)
 end
 
 --- See [debuglog source](https://github.com/smartpde/debuglog/blob/main/lua/debuglog.lua).
+-- TODO: Fork and implement hl, level and custom opts.
 logging.log = function(name, hl, opts)
   local debuglog_is_available = prequire('debuglog')
 
   if debuglog_is_available then
     local debuglog = require('debuglog')
     debuglog.enable(name)
-    local dlog = require("ds_omega.utils.dlog")(name, hl, opts)
+    local dlog = require("ds_omega.utils.dlog").logger(name)
 
     return function(...)
       dlog(inspect_items(...))
@@ -139,11 +140,15 @@ local Logger = {}
 Logger.__index = Logger
 
 local function log_to_dlog(logger, level, msg, ...)
-  local dlog = logging.log(logger.name, LEVEL_HL_MAP[level], {
+  -- TODO: Currently levels are not implemented in debuglog so we have to hack
+  -- it using a compound name.
+  local logger_level_name = string.format("[%s] %s", LEVEL_NAMES[level], logger.name)
+
+  local dlog = logging.log(logger_level_name, LEVEL_HL_MAP[level], {
     LOG_INTO = logger._log_into,
     hl = LEVEL_HL_MAP[level],
   })
-  dlog(string.format("[%s] %s", LEVEL_NAMES[level], msg), ...)
+  dlog(msg, ...)
 end
 
 function Logger:debug(msg, ...)
@@ -180,16 +185,16 @@ function Logger:get_notifier(opts)
 
   return setmetatable({}, {
     __index = {
-      debug = function(msg, ...)
+      debug = function(_self, msg, ...)
         do_notify(LEVELS.DEBUG, msg, ...)
       end,
-      info = function(msg, ...)
+      info = function(_self, msg, ...)
         do_notify(LEVELS.INFO, msg, ...)
       end,
-      warning = function(msg, ...)
+      warning = function(_self, msg, ...)
         do_notify(LEVELS.WARN, msg, ...)
       end,
-      error = function(msg, ...)
+      error = function(_self, msg, ...)
         do_notify(LEVELS.ERROR, msg, ...)
       end,
     }
