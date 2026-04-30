@@ -124,7 +124,14 @@ return {
       if not vim.lsp.config[server_name] then
         -- Will notify with error if the config is not set using default
         -- mechanism and it's not present in our custom legacy configs location.
-        vim.lsp.config[server_name] = prequire('ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name)
+        local prequire = require('ds_omega.utils').prequire
+
+        local server_configuration_is_available, server_configuration = prequire('ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name)
+
+        if not server_configuration_is_available then
+          return
+        end
+        vim.lsp.config[server_name] = server_configuration
       end
     end
 
