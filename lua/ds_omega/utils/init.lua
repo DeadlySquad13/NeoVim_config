@@ -5,6 +5,7 @@
 -- Shortcut for printing variables in a meaningless way: showing contents of a
 --   table via vim.inspect. Used log as console.log in js works pretty the same
 --   way.
+---@deprecated Just use vim.print
 local function log(data)
   vim.print(data)
 end
@@ -250,7 +251,7 @@ local M = {
   -- Just reuses global prequire, left here for clarity in old modules.
   prequire = prequire,
 
-  -- # Printing and loggin.
+  -- # Printing and logging.
   log = log,
 
   -- # Vim api.

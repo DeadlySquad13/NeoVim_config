@@ -2,49 +2,18 @@
 -- The most often used utility functions. Reside in global scope. --
 --------------------------------------------------------------------
 
-local env = require('ds_omega.constants.env')
+_G.P = require('ds_omega.utils.logging').P
 
---  Prints prettily the data and returns it without any changes. Used for
---testing.
----@param data any data.
----@return data without changes.
-_G.P = function(data)
-  vim.print(data)
-  return data
-end
+_G.notify = require('ds_omega.utils.logging').notify
 
---- Notify user with nvim.notify. If it is not available, fallback to
---vim.notify.
----@param message (string) Message to display.
----@param level #Level of notification (see `:h vim.log.levels`).
----@param opts (table|nil) Additional options for nvim.notify visualization (see `:h
---notify.Options`).
-_G.notify = function(message, level, opts)
-  local nvim_notify_is_available, nvim_notify = pcall(require, 'notify')
+_G.notify_once = require('ds_omega.utils.logging').notify_once
 
-  local notify = vim.notify
-  if nvim_notify_is_available then
-    notify = nvim_notify
-  end
-
-  notify(message, level, opts)
-end
-
-_G.notify_once = vim.notify_once
-
---- Notify user with nvim.notify. If it is not available, fallback to
---vim.notify. Notifications are throttled on a leading edge with 5s time
---window.
----@param message (string) Message to display.
----@param level #Level of notification (see `:h vim.log.levels`).
----@param opts (table|nil) Additional options for nvim.notify visualization (see `:h
---notify.O
-_G.notify_throttled = require('ds_omega.utils.defer').throttle_leading(_G.notify, 5000)
+_G.notify_throttled = require('ds_omega.utils.logging').P
 
 ---@param module_name (string)
 local function get_module_loading_error_handler(module_name)
   local function module_loading_error_handler(error)
-    notify(
+    require('ds_omega.utils.logging').notify(
       'Error in loading module ' .. module_name .. '! ' .. error,
       vim.log.levels.ERROR
     )
@@ -92,41 +61,9 @@ end
 _G.prequire = prequire
 _G.test_prequire = test_prequire
 
-local outfile = string.format("%s/debug.log", vim.api.nvim_call_function("stdpath", { "data" }))
 
--- See [debuglog source](https://github.com/smartpde/debuglog/blob/main/lua/debuglog.lua).
-_G.log = function(name, hl, opts)
-  local debuglog_is_available, debuglog = prequire('debuglog')
-
-  --   dlog is just a shim to a debuglog plugin. It won't work until plugin is
-  -- loaded therefore I can't use logging before plugins loading.
-  if debuglog_is_available then
-    -- FIX: Somehow it's delayed if invoked in layer configurations.
-    debuglog.enable(name)
-    return require('ds_omega.utils.dlog')(name, hl, opts)
-  end
-
-  return function(...)
-    if LOG_INTO.messages then
-      local message = string.format(...)
-      vim.api.nvim_echo({
-        { os.date("%H:%M:%S:") }, { " " }, { name },
-        { ": " }, { message }
-      }, true, {})
-    end
-    if LOG_INTO.file then
-      local fp = io.open(outfile, "a")
-      local str = os.date("%H:%M:%S: ") .. string.format(...) .. "\n"
-
-      if not fp then
-        return
-      end
-
-      fp:write(str)
-      fp:close()
-    end
-  end
-end
+_G.log = require('ds_omega.utils.logging').log
+_G.get_logger = require('ds_omega.utils.logging').get_logger
 
 -- REFACTOR: Not sure we should do these assigns here. Maybe we should move global out of
 -- ds_omega.utils to unravel cyclic connection between ds_omega.utils and ds_omega.ds_omega_utils.
