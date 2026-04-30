@@ -77,4 +77,54 @@ end
 
 setmetatable(exec.for_current_file, exec_for_current_file_meta)
 
+--- Add envs from a trusted list.
+---@param envs table<string,string>
+---@param trusted_envs table<string,unknown> Hash table of trusted envs. Only names (keys) are relevant.
+exec.secure_read_envs = function(envs, trusted_envs)
+  for k, _ in pairs(trusted_envs) do
+    vim.env[k] = envs[k]
+  end
+end
+
+---
+---@param env_filepath (string)
+---@param trusted_envs table<string,unknown> Hash table of trusted envs. Only names (keys) are relevant.
+---@return (boolean) success Success flag.
+exec.dotfile = function(env_filepath, trusted_envs)
+  local dotfile_log = log("dotfile")
+  -- local dotfile_notify = log("dotfile")
+
+  if not env_filepath then
+    env_filepath = require('ds_omega.constants.env').NVIM_ENV_FILE
+
+    dotfile_log("env_filepath not set, using default filepath: " .. env_filepath)
+  end
+
+  local env_file = vim.secure.read(env_filepath)
+
+  if not env_file then
+    notify(
+      "File is not found or not trusted, can't read variables",
+      vim.log.levels.WARN)
+
+    return false
+  end
+
+  if type(env_file) ~= "string" then
+    notify(
+      env_filepath .. " is a directory, can't read env from it. Use dotfile with filepath please",
+      vim.log.levels.WARN)
+
+    return false
+  end
+
+
+  -- Read contents of a file and evaluate.
+  local env_data = assert(loadstring(env_file))()
+
+  require('ds_omega.utils.exec').secure_read_envs(env_data, trusted_envs)
+
+  return true
+end
+
 return exec

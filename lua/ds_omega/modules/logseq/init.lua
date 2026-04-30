@@ -7,10 +7,28 @@ local M = {}
 
 M.Logseq = create_augroup('Logseq', { clear = true })
 
+
+M.trusted_keys = {
+    LOGSEQ_API_AUTHORIZATION_TOKEN = true,
+}
+
+M.prepare_env = function(env_filepath)
+    local is_success = require('ds_omega.utils.exec').dotfile(env_filepath, M.trusted_keys)
+
+    if not is_success then
+        notify(
+            "Set LOGSEQ_API_AUTHORIZATION_TOKEN in the " ..
+            env_filepath .. " to use Logseq module",
+            vim.log.levels.INFO)
+    end
+end
+
 ---@alias LogseqOpts {}
 
 ---@param opts (LogseqOpts)
 M.setup = function(opts)
+    M.prepare_env(require('ds_omega.constants.env').NVIM_ENV_FILE)
+
     create_autocmd({ 'BufRead', 'TextChanged' }, {
         group = M.Logseq,
         desc = "Set extmarks for Logseq reference blocks",

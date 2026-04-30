@@ -76,12 +76,18 @@ M.get_block_data = function(block_ref)
 
   local co = coroutine.running()
 
+  local auth_token = vim.env.LOGSEQ_API_AUTHORIZATION_TOKEN
+  if not auth_token then
+    -- Already notified at setup, just skip unnecessary requests.
+    error("No auth LOGSEQ_API_AUTHORIZATION_TOKEN set")
+  end
+
   curl.post("http://127.0.0.1:12315/api", {
     body = json_body,
     headers = {
       ["Content-Type"] = "application/json; charset=utf-8",
       ["Accept"] = "application/json",
-      ["Authorization"] = "Bearer D0F7360AE36881EB3FF8133BB04C9F8D",
+      ["Authorization"] = "Bearer " .. auth_token,
     },
     on_error = function(err)
       vim.schedule(function()
@@ -152,8 +158,17 @@ M.set_extmark = function(bufnr, reference)
       M.add_reference_to_cache(reference, block_data)
       set_extmark(block_data)
     else
-      notify_throttled("Error:", block_data_response.status, block_data_response.body.error, block_data_response.body.message)
-      M.log("Error:", block_data_response.status, block_data_response.body.error, block_data_response.body.message)
+      local err_msg = string.format(
+        "Data response (status %d) error: %s, message: %s",
+        block_data_response.status,
+        vim.inspect(block_data_response.body.error),
+        block_data_response.body.message
+      )
+      notify_throttled(err_msg, vim.log.levels.ERROR)
+      M.log(err_msg)
+      if block_data_response.status == 401 then
+        vim.notify_throttled("Verify Authorization tokens in logseq match with plugin settings")
+      end
       return
     end
   end)

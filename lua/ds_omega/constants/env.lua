@@ -27,6 +27,7 @@ local namespace_name = 'ds_omega'
 
 -- Resolves to `~/.local/share/nvim`.
 local nvim_data = vim.fn.stdpath('data')
+local nvim_env_file = vim.fn.stdpath('data') .. '/.env.lua'
 
 
 -- Takes $NVIM_APPNAME into consideration.
@@ -76,6 +77,7 @@ return {
   -- Directory where all supplementary data files are stored, such as: undo
   -- history, spell files, sessions...
   NVIM_DATA = nvim_data,
+  NVIM_ENV_FILE = nvim_env_file,
   GUI_SETTINGS = gui_settings,
 
   NVIM_CONFIG = nvim_config,
