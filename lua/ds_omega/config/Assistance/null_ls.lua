@@ -108,7 +108,7 @@ return {
           local message = 'Program "' ..
           program_name .. '" is not executable! Make sure it\'s installed and in your $PATH.'
 
-          if LOG_INTO.notify then
+          if require('ds_omega.constants.env').LOG_INTO.notify then
             notify(message, {
               title = 'NullLs',
               timeout = 1000,

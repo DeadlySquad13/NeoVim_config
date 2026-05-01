@@ -24,7 +24,7 @@ local function get_plugin_config(plugin_name, config_relative_path)
   local config_is_available, config = pcall(require, config_path)
   if not config_is_available then
     local message = 'Config for plugin `' .. plugin_name .. '` on path `' .. config_path .. '` does not exist or an error has occured while loading it!\nReverting to default configuration.'
-    if LOG_INTO.notify then
+    if require('ds_omega.constants.env').LOG_INTO.notify then
       notify(message, {
         title = 'Core',
       })
