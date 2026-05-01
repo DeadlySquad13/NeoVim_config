@@ -315,6 +315,7 @@ local leader_mappings = {
     M = marks_keymappings.bookmarks,
     -- Navigation. Helps find things, used as lookup table (navigation panel).
     n = require('ds_omega.config.keymappings.navigation'),
+    o = { name = "Open..." },
     ['.'] = { 'mto<Esc>`t', 'Create a new line below the current', },
     [':'] = { 'mtO<Esc>`t', 'Create a new line above the current', },
     p = special_paste_mappings,

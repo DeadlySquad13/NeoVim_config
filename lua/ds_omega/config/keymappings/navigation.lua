@@ -70,18 +70,15 @@ local navigation_mappings = {
     h = {
         function() return telescope_builtin().help_tags() end,
         'Help tags',
-        expr = false,
     },
     ['<S-t>'] = {
         function() return telescope_builtin().treesitter() end,
         'Treesitter',
-        expr = true,
     },
 
     m = {
         function() return telescope_builtin().marks() end,
         'Marks',
-        expr = true,
     },
 
     [KEY.forward_slash] = { ':Neotree<cr>', 'Filetree' },
