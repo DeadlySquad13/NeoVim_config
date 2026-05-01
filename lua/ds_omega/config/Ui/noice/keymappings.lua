@@ -1,0 +1,7 @@
+local cmd = require('ds_omega.config.keymappings._common.utils').cmd
+
+return {
+    n = {
+        ['<Leader>om'] = { cmd 'Noice all', 'Show all messages' },
+    }
+}
