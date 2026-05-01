@@ -5,6 +5,9 @@ M.opts = require('ds_omega.config.Editing.auto_save.settings')
 M.all_autosave_events = vim.iter(vim.tbl_values(M.opts.trigger_events)):flatten():totable()
 M.keymappings = require('ds_omega.config.Editing.auto_save.keymappings')
 
+M.logger = get_logger("AutoSave")
+M.notifier = M.logger:get_notifier()
+
 return {
     'okuuva/auto-save.nvim',
 
@@ -40,10 +43,19 @@ return {
             callback = function(opts)
                 if opts.data.saved_buffer ~= nil then
                     local buf_name = vim.api.nvim_buf_get_name(opts.data.saved_buffer)
-                    vim.notify(
-                        'AutoSave: saved ' ..
-                        format_buf_name({ buf_name = buf_name }) .. ' at ' .. vim.fn.strftime('%H:%M:%S'),
-                        vim.log.levels.INFO)
+                    local msg = 'Saved ' ..
+                        format_buf_name({ buf_name = buf_name }) -- .. ' at ' .. vim.fn.strftime('%H:%M:%S')
+
+                    M.notifier:info({
+                        msg = msg,
+                        -- No need to log these messages.
+                        skip_log = true,
+                        -- Nvim-notify settings:
+                        render = "compact",
+                        stages = "fade",
+                        -- - Hide this notification from the history.
+                        hide_from_history = true,
+                    })
                 end
             end,
         })
@@ -53,7 +65,7 @@ return {
             group = AutoSave,
             desc = 'Show info message on enabling auto-save feature',
             callback = function()
-                vim.notify('AutoSave enabled', vim.log.levels.INFO)
+                M.notifier:info('AutoSave enabled')
             end,
         })
 
@@ -62,7 +74,7 @@ return {
             group = AutoSave,
             desc = 'Show info message on disabling auto-save feature',
             callback = function()
-                vim.notify('AutoSave disabled', vim.log.levels.INFO)
+                M.notifier:info('AutoSave disabled')
             end,
         })
     end,

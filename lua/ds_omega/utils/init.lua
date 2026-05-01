@@ -65,6 +65,9 @@ local function is_loaded_in_packer_spec(plugin_name)
 end
 
 -- Not sure if it's lazy specific way.
+-- INFO: You can manually check existing specs by running:
+-- `lua=vim.tbl_keys(package.loaded)` (don't print a full table, nvim may
+-- freeze for quite a bit if config is big).
 local function is_loaded_in_lazy_spec(plugin_name)
   local plugin = package.loaded[plugin_name]
 

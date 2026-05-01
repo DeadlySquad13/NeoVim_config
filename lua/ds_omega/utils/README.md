@@ -32,6 +32,24 @@ notifier:error(
 )
 ```
 
+In case you need to overwrite notify settings only for one call, there's no
+need to create a new notifier instance, just use more verbose function
+signature:
+```lua
+notifier:info({
+    msg = "Auto save successful",
+    title = "AutoSave plugin",
+    -- No need to log these messages.
+    skip_log = true,
+
+    -- Nvim-notify settings:
+    render = "compact",
+    stages = "fade",
+    -- - Hide this notification from the history.
+    hide_from_history = true,
+})
+```
+
 There's also two extra variants for each notifier method:
 
 - throttled:

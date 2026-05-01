@@ -78,11 +78,12 @@ logging.P = function(data)
   vim.print(data)
   return data
 end
-
---- Notify user with nvim.notify. If it is not available, fallback to vim.notify.
+---@function
 ---@param message string Message to display.
 ---@param level? integer Level of notification (see `:h vim.log.levels`).
 ---@param opts? table|nil Additional options for nvim.notify visualization (see `:h notify.Options`).
+
+--- Notify user with nvim.notify. If it is not available, fallback to vim.notify.
 logging.notify = function(message, level, opts)
   local nvim_notify_is_available, nvim_notify = pcall(require, "notify")
 
@@ -108,19 +109,28 @@ logging.notify_once = vim.notify_once
 ---@param opts? table|nil Additional options for nvim.notify visualization (see `:h notify.Options`).
 logging.notify_throttled = require("ds_omega.utils.defer").throttle_leading(logging.notify, 5000)
 
+---@class NotifierOptions
+---@field title string
+---@field skip_log boolean
+
+---@class NotifyOptions: NotifierOptions
+---@field msg string
+
+---@alias MsgPayload string|NotifyOptions
+
 ---@class Notifier
----@field debug fun(self: Notifier, msg: string, ...: any)
----@field info fun(self: Notifier, msg: string, ...: any)
----@field warning fun(self: Notifier, msg: string, ...: any)
----@field error fun(self: Notifier, msg: string, ...: any)
----@field debug_once fun(self: Notifier, msg: string, ...: any)
----@field info_once fun(self: Notifier, msg: string, ...: any)
----@field warning_once fun(self: Notifier, msg: string, ...: any)
----@field error_once fun(self: Notifier, msg: string, ...: any)
----@field debug_throttled fun(self: Notifier, msg: string, ...: any)
----@field info_throttled fun(self: Notifier, msg: string, ...: any)
----@field warning_throttled fun(self: Notifier, msg: string, ...: any)
----@field error_throttled fun(self: Notifier, msg: string, ...: any)
+---@field debug fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field info fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field warning fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field error fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field debug_once fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field info_once fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field warning_once fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field error_once fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field debug_throttled fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field info_throttled fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field warning_throttled fun(self: Notifier, msg_payload: MsgPayload, ...: any)
+---@field error_throttled fun(self: Notifier, msg_payload: MsgPayload, ...: any)
 
 ---@class Logger
 ---@field name string
@@ -131,8 +141,7 @@ logging.notify_throttled = require("ds_omega.utils.defer").throttle_leading(logg
 ---@field warning fun(self: Logger, msg: string, ...: any)
 ---@field error fun(self: Logger, msg: string, ...: any)
 ---@field set_log_into fun(self: Logger, log_into: TLogInto)
----@field get_notifier fun(self: Logger, opts?: table): Notifier
-
+---@field get_notifier fun(self: Logger, opts?: NotifierOptions): Notifier
 local Logger = {}
 Logger.__index = Logger
 
@@ -173,60 +182,90 @@ function Logger:error(msg, ...)
   log_to_dlog(self, LEVELS.ERROR, msg, ...)
 end
 
+-- TODO: Currently modifies values of current instance. Create methods to
+-- derive new instance of logger.
 function Logger:set_log_into(log_into)
   self._log_into = log_into
 end
 
 --- Returns a Notifier that shows messages to user and logs under the hood.
 function Logger:get_notifier(opts)
-  local title = self.name
+  ---@type NotifierOptions
   local notifier_opts = vim.tbl_deep_extend("force", self._default_notifier_opts or {}, opts or {})
-  notifier_opts.title = notifier_opts.title or title
+  notifier_opts.title = notifier_opts.title or self.name
 
-  local function do_notify(level, notify_fn, msg, ...)
-    log_to_dlog(self, level, msg, ...)
-    notify_fn(msg, level, notifier_opts)
+  ---
+  ---@param level number
+  ---@param notify_fn function(msg: string, level: number, notify_opts: NotifyOptions)
+  ---@param msg_payload (MsgPayload)
+  ---@param ... (any)
+  local function do_notify(level, notify_fn, msg_payload, ...)
+    local notify_opts = notifier_opts
+    local msg = "Nothing in msg_payload payload"
+
+    if type(msg_payload) == "table" then
+      ---@cast notify_opts NotifyOptions
+      notify_opts = vim.tbl_deep_extend("force", notify_opts, msg_payload)
+      msg = msg_payload.msg
+    elseif type(msg_payload) == "string" then
+      msg = msg_payload
+    else
+      error("Wrong param type msg_payload passed to notfy")
+      return
+    end
+
+    if not notify_opts.skip_log then
+      log_to_dlog(self, level, msg, ...)
+    end
+    notify_fn(msg, level, notify_opts)
   end
 
+  ---@class Notifier
+  Notifier =
+  {
+    -- Base.
+    debug = function(_self, msg_payload, ...)
+      do_notify(LEVELS.DEBUG, notify, msg_payload, ...)
+    end,
+    info = function(_self, msg_payload, ...)
+      do_notify(LEVELS.INFO, notify, msg_payload, ...)
+    end,
+    warning = function(_self, msg_payload, ...)
+      do_notify(LEVELS.WARN, notify, msg_payload, ...)
+    end,
+    error = function(_self, msg_payload, ...)
+      do_notify(LEVELS.ERROR, notify, msg_payload, ...)
+    end,
+    -- One-shot.
+    debug_once = function(_self, msg_payload, ...)
+      do_notify(LEVELS.DEBUG, logging.notify_once, msg_payload, ...)
+    end,
+    info_once = function(_self, msg_payload, ...)
+      do_notify(LEVELS.INFO, logging.notify_once, msg_payload, ...)
+    end,
+    warning_once = function(_self, msg_payload, ...)
+      do_notify(LEVELS.WARN, logging.notify_once, msg_payload, ...)
+    end,
+    error_once = function(_self, msg_payload, ...)
+      do_notify(LEVELS.ERROR, logging.notify_once, msg_payload, ...)
+    end,
+    -- Throttled.
+    debug_throttled = function(_self, msg_payload, ...)
+      do_notify(LEVELS.DEBUG, logging.notify_throttled, msg_payload, ...)
+    end,
+    info_throttled = function(_self, msg_payload, ...)
+      do_notify(LEVELS.INFO, logging.notify_throttled, msg_payload, ...)
+    end,
+    warning_throttled = function(_self, msg_payload, ...)
+      do_notify(LEVELS.WARN, logging.notify_throttled, msg_payload, ...)
+    end,
+    error_throttled = function(_self, msg_payload, ...)
+      do_notify(LEVELS.ERROR, logging.notify_throttled, msg_payload, ...)
+    end,
+  }
+
   return setmetatable({}, {
-    __index = {
-      debug = function(_self, msg, ...)
-        do_notify(LEVELS.DEBUG, notify, msg, ...)
-      end,
-      info = function(_self, msg, ...)
-        do_notify(LEVELS.INFO, notify, msg, ...)
-      end,
-      warning = function(_self, msg, ...)
-        do_notify(LEVELS.WARN, notify, msg, ...)
-      end,
-      error = function(_self, msg, ...)
-        do_notify(LEVELS.ERROR, notify, msg, ...)
-      end,
-      debug_once = function(_self, msg, ...)
-        do_notify(LEVELS.DEBUG, logging.notify_once, msg, ...)
-      end,
-      info_once = function(_self, msg, ...)
-        do_notify(LEVELS.INFO, logging.notify_once, msg, ...)
-      end,
-      warning_once = function(_self, msg, ...)
-        do_notify(LEVELS.WARN, logging.notify_once, msg, ...)
-      end,
-      error_once = function(_self, msg, ...)
-        do_notify(LEVELS.ERROR, logging.notify_once, msg, ...)
-      end,
-      debug_throttled = function(_self, msg, ...)
-        do_notify(LEVELS.DEBUG, logging.notify_throttled, msg, ...)
-      end,
-      info_throttled = function(_self, msg, ...)
-        do_notify(LEVELS.INFO, logging.notify_throttled, msg, ...)
-      end,
-      warning_throttled = function(_self, msg, ...)
-        do_notify(LEVELS.WARN, logging.notify_throttled, msg, ...)
-      end,
-      error_throttled = function(_self, msg, ...)
-        do_notify(LEVELS.ERROR, logging.notify_throttled, msg, ...)
-      end,
-    }
+    __index = Notifier
   })
 end
 
