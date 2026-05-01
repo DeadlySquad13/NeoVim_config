@@ -3,6 +3,8 @@ local create_augroup, create_autocmd = utils.create_augroup, utils.create_autocm
 
 M = {}
 
+M.logger = get_logger("RestoreView")
+
 M.RestoreView = create_augroup('RestoreView', { clear = true })
 
 -- Basically all programming filetypes where we need folding.
@@ -28,7 +30,7 @@ M.setup = function()
     pattern = PATTERNS_ON_WHICH_TO_PRESERVE_OPTIONS,
 
     callback = function()
-      print('mkview')
+      M.logger:debug('mkview')
       vim.cmd.mkview({
         -- Overwrite existing file.
         bang = true,
@@ -43,7 +45,7 @@ M.setup = function()
 
     callback = function()
       local ok = pcall(vim.cmd.loadview)
-      print('loaded view', ok)
+      M.logger:debug('loaded view', ok)
     end,
   })
 end
