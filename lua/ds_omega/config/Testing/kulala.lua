@@ -2,7 +2,12 @@
 return {
     'mistweaverco/kulala.nvim',
     -- Can't be omitted.
-    opts = {},
+    opts = {
+        global_keymaps = true,
+        global_keymaps_prefix = "<leader>R",
+        kulala_keymaps_prefix = "",
+    },
 
-    ft = {"http", "rest"},
+
+    ft = { "http", "rest" },
 }

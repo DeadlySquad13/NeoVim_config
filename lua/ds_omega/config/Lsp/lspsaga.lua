@@ -46,6 +46,12 @@ return {
         sign_priority = 20,
         virtual_text = true,
         ignore = {
+          clients = {
+            -- Kulala provides actions for each line, so it's not very useful
+            -- to show bulb.
+            -- https://neovim.getkulala.net/docs/usage/basic-usage
+            'kulala',
+          },
           ft = {
             -- Vtsls has a code action that can be applied for every line:
             -- "move code to another file". No need in lightbulb if this action
