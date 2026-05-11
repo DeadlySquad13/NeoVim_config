@@ -97,6 +97,18 @@ return vim.list_extend({
     ),
     s(
         {
+            trig = 'rbapierr',
+            dscr = 'Create new RBApiError from logsConfig',
+        },
+        fmt(
+            "const e = new RBApiError(...logsConfig['{}']());",
+            {
+                i(1),
+            }
+        )
+    ),
+    s(
+        {
             trig = 'fromerr',
             dscr = 'Create new RBError from existing error',
         },
@@ -113,7 +125,7 @@ return vim.list_extend({
             dscr = 'Use rbResponse util to return an error in response',
         },
         fmt(
-            "return h.rbResponse(request, e).code({});",
+            "return h.rbResponse(request, e){};", -- Left marker for chaining.
             {
                 i(1),
             }
