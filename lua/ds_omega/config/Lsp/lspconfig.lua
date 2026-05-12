@@ -1,3 +1,5 @@
+M.logger = get_logger("Lspconfig")
+
 ---@type LazySpec
 return {
   'neovim/nvim-lspconfig',
@@ -119,18 +121,19 @@ return {
 
   config = function(_, opts)
     for _, server_name in ipairs(opts.enabled_servers) do
-      -- INFO: Starting from NeoVim v0.11 we're using `vim.lsp.config` mechanism. Now
-      -- confirugations are also merged from `<root>/lsp/` folder.
-      if not vim.lsp.config[server_name] then
-        -- Will notify with error if the config is not set using default
-        -- mechanism and it's not present in our custom legacy configs location.
-        local prequire = require('ds_omega.utils').prequire
+      -- Will notify with error if the config is not set using default
+      -- mechanism and it's not present in our custom legacy configs location.
+      local server_configuration_is_available, server_configuration = xpcall(
+        require,
+        function(error)
+          M.logger:debug('Using settings found by `vim.lsp.config` mechanism for lsp server: ' .. server_name)
+        end,
+        'ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name
+      )
 
-        local server_configuration_is_available, server_configuration = prequire('ds_omega.config.Lsp.core.server_configurations' .. '.' .. server_name)
-
-        if not server_configuration_is_available then
-          return
-        end
+      if server_configuration_is_available then
+        -- INFO: Starting from NeoVim v0.11 we're using `vim.lsp.config` mechanism. Now
+        -- confirugations are also merged from `<root>/lsp/` folder.
         vim.lsp.config[server_name] = server_configuration
       end
     end
