@@ -10,8 +10,27 @@ local filetrees = {
 }
 local unmodifiable = list_deep_extend({ 'qf' }, start_screens)
 
+local chats = {
+  "opencode",
+  'opencode_output',
+  'Avante',
+  'copilot-chat',
+}
+
+-- Every filetype that is rendered as markdown.
+local markdown_dialects = vim.list_extend({
+  "opencode",
+  'opencode_output',
+  'Avante',
+  'copilot-chat',
+}, {
+  "markdown",
+})
+
 return {
   start_screens = start_screens,
   filetrees = filetrees,
   unmodifiable = unmodifiable,
+  chats = chats,
+  markdown_dialects = markdown_dialects,
 }

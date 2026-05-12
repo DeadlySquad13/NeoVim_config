@@ -3,7 +3,9 @@ return {
   'lukas-reineke/headlines.nvim',
 
   ft = {
-    "markdown",
+    -- INFO: We now use [render-markdown](./render-markdown.lua) as a more
+    -- feature rich alternative.
+    -- "markdown",
     "dockerfile",
     "yaml",
   },
@@ -31,6 +33,7 @@ return {
     --   ] @headline
     -- ```
     return {
+      -- We use it only for code blocks
       markdown = {
         headline_highlights = false,
       },

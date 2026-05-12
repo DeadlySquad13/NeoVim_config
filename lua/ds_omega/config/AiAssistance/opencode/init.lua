@@ -16,9 +16,23 @@ return {
             "MeanderingProgrammer/render-markdown.nvim",
             opts = {
                 anti_conceal = { enabled = false },
-                file_types = { 'markdown', 'opencode_output' },
+                file_types = require('ds_omega.constants.filetypes').markdown_dialects,
+                overrides = {
+                    filetype = {
+                        opencode_output = {
+                            paragraph = {
+                                indent = 0,
+                            },
+                        },
+                        opencode = {
+                            paragraph = {
+                                indent = 0,
+                            },
+                        }
+                    },
+                },
             },
-            ft = { 'markdown', 'Avante', 'copilot-chat', 'opencode_output' },
+            ft = require('ds_omega.constants.filetypes').markdown_dialects,
         },
         -- Optional, for file mentions and commands completion, pick only one
         -- 'saghen/blink.cmp',
