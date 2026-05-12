@@ -91,7 +91,6 @@ local function selected_text(format)
     -- In this case only the first line is inserted.
     ---@type string
     local text = snip.env.TM_SELECTED_TEXT[1]
-    print(snip.env.TM_SELECTED_TEXT)
 
     if not text then
       return {}
@@ -101,17 +100,16 @@ local function selected_text(format)
   end, {})
 end
 
+-- Supports multiline.
 local function selected_text_or_i(index)
   return d(index, function(_, parent)
     -- We are inside nested snippet so we need parent's fields.
-    local tm_selected_text = parent.snippet.env.TM_SELECTED_TEXT[1]
+    local tm_selected_text = parent.snippet.env.TM_SELECTED_TEXT
 
     local nodes
 
-    if tm_selected_text then
-      nodes = {
-        t(tm_selected_text or ''),
-      }
+    if not vim.tbl_isempty(tm_selected_text) then
+      nodes = t(tm_selected_text)
     else
       nodes = {
         i(1),
@@ -122,13 +120,14 @@ local function selected_text_or_i(index)
   end, {})
 end
 
+-- Supports multiline.
 local function selected_text_and_i(index)
   return d(index, function(_, parent)
     -- We are inside nested snippet so we need parent's fields.
-    local tm_selected_text = parent.snippet.env.TM_SELECTED_TEXT[1]
+    local tm_selected_text = parent.snippet.env.TM_SELECTED_TEXT
 
     local nodes = {
-      t(tm_selected_text or ''),
+      t(tm_selected_text or {''}),
       i(1),
     }
 
@@ -178,7 +177,6 @@ local function delete_unmodified_node(node)
 
   -- Get everything on left to the node (indent too).
   --local left_side = P(string.sub(lines[1], 0, from_pos[2]))
-
 end
 
 return {
