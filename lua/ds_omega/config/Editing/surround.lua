@@ -1,3 +1,7 @@
+local M = {}
+
+M.markdown_dialects_set = require('ds_omega.utils.set').Set(require('ds_omega.constants.filetypes').markdown_dialects)
+
 ---@type LazySpec
 return {
   'kylechui/nvim-surround',
@@ -24,7 +28,7 @@ return {
       ["c"] = {
         add = function()
           local ft = vim.bo.filetype
-          if ft ~= "markdown" then
+          if not M.markdown_dialects_set[ft] then
             return
           end
 
@@ -33,7 +37,7 @@ return {
 
           return {
             { "```" .. result, '' },
-            { "",                "```" },
+            { "",              "```" },
           }
         end,
       },
