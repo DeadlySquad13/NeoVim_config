@@ -76,6 +76,8 @@ return function()
 
   -- - Nest.js
   add_mappings(require('ds_omega.config.Navigation-files.other.settings.nestjs'))
+  -- - Ansible
+  add_mappings(require('ds_omega.config.Navigation-files.other.settings.ansible'))
 
   -- - Simple module.
   add_mappings({
