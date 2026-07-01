@@ -31,6 +31,10 @@ return {
           priority = 1,
           takeover = 'never'
         },
+        ['https://jira.*'] = {
+          priority = 1,
+          takeover = 'never'
+        }
       },
     }
   },
@@ -154,4 +158,3 @@ return {
     map('n', '<C-z>', ':call firenvim#hide_frame()<cr>')
   end,
 }
-
