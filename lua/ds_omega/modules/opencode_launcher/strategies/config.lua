@@ -32,7 +32,7 @@ M.DockerStrategy = M.register_strategy({
     name = "docker",
     path_map = function(self, host_path)
         local cwd = vim.fn.getcwd()
-        return host_path:gsub(vim.pesc(cwd), '/app')
+        return string.gsub(host_path, vim.pesc(cwd), '/app')
     end,
     spawn_command = function(self, port, url)
         local dir_name = string.lower(vim.fn.fnamemodify(vim.fn.getcwd(), ":t"))
