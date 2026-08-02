@@ -1,7 +1,7 @@
 local logging = require('ds_omega.modules.opencode_launcher.logging')
-
 local M = {}
 
+M.logger = get_logger('OpencodeLanuncher__Strategies')
 M.strategies = {}
 
 ---
@@ -22,9 +22,10 @@ M.OsStrategy = M.register_strategy({
         logging.notify("Starting opencode locally")
         return os.execute(string.format("opencode serve --port %d --hostname '%s' &", port, url))
     end,
-    kill_command = function()
-        logging.notify("Stopping local opencode")
-        return os.execute("pkill_command -f 'opencode serve' 2>/dev/null")
+    kill_command = function(self, port)
+        logging.notify(string.format("Stopping local opencode on port %d", port))
+        local serve_command = "opencode serve.*--port " .. port
+        return os.execute(string.format("pkill --full '%s' 2>/dev/null", serve_command))
     end
 })
 
@@ -98,6 +99,45 @@ ghcr.io/pilinux/opencode:latest opencode serve --port 4096 --hostname '0.0.0.0']
         local container_name = string.format('opencode-%s', dir_name)
         logging.notify(string.format("Stopping OpenCode container: %s", container_name))
         return os.execute(string.format('docker stop %s 2>/dev/null', container_name))
+    end
+})
+
+M.DarkGreenTangerineDreamStrategy = M.register_strategy({
+    name = "darkGreen-tangerineDream",
+    path_map = function(self, host_path)
+        -- Currently simply substituting our user to user in docker container
+        -- because mostly we try to mirror filesystem structures.
+        -- QUESTION: Add map of paths for our persistent volumes?
+        return string.gsub(host_path, vim.pesc(require('ds_omega.constants.env').HOME), '/home/tangerineDream')
+    end,
+    spawn_command = function(self, port, url)
+        -- local dir_name = string.lower(vim.fn.fnamemodify(vim.fn.getcwd(), ":t"))
+        -- local cwd = vim.fn.getcwd()
+        local container_name = "AiAssistance__darkGreen-tangerineDream"
+        local notifier = M.logger:get_notifier({ title = self.name })
+
+        notifier:info(string.format("Checking if container '%s' already exists", container_name))
+        -- TODO: Workaround sudo via invoke and passkey.
+        -- local check_cmd = string.format('docker ps --filter "name=%s" --format "{{.Names}}"', container_name)
+        -- local handle = io.popen(check_cmd)
+        -- local result = handle:read("*a")
+        -- handle:close()
+
+        -- if not (result and result:match(container_name)) then
+        --     return false
+        -- end
+
+        notifier:info(string.format("Container %s is running, progressing...", container_name))
+
+        logging.notify(string.format("Starting OpenCode in container: %s on port %d", container_name, port))
+
+        return os.execute(string.format("invoke llm.serve-conv-plat-prov-opencode --system-name='darkGreen-tangerineDream' --port %d >/dev/null &", port))
+    end,
+    kill_command = function(self, port)
+        local container_name = "AiAssistance__darkGreen-tangerineDream"
+
+        logging.notify(string.format("Stopping OpenCode server on port %d in container: %s", port, container_name))
+        return os.execute(string.format("invoke llm.kill-conv-plat-prov-opencode --port '%d' 2>/dev/null", port))
     end
 })
 
