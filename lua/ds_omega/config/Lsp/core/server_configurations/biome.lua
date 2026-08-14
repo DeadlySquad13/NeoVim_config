@@ -23,6 +23,13 @@ setup_sort_imports_command = function(client, bufnr)
   end, {})
 end
 
+local function format_with_biome()
+  vim.lsp.buf.format({
+    filter = function(client) return client.name == 'biome' end,
+  })
+end
+
+
 local function setup_biome_server_keymappings(_, bufnr)
   local apply_keymappings = require('ds_omega.config.Ui.which_key.utils').apply_keymappings
 
@@ -31,6 +38,8 @@ local function setup_biome_server_keymappings(_, bufnr)
     -- TODO: Compose two fix all's into one keymapping (use override
     -- keymappings plugin).
     ['<Space>fb'] = { require('ds_omega.config.keymappings._common.utils').cmd 'LspBiomeFixAll', 'Fix all (Biome)' },
+    -- Otherwise conflicts with vtsls
+    ['<Space>fn'] = { format_with_biome, 'Format (Biome)' },
   }
 
   ---@type DefaultKeymapOptions
